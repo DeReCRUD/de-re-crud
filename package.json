@@ -1,0 +1,24 @@
+{
+  "name": "@de-re-crud/forms",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
+    "build": "preact build",
+    "serve": "preact build && preact serve",
+    "dev": "preact watch",
+    "lint": "tslint src"
+  },
+  "devDependencies": {
+    "if-env": "^1.0.0",
+    "preact-cli": "^2.0.0",
+    "preact-cli-plugin-typescript": "^0.2.2",
+    "prettier": "1.13.7",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "preact": "^8.2.1",
+    "preact-compat": "^3.17.0"
+  }
+}
