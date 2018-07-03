@@ -10,15 +10,29 @@
     "lint": "tslint src"
   },
   "devDependencies": {
+    "@types/jest": "^23.1.4",
     "if-env": "^1.0.0",
+    "jest": "^23.2.0",
     "preact-cli": "^2.0.0",
     "preact-cli-plugin-typescript": "^0.2.2",
     "prettier": "1.13.7",
+    "ts-jest": "^23.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
   },
   "dependencies": {
     "preact": "^8.2.1",
     "preact-compat": "^3.17.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "*.spec.(ts|tsx|js)$"
   }
 }

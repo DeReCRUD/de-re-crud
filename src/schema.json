@@ -1,0 +1,398 @@
+[
+  {
+    "name": "struct",
+    "label": "Struct",
+    "collectionLabel": "Structs",
+    "fields": [
+      {
+        "name": "name",
+        "label": "Name",
+        "keyField": true,
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "label",
+        "label": "Label",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "collectionLabel",
+        "label": "Collection Label",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "fields",
+        "label": "Fields",
+        "type": "linkedStruct",
+        "required": true,
+        "reference": {
+          "struct": "field",
+          "block": "default"
+        }
+      },
+      {
+        "name": "blocks",
+        "label": "Blocks",
+        "type": "linkedStruct",
+        "required": true,
+        "reference": {
+          "struct": "block",
+          "block": "default"
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "name": "default",
+        "fields": [
+          "name",
+          "label",
+          "collectionLabel",
+          {
+            "field": "fields",
+            "hints": {
+              "layout": "table",
+              "block": "table"
+            }
+          },
+          {
+            "field": "blocks",
+            "hints": {
+              "layout": "table"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "field",
+    "label": "Field",
+    "collectionLabel": "Fields",
+    "fields": [
+      {
+        "name": "name",
+        "label": "Name",
+        "keyField": true,
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "label",
+        "label": "Label",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "placeholder",
+        "label": "Placeholder",
+        "type": "text",
+        "help": "Label is used if not specified."
+      },
+      {
+        "name": "help",
+        "label": "Description",
+        "type": "text",
+        "help": "Shown under a control, like this!"
+      },
+      {
+        "name": "required",
+        "label": "Is Required?",
+        "type": "boolean",
+        "initialValue": false
+      },
+      {
+        "name": "unique",
+        "label": "Is Unique?",
+        "type": "boolean",
+        "initialValue": false
+      },
+      {
+        "name": "keyField",
+        "label": "Is Key Field?",
+        "type": "boolean",
+        "initialValue": false
+      },
+      {
+        "name": "type",
+        "label": "Type",
+        "type": "list",
+        "required": true,
+        "options": [
+          {
+            "label": "Text",
+            "value": "text"
+          },
+          {
+            "label": "Integer",
+            "value": "integer"
+          },
+          {
+            "label": "Estimate",
+            "value": "estimate"
+          },
+          {
+            "label": "Date",
+            "value": "date"
+          },
+          {
+            "label": "Boolean",
+            "value": "boolean"
+          },
+          {
+            "label": "Percent",
+            "value": "percent"
+          },
+          {
+            "label": "Money",
+            "value": "money"
+          },
+          {
+            "label": "Foreign Key",
+            "value": "foreignKey"
+          },
+          {
+            "label": "Linked Struct",
+            "value": "linkedStruct"
+          },
+          {
+            "label": "List",
+            "value": "list"
+          },
+          {
+            "label": "Derived",
+            "value": "derived"
+          }
+        ]
+      },
+      {
+        "name": "options",
+        "label": "Options",
+        "type": "linkedStruct",
+        "required": true,
+        "reference": {
+          "struct": "option",
+          "block": "default"
+        }
+      },
+      {
+        "name": "minlength",
+        "label": "Min Length",
+        "type": "integer"
+      },
+      {
+        "name": "maxlength",
+        "label": "Max Length",
+        "type": "integer"
+      },
+      {
+        "name": "min",
+        "label": "Min Value",
+        "type": "integer"
+      },
+      {
+        "name": "max",
+        "label": "Max Value",
+        "type": "integer"
+      },
+      {
+        "name": "pattern",
+        "label": "Pattern",
+        "type": "text"
+      },
+      {
+        "name": "reference",
+        "label": "Reference",
+        "type": "foreignKey",
+        "reference": {
+          "struct": "structReference",
+          "labelField": "name",
+          "block": "default"
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "name": "default",
+        "fields": [
+          "name",
+          "label",
+          "placeholder",
+          "help",
+          "required",
+          "unique",
+          "keyField",
+          "type",
+          {
+            "field": "minlength",
+            "condition": "value.type === 'text'"
+          },
+          {
+            "field": "maxlength",
+            "condition": "value.type === 'text'"
+          },
+          {
+            "field": "min",
+            "condition": "value.type === 'integer'"
+          },
+          {
+            "field": "max",
+            "condition": "value.type === 'integer'"
+          },
+          {
+            "field": "pattern",
+            "condition": "value.type === 'derived'"
+          },
+          {
+            "field": "reference",
+            "condition": "value.type === 'linkedStruct'"
+          },
+          {
+            "field": "options",
+            "condition": "value.type === 'list'"
+          }
+        ]
+      },
+      {
+        "name": "table",
+        "fields": [
+          "name",
+          "label",
+          "type"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "block",
+    "label": "Block",
+    "collectionLabel": "Blocks",
+    "fields": [
+      {
+        "name": "name",
+        "label": "Name",
+        "keyField": true,
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "fields",
+        "label": "Fields",
+        "type": "linkedStruct",
+        "required": true,
+        "reference": {
+          "struct": "fieldReference",
+          "block": "default"
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "name": "default",
+        "fields": [
+          "name",
+          {
+            "field": "fields",
+            "hints": {
+              "layout": "table"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "fieldReference",
+    "label": "Field Reference",
+    "collectionLabel": "Field References",
+    "fields": [
+      {
+        "name": "field",
+        "label": "Field",
+        "keyField": true,
+        "type": "foreignKey",
+        "required": true,
+        "reference": {
+          "struct": "field",
+          "block": "default",
+          "labelField": "name"
+        }
+      },
+      {
+        "name": "condition",
+        "label": "Condition",
+        "type": "text"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "default",
+        "fields": [
+          "field",
+          "condition"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "structReference",
+    "label": "Struct Reference",
+    "collectionLabel": "Struct References",
+    "fields": [
+      {
+        "name": "name",
+        "label": "Name",
+        "keyField": true,
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "labelField",
+        "label": "Label Field",
+        "type": "text",
+        "required": true
+      }
+    ],
+    "blocks": [
+      {
+        "name": "default",
+        "fields": [
+          "name",
+          "labelField"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "option",
+    "label": "Option",
+    "collectionLabel": "Options",
+    "fields": [
+      {
+        "name": "value",
+        "label": "Value",
+        "keyField": true,
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "label",
+        "label": "Label",
+        "type": "text",
+        "required": true
+      }
+    ],
+    "blocks": [
+      {
+        "name": "default",
+        "fields": [
+          "label",
+          "value"
+        ]
+      }
+    ]
+  }
+]

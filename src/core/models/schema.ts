@@ -42,9 +42,9 @@ export interface IField {
 
 export interface IStampField extends IField {
   type: 'stamp';
-  hints?: {
-    headerSize?: HeaderSize;
-    displayClassNames?: string[];
+  hints: {
+    headerSize: HeaderSize;
+    displayClassNames: string[];
   };
 }
 
@@ -80,9 +80,8 @@ export interface IReferenceField extends IField {
   type: 'linkedStruct' | 'foreignKey';
   initialValue?: any[] | object;
   reference: {
-    struct: string;
-    labelField: string;
-    block: string;
+    struct: IStruct;
+    block: IBlock;
   };
 }
 
@@ -101,18 +100,18 @@ export interface IForeignKeyField extends IReferenceField {
 export interface IBlock {
   name: string;
   label?: ILabel;
-  condition?: (value: any, rootValue: any) => boolean;
+  condition: (value: any, rootValue: any) => boolean;
   fields: (IFieldReference | ILinkedStructFieldReference)[];
 }
 
 export interface IFieldReference {
-  field: string;
+  field: IField;
   condition: (value: any, rootValue: any) => boolean;
 }
 
 export interface ILinkedStructFieldReference extends IFieldReference {
-  hints?: {
-    layout?: 'inline' | 'table';
-    block?: string;
+  hints: {
+    layout: 'inline' | 'table';
+    block?: IBlock;
   };
 }
