@@ -15,14 +15,15 @@
     "jest": "^23.2.0",
     "preact-cli": "^2.0.0",
     "preact-cli-plugin-typescript": "^0.2.2",
-    "prettier": "1.13.7",
     "ts-jest": "^23.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
   },
+  "optionalDependencies": {
+    "bootstrap": "^3.3.7"
+  },
   "dependencies": {
-    "preact": "^8.2.1",
-    "preact-compat": "^3.17.0"
+    "preact": "^8.2.1"
   },
   "jest": {
     "moduleFileExtensions": [

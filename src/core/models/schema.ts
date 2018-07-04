@@ -1,4 +1,18 @@
 export type HeaderSize = 1 | 2 | 3 | 4 | 5 | 6;
+export type FieldType =
+  | 'text'
+  | 'keyword'
+  | 'integer'
+  | 'estimate'
+  | 'date'
+  | 'boolean'
+  | 'percent'
+  | 'money'
+  | 'foreignKey'
+  | 'linkedStruct'
+  | 'list'
+  | 'derived'
+  | 'stamp';
 
 export interface ILabel {
   short: string;
@@ -18,20 +32,7 @@ export interface IField {
   name: string;
   label: ILabel;
   keyField: boolean;
-  type:
-    | 'text'
-    | 'keyword'
-    | 'integer'
-    | 'estimate'
-    | 'date'
-    | 'boolean'
-    | 'percent'
-    | 'money'
-    | 'foreignKey'
-    | 'linkedStruct'
-    | 'list'
-    | 'derived'
-    | 'stamp';
+  type: FieldType;
   required: boolean;
   unique: boolean;
   help?: string;

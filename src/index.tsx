@@ -1,20 +1,21 @@
 import { h, Component } from 'preact';
-import SchemaParser from './core/schema-parser';
+import Form from './core/form/form.component';
 import * as schemJson from './schema.json';
+import Bootstrap3RendererOptions from './renderer-providers/bootstrap3/options';
 import './style';
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-
-    const schema = SchemaParser.parse(schemJson);
-    console.log(schema);
+  render() {
+    return (
+      <div className="container">
+        <div class="col-sm-6">
+          <Form
+            schema={schemJson}
+            struct="struct"
+            rendererOptions={Bootstrap3RendererOptions}
+          />
+        </div>
+      </div>
+    );
   }
-
-	render() {
-		return (
-			<div>
-			</div>
-		);
-	}
 }
