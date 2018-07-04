@@ -23,7 +23,8 @@
     "bootstrap": "^3.3.7"
   },
   "dependencies": {
-    "preact": "^8.2.1"
+    "preact": "^8.2.1",
+    "redux-zero": "^4.12.0"
   },
   "jest": {
     "moduleFileExtensions": [

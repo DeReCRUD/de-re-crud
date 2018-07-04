@@ -1,7 +1,7 @@
 import { IField, FieldType } from './schema';
 
 export interface FieldContainerRendererProps {
-  field: IField;
+  fieldName: string;
   children?: JSX.Element[]
 }
 
@@ -26,4 +26,10 @@ export interface FieldRendererProps {
 export interface TextFieldRendererProps extends FieldRendererProps {
   minLength?: number;
   maxLength?: number;
+}
+
+export interface LinkedStructRendererProps extends FieldRendererProps {
+  onAdd: () => void;
+  onEdit: (index: number) => void;
+  onRemove: (index: number) => void;
 }

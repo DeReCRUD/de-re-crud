@@ -20,10 +20,10 @@ export default class BlockHostRenderer extends Component<
         {block.fields.map(fieldReference => (
           <FieldContainerComponent
             key={`${struct}-${fieldReference.field.name}`}
-            field={fieldReference.field}
+            fieldName={fieldReference.field.name}
           >
             <FieldHostRenderer
-              field={fieldReference.field}
+              fieldReference={fieldReference}
               rendererOptions={rendererOptions}
             />
           </FieldContainerComponent>

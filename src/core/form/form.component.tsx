@@ -1,57 +1,24 @@
 import { h, Component, render } from 'preact';
-import SchemaParser from '../schema-parser';
 import { IStruct } from '../models/schema';
 import Logger from '../logger';
 import BlockHostRenderer from '../renderer-hosts/block-host-renderer.component';
-import {
-  FieldContainerRendererProps,
-  FieldRendererProps
-} from '../models/renderers';
-import { RendererOptions } from '../models/renderer-options';
-
-export interface FormProps {
-  className?: string;
-  schema: any;
-  struct: string;
-  block?: string;
-  rendererOptions: RendererOptions;
-}
+import shallowCompare from '../shallow-compare';
+import { FormProps } from './form.props';
 
 export interface FormState {
   structs: IStruct[];
 }
 
 export default class Form extends Component<FormProps, FormState> {
-  constructor(props: FormProps) {
-    super(props);
-
-    this.state = {
-      structs: SchemaParser.parse(props.schema)
-    };
-  }
-
-  componentWillReceiveProps(nextProps: FormProps) {
-    if (nextProps.struct !== this.props.struct) {
-      this.setState({
-        structs: SchemaParser.parse(nextProps.schema)
-      });
-    }
-  }
-
-  shouldComponentUpdate(nextProps: FormProps) {
-    return (
-      nextProps.schema !== this.props.schema ||
-      nextProps.block !== this.props.block ||
-      nextProps.struct !== this.props.struct ||
-      nextProps.rendererOptions !== this.props.rendererOptions
-    );
+  shouldComponentUpdate(nextProps: FormProps, nextState: FormState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   render(
-    { className, struct, block, rendererOptions }: FormProps,
+    { className, structs, struct, block, rendererOptions }: FormProps,
   ) {
     const blockName = block || 'default';
-    const structReference = this.state.structs.find(x => x.name === struct);
+    const structReference = structs.find(x => x.name === struct);
     const classes = [
       'de-re-crud-form',
       className,

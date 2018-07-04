@@ -1,16 +1,17 @@
 import { h, Component } from 'preact';
-import { IField } from '../models/schema';
+import { IFieldReference, ILinkedStructFieldReference } from '../models/schema';
 import { RendererOptions } from '../models/renderer-options';
 import {
   FieldRendererProps,
   FieldFocusEvent,
   FieldBlurEvent,
-  FieldChangeEvent
+  FieldChangeEvent,
+  LinkedStructRendererProps
 } from '../models/renderers';
 import Logger from '../logger';
 
 export interface FieldHostRendererProps {
-  field: IField;
+  fieldReference: IFieldReference;
   rendererOptions: RendererOptions;
 }
 
@@ -23,8 +24,16 @@ export default class FieldHostRenderer extends Component<
 
   onChange = (e: FieldChangeEvent) => {};
 
-  render({ field, rendererOptions }: FieldHostRendererProps) {
-    const baseProps: FieldRendererProps = {
+  onAdd = () => {};
+
+  onEdit = () => {};
+
+  onRemove = () => {};
+
+  render({ fieldReference, rendererOptions }: FieldHostRendererProps) {
+    const field = fieldReference.field;
+
+    const fieldProps: FieldRendererProps = {
       fieldName: field.name,
       fieldType: field.type,
       label: field.label.short,
@@ -36,56 +45,69 @@ export default class FieldHostRenderer extends Component<
 
     switch (field.type) {
       case 'text': {
-        const TextField = rendererOptions.components.textField;
-        return <TextField {...baseProps} />;
+        const TextFieldRenderer = rendererOptions.components.textField;
+        return <TextFieldRenderer {...fieldProps} />;
       }
       case 'keyword': {
-        const KeywordField = rendererOptions.components.keywordField;
-        return <KeywordField {...baseProps} />;
+        const KeywordFieldRenderer = rendererOptions.components.keywordField;
+        return <KeywordFieldRenderer {...fieldProps} />;
       }
       case 'integer': {
-        const IntegerField = rendererOptions.components.integerField;
-        return <IntegerField {...baseProps} />;
+        const IntegerFieldRenderer = rendererOptions.components.integerField;
+        return <IntegerFieldRenderer {...fieldProps} />;
       }
       case 'estimate': {
-        const EsimateField = rendererOptions.components.estimateField;
-        return <EsimateField {...baseProps} />;
+        const EsimateFieldRenderer = rendererOptions.components.estimateField;
+        return <EsimateFieldRenderer {...fieldProps} />;
       }
       case 'date': {
-        const DateField = rendererOptions.components.dateField;
-        return <DateField {...baseProps} />;
+        const DateFieldRenderer = rendererOptions.components.dateField;
+        return <DateFieldRenderer {...fieldProps} />;
       }
       case 'boolean': {
-        const BooleanField = rendererOptions.components.booleanField;
-        return <BooleanField {...baseProps} />;
+        const BooleanFieldRenderer = rendererOptions.components.booleanField;
+        return <BooleanFieldRenderer {...fieldProps} />;
       }
       case 'percent': {
-        const PercentField = rendererOptions.components.percentField;
-        return <PercentField {...baseProps} />;
+        const PercentFieldRenderer = rendererOptions.components.percentField;
+        return <PercentFieldRenderer {...fieldProps} />;
       }
       case 'money': {
-        const MoneyField = rendererOptions.components.moneyField;
-        return <MoneyField {...baseProps} />;
+        const MoneyFieldRenderer = rendererOptions.components.moneyField;
+        return <MoneyFieldRenderer {...fieldProps} />;
       }
       case 'foreignKey': {
-        const ForeignKeyField = rendererOptions.components.foreignKeyField;
-        return <ForeignKeyField {...baseProps} />;
+        const ForeignKeyFieldRenderer =
+          rendererOptions.components.foreignKeyField;
+        return <ForeignKeyFieldRenderer {...fieldProps} />;
       }
       case 'linkedStruct': {
-        const LinkedStructField = rendererOptions.components.linkedStructField;
-        return <LinkedStructField {...baseProps} />;
+        const linkedStructField = fieldReference as ILinkedStructFieldReference;
+        const LinkedStructFieldRenderer =
+          linkedStructField.hints.layout === 'table'
+            ? rendererOptions.components.tableLinkedStructField
+            : rendererOptions.components.inlineLinkedStructField;
+
+        const linkedStructFieldProps: LinkedStructRendererProps = {
+          ...fieldProps,
+          onAdd: this.onAdd,
+          onEdit: this.onEdit,
+          onRemove: this.onRemove
+        };
+
+        return <LinkedStructFieldRenderer {...linkedStructFieldProps} />;
       }
       case 'list': {
-        const ListField = rendererOptions.components.listField;
-        return <ListField {...baseProps} />;
+        const ListFieldRenderer = rendererOptions.components.listField;
+        return <ListFieldRenderer {...fieldProps} />;
       }
       case 'derived': {
-        const DerivedField = rendererOptions.components.derivedField;
-        return <DerivedField {...baseProps} />;
+        const DerivedFieldRenderer = rendererOptions.components.derivedField;
+        return <DerivedFieldRenderer {...fieldProps} />;
       }
       case 'stamp': {
-        const StampField = rendererOptions.components.stampField;
-        return <StampField {...baseProps} />;
+        const StampFieldRenderer = rendererOptions.components.stampField;
+        return <StampFieldRenderer {...fieldProps} />;
       }
       default: {
         Logger.error(`Field type ${field.type} is not supported.`);

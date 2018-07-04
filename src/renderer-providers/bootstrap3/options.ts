@@ -1,5 +1,5 @@
 import { RendererOptions } from '../../core/models/renderer-options';
-import Bootstrap3FieldContainerRenderer from './renderers/field-container.renderer';
+import Bootstrap3FieldContainerRenderer from './renderers/field-container-renderer';
 import Bootstrap3TextFieldRenderer from './renderers/text-field-renderer.component';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -16,7 +16,8 @@ const Bootstrap3RendererOptions: RendererOptions = {
     percentField: Bootstrap3TextFieldRenderer,
     moneyField: Bootstrap3TextFieldRenderer,
     foreignKeyField: Bootstrap3TextFieldRenderer,
-    linkedStructField: Bootstrap3TextFieldRenderer,
+    tableLinkedStructField: Bootstrap3TextFieldRenderer,
+    inlineLinkedStructField: Bootstrap3TextFieldRenderer,
     listField: Bootstrap3TextFieldRenderer,
     derivedField: Bootstrap3TextFieldRenderer,
     stampField: Bootstrap3TextFieldRenderer
