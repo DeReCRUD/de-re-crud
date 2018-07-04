@@ -8,12 +8,14 @@ export default class App extends Component {
   render() {
     return (
       <div className="container">
-        <div class="col-sm-6">
-          <Form
-            schema={schemJson}
-            struct="struct"
-            rendererOptions={Bootstrap3RendererOptions}
-          />
+        <div className="row">
+          <div class="col-sm-6">
+            <Form
+              schema={schemJson}
+              struct="struct"
+              rendererOptions={Bootstrap3RendererOptions}
+            />
+          </div>
         </div>
       </div>
     );
