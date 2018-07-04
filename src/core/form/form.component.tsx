@@ -77,7 +77,7 @@ export default class Form extends Component<FormProps, FormState> {
     }
 
     return (
-      <form className={classes.filter(x => x).join(',')}>
+      <form className={classes.filter(x => x).join(' ')}>
         <BlockHostRenderer
           struct={struct}
           block={blockReference}
