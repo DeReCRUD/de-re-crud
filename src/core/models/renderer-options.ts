@@ -1,5 +1,5 @@
 import { ComponentConstructor, FunctionalComponent } from 'preact';
-import { FieldContainerRendererProps, FieldRendererProps } from './renderers';
+import { FieldContainerRendererProps, FieldRendererProps, TextFieldRendererProps } from './renderers';
 
 export interface RendererOptions {
   formClassName?: string;
@@ -8,8 +8,8 @@ export interface RendererOptions {
       | FunctionalComponent<FieldContainerRendererProps>
       | ComponentConstructor<FieldContainerRendererProps>;
     textField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<TextFieldRendererProps>
+      | ComponentConstructor<TextFieldRendererProps>;
     keywordField:
       | FunctionalComponent<FieldRendererProps>
       | ComponentConstructor<FieldRendererProps>;

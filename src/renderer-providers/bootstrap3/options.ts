@@ -1,7 +1,7 @@
 import { RendererOptions } from '../../core/models/renderer-options';
 import Bootstrap3FieldContainerRenderer from './renderers/field-container.renderer';
 import Bootstrap3TextFieldRenderer from './renderers/text-field-renderer.component';
-import 'bootstrap/dist/css/bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const Bootstrap3RendererOptions: RendererOptions = {
   formClassName: 'de-re-crud-form-bootstrap3',

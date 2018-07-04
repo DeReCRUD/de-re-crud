@@ -17,7 +17,13 @@ export interface FieldRendererProps {
   label: string;
   fieldName: string;
   fieldType: FieldType;
+  required: boolean;
   onFocus: (e: FieldFocusEvent) => void;
   onBlur: (e: FieldBlurEvent) => void;
   onChange: (e: FieldChangeEvent) => void;
+}
+
+export interface TextFieldRendererProps extends FieldRendererProps {
+  minLength?: number;
+  maxLength?: number;
 }

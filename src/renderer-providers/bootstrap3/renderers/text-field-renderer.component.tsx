@@ -1,5 +1,6 @@
 import { h } from 'preact';
-import { FieldRendererProps } from '../../../core/models/renderers';
+import { TextFieldRendererProps } from '../../../core/models/renderers';
+import Bootstrap3LabelRenderer from './label-renderer.component';
 
 const Bootstrap3TextFieldRenderer = ({
   fieldType,
@@ -7,17 +8,23 @@ const Bootstrap3TextFieldRenderer = ({
   label,
   onFocus,
   onBlur,
-  onChange
-}: FieldRendererProps) => {
+  onChange,
+  minLength,
+  maxLength,
+  required
+}: TextFieldRendererProps) => {
   return (
     <div>
-      <label>{label}</label>
+      <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
       <input
         type="text"
         class="form-control"
         onFocus={onFocus}
         onBlur={onBlur}
         onInput={onChange}
+        minLength={minLength}
+        maxLength={maxLength}
+        required={required}
       />
     </div>
   );

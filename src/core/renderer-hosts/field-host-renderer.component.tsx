@@ -28,6 +28,7 @@ export default class FieldHostRenderer extends Component<
       fieldName: field.name,
       fieldType: field.type,
       label: field.label.short,
+      required: field.required,
       onFocus: this.onFocus,
       onBlur: this.onBlur,
       onChange: this.onChange
