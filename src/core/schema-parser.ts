@@ -81,6 +81,8 @@ export default class SchemaParser {
 
     if (typeof fieldJson.placeholder !== 'undefined') {
       result.placeholder = fieldJson.placeholder;
+    } else {
+      result.placeholder = result.label.short;
     }
 
     switch (result.type) {
@@ -247,9 +249,9 @@ export default class SchemaParser {
         const json = value.json;
 
         json.fields.forEach(blockField => {
-          const fieldValue = structFieldMap[structName][blockField.field || blockField];
+          const fieldName = blockField.field || blockField;
+          const fieldValue = structFieldMap[structName][fieldName];
           const field = fieldValue.parsed;
-          const fieldJson = fieldValue.json;
 
           const fieldReference: IFieldReference = {
             field,
@@ -258,10 +260,12 @@ export default class SchemaParser {
 
           switch (field.type) {
             case 'linkedStruct': {
+              const linkedStructField = <ILinkedStructField>field;
               const linkedStructFieldReference = <ILinkedStructFieldReference>(
                 fieldReference
               );
-              const { hints } = fieldJson;
+
+              const { hints } = blockField;
 
               linkedStructFieldReference.hints = {
                 layout: (hints && hints.layout) || 'inline'
@@ -269,7 +273,7 @@ export default class SchemaParser {
 
               if (hints && hints.block) {
                 linkedStructFieldReference.hints.block =
-                  structBlockMap[structName][hints.block].parsed;
+                  structBlockMap[linkedStructField.reference.struct.name][hints.block].parsed;
               }
 
               break;

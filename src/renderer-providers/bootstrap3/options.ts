@@ -1,26 +1,29 @@
 import { RendererOptions } from '../../core/models/renderer-options';
 import Bootstrap3FieldContainerRenderer from './renderers/field-container-renderer';
-import Bootstrap3TextFieldRenderer from './renderers/text-field-renderer.component';
+import Bootstrap3InputFieldRenderer from './renderers/input-field-renderer';
+import Bootstrap3BooleanFieldRenderer from './renderers/boolean-field-renderer';
+import Bootstrap3ListFieldRenderer from './renderers/list-field-renderer';
+import Bootstrap3TableLinkedStructFieldRenderer from './renderers/table-linked-struct-field-renderer';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Bootstrap3RendererOptions: RendererOptions = {
   formClassName: 'de-re-crud-form-bootstrap3',
   components: {
     fieldContainer: Bootstrap3FieldContainerRenderer,
-    textField: Bootstrap3TextFieldRenderer,
-    keywordField: Bootstrap3TextFieldRenderer,
-    integerField: Bootstrap3TextFieldRenderer,
-    estimateField: Bootstrap3TextFieldRenderer,
-    dateField: Bootstrap3TextFieldRenderer,
-    booleanField: Bootstrap3TextFieldRenderer,
-    percentField: Bootstrap3TextFieldRenderer,
-    moneyField: Bootstrap3TextFieldRenderer,
-    foreignKeyField: Bootstrap3TextFieldRenderer,
-    tableLinkedStructField: Bootstrap3TextFieldRenderer,
-    inlineLinkedStructField: Bootstrap3TextFieldRenderer,
-    listField: Bootstrap3TextFieldRenderer,
-    derivedField: Bootstrap3TextFieldRenderer,
-    stampField: Bootstrap3TextFieldRenderer
+    textField: Bootstrap3InputFieldRenderer,
+    keywordField: Bootstrap3InputFieldRenderer,
+    integerField: Bootstrap3InputFieldRenderer,
+    estimateField: Bootstrap3InputFieldRenderer,
+    dateField: Bootstrap3InputFieldRenderer,
+    booleanField: Bootstrap3BooleanFieldRenderer,
+    percentField: Bootstrap3InputFieldRenderer,
+    moneyField: Bootstrap3InputFieldRenderer,
+    foreignKeyField: Bootstrap3InputFieldRenderer,
+    tableLinkedStructField: Bootstrap3TableLinkedStructFieldRenderer,
+    inlineLinkedStructField: Bootstrap3InputFieldRenderer,
+    listField: Bootstrap3ListFieldRenderer,
+    derivedField: Bootstrap3InputFieldRenderer,
+    stampField: Bootstrap3InputFieldRenderer
   }
 };
 

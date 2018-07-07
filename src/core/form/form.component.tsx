@@ -35,7 +35,7 @@ export default class Form extends Component<FormProps, FormState> {
       return null;
     }
 
-    let blockReference = structReference.blocks.find(x => x.name === block);
+    let blockReference = structReference.blocks.find(x => x.name === blockName);
     if (!blockReference) {
       Logger.warning(
         `No block specified and the 'default' block is not defined. Defalting to first defined block.`

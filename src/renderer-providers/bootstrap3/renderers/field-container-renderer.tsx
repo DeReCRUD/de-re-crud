@@ -2,10 +2,9 @@ import { h } from 'preact';
 import { FieldContainerRendererProps } from '../../../core/models/renderers';
 
 const Bootstrap3FieldContainerRenderer = ({
-  fieldName,
   children
 }: FieldContainerRendererProps) => (
-  <div className="form-group">{children}</div>
+  <div className="form-group bootstrap3-field-container-renderer">{children}</div>
 );
 
 export default Bootstrap3FieldContainerRenderer;

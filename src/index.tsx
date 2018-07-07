@@ -12,7 +12,7 @@ export default class App extends Component {
           <div class="col-sm-6">
             <Form
               schema={schemJson}
-              struct="struct"
+              struct="field"
               rendererOptions={Bootstrap3RendererOptions}
             />
           </div>

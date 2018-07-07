@@ -2,7 +2,7 @@ import { h } from 'preact';
 import './label-renderer';
 
 export type Bootstrap3LabelRendererProps = {
-  label: string;
+  label: string | JSX.Element;
   fieldRequired: boolean;
 };
 
@@ -10,9 +10,9 @@ const Bootstrap3LabelRenderer = ({
   label,
   fieldRequired
 }: Bootstrap3LabelRendererProps) => (
-  <label>
+  <label class="bootstrap3-label-renderer">
     {label}
-    <span className="required"> *</span>
+    {fieldRequired ? <span className="required"> *</span> : null}
   </label>
 );
 

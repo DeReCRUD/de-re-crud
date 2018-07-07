@@ -1,5 +1,5 @@
 import { ComponentConstructor, FunctionalComponent } from 'preact';
-import { FieldContainerRendererProps, FieldRendererProps, TextFieldRendererProps, LinkedStructRendererProps } from './renderers';
+import { FieldContainerRendererProps, FieldRendererProps, TextFieldRendererProps, LinkedStructRendererProps, ListFieldRendererProps } from './renderers';
 
 export interface RendererOptions {
   formClassName?: string;
@@ -41,8 +41,8 @@ export interface RendererOptions {
       | FunctionalComponent<LinkedStructRendererProps>
       | ComponentConstructor<LinkedStructRendererProps>;
     listField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<ListFieldRendererProps>
+      | ComponentConstructor<ListFieldRendererProps>;
     derivedField:
       | FunctionalComponent<FieldRendererProps>
       | ComponentConstructor<FieldRendererProps>;

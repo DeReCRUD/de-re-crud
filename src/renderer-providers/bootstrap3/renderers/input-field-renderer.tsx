@@ -2,10 +2,11 @@ import { h } from 'preact';
 import { TextFieldRendererProps } from '../../../core/models/renderers';
 import Bootstrap3LabelRenderer from './label-renderer.component';
 
-const Bootstrap3TextFieldRenderer = ({
+const Bootstrap3InputFieldRenderer = ({
   fieldType,
   fieldName,
   label,
+  placeholder,
   onFocus,
   onBlur,
   onChange,
@@ -13,12 +14,29 @@ const Bootstrap3TextFieldRenderer = ({
   maxLength,
   required
 }: TextFieldRendererProps) => {
+  let inputType;
+
+  switch (fieldType) {
+    case 'date':
+      inputType = fieldType;
+      break;
+    case 'integer':
+    case 'estimate':
+    case 'percent':
+      inputType = 'number';
+      break;
+    default:
+      inputType = 'text';
+      break;
+  }
+
   return (
-    <div>
+    <div className={`bootstrap3-${fieldType}-renderer`}>
       <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
       <input
-        type="text"
         class="form-control"
+        type={inputType}
+        placeholder={placeholder}
         onFocus={onFocus}
         onBlur={onBlur}
         onInput={onChange}
@@ -30,4 +48,4 @@ const Bootstrap3TextFieldRenderer = ({
   );
 };
 
-export default Bootstrap3TextFieldRenderer;
+export default Bootstrap3InputFieldRenderer;

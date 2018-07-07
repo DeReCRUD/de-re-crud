@@ -1,4 +1,4 @@
-import { IField, FieldType } from './schema';
+import { FieldType, IOption } from './schema';
 
 export interface FieldContainerRendererProps {
   fieldName: string;
@@ -15,6 +15,7 @@ export type FieldChangeEvent = Event & {
 
 export interface FieldRendererProps {
   label: string;
+  placeholder?: string;
   fieldName: string;
   fieldType: FieldType;
   required: boolean;
@@ -28,7 +29,13 @@ export interface TextFieldRendererProps extends FieldRendererProps {
   maxLength?: number;
 }
 
+export interface ListFieldRendererProps extends FieldRendererProps {
+  options: IOption[]
+}
+
 export interface LinkedStructRendererProps extends FieldRendererProps {
+  headers: string[];
+  values: string[];
   onAdd: () => void;
   onEdit: (index: number) => void;
   onRemove: (index: number) => void;

@@ -4,8 +4,8 @@ import { createStore } from '../store';
 import FormConnect from './form.connect';
 import { FormConnectProps } from './form.props';
 
-const FormStateProvider = ({schema, ...otherProps}: FormConnectProps) => (
-  <Provider store={createStore(schema)}>
+const FormStateProvider = ({schema, value, ...otherProps}: FormConnectProps) => (
+  <Provider store={createStore(schema, value)}>
     <FormConnect schema={schema} {...otherProps}  />
   </Provider>
 );

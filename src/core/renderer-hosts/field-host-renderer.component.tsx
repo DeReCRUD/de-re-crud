@@ -1,12 +1,13 @@
 import { h, Component } from 'preact';
-import { IFieldReference, ILinkedStructFieldReference } from '../models/schema';
+import { IFieldReference, ILinkedStructFieldReference, ILinkedStructField, IListField } from '../models/schema';
 import { RendererOptions } from '../models/renderer-options';
 import {
   FieldRendererProps,
   FieldFocusEvent,
   FieldBlurEvent,
   FieldChangeEvent,
-  LinkedStructRendererProps
+  LinkedStructRendererProps,
+  ListFieldRendererProps
 } from '../models/renderers';
 import Logger from '../logger';
 
@@ -37,6 +38,7 @@ export default class FieldHostRenderer extends Component<
       fieldName: field.name,
       fieldType: field.type,
       label: field.label.short,
+      placeholder: field.placeholder,
       required: field.required,
       onFocus: this.onFocus,
       onBlur: this.onBlur,
@@ -82,14 +84,18 @@ export default class FieldHostRenderer extends Component<
         return <ForeignKeyFieldRenderer {...fieldProps} />;
       }
       case 'linkedStruct': {
-        const linkedStructField = fieldReference as ILinkedStructFieldReference;
-        const LinkedStructFieldRenderer =
-          linkedStructField.hints.layout === 'table'
+        const { reference } = field as ILinkedStructField;
+        const { hints } = fieldReference as ILinkedStructFieldReference;
+        const LinkedStructFieldRenderer = hints.layout === 'table'
             ? rendererOptions.components.tableLinkedStructField
             : rendererOptions.components.inlineLinkedStructField;
 
+        const block = hints.block || reference.block;
+
         const linkedStructFieldProps: LinkedStructRendererProps = {
           ...fieldProps,
+          headers: block.fields.map(x => x.field.label.short),
+          values: [],
           onAdd: this.onAdd,
           onEdit: this.onEdit,
           onRemove: this.onRemove
@@ -98,8 +104,15 @@ export default class FieldHostRenderer extends Component<
         return <LinkedStructFieldRenderer {...linkedStructFieldProps} />;
       }
       case 'list': {
+        const { options } = field as IListField;
         const ListFieldRenderer = rendererOptions.components.listField;
-        return <ListFieldRenderer {...fieldProps} />;
+
+        const listFieldProps: ListFieldRendererProps = {
+          ...fieldProps,
+          options
+        };
+
+        return <ListFieldRenderer {...listFieldProps} />;
       }
       case 'derived': {
         const DerivedFieldRenderer = rendererOptions.components.derivedField;

@@ -1,7 +1,7 @@
 import { IStruct } from '../models/schema';
 import { RendererOptions } from '../models/renderer-options';
 
-export type FormConnectProps = {
+type FormBaseProps = {
   className?: string;
   schema: any;
   struct: string;
@@ -9,6 +9,11 @@ export type FormConnectProps = {
   rendererOptions: RendererOptions;
 };
 
-export type FormProps = FormConnectProps & {
+export type FormConnectProps = FormBaseProps & {
+  value?: object;
+};
+
+export type FormProps = FormBaseProps & {
   structs: IStruct[];
+  value: object;
 };
