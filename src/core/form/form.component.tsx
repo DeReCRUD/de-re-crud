@@ -14,9 +14,7 @@ export default class Form extends Component<FormProps, FormState> {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  render(
-    { className, structs, struct, block, rendererOptions }: FormProps,
-  ) {
+  render({ className, structs, struct, block, rendererOptions }: FormProps) {
     const blockName = block || 'default';
     const structReference = structs.find(x => x.name === struct);
     const classes = [
@@ -40,6 +38,7 @@ export default class Form extends Component<FormProps, FormState> {
       Logger.warning(
         `No block specified and the 'default' block is not defined. Defalting to first defined block.`
       );
+
       blockReference = structReference.blocks[0];
     }
 
