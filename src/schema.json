@@ -228,31 +228,31 @@
           "type",
           {
             "field": "minlength",
-            "condition": "value.type === 'text'"
+            "condition": "fieldParent.type === 'text'"
           },
           {
             "field": "maxlength",
-            "condition": "value.type === 'text'"
+            "condition": "fieldParent.type === 'text'"
           },
           {
             "field": "min",
-            "condition": "value.type === 'integer'"
+            "condition": "fieldParent.type === 'integer'"
           },
           {
             "field": "max",
-            "condition": "value.type === 'integer'"
+            "condition": "fieldParent.type === 'integer'"
           },
           {
             "field": "pattern",
-            "condition": "value.type === 'derived'"
+            "condition": "fieldParent.type === 'derived'"
           },
           {
             "field": "reference",
-            "condition": "value.type === 'linkedStruct'"
+            "condition": "fieldParent.type === 'linkedStruct'"
           },
           {
             "field": "options",
-            "condition": "value.type === 'list'"
+            "condition": "fieldParent.type === 'list'"
           }
         ]
       },

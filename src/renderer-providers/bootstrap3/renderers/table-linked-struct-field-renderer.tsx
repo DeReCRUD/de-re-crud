@@ -10,29 +10,53 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   label,
   required,
   headers,
-  values,
+  value,
   onAdd
-}: LinkedStructRendererProps) => (
-  <div className={createCssClass(cssName)}>
-    <div className={createCssClass(cssName, 'controls')}>
-      <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
-      <button className="btn btn-sm btn-default" type="button" onClick={onAdd}>
-        Add
-      </button>
-    </div>
-    <table className="table table-bordered table-condensed">
-      <thead>
+}: LinkedStructRendererProps) => {
+  const rows = [];
+
+  if (value) {
+    value.forEach(column => {
+      rows.push(
         <tr>
-          {headers.map(header => <th key={header}>{header}</th>)}
-          <th>&nbsp;</th>
+          {column.map(x => <td>{x || ' '}</td>)}
+          <td>&nbsp;</td>
         </tr>
-        
-      </thead>
-      <tbody>
-        <tr>{!values.length ? <td colSpan={100}>None</td> : null}</tr>
-      </tbody>
-    </table>
-  </div>
-);
+      );
+    });
+  }
+
+  return (
+    <div className={createCssClass(cssName)}>
+      <div className={createCssClass(cssName, 'controls')}>
+        <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
+        <button
+          className="btn btn-sm btn-default"
+          type="button"
+          onClick={onAdd}
+        >
+          Add
+        </button>
+      </div>
+      <table className="table table-bordered table-condensed">
+        <thead>
+          <tr>
+            {headers.map(header => <th key={header}>{header}</th>)}
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          {!rows.length ? (
+            <tr>
+              <td colSpan={100}>None</td>
+            </tr>
+          ) : (
+            rows
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export default Bootstrap3TableLinkedStructFieldRenderer;

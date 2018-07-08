@@ -1,6 +1,9 @@
 import { h, Component } from 'preact';
-import { IFieldReference, ILinkedStructFieldReference, ILinkedStructField, IListField } from '../models/schema';
-import { RendererOptions } from '../models/renderer-options';
+import {
+  ILinkedStructFieldReference,
+  ILinkedStructField,
+  IListField
+} from '../../models/schema';
 import {
   FieldRendererProps,
   FieldFocusEvent,
@@ -8,35 +11,75 @@ import {
   FieldChangeEvent,
   LinkedStructRendererProps,
   ListFieldRendererProps
-} from '../models/renderers';
-import Logger from '../logger';
-
-export interface FieldHostRendererProps {
-  fieldReference: IFieldReference;
-  rendererOptions: RendererOptions;
-}
+} from '../../models/renderers';
+import Logger from '../../logger';
+import {
+  FieldHostRendererProps,
+  FieldHostRendererChildProps
+} from './field-host-renderer.props';
+import formPathToValue from '../../utils/form-path-to-value';
 
 export default class FieldHostRenderer extends Component<
   FieldHostRendererProps
 > {
+  getFieldPath = () => {
+    const childProps = this.props as FieldHostRendererChildProps;
+    const fieldPath = childProps.path
+      ? childProps.path
+      : this.props.fieldReference.field.name;
+    return fieldPath;
+  };
+
   onFocus = (e: FieldFocusEvent) => {};
 
   onBlur = (e: FieldBlurEvent) => {};
 
-  onChange = (e: FieldChangeEvent) => {};
+  onChange = (e: FieldChangeEvent) => {
+    const fieldPath = this.getFieldPath();
+    const value =
+      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-  onAdd = () => {};
+    this.props.onChange(fieldPath, value);
+  };
+
+  onAdd = index => {
+    const { formValue } = this.props;
+
+    const fieldPath = this.getFieldPath();
+    const fieldValue = formPathToValue(formValue, fieldPath);
+
+    if (!fieldValue) {
+      this.props.onChange(fieldPath, []);      
+    }
+
+    this.props.onChange(fieldPath + '.' + index, {});
+  };
 
   onEdit = () => {};
 
   onRemove = () => {};
 
-  render({ fieldReference, rendererOptions }: FieldHostRendererProps) {
+  render(props: FieldHostRendererProps) {
+    const { fieldReference, rendererOptions, formValue } = props;
+
+    const childProps = props as FieldHostRendererChildProps;
     const field = fieldReference.field;
+
+    const fieldPath = this.getFieldPath();
+    const fieldValue = formPathToValue(formValue, fieldPath);
+
+    const parentValue = childProps.parentPath
+      ? formPathToValue(formValue, childProps.parentPath)
+      : formValue;
+
+    if (!fieldReference.condition(parentValue, formValue)) {
+      return null;
+    }
 
     const fieldProps: FieldRendererProps = {
       fieldName: field.name,
       fieldType: field.type,
+      value: fieldValue,
       label: field.label.short,
       placeholder: field.placeholder,
       required: field.required,
@@ -86,17 +129,25 @@ export default class FieldHostRenderer extends Component<
       case 'linkedStruct': {
         const { reference } = field as ILinkedStructField;
         const { hints } = fieldReference as ILinkedStructFieldReference;
-        const LinkedStructFieldRenderer = hints.layout === 'table'
+        const LinkedStructFieldRenderer =
+          hints.layout === 'table'
             ? rendererOptions.components.tableLinkedStructField
             : rendererOptions.components.inlineLinkedStructField;
 
         const block = hints.block || reference.block;
+        let values = null;
+
+        if (Array.isArray(fieldValue)) {
+          values = fieldValue.map((value) => {
+            return block.fields.map(({ field }) => value[field.name]);
+          });
+        }
 
         const linkedStructFieldProps: LinkedStructRendererProps = {
           ...fieldProps,
           headers: block.fields.map(x => x.field.label.short),
-          values: [],
-          onAdd: this.onAdd,
+          value: values,
+          onAdd: () => this.onAdd((values && values.length) || 0),
           onEdit: this.onEdit,
           onRemove: this.onRemove
         };

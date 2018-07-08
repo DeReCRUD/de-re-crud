@@ -1,22 +1,19 @@
 import { h, Component } from 'preact';
-import { IBlock } from '../models/schema';
-import FieldHostRenderer from './field-host-renderer.component';
-import { RendererOptions } from '../models/renderer-options';
-
-export interface BlockHostRendererProps {
-  struct: string;
-  block: IBlock;
-  rendererOptions: RendererOptions;
-}
+import FieldHostRenderer from '../field-host-renderer';
+import { BlockHostRendererProps } from './block-host-renderer.props';
 
 export default class BlockHostRenderer extends Component<
   BlockHostRendererProps
 > {
-  render({ struct, block, rendererOptions }: BlockHostRendererProps) {
+  render({ struct, block, rendererOptions, formValue }: BlockHostRendererProps) {
     const FieldContainerComponent = rendererOptions.components.fieldContainer;
 
+    if (!block.condition(formValue)) {
+      return null;
+    }
+
     return (
-      <div class="">
+      <div class="de-re-crud-block-renderer">
         {block.fields.map(fieldReference => (
           <FieldContainerComponent
             key={`${struct}-${fieldReference.field.name}`}

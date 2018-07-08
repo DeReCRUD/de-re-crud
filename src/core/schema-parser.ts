@@ -10,7 +10,9 @@ import {
   IReferenceField,
   ILinkedStructField,
   IFieldReference,
-  ILinkedStructFieldReference
+  ILinkedStructFieldReference,
+  BlockConditionFunc,
+  FieldConditionFunc
 } from './models/schema';
 
 type SchemaMap<T> = { [key: string]: { parsed: T; json: any } };
@@ -156,7 +158,7 @@ export default class SchemaParser {
   private static parseBlock(blockJson: any): IBlock {
     const result: IBlock = {
       name: blockJson.name,
-      condition: this.parseCondition(blockJson.condition),
+      condition: this.parseCondition(blockJson.condition, true) as BlockConditionFunc,
       fields: []
     };
 
@@ -168,16 +170,21 @@ export default class SchemaParser {
   }
 
   private static parseCondition(
-    conditionJson: string
-  ): (value: any, rootValue: any) => boolean {
+    conditionJson: string,
+    blockCondition: boolean = false
+  ): BlockConditionFunc | FieldConditionFunc {
     let condition;
 
     if (conditionJson) {
-      const returnValue =
-        condition[0] === '{' ? condition : `return ${condition}`;
+      const conditionBody =
+        conditionJson[0] === '{' ? conditionJson : `return ${conditionJson}`;
 
-      // tslint:disable-next-line:no-function-constructor-with-string-args
-      condition = new Function('value', 'rootValue', returnValue);
+      const args = ['form', conditionBody];
+      if (!blockCondition) {
+        args.unshift('fieldParent');
+      }
+
+      condition = new Function(...args);
     } else {
       // tslint:disable-next-line:no-function-constructor-with-string-args
       condition = this.defaultCondition;
@@ -255,7 +262,7 @@ export default class SchemaParser {
 
           const fieldReference: IFieldReference = {
             field,
-            condition: this.parseCondition(json.condition)
+            condition: this.parseCondition(blockField.condition)
           };
 
           switch (field.type) {

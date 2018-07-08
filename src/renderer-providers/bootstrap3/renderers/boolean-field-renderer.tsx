@@ -4,11 +4,21 @@ import Bootstrap3LabelRenderer from './label-renderer.component';
 
 const Bootstrap3BooleanFieldRenderer = ({
   label,
+  value,
+  onFocus,
+  onBlur,
+  onChange,
   required
 }: FieldRendererProps) => {
   const checkbox = (
     <span>
-      <input type="checkbox" />
+      <input
+        type="checkbox"
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onInput={onChange}
+        checked={value}
+      />
       {label}
     </span>
   );

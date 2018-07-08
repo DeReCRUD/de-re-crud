@@ -2,15 +2,17 @@ import { FieldType, IOption } from './schema';
 
 export interface FieldContainerRendererProps {
   fieldName: string;
-  children?: JSX.Element[]
+  children?: JSX.Element[];
 }
 
 export type FieldFocusEvent = FocusEvent;
 export type FieldBlurEvent = FocusEvent;
 export type FieldChangeEvent = Event & {
   target: EventTarget & {
-    value: any
-  }
+    type?: string;
+    checked?: boolean;
+    value: any;
+  };
 };
 
 export interface FieldRendererProps {
@@ -18,6 +20,7 @@ export interface FieldRendererProps {
   placeholder?: string;
   fieldName: string;
   fieldType: FieldType;
+  value?: any;
   required: boolean;
   onFocus: (e: FieldFocusEvent) => void;
   onBlur: (e: FieldBlurEvent) => void;
@@ -30,12 +33,12 @@ export interface TextFieldRendererProps extends FieldRendererProps {
 }
 
 export interface ListFieldRendererProps extends FieldRendererProps {
-  options: IOption[]
+  options: IOption[];
 }
 
 export interface LinkedStructRendererProps extends FieldRendererProps {
   headers: string[];
-  values: string[];
+  value?: string[][];
   onAdd: () => void;
   onEdit: (index: number) => void;
   onRemove: (index: number) => void;

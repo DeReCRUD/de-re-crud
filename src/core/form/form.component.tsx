@@ -1,8 +1,8 @@
-import { h, Component, render } from 'preact';
+import { h, Component } from 'preact';
 import { IStruct } from '../models/schema';
 import Logger from '../logger';
-import BlockHostRenderer from '../renderer-hosts/block-host-renderer.component';
-import shallowCompare from '../shallow-compare';
+import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
+import shallowCompare from '../utils/shallow-compare';
 import { FormProps } from './form.props';
 
 export interface FormState {

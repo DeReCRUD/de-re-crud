@@ -7,7 +7,8 @@
     "build": "preact build",
     "serve": "preact build && preact serve",
     "dev": "preact watch",
-    "lint": "tslint src"
+    "lint": "tslint src",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",
@@ -35,6 +36,6 @@
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "*.spec.(ts|tsx|js)$"
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(js|jsx|ts|tsx)?$"
   }
 }

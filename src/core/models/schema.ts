@@ -1,5 +1,8 @@
 export type HeaderSize = 1 | 2 | 3 | 4 | 5 | 6;
 
+export type FieldConditionFunc = (fieldParent: any, form: any) => boolean;
+export type BlockConditionFunc = (form: any) => boolean;
+
 export type FieldType =
   | 'text'
   | 'keyword'
@@ -102,13 +105,13 @@ export interface IForeignKeyField extends IReferenceField {
 export interface IBlock {
   name: string;
   label?: ILabel;
-  condition: (value: any, rootValue: any) => boolean;
+  condition: BlockConditionFunc;
   fields: (IFieldReference | ILinkedStructFieldReference)[];
 }
 
 export interface IFieldReference {
   field: IField;
-  condition: (value: any, rootValue: any) => boolean;
+  condition: FieldConditionFunc;
 }
 
 export interface ILinkedStructFieldReference extends IFieldReference {

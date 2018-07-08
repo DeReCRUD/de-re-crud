@@ -4,8 +4,8 @@ import Bootstrap3LabelRenderer from './label-renderer.component';
 
 const Bootstrap3InputFieldRenderer = ({
   fieldType,
-  fieldName,
   label,
+  value,
   placeholder,
   onFocus,
   onBlur,
@@ -43,6 +43,7 @@ const Bootstrap3InputFieldRenderer = ({
         minLength={minLength}
         maxLength={maxLength}
         required={required}
+        value={value}
       />
     </div>
   );
