@@ -11,16 +11,21 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   required,
   headers,
   value,
-  onAdd
+  onAdd,
+  onRemove
 }: LinkedStructRendererProps) => {
   const rows = [];
 
   if (value) {
-    value.forEach(column => {
+    value.forEach((column, index) => {
       rows.push(
         <tr>
           {column.map(x => <td>{x || ' '}</td>)}
-          <td>&nbsp;</td>
+          <td>
+            <div className={createCssClass(cssName, 'row', 'actions')}>
+              <i class="glyphicon glyphicon-trash" title="Remove Item" onClick={() => onRemove(index)} />
+            </div>
+          </td>
         </tr>
       );
     });

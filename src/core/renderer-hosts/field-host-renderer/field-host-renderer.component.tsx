@@ -42,22 +42,20 @@ export default class FieldHostRenderer extends Component<
     this.props.onChange(fieldPath, value);
   };
 
-  onAdd = index => {
-    const { formValue } = this.props;
-
+  onAdd = (index: number) => {
     const fieldPath = this.getFieldPath();
-    const fieldValue = formPathToValue(formValue, fieldPath);
 
-    if (!fieldValue) {
-      this.props.onChange(fieldPath, []);      
-    }
-
-    this.props.onChange(fieldPath + '.' + index, {});
+    this.props.onChangeArray(fieldPath + '.' + index, 'add');
   };
 
-  onEdit = () => {};
+  onEdit = (index: number) => {
+  };
 
-  onRemove = () => {};
+  onRemove = (index: number) => {
+    const fieldPath = this.getFieldPath();
+
+    this.props.onChangeArray(fieldPath + '.' + index, 'remove');
+  };
 
   render(props: FieldHostRendererProps) {
     const { fieldReference, rendererOptions, formValue } = props;

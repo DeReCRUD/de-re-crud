@@ -1,5 +1,6 @@
 import { RendererOptions } from '../../models/renderer-options';
 import { IFieldReference } from '../../models/schema';
+import { ChangeArrayActionType } from './field-host-renderer.actions';
 
 
 
@@ -11,6 +12,7 @@ export type FieldHostRendererConnectProps = {
 type FieldHostRendererParentProps = FieldHostRendererConnectProps & {
   formValue: object;
   onChange: (fieldPath: string, value: any) => void;
+  onChangeArray: (fieldPath: string, type: ChangeArrayActionType) => void;
 }
 
 export type FieldHostRendererChildProps = FieldHostRendererParentProps & {
