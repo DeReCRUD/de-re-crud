@@ -1,11 +1,10 @@
-import Store from 'redux-zero/interfaces/Store';
 import { StoreState } from '../../store';
 
 export type ChangeArrayActionType = 'add' | 'remove';
 
-export default function fieldHostRendererActions(store: Store) {
+export default function fieldHostRendererActions() {
   return {
-    onChange: (
+    changeValue: (
       state: StoreState,
       fieldPath: string,
       value: any
@@ -37,7 +36,7 @@ export default function fieldHostRendererActions(store: Store) {
       };
     },
 
-    onChangeArray: (
+    changeArrayValue: (
       state: StoreState,
       fieldPath: string,
       type: ChangeArrayActionType

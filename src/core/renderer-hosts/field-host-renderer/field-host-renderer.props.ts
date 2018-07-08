@@ -11,15 +11,14 @@ export type FieldHostRendererConnectProps = {
 
 type FieldHostRendererParentProps = FieldHostRendererConnectProps & {
   formValue: object;
-  onChange: (fieldPath: string, value: any) => void;
-  onChangeArray: (fieldPath: string, type: ChangeArrayActionType) => void;
+  changeValue: (fieldPath: string, value: any) => void;
+  changeArrayValue: (fieldPath: string, type: ChangeArrayActionType) => void;
 }
 
 export type FieldHostRendererChildProps = FieldHostRendererParentProps & {
   path: string;
   parentPath: string;
   formValue: object;
-  onChange: (fieldPath: string, value: any) => void;
 }
 
 export type FieldHostRendererProps = FieldHostRendererParentProps | FieldHostRendererChildProps;

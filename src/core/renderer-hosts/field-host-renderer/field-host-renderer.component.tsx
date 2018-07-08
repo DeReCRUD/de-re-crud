@@ -39,13 +39,13 @@ export default class FieldHostRenderer extends Component<
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-    this.props.onChange(fieldPath, value);
+    this.props.changeValue(fieldPath, value);
   };
 
   onAdd = (index: number) => {
     const fieldPath = this.getFieldPath();
 
-    this.props.onChangeArray(fieldPath + '.' + index, 'add');
+    this.props.changeArrayValue(fieldPath + '.' + index, 'add');
   };
 
   onEdit = (index: number) => {
@@ -54,7 +54,7 @@ export default class FieldHostRenderer extends Component<
   onRemove = (index: number) => {
     const fieldPath = this.getFieldPath();
 
-    this.props.onChangeArray(fieldPath + '.' + index, 'remove');
+    this.props.changeArrayValue(fieldPath + '.' + index, 'remove');
   };
 
   render(props: FieldHostRendererProps) {
