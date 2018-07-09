@@ -18,6 +18,7 @@ export default class Form extends Component<FormProps, FormState> {
     const blockName = block || 'default';
     const structReference = structs.find(x => x.name === struct);
     const classes = [
+    const classNames = [
       'de-re-crud-form',
       className,
       rendererOptions.formClassName
@@ -43,7 +44,7 @@ export default class Form extends Component<FormProps, FormState> {
     }
 
     return (
-      <form className={classes.filter(x => x).join(' ')}>
+      <form className={combineCssClasses(...classNames)}>
         <BlockHostRenderer
           struct={struct}
           block={blockReference}
