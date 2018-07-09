@@ -3,6 +3,7 @@ import { LinkedStructRendererProps } from '../../../core/models/renderers';
 import createCssClass from '../utils/create-css-class';
 import Bootstrap3LabelRenderer from './label-renderer.component';
 import './table-linked-struct-field-renderer.css';
+import Bootstrap3ButtonRenderer from './button-renderer';
 
 const cssName = 'bootstrap3-table-linked-struct-renderer';
 
@@ -23,7 +24,11 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
           {column.map(x => <td>{x || ' '}</td>)}
           <td>
             <div className={createCssClass(cssName, 'row', 'actions')}>
-              <i class="glyphicon glyphicon-trash" title="Remove Item" onClick={() => onRemove(index)} />
+              <i
+                class="glyphicon glyphicon-trash"
+                title="Remove Item"
+                onClick={() => onRemove(index)}
+              />
             </div>
           </td>
         </tr>
@@ -35,13 +40,11 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
     <div className={createCssClass(cssName)}>
       <div className={createCssClass(cssName, 'controls')}>
         <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
-        <button
-          className="btn btn-sm btn-default"
-          type="button"
+        <Bootstrap3ButtonRenderer
+          classes="btn btn-sm btn-default"
+          text="Add"
           onClick={onAdd}
-        >
-          Add
-        </button>
+        />
       </div>
       <table className="table table-bordered table-condensed">
         <thead>

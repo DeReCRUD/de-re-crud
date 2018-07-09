@@ -1,5 +1,6 @@
 import { IStruct } from '../models/schema';
 import { RendererOptions } from '../models/renderer-options';
+import { NavState } from '../store';
 
 type FormBaseProps = {
   className?: string;
@@ -16,4 +17,6 @@ export type FormConnectProps = FormBaseProps & {
 export type FormProps = FormBaseProps & {
   structs: IStruct[];
   value: object;
+  navStack: NavState[];
+  pop: () => void;
 };

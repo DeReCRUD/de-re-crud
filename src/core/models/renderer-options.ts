@@ -1,9 +1,19 @@
 import { ComponentConstructor, FunctionalComponent } from 'preact';
-import { FieldContainerRendererProps, FieldRendererProps, TextFieldRendererProps, LinkedStructRendererProps, ListFieldRendererProps } from './renderers';
+import {
+  FieldContainerRendererProps,
+  FieldRendererProps,
+  TextFieldRendererProps,
+  LinkedStructRendererProps,
+  ListFieldRendererProps,
+  ButtonRendererProps
+} from './renderers';
 
 export interface RendererOptions {
   formClassName?: string;
   components: {
+    button:
+      | FunctionalComponent<ButtonRendererProps>
+      | ComponentConstructor<ButtonRendererProps>;
     fieldContainer:
       | FunctionalComponent<FieldContainerRendererProps>
       | ComponentConstructor<FieldContainerRendererProps>;

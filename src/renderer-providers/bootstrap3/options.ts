@@ -1,4 +1,5 @@
 import { RendererOptions } from '../../core/models/renderer-options';
+import Bootstrap3ButtonRenderer from './renderers/button-renderer';
 import Bootstrap3FieldContainerRenderer from './renderers/field-container-renderer';
 import Bootstrap3InputFieldRenderer from './renderers/input-field-renderer';
 import Bootstrap3BooleanFieldRenderer from './renderers/boolean-field-renderer';
@@ -9,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 const Bootstrap3RendererOptions: RendererOptions = {
   formClassName: 'de-re-crud-form-bootstrap3',
   components: {
+    button: Bootstrap3ButtonRenderer,
     fieldContainer: Bootstrap3FieldContainerRenderer,
     textField: Bootstrap3InputFieldRenderer,
     keywordField: Bootstrap3InputFieldRenderer,

@@ -43,3 +43,9 @@ export interface LinkedStructRendererProps extends FieldRendererProps {
   onEdit: (index: number) => void;
   onRemove: (index: number) => void;
 }
+
+export interface ButtonRendererProps {
+  classes?: string | string[];
+  text: string;
+  onClick: () => void;
+}
