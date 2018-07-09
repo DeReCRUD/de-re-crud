@@ -1,0 +1,20 @@
+{
+  "name": "@de-re-crud/forms-renderer-bootstrap3",
+  "version": "0.0.1",
+  "repository": "https://github.com/DeReCRUD/forms.git",
+  "license": "Apache-2.0",
+  "peerDependencies": {
+    "@de-re-crud/forms": "^0.0.1",
+    "bootstrap": ">= 3 < 4"
+  },
+  "dependencies": {
+    "preact": "^8.2.9"
+  },
+  "devDependencies": {
+    "@de-re-crud/forms": "^0.0.1",
+    "bootstrap": "^3.3.7"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

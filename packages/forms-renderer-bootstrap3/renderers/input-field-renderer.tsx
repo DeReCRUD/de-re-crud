@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { TextFieldRendererProps } from '../../../core/models/renderers';
+import { TextFieldRendererProps } from '@de-re-crud/forms/models/renderers';
 import Bootstrap3LabelRenderer from './label-renderer.component';
 
 const Bootstrap3InputFieldRenderer = ({

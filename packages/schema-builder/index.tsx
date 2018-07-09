@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
+import Form from '@de-re-crud/forms/form';
+import Bootstrap3RendererOptions from '../forms-renderer-bootstrap3/options';
 import * as schemJson from './schema.json';
-import Bootstrap3RendererOptions from './renderer-providers/bootstrap3/options';
-import Form from './core/form';
 import './style.css';
 
 export default class App extends Component {

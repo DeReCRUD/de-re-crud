@@ -1,6 +1,6 @@
 import { h } from 'preact';
-import { LinkedStructRendererProps } from '../../../core/models/renderers';
-import createCssClass from '../utils/create-css-class';
+import { LinkedStructRendererProps } from '@de-re-crud/forms/models/renderers';
+import createCssClass from '@de-re-crud/forms/utils/create-css-class';
 import Bootstrap3LabelRenderer from './label-renderer.component';
 import './table-linked-struct-field-renderer.css';
 import Bootstrap3ButtonRenderer from './button-renderer';
