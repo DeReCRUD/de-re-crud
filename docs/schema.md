@@ -139,7 +139,7 @@ Recommendations given to the UI about how to display the form element. Applies t
 
 | Field  | Type   | Required | Missing Val | Notes                                                                                             |
 | ------ | ------ | -------- | ----------- | ------------------------------------------------------------------------------------------------- |
-| layout | string | false    | inline      | Indicates how to [layout](#block-linked-struct-layout) the [Struct](#struct) instances            |
+| layout | string | false    | inline      | Indicates how to [layout](#block-linked-struct-hint-layout) the [Struct](#struct) instances            |
 | block  | string | false    |             | The name of the [block](#block) to display in the UI, overrides the [Reference](#reference) block |
 
 ##### <a name="block-linked-struct-hint-layout"></a> Linked Struct Layout Type
