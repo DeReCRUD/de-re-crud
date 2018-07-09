@@ -18,6 +18,7 @@ export default class BlockHostRenderer extends Component<
           <FieldContainerRenderer
             key={`${struct}-${fieldReference.field.name}`}
             fieldName={fieldReference.field.name}
+            fieldDescription={fieldReference.field.help}
           >
             <FieldHostRenderer
               fieldReference={fieldReference}

@@ -93,6 +93,7 @@ export default class FieldHostRenderer extends Component<
     const fieldProps: FieldRendererProps = {
       fieldName: field.name,
       fieldType: field.type,
+      fieldDescription: field.help,
       value: fieldValue,
       label: field.label.short,
       placeholder: field.placeholder,
