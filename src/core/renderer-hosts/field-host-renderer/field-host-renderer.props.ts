@@ -10,17 +10,12 @@ export type FieldHostRendererConnectProps = {
   rendererOptions: RendererOptions;
 }
 
-type FieldHostRendererParentProps = FieldHostRendererConnectProps & {
+export type FieldHostRendererProps = FieldHostRendererConnectProps & {
+  fieldPath: string;
+  parentPath?: string;
   formValue: object;
   changeValue: (fieldPath: string, value: any) => void;
   changeArrayValue: (fieldPath: string, type: ChangeArrayActionType) => void;
   push: (state: NavState) => void;
   pop: () => void;
 }
-
-export type FieldHostRendererChildProps = FieldHostRendererParentProps & {
-  path: string;
-  parentPath: string;
-}
-
-export type FieldHostRendererProps = FieldHostRendererParentProps | FieldHostRendererChildProps;

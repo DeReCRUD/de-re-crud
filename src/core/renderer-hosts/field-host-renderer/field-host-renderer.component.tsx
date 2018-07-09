@@ -14,38 +14,26 @@ import {
   ListFieldRendererProps
 } from '../../models/renderers';
 import Logger from '../../logger';
-import {
-  FieldHostRendererProps,
-  FieldHostRendererChildProps
-} from './field-host-renderer.props';
+import { FieldHostRendererProps } from './field-host-renderer.props';
 import formPathToValue from '../../utils/form-path-to-value';
 
 export default class FieldHostRenderer extends Component<
   FieldHostRendererProps
 > {
-  getFieldPath = () => {
-    const childProps = this.props as FieldHostRendererChildProps;
-    const fieldPath = childProps.path
-      ? childProps.path
-      : this.props.fieldReference.field.name;
-    return fieldPath;
-  };
-
   onFocus = (e: FieldFocusEvent) => {};
 
   onBlur = (e: FieldBlurEvent) => {};
 
   onChange = (e: FieldChangeEvent) => {
-    const fieldPath = this.getFieldPath();
+    const { fieldPath, changeValue } = this.props;
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-    this.props.changeValue(fieldPath, value);
+    changeValue(fieldPath, value);
   };
 
   onAdd = (index: number) => {
-    const { changeArrayValue, push, fieldReference } = this.props;
-    const fieldPath = this.getFieldPath();
+    const { changeArrayValue, push, fieldReference, fieldPath } = this.props;
 
     const itemPath = fieldPath + '.' + index;
     const {
@@ -53,6 +41,7 @@ export default class FieldHostRenderer extends Component<
     } = fieldReference.field as IReferenceField;
 
     changeArrayValue(itemPath, 'add');
+
     push({
       path: itemPath,
       struct: struct.name,
@@ -60,25 +49,41 @@ export default class FieldHostRenderer extends Component<
     });
   };
 
-  onEdit = (index: number) => {};
+  onEdit = (index: number) => {
+    const { push, fieldReference, fieldPath } = this.props;
+
+    const {
+      reference: { struct, block }
+    } = fieldReference.field as IReferenceField;
+
+    push({
+      path: fieldPath + '.' + index,
+      struct: struct.name,
+      block: block.name
+    });
+  };
 
   onRemove = (index: number) => {
-    const fieldPath = this.getFieldPath();
+    const { changeArrayValue, fieldPath } = this.props;
 
-    this.props.changeArrayValue(fieldPath + '.' + index, 'remove');
+    changeArrayValue(fieldPath + '.' + index, 'remove');
   };
 
   render(props: FieldHostRendererProps) {
-    const { fieldReference, rendererOptions, formValue } = props;
+    const {
+      fieldReference,
+      rendererOptions,
+      formValue,
+      fieldPath,
+      parentPath
+    } = props;
 
-    const childProps = props as FieldHostRendererChildProps;
     const field = fieldReference.field;
 
-    const fieldPath = this.getFieldPath();
     const fieldValue = formPathToValue(formValue, fieldPath);
 
-    const parentValue = childProps.parentPath
-      ? formPathToValue(formValue, childProps.parentPath)
+    const parentValue = parentPath
+      ? formPathToValue(formValue, parentPath)
       : formValue;
 
     if (!fieldReference.condition(parentValue, formValue)) {

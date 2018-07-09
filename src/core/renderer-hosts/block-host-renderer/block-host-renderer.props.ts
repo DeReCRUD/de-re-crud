@@ -1,7 +1,7 @@
 import { IBlock } from '../../models/schema';
 import { RendererOptions } from '../../models/renderer-options';
 
-type BlockHostRendererConnectProps = {
+export type BlockHostRendererConnectProps = {
   struct: string;
   block: IBlock;
   rendererOptions: RendererOptions;

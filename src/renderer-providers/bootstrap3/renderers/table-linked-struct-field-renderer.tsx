@@ -13,6 +13,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   headers,
   value,
   onAdd,
+  onEdit,
   onRemove
 }: LinkedStructRendererProps) => {
   const rows = [];
@@ -24,6 +25,12 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
           {column.map(x => <td>{x || ' '}</td>)}
           <td>
             <div className={createCssClass(cssName, 'row', 'actions')}>
+              <i
+                class="glyphicon glyphicon-pencil"
+                title="Edit Item"
+                onClick={() => onEdit(index)}
+              />
+              <span>&nbsp;</span>
               <i
                 class="glyphicon glyphicon-trash"
                 title="Remove Item"
