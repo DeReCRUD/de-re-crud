@@ -101,4 +101,4 @@ or maintenance screen again!
 * [Planned features](docs/features.md#future)
 * [Origin of the project](docs/origins.md)
 * [Schema defintion](docs/schema.md)
-* [Schema example](src/schema.json)
+* [Schema example](packages/schema-builder/schema.json)
