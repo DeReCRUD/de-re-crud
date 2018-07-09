@@ -1,6 +1,6 @@
 import { h } from 'preact';
-import { ButtonRendererProps } from '../../../core/models/renderers';
-import combineCssClasses from '../utils/combine-css-classes';
+import { ButtonRendererProps } from '@de-re-crud/forms/models/renderers';
+import combineCssClasses from '@de-re-crud/forms/utils/combine-css-classes';
 
 const Bootstrap3ButtonRenderer = ({
   classes,

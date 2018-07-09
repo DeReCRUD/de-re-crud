@@ -1,31 +1,27 @@
 {
-  "name": "@de-re-crud/forms",
-  "version": "0.0.1",
-  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "Apache-2.0",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
     "build": "preact build",
     "serve": "preact build && preact serve",
     "dev": "preact watch",
-    "lint": "tslint src",
+    "lint": "tslint packages",
     "test": "jest"
   },
   "devDependencies": {
-    "@types/jest": "^23.1.4",
     "if-env": "^1.0.0",
+    "@types/jest": "^23.1.4",
     "jest": "^23.2.0",
+    "lerna": "^2.11.0",
     "preact-cli": "^2.0.0",
     "preact-cli-plugin-typescript": "^0.2.2",
     "ts-jest": "^23.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
-  },
-  "optionalDependencies": {
-    "bootstrap": "^3.3.7"
-  },
-  "dependencies": {
-    "preact": "^8.2.1",
-    "redux-zero": "^4.12.0"
   },
   "jest": {
     "moduleFileExtensions": [

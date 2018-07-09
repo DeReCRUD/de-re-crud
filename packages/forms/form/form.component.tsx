@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import { IStruct } from '../models/schema';
 import Logger from '../logger';
-import combineCssClasses from '../../renderer-providers/bootstrap3/utils/combine-css-classes';
+import combineCssClasses from '../utils/combine-css-classes';
 import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
 import shallowCompare from '../utils/shallow-compare';
 import { FormProps } from './form.props';

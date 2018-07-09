@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { FieldContainerRendererProps } from '../../../core/models/renderers';
+import { FieldContainerRendererProps } from '@de-re-crud/forms/models/renderers';
 
 const Bootstrap3FieldContainerRenderer = ({
   fieldDescription,

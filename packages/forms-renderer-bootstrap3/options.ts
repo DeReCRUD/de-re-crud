@@ -1,4 +1,4 @@
-import { RendererOptions } from '../../core/models/renderer-options';
+import { RendererOptions } from '@de-re-crud/forms/models/renderer-options';
 import Bootstrap3ButtonRenderer from './renderers/button-renderer';
 import Bootstrap3FieldContainerRenderer from './renderers/field-container-renderer';
 import Bootstrap3InputFieldRenderer from './renderers/input-field-renderer';

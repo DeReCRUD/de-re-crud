@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { ListFieldRendererProps } from '../../../core/models/renderers';
+import { ListFieldRendererProps } from '@de-re-crud/forms/models/renderers';
 import Bootstrap3LabelRenderer from './label-renderer.component';
 
 const Bootstrap3ListFieldRenderer = ({

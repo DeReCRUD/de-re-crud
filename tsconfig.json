@@ -1,6 +1,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@de-re-crud/*": ["./packages/*"]
+    },
     "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
