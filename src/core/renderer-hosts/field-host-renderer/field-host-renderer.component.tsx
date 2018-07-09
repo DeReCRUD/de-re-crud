@@ -2,7 +2,8 @@ import { h, Component } from 'preact';
 import {
   ILinkedStructFieldReference,
   ILinkedStructField,
-  IListField
+  IListField,
+  IReferenceField
 } from '../../models/schema';
 import {
   FieldRendererProps,
@@ -43,13 +44,23 @@ export default class FieldHostRenderer extends Component<
   };
 
   onAdd = (index: number) => {
+    const { changeArrayValue, push, fieldReference } = this.props;
     const fieldPath = this.getFieldPath();
 
-    this.props.changeArrayValue(fieldPath + '.' + index, 'add');
+    const itemPath = fieldPath + '.' + index;
+    const {
+      reference: { struct, block }
+    } = fieldReference.field as IReferenceField;
+
+    changeArrayValue(itemPath, 'add');
+    push({
+      path: itemPath,
+      struct: struct.name,
+      block: block.name
+    });
   };
 
-  onEdit = (index: number) => {
-  };
+  onEdit = (index: number) => {};
 
   onRemove = (index: number) => {
     const fieldPath = this.getFieldPath();
@@ -136,7 +147,7 @@ export default class FieldHostRenderer extends Component<
         let values = null;
 
         if (Array.isArray(fieldValue)) {
-          values = fieldValue.map((value) => {
+          values = fieldValue.map(value => {
             return block.fields.map(({ field }) => value[field.name]);
           });
         }

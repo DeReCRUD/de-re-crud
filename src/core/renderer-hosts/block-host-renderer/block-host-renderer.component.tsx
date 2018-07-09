@@ -6,7 +6,7 @@ export default class BlockHostRenderer extends Component<
   BlockHostRendererProps
 > {
   render({ struct, block, rendererOptions, formValue }: BlockHostRendererProps) {
-    const FieldContainerComponent = rendererOptions.components.fieldContainer;
+    const FieldContainerRenderer = rendererOptions.components.fieldContainer;
 
     if (!block.condition(formValue)) {
       return null;
@@ -15,7 +15,7 @@ export default class BlockHostRenderer extends Component<
     return (
       <div class="de-re-crud-block-renderer">
         {block.fields.map(fieldReference => (
-          <FieldContainerComponent
+          <FieldContainerRenderer
             key={`${struct}-${fieldReference.field.name}`}
             fieldName={fieldReference.field.name}
           >
@@ -23,7 +23,7 @@ export default class BlockHostRenderer extends Component<
               fieldReference={fieldReference}
               rendererOptions={rendererOptions}
             />
-          </FieldContainerComponent>
+          </FieldContainerRenderer>
         ))}
       </div>
     );

@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import { IStruct } from '../models/schema';
 import Logger from '../logger';
+import combineCssClasses from '../../renderer-providers/bootstrap3/utils/combine-css-classes';
 import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
 import shallowCompare from '../utils/shallow-compare';
 import { FormProps } from './form.props';
@@ -14,10 +15,35 @@ export default class Form extends Component<FormProps, FormState> {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  render({ className, structs, struct, block, rendererOptions }: FormProps) {
-    const blockName = block || 'default';
-    const structReference = structs.find(x => x.name === struct);
-    const classes = [
+  onSubmit = () => {};
+
+  onBack = () => {
+    this.props.pop();
+  };
+
+  render({
+    className,
+    structs,
+    struct,
+    block,
+    rendererOptions,
+    navStack,
+  }: FormProps) {
+    let visibleBlock: string;
+    let visibleStruct: string;
+
+    if (navStack.length) {
+      const navState = navStack[navStack.length - 1];
+      visibleStruct = navState.struct;
+      visibleBlock = navState.block;
+    } else {
+      visibleStruct = struct;
+      visibleBlock = block;
+    }
+
+    const blockName = visibleBlock || 'default';
+    const structReference = structs.find(x => x.name === visibleStruct);
+
     const classNames = [
       'de-re-crud-form',
       className,
@@ -43,6 +69,8 @@ export default class Form extends Component<FormProps, FormState> {
       blockReference = structReference.blocks[0];
     }
 
+    const ButtonRenderer = rendererOptions.components.button;
+
     return (
       <form className={combineCssClasses(...classNames)}>
         <BlockHostRenderer
@@ -50,6 +78,11 @@ export default class Form extends Component<FormProps, FormState> {
           block={blockReference}
           rendererOptions={rendererOptions}
         />
+        {!navStack.length ? (
+          <ButtonRenderer text="Submit" onClick={this.onSubmit} />
+        ) : (
+          <ButtonRenderer text="Cancel" onClick={this.onBack} />
+        )}
       </form>
     );
   }
