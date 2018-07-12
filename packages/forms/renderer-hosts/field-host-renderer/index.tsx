@@ -10,7 +10,7 @@ import fieldHostRendererActions from './field-host-renderer.actions';
 import navigationActions from '../../navigation.actions';
 
 const mapToProps = (
-  { value, navStack }: StoreState,
+  { value, navStack, errors }: StoreState,
   {
     fieldReference: {
       field: { name }
@@ -20,6 +20,7 @@ const mapToProps = (
   const path = navStack.length
     ? navStack[navStack.length - 1].path + '.' + name
     : name;
+
   const pathArray = path.split('.');
 
   const parentPath =
@@ -29,6 +30,7 @@ const mapToProps = (
 
   return {
     fieldPath: path,
+    errors: errors[path] || [],
     parentPath,
     formValue: value
   };

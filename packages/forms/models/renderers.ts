@@ -3,6 +3,7 @@ import { FieldType, IOption } from './schema';
 export interface FieldContainerRendererProps {
   fieldName: string;
   fieldDescription?: string;
+  errors: string[];
   children?: JSX.Element[];
 }
 
@@ -22,6 +23,7 @@ export interface FieldRendererProps {
   fieldName: string;
   fieldType: FieldType;
   fieldDescription?: string;
+  errors: string[];
   value?: any;
   required: boolean;
   onFocus: (e: FieldFocusEvent) => void;

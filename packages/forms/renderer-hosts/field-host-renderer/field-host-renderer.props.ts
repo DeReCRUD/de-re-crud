@@ -14,6 +14,7 @@ export type FieldHostRendererProps = FieldHostRendererConnectProps & {
   fieldPath: string;
   parentPath?: string;
   formValue: object;
+  errors: string[];
   changeValue: (fieldPath: string, value: any) => void;
   changeArrayValue: (fieldPath: string, type: ChangeArrayActionType) => void;
   push: (state: NavState) => void;
