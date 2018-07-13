@@ -1,3 +1,5 @@
+// https://john-dugan.com/javascript-debounce/
+
 export default function debounce(
   func: Function,
   wait: number = 200,
