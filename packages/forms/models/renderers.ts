@@ -52,5 +52,6 @@ export interface LinkedStructRendererProps extends FieldRendererProps {
 export interface ButtonRendererProps {
   classes?: string | string[];
   text: string;
+  disabled?: boolean;
   onClick: () => void;
 }

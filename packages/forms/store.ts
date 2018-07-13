@@ -2,6 +2,7 @@ import { default as createReduxZeroStore } from 'redux-zero';
 import { applyMiddleware } from 'redux-zero/middleware';
 import { connect } from 'redux-zero/devtools';
 import generateChildErrors from './utils/generate-child-errors';
+import { FormSubmission } from './form/form.props';
 import { IStruct } from './models/schema';
 import SchemaParser from './schema-parser';
 
@@ -18,6 +19,7 @@ export type NavState = {
 };
 
 export type StoreState = {
+  onSubmit: FormSubmission;
   structs: IStruct[];
   struct: string;
   block: string;
@@ -27,6 +29,7 @@ export type StoreState = {
   touched: { [path: string]: boolean };
   errors: Errors;
   childErrors: ChildErrors;
+  submitting: boolean;
 };
 
 const logger = (store) => (next) => (action) => {
@@ -39,6 +42,7 @@ const logger = (store) => (next) => (action) => {
 
 export function createStore(
   schemaJson: any,
+  onSubmit: FormSubmission,
   struct: string,
   block?: string,
   errors?: Errors,
@@ -48,6 +52,8 @@ export function createStore(
   const initialValue = value || {};
 
   const state: StoreState = {
+    onSubmit,
+    submitting: false,
     structs,
     struct,
     block: block || 'default',

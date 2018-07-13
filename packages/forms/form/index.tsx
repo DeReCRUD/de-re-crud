@@ -4,9 +4,17 @@ import { createStore } from '../store';
 import { FormConnectProps } from './form.props';
 import FormConnect from './form.connect';
 
-const FormStateProvider = ({schema, struct, block, errors, value, ...otherProps}: FormConnectProps) => (
-  <Provider store={createStore(schema, struct, block, errors, value)}>
-    <FormConnect schema={schema} {...otherProps}  />
+const FormStateProvider = ({
+  schema,
+  onSubmit,
+  struct,
+  block,
+  errors,
+  value,
+  ...otherProps
+}: FormConnectProps) => (
+  <Provider store={createStore(schema, onSubmit, struct, block, errors, value)}>
+    <FormConnect schema={schema} {...otherProps} />
   </Provider>
 );
 

@@ -11,13 +11,15 @@ const mapToProps = ({
   struct,
   block,
   value,
-  navStack
+  navStack,
+  submitting
 }: StoreState): Partial<FormProps> => ({
   structs,
   struct,
   block,
   value,
-  navStack
+  navStack,
+  submitting
 });
 
 export default connect(

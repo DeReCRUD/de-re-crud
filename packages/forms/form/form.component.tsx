@@ -29,7 +29,8 @@ export default class Form extends Component<FormProps, FormState> {
     struct,
     block,
     rendererOptions,
-    navStack
+    navStack,
+    submitting
   }: FormProps) {
     let visibleBlock: string;
     let visibleStruct: string;
@@ -80,7 +81,7 @@ export default class Form extends Component<FormProps, FormState> {
           rendererOptions={rendererOptions}
         />
         {!navStack.length ? (
-          <ButtonRenderer text="Submit" onClick={this.onSubmit} />
+          <ButtonRenderer text="Submit" onClick={this.onSubmit} disabled={submitting} />
         ) : (
           <ButtonRenderer text="Back" onClick={this.onBack} />
         )}

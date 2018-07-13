@@ -2,6 +2,7 @@ import { StoreState, Errors, ChildErrors } from '../store';
 import { validateField } from '../utils/validation-helper';
 import { ILinkedStructField, IBlock } from '../models/schema';
 import generateChildErrors from '@de-re-crud/forms/utils/generate-child-errors';
+import { resolve } from 'url';
 
 type ValidationResult = {
   errors: Errors;
@@ -75,9 +76,9 @@ function validateBlock(
   };
 }
 
-export default function formActions() {
+export default function formActions({ setState }) {
   return {
-    submitForm: (state: StoreState): Partial<StoreState> => {
+    submitForm: (state: StoreState): Partial<StoreState> | Promise<boolean> => {
       const struct = state.structs.find(x => x.name === state.struct);
       const block = struct.blocks.find(x => x.name == state.block);
       const formValue = state.value;
@@ -85,15 +86,28 @@ export default function formActions() {
       const result = validateBlock(block, formValue, formValue);
       const { errors, touched, hasErrors } = result;
 
-      if (!hasErrors) {
-        // TODO: Submit form
-      }
-
-      return {
+      setState({
         errors,
         childErrors: generateChildErrors(errors),
-        touched
-      };
+        touched,
+        submitting: !hasErrors
+      });
+
+      if (hasErrors) {
+        return {};
+      }
+
+      return new Promise(resolve => {
+        state.onSubmit(formValue, errors => {
+          if (errors) {
+            setState({ errors, submitting: false });
+            return;
+          }
+
+          setState({ submitting: false });
+          resolve();
+        });
+      });
     }
   };
 }
