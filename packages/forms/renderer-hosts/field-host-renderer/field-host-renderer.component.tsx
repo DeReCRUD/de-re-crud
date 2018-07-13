@@ -3,7 +3,8 @@ import {
   ILinkedStructFieldReference,
   ILinkedStructField,
   IListField,
-  IReferenceField
+  IReferenceField,
+  IFieldReference
 } from '../../models/schema';
 import {
   FieldRendererProps,
@@ -22,14 +23,18 @@ export default class FieldHostRenderer extends Component<
 > {
   onFocus = (e: FieldFocusEvent) => {};
 
-  onBlur = (e: FieldBlurEvent) => {};
+  onBlur = (e: FieldBlurEvent) => {
+    const { touchField, fieldReference: { field }, fieldPath } = this.props;
+
+    touchField(field, fieldPath);
+  };
 
   onChange = (e: FieldChangeEvent) => {
-    const { fieldPath, changeValue } = this.props;
+    const { fieldReference: { field }, fieldPath, changeValue } = this.props;
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-    changeValue(fieldPath, value);
+    changeValue(field, fieldPath, value);
   };
 
   onAdd = (index: number) => {
@@ -40,7 +45,7 @@ export default class FieldHostRenderer extends Component<
       reference: { struct, block }
     } = fieldReference.field as IReferenceField;
 
-    changeArrayValue(itemPath, 'add');
+    changeArrayValue(fieldReference.field, fieldPath, itemPath, 'add');
 
     push({
       path: itemPath,
@@ -64,44 +69,14 @@ export default class FieldHostRenderer extends Component<
   };
 
   onRemove = (index: number) => {
-    const { changeArrayValue, fieldPath } = this.props;
+    const { changeArrayValue, fieldReference, fieldPath } = this.props;
 
-    changeArrayValue(fieldPath + '.' + index, 'remove');
+    changeArrayValue(fieldReference.field, fieldPath, fieldPath + '.' + index, 'remove');
   };
 
-  render(props: FieldHostRendererProps) {
-    const {
-      fieldReference,
-      rendererOptions,
-      formValue,
-      fieldPath,
-      parentPath
-    } = props;
-
-    const field = fieldReference.field;
-
-    const fieldValue = formPathToValue(formValue, fieldPath);
-
-    const parentValue = parentPath
-      ? formPathToValue(formValue, parentPath)
-      : formValue;
-
-    if (!fieldReference.condition(parentValue, formValue)) {
-      return null;
-    }
-
-    const fieldProps: FieldRendererProps = {
-      fieldName: field.name,
-      fieldType: field.type,
-      fieldDescription: field.help,
-      value: fieldValue,
-      label: field.label.short,
-      placeholder: field.placeholder,
-      required: field.required,
-      onFocus: this.onFocus,
-      onBlur: this.onBlur,
-      onChange: this.onChange
-    };
+  renderField(fieldReference: IFieldReference, fieldProps: FieldRendererProps) {
+    const { rendererOptions } = this.props;
+    const { field } = fieldReference;
 
     switch (field.type) {
       case 'text': {
@@ -152,8 +127,8 @@ export default class FieldHostRenderer extends Component<
         const block = hints.block || reference.block;
         let values = null;
 
-        if (Array.isArray(fieldValue)) {
-          values = fieldValue.map(value => {
+        if (Array.isArray(fieldProps.value)) {
+          values = fieldProps.value.map(value => {
             return block.fields.map(({ field }) => value[field.name]);
           });
         }
@@ -193,5 +168,54 @@ export default class FieldHostRenderer extends Component<
         return null;
       }
     }
+  }
+
+  render({
+    rendererOptions,
+    fieldReference,
+    formValue,
+    fieldPath,
+    parentPath,
+    touched,
+    errors
+  }: FieldHostRendererProps) {
+
+    const field = fieldReference.field;
+    const fieldValue = formPathToValue(formValue, fieldPath);
+
+    const parentValue = parentPath
+      ? formPathToValue(formValue, parentPath)
+      : formValue;
+
+    if (!fieldReference.condition(parentValue, formValue)) {
+      return null;
+    }
+
+    const fieldProps: FieldRendererProps = {
+      fieldName: field.name,
+      fieldType: field.type,
+      fieldDescription: field.help,
+      value: fieldValue,
+      label: field.label.short,
+      placeholder: field.placeholder,
+      required: field.required,
+      onFocus: this.onFocus,
+      onBlur: this.onBlur,
+      onChange: this.onChange,
+      errors: touched ? errors : []
+    };
+
+    const fieldRenderer = this.renderField(fieldReference, fieldProps);
+    const FieldContainerRenderer = rendererOptions.components.fieldContainer;
+
+    return (
+      <FieldContainerRenderer
+        fieldName={fieldProps.fieldName}
+        fieldDescription={fieldProps.fieldDescription}
+        errors={fieldProps.errors}
+      >
+        {fieldRenderer}
+      </FieldContainerRenderer>
+    );
   }
 }

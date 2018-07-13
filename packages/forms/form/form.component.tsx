@@ -56,7 +56,7 @@ export default class Form extends Component<FormProps, FormState> {
     }
 
     if (!structReference.blocks.length) {
-      Logger.error(`No blocks defined for struct '${struct}'.`);
+      Logger.error(`No blocks defined for struct '${visibleStruct}'.`);
       return null;
     }
 
@@ -74,7 +74,7 @@ export default class Form extends Component<FormProps, FormState> {
     return (
       <form className={combineCssClasses(...classNames)}>
         <BlockHostRenderer
-          struct={struct}
+          struct={visibleStruct}
           block={blockReference}
           rendererOptions={rendererOptions}
         />
