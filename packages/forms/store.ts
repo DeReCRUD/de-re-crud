@@ -40,7 +40,7 @@ export type StoreState = {
 };
 
 const logger = store => next => action => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.ENABLE_LOGGING) {
     console.log('current state:', store.getState());
   }
 
