@@ -2,7 +2,11 @@ import { default as createReduxZeroStore } from 'redux-zero';
 import { applyMiddleware } from 'redux-zero/middleware';
 import { connect } from 'redux-zero/devtools';
 import generateChildErrors from './utils/generate-child-errors';
-import { FormSubmission } from './form/form.props';
+import {
+  FormSubmission,
+  FormChangeNotification,
+  FormChangeNotificationType
+} from './form/form.props';
 import { IStruct } from './models/schema';
 import SchemaParser from './schema-parser';
 
@@ -28,8 +32,10 @@ export type StoreState = {
   touched: { [path: string]: boolean };
   errors: Errors;
   childErrors: ChildErrors;
-  onSubmit?: FormSubmission;
   submitting?: boolean;
+  onSubmit?: FormSubmission;
+  onChangeType: FormChangeNotificationType;
+  onChange?: FormChangeNotification;
 };
 
 const logger = store => next => action => {
@@ -47,7 +53,9 @@ export function createStore(
   formState?: {
     errors?: Errors;
     value?: object;
-    onSubmit?: FormSubmission
+    onSubmit?: FormSubmission;
+    onChangeType?: FormChangeNotificationType;
+    onChange?: FormChangeNotification;
   }
 ) {
   const structs = SchemaParser.parse(schemaJson);
@@ -63,7 +71,8 @@ export function createStore(
     touched: {},
     errors: formState.errors || {},
     childErrors: generateChildErrors(formState.errors),
-    onSubmit: formState && formState.onSubmit
+    onSubmit: formState && formState.onSubmit,
+    onChangeType: (formState && formState.onChangeType) || 'blur'
   };
 
   const middlewares = [logger, connect ? connect(state) : null].filter(x => x);
