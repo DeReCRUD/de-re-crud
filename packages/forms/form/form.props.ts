@@ -1,6 +1,6 @@
 import { IStruct } from '../models/schema';
 import { RendererOptions } from '../models/renderer-options';
-import { NavState } from '../store';
+import { NavState, Errors } from '../store';
 
 type FormBaseProps = {
   className?: string;
@@ -11,6 +11,7 @@ type FormBaseProps = {
 };
 
 export type FormConnectProps = FormBaseProps & {
+  errors?: Errors;
   value?: object;
 };
 

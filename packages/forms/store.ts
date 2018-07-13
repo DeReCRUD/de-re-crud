@@ -2,6 +2,8 @@ import { default as createReduxZeroStore } from 'redux-zero';
 import { IStruct } from './models/schema';
 import SchemaParser from './schema-parser';
 
+export type Errors = { [path: string]: string[] };
+
 export type NavState = {
   path: string;
   struct: string;
@@ -14,10 +16,10 @@ export type StoreState = {
   value: object;
   navStack: NavState[];
   touched: { [path: string]: boolean };
-  errors: { [path: string]: string[] };
+  errors: Errors;
 };
 
-export function createStore(schemaJson: any, value?: object) {
+export function createStore(schemaJson: any, errors?: Errors, value?: object) {
   const structs = SchemaParser.parse(schemaJson);
   const initialValue = value || {};
 
@@ -27,7 +29,7 @@ export function createStore(schemaJson: any, value?: object) {
     value: initialValue,
     navStack: [],
     touched: {},
-    errors: {}
+    errors: errors || {}
   };
 
   return createReduxZeroStore(state);
