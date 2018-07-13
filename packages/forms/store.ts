@@ -19,7 +19,6 @@ export type NavState = {
 };
 
 export type StoreState = {
-  onSubmit: FormSubmission;
   structs: IStruct[];
   struct: string;
   block: string;
@@ -29,31 +28,32 @@ export type StoreState = {
   touched: { [path: string]: boolean };
   errors: Errors;
   childErrors: ChildErrors;
-  submitting: boolean;
+  onSubmit?: FormSubmission;
+  submitting?: boolean;
 };
 
-const logger = (store) => (next) => (action) => {
+const logger = store => next => action => {
   if (process.env.NODE_ENV === 'development') {
     console.log('current state:', store.getState());
   }
 
   return next(action);
-}
+};
 
 export function createStore(
   schemaJson: any,
-  onSubmit: FormSubmission,
   struct: string,
   block?: string,
-  errors?: Errors,
-  value?: object
+  formState?: {
+    errors?: Errors;
+    value?: object;
+    onSubmit?: FormSubmission
+  }
 ) {
   const structs = SchemaParser.parse(schemaJson);
-  const initialValue = value || {};
+  const initialValue = (formState && formState.value) || {};
 
   const state: StoreState = {
-    onSubmit,
-    submitting: false,
     structs,
     struct,
     block: block || 'default',
@@ -61,8 +61,9 @@ export function createStore(
     value: initialValue,
     navStack: [],
     touched: {},
-    errors: errors || {},
-    childErrors: generateChildErrors(errors)
+    errors: formState.errors || {},
+    childErrors: generateChildErrors(formState.errors),
+    onSubmit: formState && formState.onSubmit
   };
 
   const middlewares = [logger, connect ? connect(state) : null].filter(x => x);

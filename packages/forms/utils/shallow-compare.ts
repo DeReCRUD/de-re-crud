@@ -4,9 +4,9 @@ function shallowDiffers (a, b) {
   return false
 }
 
-export default (instance, nextProps, nextState) => {
+export default (instance, nextProps, nextState?) => {
   return (
     shallowDiffers(instance.props, nextProps) ||
-    shallowDiffers(instance.state, nextState)
+    (nextState && shallowDiffers(instance.state, nextState))
   )
 }

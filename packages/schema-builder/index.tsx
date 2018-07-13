@@ -17,7 +17,7 @@ export default class App extends Component {
           <div class="col-sm-6">
             <Form
               schema={schemJson}
-              struct="field"
+              struct="struct"
               rendererOptions={Bootstrap3RendererOptions}
               onSubmit={this.onSubmit}
             />
