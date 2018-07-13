@@ -82,7 +82,7 @@ export default class Form extends Component<FormProps, FormState> {
         {!navStack.length ? (
           <ButtonRenderer text="Submit" onClick={this.onSubmit} />
         ) : (
-          <ButtonRenderer text="Cancel" onClick={this.onBack} />
+          <ButtonRenderer text="Back" onClick={this.onBack} />
         )}
       </form>
     );
