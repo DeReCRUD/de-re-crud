@@ -29,6 +29,7 @@ export type StoreState = {
   initialValue: object;
   value: object;
   navStack: NavState[];
+  focused: { [path: string]: any };
   touched: { [path: string]: boolean };
   errors: Errors;
   childErrors: ChildErrors;
@@ -54,8 +55,8 @@ export function createStore(
     errors?: Errors;
     value?: object;
     onSubmit?: FormSubmission;
-    onChangeType?: FormChangeNotificationType;
     onChange?: FormChangeNotification;
+    onChangeType?: FormChangeNotificationType;
   }
 ) {
   const structs = SchemaParser.parse(schemaJson);
@@ -68,11 +69,13 @@ export function createStore(
     initialValue,
     value: initialValue,
     navStack: [],
+    focused: {},
     touched: {},
     errors: formState.errors || {},
     childErrors: generateChildErrors(formState.errors),
     onSubmit: formState && formState.onSubmit,
-    onChangeType: (formState && formState.onChangeType) || 'blur'
+    onChangeType: (formState && formState.onChangeType) || 'blur',
+    onChange: formState && formState.onChange
   };
 
   const middlewares = [logger, connect ? connect(state) : null].filter(x => x);

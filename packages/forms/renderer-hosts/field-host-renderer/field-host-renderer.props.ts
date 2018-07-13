@@ -15,7 +15,8 @@ export type FieldHostRendererProps = FieldHostRendererConnectProps & {
   touched: boolean;
   errors: string[];
   childErrors: { [index: number]: boolean };
-  touchField: (field: IField, fieldPath: string) => void;
+  focusField: (field: IField, fieldPath: string) => void;
+  blurField: (field: IField, fieldPath: string) => void;
   changeValue: (field: IField, fieldPath: string, value: any) => void;
   changeArrayValue: (
     field: IField,

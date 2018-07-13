@@ -37,16 +37,24 @@ export default class FieldHostRenderer extends Component<
     }
   }
 
-  onFocus = (e: FieldFocusEvent) => {};
-
-  onBlur = (e: FieldBlurEvent) => {
+  onFocus = (e: FieldFocusEvent) => {
     const {
-      touchField,
+      focusField,
       fieldReference: { field },
       fieldPath
     } = this.props;
 
-    touchField(field, fieldPath);
+    focusField(field, fieldPath);
+  };
+
+  onBlur = (e: FieldBlurEvent) => {
+    const {
+      blurField,
+      fieldReference: { field },
+      fieldPath
+    } = this.props;
+
+    blurField(field, fieldPath);
   };
 
   onChange = (e: FieldChangeEvent) => {
