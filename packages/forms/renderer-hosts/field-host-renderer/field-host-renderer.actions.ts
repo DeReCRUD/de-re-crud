@@ -6,20 +6,19 @@ import { StoreState } from '../../store';
 
 export type ChangeArrayActionType = 'add' | 'remove';
 
-export default function fieldHostRendererActions() {
+export default function fieldHostRendererActions({ setState }) {
   return {
-    touchField: (
+    focusField: (
       state: StoreState,
       field: IField,
       fieldPath: string
     ): Partial<StoreState> => {
       const value = formPathToValue(state.value, fieldPath);
-      const errors = validateField(field, value);
 
       return {
-        errors: {
-          ...state.errors,
-          [fieldPath]: errors
+        focused: {
+          ...state.focused,
+          [fieldPath]: value
         },
         touched: {
           ...state.touched,
@@ -28,19 +27,62 @@ export default function fieldHostRendererActions() {
       };
     },
 
+    blurField: (
+      state: StoreState,
+      field: IField,
+      fieldPath: string
+    ): Partial<StoreState> => {
+      const oldValue = state.focused[fieldPath];
+      const value = formPathToValue(state.value, fieldPath);
+      const parentValue = formPathToValue(
+        state.value,
+        fieldPath.substring(0, fieldPath.lastIndexOf('.'))
+      );
+      const errors = validateField(field, value);
+
+      const focused = { ...state.focused };
+      delete focused[fieldPath];
+
+      setState({
+        errors: {
+          ...state.errors,
+          [fieldPath]: errors
+        },
+        focused,
+        touched: {
+          ...state.touched,
+          [fieldPath]: true
+        }
+      });
+
+      if (oldValue !== value && state.onChange && state.onChangeType === 'blur') {
+        state.onChange({
+          path: fieldPath,
+          oldValue,
+          newValue: value,
+          parentValue: parentValue || state.value,
+          formValue: state.value
+        });
+      }
+
+      return {};
+    },
+
     changeValue: (
       state: StoreState,
       field: IField,
       fieldPath: string,
       value: any
     ): Partial<StoreState> => {
+      const oldValue = formPathToValue(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
 
       let newValue = { ...state.value };
       let iterationValue = newValue;
+      let parentValue;
 
       for (let i = 0; i < pathArray.length; i++) {
-        const parentValue = iterationValue;
+        parentValue = iterationValue;
         const path = pathArray[i];
 
         iterationValue = iterationValue[path];
@@ -66,13 +108,25 @@ export default function fieldHostRendererActions() {
         const newErrors = {
           ...state.errors,
           [fieldPath]: errors
-        }
+        };
 
         updates.errors = newErrors;
         updates.childErrors = generateChildErrors(newErrors);
       }
 
-      return updates;
+      setState(updates);
+
+      if (oldValue !== value && state.onChange && state.onChangeType === 'change') {
+        state.onChange({
+          path: fieldPath,
+          oldValue,
+          newValue: value,
+          parentValue,
+          formValue: newValue
+        });
+      }
+
+      return {};
     },
 
     changeArrayValue: (
@@ -121,9 +175,9 @@ export default function fieldHostRendererActions() {
       const newErrors = {
         ...state.errors,
         [fieldPath]: errors
-      }
+      };
 
-      return {
+      setState({
         value: newValue,
         touched: {
           ...state.touched,
@@ -131,7 +185,19 @@ export default function fieldHostRendererActions() {
         },
         errors: newErrors,
         childErrors: generateChildErrors(newErrors)
-      };
+      });
+
+      if (state.onChange) {
+        state.onChange({
+          path: itemPath,
+          oldValue: type === 'remove' ? state.value : undefined,
+          newValue: type === 'add' ? {} : undefined,
+          parentValue,
+          formValue: newValue
+        });
+      }
+
+      return {};
     }
   };
 }
