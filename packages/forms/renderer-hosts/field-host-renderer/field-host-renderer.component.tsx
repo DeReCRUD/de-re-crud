@@ -23,14 +23,18 @@ export default class FieldHostRenderer extends Component<
 > {
   onFocus = (e: FieldFocusEvent) => {};
 
-  onBlur = (e: FieldBlurEvent) => {};
+  onBlur = (e: FieldBlurEvent) => {
+    const { touchField, fieldReference: { field }, fieldPath } = this.props;
+
+    touchField(field, fieldPath);
+  };
 
   onChange = (e: FieldChangeEvent) => {
-    const { fieldPath, changeValue } = this.props;
+    const { fieldReference: { field }, fieldPath, changeValue } = this.props;
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-    changeValue(fieldPath, value);
+    changeValue(field, fieldPath, value);
   };
 
   onAdd = (index: number) => {
@@ -41,7 +45,7 @@ export default class FieldHostRenderer extends Component<
       reference: { struct, block }
     } = fieldReference.field as IReferenceField;
 
-    changeArrayValue(itemPath, 'add');
+    changeArrayValue(fieldReference.field, fieldPath, itemPath, 'add');
 
     push({
       path: itemPath,
@@ -65,9 +69,9 @@ export default class FieldHostRenderer extends Component<
   };
 
   onRemove = (index: number) => {
-    const { changeArrayValue, fieldPath } = this.props;
+    const { changeArrayValue, fieldReference, fieldPath } = this.props;
 
-    changeArrayValue(fieldPath + '.' + index, 'remove');
+    changeArrayValue(fieldReference.field, fieldPath, fieldPath + '.' + index, 'remove');
   };
 
   renderField(fieldReference: IFieldReference, fieldProps: FieldRendererProps) {
@@ -172,6 +176,7 @@ export default class FieldHostRenderer extends Component<
     formValue,
     fieldPath,
     parentPath,
+    touched,
     errors
   }: FieldHostRendererProps) {
 
@@ -197,7 +202,7 @@ export default class FieldHostRenderer extends Component<
       onFocus: this.onFocus,
       onBlur: this.onBlur,
       onChange: this.onChange,
-      errors: errors
+      errors: touched ? errors : []
     };
 
     const fieldRenderer = this.renderField(fieldReference, fieldProps);

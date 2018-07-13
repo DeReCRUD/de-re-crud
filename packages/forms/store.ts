@@ -13,6 +13,7 @@ export type StoreState = {
   initialValue: object;
   value: object;
   navStack: NavState[];
+  touched: { [path: string]: boolean };
   errors: { [path: string]: string[] };
 };
 
@@ -20,13 +21,14 @@ export function createStore(schemaJson: any, value?: object) {
   const structs = SchemaParser.parse(schemaJson);
   const initialValue = value || {};
 
-  const store = createReduxZeroStore({
+  const state: StoreState = {
     structs,
     initialValue,
     value: initialValue,
     navStack: [],
+    touched: {},
     errors: {}
-  });
+  };
 
-  return store;
+  return createReduxZeroStore(state);
 }

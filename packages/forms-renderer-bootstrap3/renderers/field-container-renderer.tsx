@@ -17,11 +17,7 @@ const Bootstrap3FieldContainerRenderer = ({
     {children}
     {fieldDescription &&
       !errors.length && <span className="help-block">{fieldDescription}</span>}
-    {errors.map(error => (
-      <span key={error} className="help-block">
-        {error}
-      </span>
-    ))}
+    {errors.length ? <span className="help-block">{errors[0]}</span> : null}
   </div>
 );
 
