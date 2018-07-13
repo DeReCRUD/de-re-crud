@@ -42,7 +42,8 @@ export interface ListFieldRendererProps extends FieldRendererProps {
 
 export interface LinkedStructRendererProps extends FieldRendererProps {
   headers: string[];
-  value?: string[][];
+  value: string[][];
+  valueErrorIndicators: { [index: number]: boolean };
   onAdd: () => void;
   onEdit: (index: number) => void;
   onRemove: (index: number) => void;

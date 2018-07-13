@@ -19,5 +19,6 @@ export type FormProps = FormBaseProps & {
   structs: IStruct[];
   value: object;
   navStack: NavState[];
+  submitForm: () => void;
   pop: () => void;
 };

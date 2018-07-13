@@ -24,13 +24,21 @@ export default class FieldHostRenderer extends Component<
   onFocus = (e: FieldFocusEvent) => {};
 
   onBlur = (e: FieldBlurEvent) => {
-    const { touchField, fieldReference: { field }, fieldPath } = this.props;
+    const {
+      touchField,
+      fieldReference: { field },
+      fieldPath
+    } = this.props;
 
     touchField(field, fieldPath);
   };
 
   onChange = (e: FieldChangeEvent) => {
-    const { fieldReference: { field }, fieldPath, changeValue } = this.props;
+    const {
+      fieldReference: { field },
+      fieldPath,
+      changeValue
+    } = this.props;
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
@@ -71,11 +79,16 @@ export default class FieldHostRenderer extends Component<
   onRemove = (index: number) => {
     const { changeArrayValue, fieldReference, fieldPath } = this.props;
 
-    changeArrayValue(fieldReference.field, fieldPath, fieldPath + '.' + index, 'remove');
+    changeArrayValue(
+      fieldReference.field,
+      fieldPath,
+      fieldPath + '.' + index,
+      'remove'
+    );
   };
 
   renderField(fieldReference: IFieldReference, fieldProps: FieldRendererProps) {
-    const { rendererOptions } = this.props;
+    const { rendererOptions, childErrors } = this.props;
     const { field } = fieldReference;
 
     switch (field.type) {
@@ -125,18 +138,19 @@ export default class FieldHostRenderer extends Component<
             : rendererOptions.components.inlineLinkedStructField;
 
         const block = hints.block || reference.block;
-        let values = null;
+        let values = [];
 
         if (Array.isArray(fieldProps.value)) {
-          values = fieldProps.value.map(value => {
-            return block.fields.map(({ field }) => value[field.name]);
-          });
+          values = fieldProps.value.map(value =>
+            block.fields.map(({ field }) => value[field.name])
+          );
         }
 
         const linkedStructFieldProps: LinkedStructRendererProps = {
           ...fieldProps,
           headers: block.fields.map(x => x.field.label.short),
           value: values,
+          valueErrorIndicators: childErrors,
           onAdd: () => this.onAdd((values && values.length) || 0),
           onEdit: this.onEdit,
           onRemove: this.onRemove
@@ -179,7 +193,6 @@ export default class FieldHostRenderer extends Component<
     touched,
     errors
   }: FieldHostRendererProps) {
-
     const field = fieldReference.field;
     const fieldValue = formPathToValue(formValue, fieldPath);
 
