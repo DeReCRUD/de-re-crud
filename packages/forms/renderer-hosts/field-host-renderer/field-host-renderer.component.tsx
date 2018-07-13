@@ -4,7 +4,8 @@ import {
   ILinkedStructField,
   IListField,
   IReferenceField,
-  IFieldReference
+  IFieldReference,
+  IField
 } from '../../models/schema';
 import {
   FieldRendererProps,
@@ -14,13 +15,28 @@ import {
   LinkedStructRendererProps,
   ListFieldRendererProps
 } from '../../models/renderers';
+import formPathToValue from '../../utils/form-path-to-value';
+import debounce from '../../utils/debounce';
 import Logger from '../../logger';
 import { FieldHostRendererProps } from './field-host-renderer.props';
-import formPathToValue from '../../utils/form-path-to-value';
 
 export default class FieldHostRenderer extends Component<
   FieldHostRendererProps
 > {
+  debouncedChangedValue: (field: IField, fieldPath: string, value: any) => void;
+
+  constructor(props: FieldHostRendererProps) {
+    super(props);
+
+    this.debouncedChangedValue = debounce(props.changeValue) as any;
+  }
+
+  componentWillReceiveProps(nextProps: FieldHostRendererProps) {
+    if (nextProps.changeValue !== this.props.changeValue) {
+      this.debouncedChangedValue = debounce(nextProps.changeValue) as any;
+    }
+  }
+
   onFocus = (e: FieldFocusEvent) => {};
 
   onBlur = (e: FieldBlurEvent) => {
@@ -42,7 +58,7 @@ export default class FieldHostRenderer extends Component<
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-    changeValue(field, fieldPath, value);
+    this.debouncedChangedValue(field, fieldPath, value);
   };
 
   onAdd = (index: number) => {
