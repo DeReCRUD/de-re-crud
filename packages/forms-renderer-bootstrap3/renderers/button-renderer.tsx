@@ -5,6 +5,7 @@ import combineCssClasses from '@de-re-crud/forms/utils/combine-css-classes';
 const Bootstrap3ButtonRenderer = ({
   classes,
   text,
+  disabled,
   onClick
 }: ButtonRendererProps) => {
   const classNames = ['btn btn-default'];
@@ -19,6 +20,7 @@ const Bootstrap3ButtonRenderer = ({
       className={combineCssClasses(...classNames)}
       type="button"
       onClick={onClick}
+      disabled={disabled}
     >
       {text}
     </button>

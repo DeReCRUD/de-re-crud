@@ -15,7 +15,9 @@ export default class Form extends Component<FormProps, FormState> {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  onSubmit = () => {};
+  onSubmit = () => {
+    this.props.submitForm();
+  };
 
   onBack = () => {
     this.props.pop();
@@ -28,6 +30,7 @@ export default class Form extends Component<FormProps, FormState> {
     block,
     rendererOptions,
     navStack,
+    submitting
   }: FormProps) {
     let visibleBlock: string;
     let visibleStruct: string;
@@ -41,7 +44,6 @@ export default class Form extends Component<FormProps, FormState> {
       visibleBlock = block;
     }
 
-    const blockName = visibleBlock || 'default';
     const structReference = structs.find(x => x.name === visibleStruct);
 
     const classNames = [
@@ -60,7 +62,7 @@ export default class Form extends Component<FormProps, FormState> {
       return null;
     }
 
-    let blockReference = structReference.blocks.find(x => x.name === blockName);
+    let blockReference = structReference.blocks.find(x => x.name === visibleBlock);
     if (!blockReference) {
       Logger.warning(
         `No block specified and the 'default' block is not defined. Defalting to first defined block.`
@@ -79,9 +81,9 @@ export default class Form extends Component<FormProps, FormState> {
           rendererOptions={rendererOptions}
         />
         {!navStack.length ? (
-          <ButtonRenderer text="Submit" onClick={this.onSubmit} />
+          <ButtonRenderer text="Submit" onClick={this.onSubmit} disabled={submitting} />
         ) : (
-          <ButtonRenderer text="Cancel" onClick={this.onBack} />
+          <ButtonRenderer text="Back" onClick={this.onBack} />
         )}
       </form>
     );

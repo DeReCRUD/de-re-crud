@@ -12,36 +12,35 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   required,
   headers,
   value,
+  valueErrorIndicators,
   onAdd,
   onEdit,
   onRemove
 }: LinkedStructRendererProps) => {
   const rows = [];
 
-  if (value) {
-    value.forEach((column, index) => {
-      rows.push(
-        <tr>
-          {column.map(x => <td>{x || ' '}</td>)}
-          <td>
-            <div className={createCssClass(cssName, 'row', 'actions')}>
-              <i
-                class="glyphicon glyphicon-pencil"
-                title="Edit Item"
-                onClick={() => onEdit(index)}
-              />
-              <span>&nbsp;</span>
-              <i
-                class="glyphicon glyphicon-trash"
-                title="Remove Item"
-                onClick={() => onRemove(index)}
-              />
-            </div>
-          </td>
-        </tr>
-      );
-    });
-  }
+  value.forEach((column, index) => {
+    rows.push(
+      <tr className={valueErrorIndicators[index] && 'danger'}>
+        {column.map(x => <td>{x || ' '}</td>)}
+        <td>
+          <div className={createCssClass(cssName, 'row', 'actions')}>
+            <i
+              class="glyphicon glyphicon-pencil"
+              title="Edit Item"
+              onClick={() => onEdit(index)}
+            />
+            <span>&nbsp;</span>
+            <i
+              class="glyphicon glyphicon-trash"
+              title="Remove Item"
+              onClick={() => onRemove(index)}
+            />
+          </div>
+        </td>
+      </tr>
+    );
+  });
 
   return (
     <div className={createCssClass(cssName)}>

@@ -10,14 +10,21 @@ type FormBaseProps = {
   rendererOptions: RendererOptions;
 };
 
+export type FormSubmissionCallback = (errors?: Errors) => void;
+
+export type FormSubmission = (value: any, cb: FormSubmissionCallback) => void;
+
 export type FormConnectProps = FormBaseProps & {
   errors?: Errors;
   value?: object;
+  onSubmit: FormSubmission;
 };
 
 export type FormProps = FormBaseProps & {
   structs: IStruct[];
   value: object;
+  submitting: boolean;
   navStack: NavState[];
+  submitForm: () => void;
   pop: () => void;
 };

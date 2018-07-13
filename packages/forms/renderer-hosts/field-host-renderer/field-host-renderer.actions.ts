@@ -1,7 +1,8 @@
-import { IField } from '@de-re-crud/forms/models/schema';
-import { validateField } from '@de-re-crud/forms/utils/validation-helper';
+import { validateField } from '../../utils/validation-helper';
+import formPathToValue from '../../utils/form-path-to-value';
+import generateChildErrors from '../../utils/generate-child-errors';
+import { IField } from '../../models/schema';
 import { StoreState } from '../../store';
-import formPathToValue from '@de-re-crud/forms/utils/form-path-to-value';
 
 export type ChangeArrayActionType = 'add' | 'remove';
 
@@ -62,10 +63,13 @@ export default function fieldHostRendererActions() {
       if (state.touched[fieldPath]) {
         const errors = validateField(field, value);
 
-        updates.errors = {
+        const newErrors = {
           ...state.errors,
           [fieldPath]: errors
-        };
+        }
+
+        updates.errors = newErrors;
+        updates.childErrors = generateChildErrors(newErrors);
       }
 
       return updates;
@@ -112,9 +116,12 @@ export default function fieldHostRendererActions() {
         iterationValue = parentValue[path];
       }
 
-      const errors = {
-        [fieldPath]: validateField(field, parentValue)
-      };
+      const errors = validateField(field, parentValue);
+
+      const newErrors = {
+        ...state.errors,
+        [fieldPath]: errors
+      }
 
       return {
         value: newValue,
@@ -122,10 +129,8 @@ export default function fieldHostRendererActions() {
           ...state.touched,
           [fieldPath]: true
         },
-        errors: {
-          ...state.errors,
-          ...errors
-        }
+        errors: newErrors,
+        childErrors: generateChildErrors(newErrors)
       };
     }
   };

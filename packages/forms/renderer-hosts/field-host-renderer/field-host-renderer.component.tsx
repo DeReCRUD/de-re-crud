@@ -4,7 +4,8 @@ import {
   ILinkedStructField,
   IListField,
   IReferenceField,
-  IFieldReference
+  IFieldReference,
+  IField
 } from '../../models/schema';
 import {
   FieldRendererProps,
@@ -14,27 +15,50 @@ import {
   LinkedStructRendererProps,
   ListFieldRendererProps
 } from '../../models/renderers';
+import formPathToValue from '../../utils/form-path-to-value';
+import debounce from '../../utils/debounce';
 import Logger from '../../logger';
 import { FieldHostRendererProps } from './field-host-renderer.props';
-import formPathToValue from '../../utils/form-path-to-value';
 
 export default class FieldHostRenderer extends Component<
   FieldHostRendererProps
 > {
+  debouncedChangedValue: (field: IField, fieldPath: string, value: any) => void;
+
+  constructor(props: FieldHostRendererProps) {
+    super(props);
+
+    this.debouncedChangedValue = debounce(props.changeValue) as any;
+  }
+
+  componentWillReceiveProps(nextProps: FieldHostRendererProps) {
+    if (nextProps.changeValue !== this.props.changeValue) {
+      this.debouncedChangedValue = debounce(nextProps.changeValue) as any;
+    }
+  }
+
   onFocus = (e: FieldFocusEvent) => {};
 
   onBlur = (e: FieldBlurEvent) => {
-    const { touchField, fieldReference: { field }, fieldPath } = this.props;
+    const {
+      touchField,
+      fieldReference: { field },
+      fieldPath
+    } = this.props;
 
     touchField(field, fieldPath);
   };
 
   onChange = (e: FieldChangeEvent) => {
-    const { fieldReference: { field }, fieldPath, changeValue } = this.props;
+    const {
+      fieldReference: { field },
+      fieldPath,
+      changeValue
+    } = this.props;
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-    changeValue(field, fieldPath, value);
+    this.debouncedChangedValue(field, fieldPath, value);
   };
 
   onAdd = (index: number) => {
@@ -71,11 +95,16 @@ export default class FieldHostRenderer extends Component<
   onRemove = (index: number) => {
     const { changeArrayValue, fieldReference, fieldPath } = this.props;
 
-    changeArrayValue(fieldReference.field, fieldPath, fieldPath + '.' + index, 'remove');
+    changeArrayValue(
+      fieldReference.field,
+      fieldPath,
+      fieldPath + '.' + index,
+      'remove'
+    );
   };
 
   renderField(fieldReference: IFieldReference, fieldProps: FieldRendererProps) {
-    const { rendererOptions } = this.props;
+    const { rendererOptions, childErrors } = this.props;
     const { field } = fieldReference;
 
     switch (field.type) {
@@ -125,18 +154,19 @@ export default class FieldHostRenderer extends Component<
             : rendererOptions.components.inlineLinkedStructField;
 
         const block = hints.block || reference.block;
-        let values = null;
+        let values = [];
 
         if (Array.isArray(fieldProps.value)) {
-          values = fieldProps.value.map(value => {
-            return block.fields.map(({ field }) => value[field.name]);
-          });
+          values = fieldProps.value.map(value =>
+            block.fields.map(({ field }) => value[field.name])
+          );
         }
 
         const linkedStructFieldProps: LinkedStructRendererProps = {
           ...fieldProps,
           headers: block.fields.map(x => x.field.label.short),
           value: values,
+          valueErrorIndicators: childErrors,
           onAdd: () => this.onAdd((values && values.length) || 0),
           onEdit: this.onEdit,
           onRemove: this.onRemove
@@ -179,7 +209,6 @@ export default class FieldHostRenderer extends Component<
     touched,
     errors
   }: FieldHostRendererProps) {
-
     const field = fieldReference.field;
     const fieldValue = formPathToValue(formValue, fieldPath);
 

@@ -14,15 +14,9 @@ export type FieldHostRendererProps = FieldHostRendererConnectProps & {
   formValue: object;
   touched: boolean;
   errors: string[];
-  touchField: (
-    field: IField,
-    fieldPath: string
-  ) => void;
-  changeValue: (
-    field: IField,
-    fieldPath: string,
-    value: any
-  ) => void;
+  childErrors: { [index: number]: boolean };
+  touchField: (field: IField, fieldPath: string) => void;
+  changeValue: (field: IField, fieldPath: string, value: any) => void;
   changeArrayValue: (
     field: IField,
     fieldPath: string,

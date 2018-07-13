@@ -10,7 +10,7 @@ import fieldHostRendererActions from './field-host-renderer.actions';
 import navigationActions from '../../navigation.actions';
 
 const mapToProps = (
-  { value, navStack, touched, errors }: StoreState,
+  { value, navStack, touched, errors, childErrors }: StoreState,
   {
     fieldReference: {
       field: { name }
@@ -32,6 +32,7 @@ const mapToProps = (
     fieldPath: path,
     touched: touched[path] || false,
     errors: errors[path] || [],
+    childErrors: childErrors[path] || {},
     parentPath,
     formValue: value
   };
