@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { FieldRendererProps } from '@de-re-crud/forms/models/renderers';
-import Bootstrap3LabelRenderer from './label-renderer.component';
+import Bootstrap3LabelRenderer from './label-renderer';
 
 const Bootstrap3BooleanFieldRenderer = ({
   label,
