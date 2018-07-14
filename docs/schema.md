@@ -114,11 +114,11 @@ one of the following.
 
 Describes a relationship to another struct
 
-| Field      | Type    | Required | Notes                                                                                          |
-| ---------- | ------- | -------- | ---------------------------------------------------------------------------------------------- |
-| struct     | keyword | true     | The name of the other [struct](#struct)                                                        |
-| labelField | string  | true     | The name of the [field](#field) whose value will identify the other [struct](#struct) instance |
-| block      | string  | true     | The name of the [block](#block) to display in the UI                                           |
+| Field      | Type    | Required | Missing Val | Notes                                                                                          |
+| ---------- | ------- | -------- | ----------- | ---------------------------------------------------------------------------------------------- |
+| struct     | keyword | true     |             | The name of the other [struct](#struct)                                                        |
+| labelField | string  | true     |             | The name of the [field](#field) whose value will identify the other [struct](#struct) instance |
+| block      | string  | false    | default     | The name of the [block](#block) to display in the UI                                           |
 
 ### <a name="hint"></a> Hint
 
@@ -139,8 +139,8 @@ Recommendations given to the UI about how to display the form element. Applies t
 
 | Field  | Type   | Required | Missing Val | Notes                                                                                             |
 | ------ | ------ | -------- | ----------- | ------------------------------------------------------------------------------------------------- |
-| layout | string | false    | inline      | Indicates how to [layout](#block-linked-struct-hint-layout) the [Struct](#struct) instances            |
-| block  | string | false    |             | The name of the [block](#block) to display in the UI, overrides the [Reference](#reference) block |
+| layout | string | false    | inline      | Indicates how to [layout](#block-linked-struct-hint-layout) the [Struct](#struct) instances       |
+| block  | string | false    | default     | The name of the [block](#block) to display in the UI, overrides the [Reference](#reference) block |
 
 ##### <a name="block-linked-struct-hint-layout"></a> Linked Struct Layout Type
 
