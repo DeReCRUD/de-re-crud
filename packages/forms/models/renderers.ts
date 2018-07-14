@@ -40,6 +40,8 @@ export interface ListFieldRendererProps extends FieldRendererProps {
   options: IOption[];
 }
 
+export interface ForeignKeyFieldRendererProps extends ListFieldRendererProps {}
+
 export interface LinkedStructRendererProps extends FieldRendererProps {
   headers: string[];
   value: string[][];

@@ -1,10 +1,10 @@
 import { h, Component } from 'preact';
-import { IStruct } from '../models/schema';
-import Logger from '../logger';
-import combineCssClasses from '../utils/combine-css-classes';
-import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
-import shallowCompare from '../utils/shallow-compare';
-import { FormProps } from './form.props';
+import { IStruct } from '@de-re-crud/forms/models/schema';
+import Logger from '@de-re-crud/forms/logger';
+import combineCssClasses from '@de-re-crud/forms/utils/combine-css-classes';
+import BlockHostRenderer from '@de-re-crud/forms/renderer-hosts/block-host-renderer';
+import shallowCompare from '@de-re-crud/forms/utils/shallow-compare';
+import { FormProps } from '@de-re-crud/forms/form/form.props';
 
 export interface FormState {
   structs: IStruct[];
@@ -29,6 +29,7 @@ export default class Form extends Component<FormProps, FormState> {
     struct,
     block,
     rendererOptions,
+    collectionReferences,
     navStack,
     submitting
   }: FormProps) {
@@ -79,6 +80,7 @@ export default class Form extends Component<FormProps, FormState> {
           struct={visibleStruct}
           block={blockReference}
           rendererOptions={rendererOptions}
+          collectionReferences={collectionReferences}
         />
         {!navStack.length ? (
           <ButtonRenderer text="Submit" onClick={this.onSubmit} disabled={submitting} />

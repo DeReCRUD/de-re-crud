@@ -1,11 +1,13 @@
 import { RendererOptions } from '../../models/renderer-options';
 import { IFieldReference, IField } from '../../models/schema';
-import { ChangeArrayActionType } from './field-host-renderer.actions';
+import { ChangeArrayActionType } from '../../renderer-hosts/field-host-renderer/field-host-renderer.actions';
 import { NavState } from '../../store';
+import { CollectionReferences } from '../../form/form.props';
 
 export type FieldHostRendererConnectProps = {
   fieldReference: IFieldReference;
   rendererOptions: RendererOptions;
+  collectionReferences?: CollectionReferences;
 };
 
 export type FieldHostRendererProps = FieldHostRendererConnectProps & {
