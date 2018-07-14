@@ -18,9 +18,9 @@ The property level portions of a [Struct](#struct)
 
 | Field        | Type                                          | Required | Missing Val | Notes                                                                                                              |
 | ------------ | --------------------------------------------- | -------- | ----------- | ------------------------------------------------------------------------------------------------------------------ |
-| name         | keyword                                       | true     | N/A         | The common name used to describe identify the field                                                                |
-| label        | string or [Label](#label)                     | true     | N/A         | Describes the field in the UI                                                                                      |
-| type         | string                                        | true     | N/A         | Identifies the [Type](#type) of the field                                                                          |
+| name         | keyword                                       | true     |             | The common name used to describe identify the field                                                                |
+| label        | string or [Label](#label)                     | true     |             | Describes the field in the UI                                                                                      |
+| type         | string                                        | true     |             | Identifies the [Type](#type) of the field                                                                          |
 | keyField     | boolean                                       | false    | false       | Indicates that the field is used as the key or part of a composite key to identify a specific instance of a struct |
 | required     | boolean                                       | false    | false       | Indicates that the field is required in order to be saved                                                          |
 | unique       | boolean                                       | false    | false       | The field value must be unique across all instances of the same struct                                             |
@@ -47,19 +47,19 @@ The property level portions of a [Struct](#struct)
 
 | Field   | Type                | Required | Missing Val | Notes                                 |
 | ------- | ------------------- | -------- | ----------- | ------------------------------------- |
-| options | [option](#option)[] | true     | N/A         | An array of values [options](#option) |
+| options | [option](#option)[] | true     |             | An array of values [options](#option) |
 
 #### <a name="field-foreign-key"></a> Additional properties for fields of [type](#type) foreignKey
 
 | Field     | Type                    | Required | Missing Val | Notes                                         |
 | --------- | ----------------------- | -------- | ----------- | --------------------------------------------- |
-| reference | [reference](#reference) | true     | N/A         | A [reference](#reference) to the child struct |
+| reference | [reference](#reference) | true     |             | A [reference](#reference) to the child struct |
 
 #### <a name="field-linked-struct"></a> Additional properties for fields of [type](#type) linkedStruct
 
 | Field        | Type                    | Required | Missing Val | Notes                                         |
 | ------------ | ----------------------- | -------- | ----------- | --------------------------------------------- |
-| reference    | [reference](#reference) | true     | N/A         | A [reference](#reference) to the other struct |
+| reference    | [reference](#reference) | true     |             | A [reference](#reference) to the other struct |
 | minInstances | integer                 | false    |             | The minimum instances                         |
 | maxInstances | integer                 | false    |             | The maximum instances                         |
 
@@ -67,7 +67,7 @@ The property level portions of a [Struct](#struct)
 
 | Field   | Type | Required | Missing Val | Notes                                                         |
 | ------- | ---- | -------- | ----------- | ------------------------------------------------------------- |
-| pattern | text | true     | N/A         | A pattern describing how a value is derived from other fields |
+| pattern | text | true     |             | A pattern describing how a value is derived from other fields |
 
 ### <a name="type"></a> Type
 
