@@ -1,6 +1,9 @@
-import { IStruct } from '../models/schema';
+import { IStruct, IOption } from '../models/schema';
 import { RendererOptions } from '../models/renderer-options';
 import { NavState, Errors } from '../store';
+
+export type CollectionReference = (formValue: any) => IOption[];
+export type CollectionReferences = { [key: string]: CollectionReference };
 
 type FormBaseProps = {
   className?: string;
@@ -8,6 +11,7 @@ type FormBaseProps = {
   struct: string;
   block?: string;
   rendererOptions: RendererOptions;
+  collectionReferences?: CollectionReferences;
 };
 
 export type FormSubmissionCallback = (errors?: Errors) => void;
@@ -21,7 +25,9 @@ export type FormChangeNotificationParams = {
   formValue: any;
 };
 
-export type FormChangeNotification = (params: FormChangeNotificationParams) => void;
+export type FormChangeNotification = (
+  params: FormChangeNotificationParams
+) => void;
 export type FormChangeNotificationType = 'blur' | 'change';
 
 export type FormConnectProps = FormBaseProps & {

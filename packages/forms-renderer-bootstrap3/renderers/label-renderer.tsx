@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import './label-renderer';
+import './label-renderer.css';
 
 export type Bootstrap3LabelRendererProps = {
   label: string | JSX.Element;

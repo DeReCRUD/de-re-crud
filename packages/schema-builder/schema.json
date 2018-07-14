@@ -205,8 +205,7 @@
         "label": "Reference",
         "type": "foreignKey",
         "reference": {
-          "struct": "structReference",
-          "labelField": "name"
+          "struct": "struct"
         }
       }
     ],
@@ -311,8 +310,7 @@
         "type": "foreignKey",
         "required": true,
         "reference": {
-          "struct": "field",
-          "labelField": "name"
+          "struct": "field"
         }
       },
       {
@@ -327,35 +325,6 @@
         "fields": [
           "field",
           "condition"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "structReference",
-    "label": "Struct Reference",
-    "collectionLabel": "Struct References",
-    "fields": [
-      {
-        "name": "name",
-        "label": "Name",
-        "keyField": true,
-        "type": "text",
-        "required": true
-      },
-      {
-        "name": "labelField",
-        "label": "Label Field",
-        "type": "text",
-        "required": true
-      }
-    ],
-    "blocks": [
-      {
-        "name": "default",
-        "fields": [
-          "name",
-          "labelField"
         ]
       }
     ]

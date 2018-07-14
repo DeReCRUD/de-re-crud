@@ -5,7 +5,9 @@ import {
   IListField,
   IReferenceField,
   IFieldReference,
-  IField
+  IField,
+  IOption,
+  IForeignKeyField
 } from '../../models/schema';
 import {
   FieldRendererProps,
@@ -13,7 +15,8 @@ import {
   FieldBlurEvent,
   FieldChangeEvent,
   LinkedStructRendererProps,
-  ListFieldRendererProps
+  ListFieldRendererProps,
+  ForeignKeyFieldRendererProps
 } from '../../models/renderers';
 import formPathToValue from '../../utils/form-path-to-value';
 import debounce from '../../utils/debounce';
@@ -60,8 +63,7 @@ export default class FieldHostRenderer extends Component<
   onChange = (e: FieldChangeEvent) => {
     const {
       fieldReference: { field },
-      fieldPath,
-      changeValue
+      fieldPath
     } = this.props;
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -112,7 +114,12 @@ export default class FieldHostRenderer extends Component<
   };
 
   renderField(fieldReference: IFieldReference, fieldProps: FieldRendererProps) {
-    const { rendererOptions, childErrors } = this.props;
+    const {
+      rendererOptions,
+      childErrors,
+      collectionReferences,
+      formValue
+    } = this.props;
     const { field } = fieldReference;
 
     switch (field.type) {
@@ -151,7 +158,25 @@ export default class FieldHostRenderer extends Component<
       case 'foreignKey': {
         const ForeignKeyFieldRenderer =
           rendererOptions.components.foreignKeyField;
-        return <ForeignKeyFieldRenderer {...fieldProps} />;
+        const options: IOption[] = [];
+
+        const foreignKeyField = field as IForeignKeyField;
+        const struct = foreignKeyField.reference.struct.name;
+
+        if (!collectionReferences || !collectionReferences[field.name]) {
+          Logger.error(
+            `A collection reference must be defined for key: ${struct}.`
+          );
+        } else {
+          options.push(...collectionReferences[struct](formValue));
+        }
+
+        const foreignKeyFieldProps: ForeignKeyFieldRendererProps = {
+          ...fieldProps,
+          options
+        };
+
+        return <ForeignKeyFieldRenderer {...foreignKeyFieldProps} />;
       }
       case 'linkedStruct': {
         const { reference } = field as ILinkedStructField;

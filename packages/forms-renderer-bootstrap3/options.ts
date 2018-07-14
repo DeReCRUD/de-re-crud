@@ -20,7 +20,7 @@ const Bootstrap3RendererOptions: RendererOptions = {
     booleanField: Bootstrap3BooleanFieldRenderer,
     percentField: Bootstrap3InputFieldRenderer,
     moneyField: Bootstrap3InputFieldRenderer,
-    foreignKeyField: Bootstrap3InputFieldRenderer,
+    foreignKeyField: Bootstrap3ListFieldRenderer,
     tableLinkedStructField: Bootstrap3TableLinkedStructFieldRenderer,
     inlineLinkedStructField: Bootstrap3InputFieldRenderer,
     listField: Bootstrap3ListFieldRenderer,

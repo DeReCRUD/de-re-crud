@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
-import FieldHostRenderer from '../field-host-renderer';
-import { BlockHostRendererProps } from './block-host-renderer.props';
+import FieldHostRenderer from '@de-re-crud/forms/renderer-hosts/field-host-renderer';
+import { BlockHostRendererProps } from '@de-re-crud/forms/renderer-hosts/block-host-renderer/block-host-renderer.props';
 
 export default class BlockHostRenderer extends Component<
   BlockHostRendererProps
@@ -9,6 +9,7 @@ export default class BlockHostRenderer extends Component<
     struct,
     block,
     rendererOptions,
+    collectionReferences,
     formValue
   }: BlockHostRendererProps) {
     if (!block.condition(formValue)) {
@@ -22,6 +23,7 @@ export default class BlockHostRenderer extends Component<
             key={`${struct}-${fieldReference.field.name}`}
             fieldReference={fieldReference}
             rendererOptions={rendererOptions}
+            collectionReferences={collectionReferences}
           />
         ))}
       </div>

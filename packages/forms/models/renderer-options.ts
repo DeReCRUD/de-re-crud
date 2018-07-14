@@ -6,7 +6,7 @@ import {
   LinkedStructRendererProps,
   ListFieldRendererProps,
   ButtonRendererProps
-} from './renderers';
+} from '../models/renderers';
 
 export interface RendererOptions {
   formClassName?: string;
@@ -42,8 +42,8 @@ export interface RendererOptions {
       | FunctionalComponent<FieldRendererProps>
       | ComponentConstructor<FieldRendererProps>;
     foreignKeyField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<ListFieldRendererProps>
+      | ComponentConstructor<ListFieldRendererProps>;
     inlineLinkedStructField:
       | FunctionalComponent<LinkedStructRendererProps>
       | ComponentConstructor<LinkedStructRendererProps>;
