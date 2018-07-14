@@ -29,8 +29,7 @@
         "type": "linkedStruct",
         "required": true,
         "reference": {
-          "struct": "field",
-          "block": "default"
+          "struct": "field"
         }
       },
       {
@@ -39,8 +38,7 @@
         "type": "linkedStruct",
         "required": true,
         "reference": {
-          "struct": "block",
-          "block": "default"
+          "struct": "block"
         }
       }
     ],
@@ -174,8 +172,7 @@
         "type": "linkedStruct",
         "required": true,
         "reference": {
-          "struct": "option",
-          "block": "default"
+          "struct": "option"
         }
       },
       {
@@ -208,9 +205,8 @@
         "label": "Reference",
         "type": "foreignKey",
         "reference": {
-          "struct": "structReference",
-          "labelField": "name",
-          "block": "default"
+          "struct": "struct",
+          "labelField": "name"
         }
       }
     ],
@@ -284,8 +280,7 @@
         "type": "linkedStruct",
         "required": true,
         "reference": {
-          "struct": "fieldReference",
-          "block": "default"
+          "struct": "fieldReference"
         }
       }
     ],
@@ -317,7 +312,6 @@
         "required": true,
         "reference": {
           "struct": "field",
-          "block": "default",
           "labelField": "name"
         }
       },

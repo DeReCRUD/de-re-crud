@@ -158,7 +158,10 @@ export default class SchemaParser {
   private static parseBlock(blockJson: any): IBlock {
     const result: IBlock = {
       name: blockJson.name,
-      condition: this.parseCondition(blockJson.condition, true) as BlockConditionFunc,
+      condition: this.parseCondition(
+        blockJson.condition,
+        true
+      ) as BlockConditionFunc,
       fields: []
     };
 
@@ -241,7 +244,9 @@ export default class SchemaParser {
 
             referenceField.reference = {
               struct: structMap[reference.struct].parsed,
-              block: structBlockMap[reference.struct][reference.block].parsed
+              block:
+                structBlockMap[reference.struct][reference.block || 'default']
+                  .parsed
             };
             break;
           }
@@ -278,10 +283,10 @@ export default class SchemaParser {
                 layout: (hints && hints.layout) || 'inline'
               };
 
-              if (hints && hints.block) {
-                linkedStructFieldReference.hints.block =
-                  structBlockMap[linkedStructField.reference.struct.name][hints.block].parsed;
-              }
+              linkedStructFieldReference.hints.block =
+                structBlockMap[linkedStructField.reference.struct.name][
+                  (hints && hints.block) || 'default'
+                ].parsed;
 
               break;
             }
@@ -292,15 +297,15 @@ export default class SchemaParser {
       });
     });
 
-    return Object.keys(structMap).map((structName) => {
+    return Object.keys(structMap).map(structName => {
       const struct = structMap[structName].parsed;
       const json = structMap[structName].json;
 
-      json.fields.forEach((field) => {
+      json.fields.forEach(field => {
         struct.fields.push(structFieldMap[structName][field.name].parsed);
       });
 
-      json.blocks.forEach((block) => {
+      json.blocks.forEach(block => {
         struct.blocks.push(structBlockMap[structName][block.name].parsed);
       });
 
