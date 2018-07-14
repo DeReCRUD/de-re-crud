@@ -205,7 +205,7 @@
         "label": "Reference",
         "type": "foreignKey",
         "reference": {
-          "struct": "struct",
+          "struct": "structReference",
           "labelField": "name"
         }
       }
