@@ -5,12 +5,13 @@ import { NavState } from '../../store';
 import { CollectionReferences } from '../../form/form.props';
 
 export type FieldHostRendererConnectProps = {
+  path?: string;
   fieldReference: IFieldReference;
-  rendererOptions: RendererOptions;
-  collectionReferences?: CollectionReferences;
 };
 
 export type FieldHostRendererProps = FieldHostRendererConnectProps & {
+  rendererOptions: RendererOptions;
+  collectionReferences?: CollectionReferences;
   fieldPath: string;
   parentPath?: string;
   formValue: object;

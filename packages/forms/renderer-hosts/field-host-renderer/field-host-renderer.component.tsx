@@ -22,6 +22,7 @@ import {
 import formPathToValue from '../../utils/form-path-to-value';
 import debounce from '../../utils/debounce';
 import Logger from '../../logger';
+import BlockHostRenderer from '../block-host-renderer';
 import { FieldHostRendererProps } from './field-host-renderer.props';
 
 export default class FieldHostRenderer extends Component<
@@ -76,17 +77,22 @@ export default class FieldHostRenderer extends Component<
     const { changeArrayValue, push, fieldReference, fieldPath } = this.props;
 
     const itemPath = fieldPath + '.' + index;
+
     const {
       reference: { struct, block }
     } = fieldReference.field as IReferenceField;
 
+    const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
+
     changeArrayValue(fieldReference.field, fieldPath, itemPath, 'add');
 
-    push({
-      path: itemPath,
-      struct: struct.name,
-      block: block.name
-    });
+    if (linkedStructFieldReference.hints.layout === 'table') {
+      push({
+        path: itemPath,
+        struct: struct.name,
+        block: block.name
+      });
+    }
   };
 
   onEdit = (index: number) => {
@@ -97,7 +103,7 @@ export default class FieldHostRenderer extends Component<
     } = fieldReference.field as IReferenceField;
 
     push({
-      path: fieldPath + '.' + index,
+      path: `${fieldPath}.${index}`,
       struct: struct.name,
       block: block.name
     });
@@ -109,13 +115,14 @@ export default class FieldHostRenderer extends Component<
     changeArrayValue(
       fieldReference.field,
       fieldPath,
-      fieldPath + '.' + index,
+      `${fieldPath}.${index}`,
       'remove'
     );
   };
 
   renderField(fieldReference: IFieldReference, fieldProps: FieldRendererProps) {
     const {
+      fieldPath,
       rendererOptions,
       childErrors,
       collectionReferences,
@@ -183,15 +190,15 @@ export default class FieldHostRenderer extends Component<
         const { reference } = field as ILinkedStructField;
         const { hints } = fieldReference as ILinkedStructFieldReference;
         const isTable = hints.layout === 'table';
+        const block = hints.block || reference.block;
 
         const LinkedStructFieldRenderer = isTable
           ? rendererOptions.components.tableLinkedStructField
           : rendererOptions.components.inlineLinkedStructField;
 
-        if (isTable) {
-          const block = hints.block || reference.block;
-          let values = [];
+        let values = [];
 
+        if (isTable) {
           if (Array.isArray(fieldProps.value)) {
             values = fieldProps.value.map(value =>
               block.fields.map(({ field }) => value[field.name])
@@ -210,17 +217,33 @@ export default class FieldHostRenderer extends Component<
 
           return <LinkedStructFieldRenderer {...tableLinkedStructFieldProps} />;
         } else {
-          const values = fieldProps.value as Array<any>;
-          const items = [];
+          if (Array.isArray(fieldProps.value)) {
+            values = fieldProps.value as Array<any>;
+          }
+
+          const items = values.map((_, index) => {
+            const itemPath = `${fieldPath}.${index}`;
+
+            return (
+              <BlockHostRenderer
+                key={itemPath}
+                struct={reference.struct}
+                block={block}
+                path={itemPath}
+              />
+            );
+          });
 
           const inlineLinkedStructFieldProps: InlinedLinkedStructRendererProps = {
             ...fieldProps,
             renderedItems: items,
-            onAdd: () => this.onAdd((values && values.length || 0)),
+            onAdd: () => this.onAdd((values && values.length) || 0),
             onRemove: this.onRemove
           };
 
-          return <LinkedStructFieldRenderer {...inlineLinkedStructFieldProps} />
+          return (
+            <LinkedStructFieldRenderer {...inlineLinkedStructFieldProps} />
+          );
         }
       }
       case 'list': {

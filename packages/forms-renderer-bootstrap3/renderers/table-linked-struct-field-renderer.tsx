@@ -2,8 +2,8 @@ import { h } from 'preact';
 import { TableLinkedStructRendererProps } from '@de-re-crud/forms/models/renderers';
 import createCssClass from '@de-re-crud/forms/utils/create-css-class';
 import Bootstrap3LabelRenderer from './label-renderer';
-import './table-linked-struct-field-renderer.css';
 import Bootstrap3ButtonRenderer from './button-renderer';
+import './table-linked-struct-field-renderer.css';
 
 const cssName = 'bootstrap3-table-linked-struct-renderer';
 

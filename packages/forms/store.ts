@@ -5,9 +5,11 @@ import generateChildErrors from './utils/generate-child-errors';
 import {
   FormSubmission,
   FormChangeNotification,
-  FormChangeNotificationType
+  FormChangeNotificationType,
+  CollectionReferences
 } from './form/form.props';
 import { IStruct } from './models/schema';
+import { RendererOptions } from './models/renderer-options';
 import SchemaParser from './schema-parser';
 
 export type Errors = { [path: string]: string[] };
@@ -33,6 +35,8 @@ export type StoreState = {
   touched: { [path: string]: boolean };
   errors: Errors;
   childErrors: ChildErrors;
+  rendererOptions: RendererOptions;
+  collectionReferences?: CollectionReferences,
   submitting?: boolean;
   onSubmit?: FormSubmission;
   onChangeType: FormChangeNotificationType;
@@ -49,8 +53,10 @@ const logger = store => next => action => {
 
 export function createStore(
   schemaJson: any,
+  rendererOptions: RendererOptions,
   struct: string,
   block?: string,
+  collectionReferences?: CollectionReferences,
   formState?: {
     errors?: Errors;
     value?: object;
@@ -66,6 +72,8 @@ export function createStore(
     structs,
     struct,
     block: block || 'default',
+    rendererOptions,
+    collectionReferences,
     initialValue,
     value: initialValue,
     navStack: [],

@@ -10,18 +10,27 @@ import fieldHostRendererActions from './field-host-renderer.actions';
 import navigationActions from '../../navigation.actions';
 
 const mapToProps = (
-  { value, navStack, touched, errors, childErrors }: StoreState,
+  {
+    value,
+    navStack,
+    touched,
+    errors,
+    childErrors,
+    rendererOptions,
+    collectionReferences
+  }: StoreState,
   {
     fieldReference: {
       field: { name }
-    }
+    },
+    path
   }: FieldHostRendererConnectProps
 ): Partial<FieldHostRendererProps> => {
-  const path = navStack.length
-    ? navStack[navStack.length - 1].path + '.' + name
+  const fieldPath = path
+    ? `${path}.${name}`
     : name;
 
-  const pathArray = path.split('.');
+  const pathArray = fieldPath.split('.');
 
   const parentPath =
     pathArray.length < 2
@@ -29,12 +38,14 @@ const mapToProps = (
       : pathArray.slice(0, pathArray.length - 1).join('.');
 
   return {
-    fieldPath: path,
-    touched: touched[path] || false,
-    errors: errors[path] || [],
-    childErrors: childErrors[path] || {},
+    fieldPath,
+    touched: touched[fieldPath] || false,
+    errors: errors[fieldPath] || [],
+    childErrors: childErrors[fieldPath] || {},
     parentPath,
-    formValue: value
+    formValue: value,
+    rendererOptions,
+    collectionReferences
   };
 };
 

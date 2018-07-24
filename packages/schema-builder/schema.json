@@ -52,7 +52,6 @@
           {
             "field": "fields",
             "hints": {
-              "layout": "table",
               "block": "table"
             }
           },
