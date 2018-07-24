@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { LinkedStructRendererProps } from '@de-re-crud/forms/models/renderers';
+import { TableLinkedStructRendererProps } from '@de-re-crud/forms/models/renderers';
 import createCssClass from '@de-re-crud/forms/utils/create-css-class';
 import Bootstrap3LabelRenderer from './label-renderer';
 import './table-linked-struct-field-renderer.css';
@@ -16,13 +16,13 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   onAdd,
   onEdit,
   onRemove
-}: LinkedStructRendererProps) => {
+}: TableLinkedStructRendererProps) => {
   const rows = [];
 
-  value.forEach((column, index) => {
+  value.forEach((columns, index) => {
     rows.push(
       <tr className={valueErrorIndicators[index] && 'danger'}>
-        {column.map(x => <td>{x || ' '}</td>)}
+        {columns.map(x => <td>{x || ' '}</td>)}
         <td>
           <div className={createCssClass(cssName, 'row', 'actions')}>
             <i
@@ -44,8 +44,8 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
 
   return (
     <div className={createCssClass(cssName)}>
+      <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
       <div className={createCssClass(cssName, 'controls')}>
-        <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
         <Bootstrap3ButtonRenderer
           classes="btn btn-sm btn-default"
           text="Add"

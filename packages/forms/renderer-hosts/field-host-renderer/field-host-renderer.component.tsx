@@ -14,9 +14,10 @@ import {
   FieldFocusEvent,
   FieldBlurEvent,
   FieldChangeEvent,
-  LinkedStructRendererProps,
+  TableLinkedStructRendererProps,
   ListFieldRendererProps,
-  ForeignKeyFieldRendererProps
+  ForeignKeyFieldRendererProps,
+  InlinedLinkedStructRendererProps
 } from '../../models/renderers';
 import formPathToValue from '../../utils/form-path-to-value';
 import debounce from '../../utils/debounce';
@@ -181,31 +182,46 @@ export default class FieldHostRenderer extends Component<
       case 'linkedStruct': {
         const { reference } = field as ILinkedStructField;
         const { hints } = fieldReference as ILinkedStructFieldReference;
-        const LinkedStructFieldRenderer =
-          hints.layout === 'table'
-            ? rendererOptions.components.tableLinkedStructField
-            : rendererOptions.components.inlineLinkedStructField;
+        const isTable = hints.layout === 'table';
 
-        const block = hints.block || reference.block;
-        let values = [];
+        const LinkedStructFieldRenderer = isTable
+          ? rendererOptions.components.tableLinkedStructField
+          : rendererOptions.components.inlineLinkedStructField;
 
-        if (Array.isArray(fieldProps.value)) {
-          values = fieldProps.value.map(value =>
-            block.fields.map(({ field }) => value[field.name])
-          );
+        if (isTable) {
+          const block = hints.block || reference.block;
+          let values = [];
+
+          if (Array.isArray(fieldProps.value)) {
+            values = fieldProps.value.map(value =>
+              block.fields.map(({ field }) => value[field.name])
+            );
+          }
+
+          const tableLinkedStructFieldProps: TableLinkedStructRendererProps = {
+            ...fieldProps,
+            headers: block.fields.map(x => x.field.label.short),
+            value: values,
+            valueErrorIndicators: childErrors,
+            onAdd: () => this.onAdd((values && values.length) || 0),
+            onEdit: this.onEdit,
+            onRemove: this.onRemove
+          };
+
+          return <LinkedStructFieldRenderer {...tableLinkedStructFieldProps} />;
+        } else {
+          const values = fieldProps.value as Array<any>;
+          const items = [];
+
+          const inlineLinkedStructFieldProps: InlinedLinkedStructRendererProps = {
+            ...fieldProps,
+            renderedItems: items,
+            onAdd: () => this.onAdd((values && values.length || 0)),
+            onRemove: this.onRemove
+          };
+
+          return <LinkedStructFieldRenderer {...inlineLinkedStructFieldProps} />
         }
-
-        const linkedStructFieldProps: LinkedStructRendererProps = {
-          ...fieldProps,
-          headers: block.fields.map(x => x.field.label.short),
-          value: values,
-          valueErrorIndicators: childErrors,
-          onAdd: () => this.onAdd((values && values.length) || 0),
-          onEdit: this.onEdit,
-          onRemove: this.onRemove
-        };
-
-        return <LinkedStructFieldRenderer {...linkedStructFieldProps} />;
       }
       case 'list': {
         const { options } = field as IListField;

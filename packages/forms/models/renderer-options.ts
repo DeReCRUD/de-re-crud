@@ -3,9 +3,10 @@ import {
   FieldContainerRendererProps,
   FieldRendererProps,
   TextFieldRendererProps,
-  LinkedStructRendererProps,
+  TableLinkedStructRendererProps,
   ListFieldRendererProps,
-  ButtonRendererProps
+  ButtonRendererProps,
+  InlinedLinkedStructRendererProps
 } from '../models/renderers';
 
 export interface RendererOptions {
@@ -45,11 +46,11 @@ export interface RendererOptions {
       | FunctionalComponent<ListFieldRendererProps>
       | ComponentConstructor<ListFieldRendererProps>;
     inlineLinkedStructField:
-      | FunctionalComponent<LinkedStructRendererProps>
-      | ComponentConstructor<LinkedStructRendererProps>;
+      | FunctionalComponent<InlinedLinkedStructRendererProps>
+      | ComponentConstructor<InlinedLinkedStructRendererProps>;
     tableLinkedStructField:
-      | FunctionalComponent<LinkedStructRendererProps>
-      | ComponentConstructor<LinkedStructRendererProps>;
+      | FunctionalComponent<TableLinkedStructRendererProps>
+      | ComponentConstructor<TableLinkedStructRendererProps>;
     listField:
       | FunctionalComponent<ListFieldRendererProps>
       | ComponentConstructor<ListFieldRendererProps>;
