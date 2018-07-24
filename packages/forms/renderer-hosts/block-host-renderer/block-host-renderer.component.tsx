@@ -5,13 +5,7 @@ import { BlockHostRendererProps } from '@de-re-crud/forms/renderer-hosts/block-h
 export default class BlockHostRenderer extends Component<
   BlockHostRendererProps
 > {
-  render({
-    struct,
-    block,
-    rendererOptions,
-    collectionReferences,
-    formValue
-  }: BlockHostRendererProps) {
+  render({ struct, block, path, formValue }: BlockHostRendererProps) {
     if (!block.condition(formValue)) {
       return null;
     }
@@ -20,10 +14,9 @@ export default class BlockHostRenderer extends Component<
       <div class="de-re-crud-block-renderer">
         {block.fields.map(fieldReference => (
           <FieldHostRenderer
-            key={`${struct}-${fieldReference.field.name}`}
+            key={`${struct}${path && `-${path}`}-${fieldReference.field.name}`}
             fieldReference={fieldReference}
-            rendererOptions={rendererOptions}
-            collectionReferences={collectionReferences}
+            path={path}
           />
         ))}
       </div>

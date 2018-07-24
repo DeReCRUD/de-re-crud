@@ -20,10 +20,12 @@ export default class Form extends Component<FormConnectProps> {
       value,
       onSubmit,
       onChange,
-      onChangeType
+      onChangeType,
+      rendererOptions,
+      collectionReferences
     } = props;
 
-    this.store = createStore(schema, struct, block, {
+    this.store = createStore(schema, rendererOptions, struct, block, collectionReferences, {
       errors,
       value,
       onSubmit,

@@ -5,6 +5,8 @@ import Bootstrap3InputFieldRenderer from './renderers/input-field-renderer';
 import Bootstrap3BooleanFieldRenderer from './renderers/boolean-field-renderer';
 import Bootstrap3ListFieldRenderer from './renderers/list-field-renderer';
 import Bootstrap3TableLinkedStructFieldRenderer from './renderers/table-linked-struct-field-renderer';
+import Bootstrap3InlineLinkedStructFieldRenderer from './renderers/inline-linked-struct-field-renderer';
+
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Bootstrap3RendererOptions: RendererOptions = {
@@ -22,7 +24,7 @@ const Bootstrap3RendererOptions: RendererOptions = {
     moneyField: Bootstrap3InputFieldRenderer,
     foreignKeyField: Bootstrap3ListFieldRenderer,
     tableLinkedStructField: Bootstrap3TableLinkedStructFieldRenderer,
-    inlineLinkedStructField: Bootstrap3InputFieldRenderer,
+    inlineLinkedStructField: Bootstrap3InlineLinkedStructFieldRenderer,
     listField: Bootstrap3ListFieldRenderer,
     derivedField: Bootstrap3InputFieldRenderer,
     stampField: Bootstrap3InputFieldRenderer

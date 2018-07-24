@@ -42,12 +42,18 @@ export interface ListFieldRendererProps extends FieldRendererProps {
 
 export interface ForeignKeyFieldRendererProps extends ListFieldRendererProps {}
 
-export interface LinkedStructRendererProps extends FieldRendererProps {
+export interface TableLinkedStructRendererProps extends FieldRendererProps {
   headers: string[];
   value: string[][];
   valueErrorIndicators: { [index: number]: boolean };
   onAdd: () => void;
   onEdit: (index: number) => void;
+  onRemove: (index: number) => void;
+}
+
+export interface InlinedLinkedStructRendererProps extends FieldRendererProps {
+  renderedItems: JSX.Element[];
+  onAdd: () => void;
   onRemove: (index: number) => void;
 }
 

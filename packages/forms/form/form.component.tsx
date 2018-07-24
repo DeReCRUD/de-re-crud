@@ -29,7 +29,6 @@ export default class Form extends Component<FormProps, FormState> {
     struct,
     block,
     rendererOptions,
-    collectionReferences,
     navStack,
     submitting
   }: FormProps) {
@@ -63,7 +62,9 @@ export default class Form extends Component<FormProps, FormState> {
       return null;
     }
 
-    let blockReference = structReference.blocks.find(x => x.name === visibleBlock);
+    let blockReference = structReference.blocks.find(
+      x => x.name === visibleBlock
+    );
     if (!blockReference) {
       Logger.warning(
         `No block specified and the 'default' block is not defined. Defalting to first defined block.`
@@ -73,17 +74,19 @@ export default class Form extends Component<FormProps, FormState> {
     }
 
     const ButtonRenderer = rendererOptions.components.button;
+    const path = navStack.length
+      ? navStack[navStack.length - 1].path
+      : null;
 
     return (
       <form className={combineCssClasses(...classNames)}>
-        <BlockHostRenderer
-          struct={visibleStruct}
-          block={blockReference}
-          rendererOptions={rendererOptions}
-          collectionReferences={collectionReferences}
-        />
+        <BlockHostRenderer struct={visibleStruct} block={blockReference} path={path} />
         {!navStack.length ? (
-          <ButtonRenderer text="Submit" onClick={this.onSubmit} disabled={submitting} />
+          <ButtonRenderer
+            text="Submit"
+            onClick={this.onSubmit}
+            disabled={submitting}
+          />
         ) : (
           <ButtonRenderer text="Back" onClick={this.onBack} />
         )}
