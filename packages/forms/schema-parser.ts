@@ -3,7 +3,6 @@ import {
   ILabel,
   IField,
   IBlock,
-  IStampField,
   ITextField,
   IIntegerField,
   IListField,
@@ -12,7 +11,8 @@ import {
   IFieldReference,
   ILinkedStructFieldReference,
   BlockConditionFunc,
-  FieldConditionFunc
+  FieldConditionFunc,
+  IStamp
 } from './models/schema';
 
 type SchemaMap<T> = { [key: string]: { parsed: T; json: any } };
@@ -88,17 +88,6 @@ export default class SchemaParser {
     }
 
     switch (result.type) {
-      case 'stamp': {
-        const stampField = <IStampField>result;
-        const { hints } = fieldJson;
-
-        stampField.hints = {
-          headerSize: (hints && hints.headerSize) || 3,
-          displayClassNames: (hints && hints.displayClassNames) || []
-        };
-
-        break;
-      }
       case 'text': {
         const textField = <ITextField>result;
 
@@ -162,6 +151,7 @@ export default class SchemaParser {
         blockJson.condition,
         true
       ) as BlockConditionFunc,
+      items: [],
       fields: []
     };
 
@@ -260,39 +250,53 @@ export default class SchemaParser {
         const block = value.parsed;
         const json = value.json;
 
+        let blockInstance = 1;
+
         json.fields.forEach(blockField => {
-          const fieldName = blockField.field || blockField;
-          const fieldValue = structFieldMap[structName][fieldName];
-          const field = fieldValue.parsed;
+          if (blockField.stamp) {
+            const stamp: IStamp = {
+              text: blockField.stamp,
+              size: blockField.size || 3,
+              blockInstance: blockInstance++,
+              condition: this.parseCondition(blockField.condition)
+            };
 
-          const fieldReference: IFieldReference = {
-            field,
-            condition: this.parseCondition(blockField.condition)
-          };
+            block.items.push(stamp);
+          } else if (blockField.field || typeof blockField === 'string') {
+            const fieldName = blockField.field || blockField;
+            const fieldValue = structFieldMap[structName][fieldName];
+            const field = fieldValue.parsed;
 
-          switch (field.type) {
-            case 'linkedStruct': {
-              const linkedStructField = <ILinkedStructField>field;
-              const linkedStructFieldReference = <ILinkedStructFieldReference>(
-                fieldReference
-              );
+            const fieldReference: IFieldReference = {
+              field,
+              condition: this.parseCondition(blockField.condition)
+            };
 
-              const { hints } = blockField;
+            switch (field.type) {
+              case 'linkedStruct': {
+                const linkedStructField = <ILinkedStructField>field;
+                const linkedStructFieldReference = <
+                  ILinkedStructFieldReference
+                >fieldReference;
 
-              linkedStructFieldReference.hints = {
-                layout: (hints && hints.layout) || 'inline'
-              };
+                const { hints } = blockField;
 
-              linkedStructFieldReference.hints.block =
-                structBlockMap[linkedStructField.reference.struct.name][
-                  (hints && hints.block) || 'default'
-                ].parsed;
+                linkedStructFieldReference.hints = {
+                  layout: (hints && hints.layout) || 'inline'
+                };
 
-              break;
+                linkedStructFieldReference.hints.block =
+                  structBlockMap[linkedStructField.reference.struct.name][
+                    (hints && hints.block) || 'default'
+                  ].parsed;
+
+                break;
+              }
             }
-          }
 
-          block.fields.push(fieldReference);
+            block.items.push(fieldReference);
+            block.fields.push(fieldReference);
+          }
         });
       });
     });

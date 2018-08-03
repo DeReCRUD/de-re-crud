@@ -85,19 +85,18 @@ The property level portions of a [Struct](#struct)
 | [linkedStruct](#field-linked-struct) | Indicates a relationship to another struct        |
 | [list](#field-list)                  | A preset list of possible values                  |
 | [derived](#field-derived)            | A value derived from the values of other fields   |
-| stamp                                |                                                   |
 
 ### <a name="block"></a> Block
 
 A grouping of fields displayed in the UI
 
-| Field     | Type                                                                                 | Required | Notes                                                                                                                                 |
-| --------- | ------------------------------------------------------------------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| name      | keyword                                                                              | true     | The common name used to identify the block                                                                                            |
-| label     | string or [Label](#label)                                                            | false    | Describes the block in the UI                                                                                                         |
-| condition | [condition](#condition)                                                              | false    | [condition](#condition) evaluated to determine if the block should be displayed                                                       |
-| fields    | Array of Strings and/or [Conditional Field Reference](#conditional_field_reference)s | true     | Array of [Field](#field) names or [Conditional Field Reference](#conditional_field_reference)s included in the block in display order |
-| hints     | [hint](#hint)                                                                        | false    | Display recomendation to the UI                                                                                                       |
+| Field     | Type                                                                             | Required | Notes                                                                           |
+| --------- | -------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------- |
+| name      | keyword                                                                          | true     | The common name used to identify the block                                      |
+| label     | string or [Label](#label)                                                        | false    | Describes the block in the UI                                                   |
+| condition | [condition](#condition)                                                          | false    | The [Condition](#condition) evaluated to determine if the block should be displayed |
+| fields    | (string or [Field Reference](#conditional_field_reference) or [Stamp](#stamp))[] | true     |                                                                                 |
+| hints     | [hint](#hint)                                                                    | false    | Display recomendation to the UI                                                 |
 
 ### <a name="label"></a> Label
 
@@ -114,23 +113,14 @@ one of the following.
 
 Describes a relationship to another struct
 
-| Field      | Type    | Required | Missing Val | Notes                                                                                          |
-| ---------- | ------- | -------- | ----------- | ---------------------------------------------------------------------------------------------- |
-| struct     | keyword | true     |             | The name of the other [struct](#struct)                                                        |
-| block      | string  | false    | default     | The name of the [block](#block) to display in the UI                                           |
+| Field  | Type    | Required | Missing Val | Notes                                                |
+| ------ | ------- | -------- | ----------- | ---------------------------------------------------- |
+| struct | keyword | true     |             | The name of the other [struct](#struct)              |
+| block  | string  | false    | default     | The name of the [block](#block) to display in the UI |
 
 ### <a name="hint"></a> Hint
 
 Recommendations given to the UI about how to display the form element. Applies to [structs](#struct), [fields](#field), and [blocks](#block).
-
-#### [Field](#field) Hints
-
-##### <a name="field-stamp"></a> Additional properties for hints of [type](#type) stamp
-
-| Field             | Type     | Required | Missing Val | Notes                                                        |
-| ----------------- | -------- | -------- | ----------- | ------------------------------------------------------------ |
-| headerSize        | integer  | false    |             | The size of the stamp element when display using the `h` tag |
-| displayClassNames | string[] | false    |             | The CSS class name to append to the stamp element            |
 
 #### [Block](#block) Hints
 
@@ -150,19 +140,27 @@ Recommendations given to the UI about how to display the form element. Applies t
 
 ### <a name="option"></a> Option
 
-| Field | Type                                         | Required | Notes                                      |
-| ----- | -------------------------------------------- | -------- | ------------------------------------------ |
-| label | string or [Label](#label)                    | true     | The display value for the option in the UI |
-| value | value cosistent with the field [type](#type) | true     | The value associated with the option       |
+| Field | Type                                          | Required | Notes                                      |
+| ----- | --------------------------------------------- | -------- | ------------------------------------------ |
+| label | string or [Label](#label)                     | true     | The display value for the option in the UI |
+| value | value consistent with the field [type](#type) | true     | The value associated with the option       |
 
-### <a name="conditional_field_reference"></a> Conditional Field Reference
+### <a name="field_reference"></a> Field Reference
 
-References a Field and defines a condition to be evaluated to determine if the field should be displayed.
+References a [Field](#field) and defines a condition to be evaluated to determine if the field should be displayed.
 
-| Field     | Type                    | Required | Notes                                                                |
-| --------- | ----------------------- | -------- | -------------------------------------------------------------------- |
-| field     | string                  | true     | The name of the field to display                                     |
-| condition | [condition](#condition) | true     | expression to be evaluated to determine if field should be displayed |
+| Field     | Type                    | Required | Notes                                                                    |
+| --------- | ----------------------- | -------- | ------------------------------------------------------------------------ |
+| field     | string                  | true     | The name of the field to display                                         |
+| condition | [condition](#condition) | false    | Expression to be evaluated to determine if the field should be displayed |
+
+### <a name="stamp"></a> Stamp
+
+| Field     | Type                    | Required | Missing Val | Notes                                                                    |
+| --------- | ----------------------- | -------- | ----------- | ------------------------------------------------------------------------ |
+| stamp     | string                  | true     |             |                                                                          |
+| size      | integer                 | false    | 3           | The size of the stamp element when display using the `h` tag             |
+| condition | [condition](#condition) | false    |             | Expression to be evaluated to determine if the stamp should be displayed |
 
 ### <a name="conditional"></a> Condition
 

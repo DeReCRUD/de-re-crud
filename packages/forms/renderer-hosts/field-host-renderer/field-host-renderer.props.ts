@@ -5,7 +5,7 @@ import { NavState } from '../../store';
 import { CollectionReferences } from '../../form/form.props';
 
 export type FieldHostRendererConnectProps = {
-  path?: string;
+  parentPath?: string;
   fieldReference: IFieldReference;
 };
 

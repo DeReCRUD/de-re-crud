@@ -23,26 +23,18 @@ const mapToProps = (
     fieldReference: {
       field: { name }
     },
-    path
+    parentPath,
   }: FieldHostRendererConnectProps
 ): Partial<FieldHostRendererProps> => {
-  const fieldPath = path
-    ? `${path}.${name}`
+  const fieldPath = parentPath
+    ? `${parentPath}.${name}`
     : name;
-
-  const pathArray = fieldPath.split('.');
-
-  const parentPath =
-    pathArray.length < 2
-      ? null
-      : pathArray.slice(0, pathArray.length - 1).join('.');
 
   return {
     fieldPath,
     touched: touched[fieldPath] || false,
     errors: errors[fieldPath] || [],
     childErrors: childErrors[fieldPath] || {},
-    parentPath,
     formValue: value,
     rendererOptions,
     collectionReferences

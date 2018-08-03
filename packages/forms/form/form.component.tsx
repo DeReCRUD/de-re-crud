@@ -15,14 +15,6 @@ export default class Form extends Component<FormProps, FormState> {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  onSubmit = () => {
-    this.props.submitForm();
-  };
-
-  onBack = () => {
-    this.props.pop();
-  };
-
   render({
     className,
     structs,
@@ -30,7 +22,9 @@ export default class Form extends Component<FormProps, FormState> {
     block,
     rendererOptions,
     navStack,
-    submitting
+    submitting,
+    submitForm,
+    pop
   }: FormProps) {
     let visibleBlock: string;
     let visibleStruct: string;
@@ -84,11 +78,11 @@ export default class Form extends Component<FormProps, FormState> {
         {!navStack.length ? (
           <ButtonRenderer
             text="Submit"
-            onClick={this.onSubmit}
+            onClick={submitForm}
             disabled={submitting}
           />
         ) : (
-          <ButtonRenderer text="Back" onClick={this.onBack} />
+          <ButtonRenderer text="Back" onClick={pop} />
         )}
       </form>
     );
