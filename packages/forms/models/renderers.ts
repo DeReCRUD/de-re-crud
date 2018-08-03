@@ -1,10 +1,15 @@
-import { FieldType, IOption } from './schema';
+import { FieldType, IOption, StampSize } from './schema';
 
 export interface FieldContainerRendererProps {
   fieldName: string;
   fieldDescription?: string;
   errors: string[];
   children?: JSX.Element[];
+}
+
+export interface StampRendererProps {
+  text: string;
+  size: StampSize;
 }
 
 export type FieldFocusEvent = FocusEvent;

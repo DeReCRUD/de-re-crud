@@ -221,6 +221,11 @@
           "unique",
           "keyField",
           "type",
+          { 
+            "stamp": "Additional Type Options",
+            "size": 5,
+            "condition": "fieldParent.type === 'text' || fieldParent.type === 'integer' || fieldParent.type === 'derived' || fieldParent.type === 'linkedStruct' || fieldParent.type === 'list'"
+          },
           {
             "field": "minlength",
             "condition": "fieldParent.type === 'text'"

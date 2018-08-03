@@ -6,7 +6,7 @@ import BlockHostRenderer from './block-host-renderer.component';
 const mapToProps = ({
   value
 }: StoreState): Partial<BlockHostRendererProps> => ({
-  formValue: value
+  formValue: value,
 });
 
 export default connect(mapToProps)(BlockHostRenderer);

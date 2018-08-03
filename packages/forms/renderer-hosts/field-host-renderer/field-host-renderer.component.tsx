@@ -261,10 +261,6 @@ export default class FieldHostRenderer extends Component<
         const DerivedFieldRenderer = rendererOptions.components.derivedField;
         return <DerivedFieldRenderer {...fieldProps} />;
       }
-      case 'stamp': {
-        const StampFieldRenderer = rendererOptions.components.stampField;
-        return <StampFieldRenderer {...fieldProps} />;
-      }
       default: {
         Logger.error(`Field type ${field.type} is not supported.`);
         return null;

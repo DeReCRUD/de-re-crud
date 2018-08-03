@@ -6,12 +6,16 @@ import {
   TableLinkedStructRendererProps,
   ListFieldRendererProps,
   ButtonRendererProps,
-  InlinedLinkedStructRendererProps
+  InlinedLinkedStructRendererProps,
+  StampRendererProps
 } from '../models/renderers';
 
 export interface RendererOptions {
   formClassName?: string;
   components: {
+    stamp:
+    | FunctionalComponent<StampRendererProps>
+    | ComponentConstructor<StampRendererProps>;
     button:
       | FunctionalComponent<ButtonRendererProps>
       | ComponentConstructor<ButtonRendererProps>;
@@ -55,9 +59,6 @@ export interface RendererOptions {
       | FunctionalComponent<ListFieldRendererProps>
       | ComponentConstructor<ListFieldRendererProps>;
     derivedField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
-    stampField:
       | FunctionalComponent<FieldRendererProps>
       | ComponentConstructor<FieldRendererProps>;
   };

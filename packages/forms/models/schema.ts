@@ -1,4 +1,4 @@
-export type HeaderSize = 1 | 2 | 3 | 4 | 5 | 6;
+export type StampSize = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type FieldConditionFunc = (fieldParent: any, form: any) => boolean;
 export type BlockConditionFunc = (form: any) => boolean;
@@ -43,14 +43,6 @@ export interface IField {
   initialValue?: any;
   missingValue?: any;
   placeholder?: string;
-}
-
-export interface IStampField extends IField {
-  type: 'stamp';
-  hints: {
-    headerSize: HeaderSize;
-    displayClassNames: string[];
-  };
 }
 
 export interface ITextField extends IField {
@@ -106,11 +98,19 @@ export interface IBlock {
   name: string;
   label?: ILabel;
   condition: BlockConditionFunc;
+  items: (IFieldReference | ILinkedStructFieldReference | IStamp)[]
   fields: (IFieldReference | ILinkedStructFieldReference)[];
 }
 
 export interface IFieldReference {
   field: IField;
+  condition: FieldConditionFunc;
+}
+
+export interface IStamp {
+  text: string;
+  size: StampSize;
+  blockInstance: number;
   condition: FieldConditionFunc;
 }
 

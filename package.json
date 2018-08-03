@@ -10,7 +10,8 @@
     "serve": "preact build && preact serve",
     "dev": "preact watch",
     "lint": "tslint packages",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier \"**/*.{ts,tsx,js,json}\""
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",
@@ -20,6 +21,7 @@
     "lerna": "^2.11.0",
     "preact-cli": "^2.0.0",
     "preact-cli-plugin-typescript": "^0.2.2",
+    "prettier": "^1.14.0",
     "ts-jest": "^23.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
