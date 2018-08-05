@@ -3,7 +3,7 @@ import {
   ITextField,
   IIntegerField,
   ILinkedStructField
-} from '@de-re-crud/forms/models/schema';
+} from '../models/schema';
 
 export function validateField(field: IField, value?: any): string[] {
   const errors = [];

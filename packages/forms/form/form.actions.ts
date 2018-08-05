@@ -1,7 +1,7 @@
 import { StoreState, Errors, ChildErrors } from '../store';
 import { validateField } from '../utils/validation-helper';
 import { ILinkedStructField, IBlock } from '../models/schema';
-import generateChildErrors from '@de-re-crud/forms/utils/generate-child-errors';
+import generateChildErrors from '../utils/generate-child-errors';
 
 type ValidationResult = {
   errors: Errors;
