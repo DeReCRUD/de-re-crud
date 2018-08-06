@@ -25,7 +25,7 @@ export default class Form extends Component<FormConnectProps> {
       collectionReferences
     } = props;
 
-    this.store = createStore(schema, rendererOptions, struct, block, collectionReferences, {
+    this.store = createStore(schema, struct, block, rendererOptions, collectionReferences, {
       errors,
       value,
       onSubmit,

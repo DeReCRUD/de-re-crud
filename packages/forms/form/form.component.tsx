@@ -59,12 +59,18 @@ export default class Form extends Component<FormProps, FormState> {
     let blockReference = structReference.blocks.find(
       x => x.name === visibleBlock
     );
+
     if (!blockReference) {
       Logger.warning(
         `No block specified and the 'default' block is not defined. Defalting to first defined block.`
       );
 
       blockReference = structReference.blocks[0];
+    }
+
+    if (!rendererOptions || !rendererOptions.components) {
+      Logger.error('No rendererOptions have been set. Use DeReCrudInitializer.setDefaults or rendererOptions on the form instance.');
+      return null;
     }
 
     const ButtonRenderer = rendererOptions.components.button;

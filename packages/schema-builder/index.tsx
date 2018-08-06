@@ -1,10 +1,17 @@
 import { h, Component } from 'preact';
 import Form from '@de-re-crud/forms/form';
-import { FormSubmissionCallback, CollectionReferences } from '@de-re-crud/forms/form/form.props';
-import Bootstrap3RendererOptions from '@de-re-crud/forms-renderer-bootstrap3/options';
-import * as schemJson from './schema.json';
-import './style.css';
+import { DeReCrudInitializer } from '@de-re-crud/forms/options';
 import { IOption } from '@de-re-crud/forms/models/schema';
+import {
+  FormSubmissionCallback,
+  CollectionReferences
+} from '@de-re-crud/forms/form/form.props';
+import Bootstrap3RendererOptions from '@de-re-crud/forms-renderer-bootstrap3/options';
+import schemJson from './schema.json';
+import 'bootstrap/dist/css/bootstrap.css';
+import './style.css';
+
+DeReCrudInitializer.setDefaults({ rendererOptions: Bootstrap3RendererOptions });
 
 export default class App extends Component {
   collectionReferences: CollectionReferences;
@@ -13,11 +20,11 @@ export default class App extends Component {
     super(props);
 
     this.collectionReferences = {
-      field: ({ fields }: { fields: any[]}) => {
+      field: ({ fields }: { fields: any[] }) => {
         const options: IOption[] = [];
 
         if (fields) {
-          fields.forEach((field) => {
+          fields.forEach(field => {
             if (field.name && field.label) {
               options.push({ label: field.label, value: field.name });
             }
@@ -31,7 +38,7 @@ export default class App extends Component {
 
   onSubmit = (value: any, cb: FormSubmissionCallback) => {
     cb();
-  }
+  };
 
   render() {
     return (
@@ -41,7 +48,6 @@ export default class App extends Component {
             <Form
               schema={schemJson}
               struct="struct"
-              rendererOptions={Bootstrap3RendererOptions}
               collectionReferences={this.collectionReferences}
               onChangeType="change"
               onSubmit={this.onSubmit}

@@ -11,6 +11,7 @@ import {
 import { IStruct } from './models/schema';
 import { RendererOptions } from './models/renderer-options';
 import SchemaParser from './schema-parser';
+import { DeReCrudInitializer } from '@de-re-crud/forms/options';
 
 export type Errors = { [path: string]: string[] };
 
@@ -53,9 +54,9 @@ const logger = store => next => action => {
 
 export function createStore(
   schemaJson: any,
-  rendererOptions: RendererOptions,
   struct: string,
   block?: string,
+  rendererOptions?: RendererOptions,
   collectionReferences?: CollectionReferences,
   formState?: {
     errors?: Errors;
@@ -72,7 +73,7 @@ export function createStore(
     structs,
     struct,
     block: block || 'default',
-    rendererOptions,
+    rendererOptions: rendererOptions || DeReCrudInitializer.getDefaults().rendererOptions,
     collectionReferences,
     initialValue,
     value: initialValue,

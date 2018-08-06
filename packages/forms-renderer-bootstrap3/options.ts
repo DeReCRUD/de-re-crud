@@ -7,7 +7,6 @@ import Bootstrap3BooleanFieldRenderer from './renderers/boolean-field-renderer';
 import Bootstrap3ListFieldRenderer from './renderers/list-field-renderer';
 import Bootstrap3TableLinkedStructFieldRenderer from './renderers/table-linked-struct-field-renderer';
 import Bootstrap3InlineLinkedStructFieldRenderer from './renderers/inline-linked-struct-field-renderer';
-import 'bootstrap/dist/css/bootstrap.css';
 
 const Bootstrap3RendererOptions: RendererOptions = {
   formClassName: 'de-re-crud-form-bootstrap3',

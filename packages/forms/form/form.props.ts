@@ -10,7 +10,6 @@ type FormBaseProps = {
   schema: any;
   struct: string;
   block?: string;
-  rendererOptions: RendererOptions;
   collectionReferences?: CollectionReferences;
 };
 
@@ -31,6 +30,7 @@ export type FormChangeNotification = (
 export type FormChangeNotificationType = 'blur' | 'change';
 
 export type FormConnectProps = FormBaseProps & {
+  rendererOptions?: RendererOptions;
   errors?: Errors;
   value?: object;
   onSubmit: FormSubmission;
@@ -39,6 +39,7 @@ export type FormConnectProps = FormBaseProps & {
 };
 
 export type FormProps = FormBaseProps & {
+  rendererOptions: RendererOptions;
   structs: IStruct[];
   value: object;
   submitting: boolean;
