@@ -4,7 +4,7 @@ export interface FieldContainerRendererProps {
   fieldName: string;
   fieldDescription?: string;
   errors: string[];
-  children?: JSX.Element[];
+  children?: JSX.Element;
 }
 
 export interface StampRendererProps {
