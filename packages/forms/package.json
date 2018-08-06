@@ -3,7 +3,14 @@
   "version": "0.0.1",
   "repository": "https://github.com/DeReCRUD/forms.git",
   "license": "Apache-2.0",
-  "dependencies": {
+  "main": "dist/de-re-crud-forms.umd.js",
+  "module": "dist/de-re-crud-forms.es5.js",
+  "typings": "dist/de-re-crud-forms.d.ts",
+  "scripts": {
+    "lint": "tslint --project tsconfig.json",
+    "build": "rollup -c"
+  },
+  "devDependencies": {
     "preact": "^8.2.9",
     "redux-zero": "^4.12.0"
   },

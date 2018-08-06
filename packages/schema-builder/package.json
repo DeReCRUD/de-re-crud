@@ -3,10 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "license": "Apache-2.0",
+  "scripts": {
+    "lint": "tslint --project ./tsconfig.json",
+    "dev": "preact watch"
+  },
   "dependencies": {
     "@de-re-crud/forms": "^0.0.1",
     "@de-re-crud/forms-renderer-bootstrap3": "^0.0.1",
     "bootstrap": "^3.3.7",
-    "preact": "^8.2.9"
+    "preact": "^8.2.9",
+    "preact-cli": "^3.0.0-next.6",
+    "preact-cli-plugin-typescript": "^0.2.2"
   }
 }
