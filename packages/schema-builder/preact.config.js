@@ -12,7 +12,7 @@ export default function(config) {
   config.resolveLoader.modules.unshift(rootModulesDir);
 
   const jsonLoaderIndex = config.module.rules.findIndex(
-    x => x.loader === "json-loader"
+    (x) => x.loader === "json-loader"
   );
   config.module.rules.splice(jsonLoaderIndex, 1);
 

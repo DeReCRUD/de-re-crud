@@ -1,8 +1,8 @@
-import { StoreState, NavState } from "./store";
+import { INavState, IStoreState } from "./store";
 
 export default function navigationActions() {
   return {
-    push: (store: StoreState, navState: NavState): Partial<StoreState> => {
+    push: (store: IStoreState, navState: INavState): Partial<IStoreState> => {
       const { navStack } = store;
 
       const newStack = navStack.concat();
@@ -13,7 +13,7 @@ export default function navigationActions() {
       };
     },
 
-    pop: (store: StoreState): Partial<StoreState> => {
+    pop: (store: IStoreState): Partial<IStoreState> => {
       const { navStack } = store;
 
       const newStack = navStack.concat();

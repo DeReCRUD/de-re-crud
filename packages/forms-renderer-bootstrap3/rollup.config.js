@@ -36,7 +36,7 @@ export default {
       sourcemap: true
     }
   ],
-  external: id => /(\@de-re-crud\/forms|bootstrap|preact)/.test(id),
+  external: (id) => /(\@de-re-crud\/forms|bootstrap|preact)/.test(id),
   plugins: [
     typescript({ useTsconfigDeclarationDir: true }),
     css({ output: pkg.main.replace("js", "css") }),

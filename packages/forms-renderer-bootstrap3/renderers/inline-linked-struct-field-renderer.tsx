@@ -1,8 +1,8 @@
-import { h } from "preact";
-import { InlinedLinkedStructRendererProps } from "@de-re-crud/forms/models/renderers";
-import createCssClass from "@de-re-crud/forms/utils/create-css-class";
 import Bootstrap3ButtonRenderer from "@de-re-crud/forms-renderer-bootstrap3/renderers/button-renderer";
 import Bootstrap3LabelRenderer from "@de-re-crud/forms-renderer-bootstrap3/renderers/label-renderer";
+import { IInlinedLinkedStructRenderer } from "@de-re-crud/forms/models/renderers";
+import createCssClass from "@de-re-crud/forms/utils/create-css-class";
+import { h } from "preact";
 import "./inline-linked-struct-field-renderer.css";
 
 const cssName = "bootstrap3-inline-linked-struct-renderer";
@@ -13,7 +13,7 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
   renderedItems,
   onAdd,
   onRemove
-}: InlinedLinkedStructRendererProps) => {
+}: IInlinedLinkedStructRenderer) => {
   const rows = renderedItems.map((item, index) => (
     <div className={createCssClass(cssName, "item")}>
       {item}

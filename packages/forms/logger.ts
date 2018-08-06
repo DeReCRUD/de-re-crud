@@ -1,9 +1,11 @@
 export default class Logger {
-  static warning(message: string, ...optionaParams: any[]) {
+  public static warning(message: string, ...optionaParams: any[]) {
+    // tslint:disable-next-line:no-console
     console.warn(message, ...optionaParams);
   }
 
-  static error(message: string, ...optionaParams: any[]) {
+  public static error(message: string, ...optionaParams: any[]) {
+    // tslint:disable-next-line:no-console
     console.error(message, ...optionaParams);
   }
 }

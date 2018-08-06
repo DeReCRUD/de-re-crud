@@ -1,9 +1,11 @@
 // https://john-dugan.com/javascript-debounce/
 
 export default function debounce(
+  // tslint:disable-next-line:ban-types
   func: Function,
   wait: number = 200,
   immediate: boolean = false
+// tslint:disable-next-line:ban-types
 ): Function {
   let timeoutId;
 

@@ -1,48 +1,100 @@
-import { h, Component } from "preact";
+import { Component, h } from "preact";
+import Logger from "../../logger";
 import {
-  ILinkedStructFieldReference,
-  ILinkedStructField,
-  IListField,
-  IReferenceField,
-  IFieldReference,
-  IField,
-  IOption,
-  IForeignKeyField
-} from "../../models/schema";
-import {
-  FieldRendererProps,
-  FieldFocusEvent,
   FieldBlurEvent,
   FieldChangeEvent,
-  TableLinkedStructRendererProps,
-  ListFieldRendererProps,
-  ForeignKeyFieldRendererProps,
-  InlinedLinkedStructRendererProps
+  FieldFocusEvent,
+  IFieldRenderer,
+  IForeignKeyFieldRenderer,
+  IInlinedLinkedStructRenderer,
+  IListFieldRenderer,
+  ITableLinkedStructRenderer
 } from "../../models/renderers";
-import formPathToValue from "../../utils/form-path-to-value";
+import {
+  IField,
+  IFieldReference,
+  IForeignKeyField,
+  ILinkedStructField,
+  ILinkedStructFieldReference,
+  IListField,
+  IOption,
+  IReferenceField
+} from "../../models/schema";
 import debounce from "../../utils/debounce";
-import Logger from "../../logger";
+import formPathToValue from "../../utils/form-path-to-value";
 import BlockHostRenderer from "../block-host-renderer";
-import { FieldHostRendererProps } from "./field-host-renderer.props";
+import { IFieldHostRendererProps } from "./field-host-renderer.props";
 
 export default class FieldHostRenderer extends Component<
-  FieldHostRendererProps
+  IFieldHostRendererProps
 > {
-  debouncedChangedValue: (field: IField, fieldPath: string, value: any) => void;
+  private debouncedChangedValue: (
+    field: IField,
+    fieldPath: string,
+    value: any
+  ) => void;
 
-  constructor(props: FieldHostRendererProps) {
+  constructor(props: IFieldHostRendererProps) {
     super(props);
 
     this.debouncedChangedValue = debounce(props.changeValue) as any;
   }
 
-  componentWillReceiveProps(nextProps: FieldHostRendererProps) {
+  public componentWillReceiveProps(nextProps: IFieldHostRendererProps) {
     if (nextProps.changeValue !== this.props.changeValue) {
       this.debouncedChangedValue = debounce(nextProps.changeValue) as any;
     }
   }
 
-  onFocus = (e: FieldFocusEvent) => {
+  public render({
+    errors,
+    fieldPath,
+    fieldReference,
+    formValue,
+    parentPath,
+    rendererOptions,
+    touched
+  }: IFieldHostRendererProps) {
+    const field = fieldReference.field;
+    const fieldValue = formPathToValue(formValue, fieldPath);
+
+    const parentValue = parentPath
+      ? formPathToValue(formValue, parentPath)
+      : formValue;
+
+    if (!fieldReference.condition(parentValue, formValue)) {
+      return null;
+    }
+
+    const fieldProps: IFieldRenderer = {
+      errors: touched ? errors : [],
+      fieldDescription: field.help,
+      fieldName: field.name,
+      fieldType: field.type,
+      label: field.label.short,
+      onBlur: this.onBlur,
+      onChange: this.onChange,
+      onFocus: this.onFocus,
+      placeholder: field.placeholder,
+      required: field.required,
+      value: fieldValue
+    };
+
+    const fieldRenderer = this.renderField(fieldReference, fieldProps);
+    const FieldContainerRenderer = rendererOptions.components.fieldContainer;
+
+    return (
+      <FieldContainerRenderer
+        fieldName={fieldProps.fieldName}
+        fieldDescription={fieldProps.fieldDescription}
+        errors={fieldProps.errors}
+      >
+        {fieldRenderer}
+      </FieldContainerRenderer>
+    );
+  }
+
+  private onFocus = (_: FieldFocusEvent) => {
     const {
       focusField,
       fieldReference: { field },
@@ -52,7 +104,7 @@ export default class FieldHostRenderer extends Component<
     focusField(field, fieldPath);
   };
 
-  onBlur = (e: FieldBlurEvent) => {
+  private onBlur = (_: FieldBlurEvent) => {
     const {
       blurField,
       fieldReference: { field },
@@ -62,7 +114,7 @@ export default class FieldHostRenderer extends Component<
     blurField(field, fieldPath);
   };
 
-  onChange = (e: FieldChangeEvent) => {
+  private onChange = (e: FieldChangeEvent) => {
     const {
       fieldReference: { field },
       fieldPath
@@ -73,7 +125,7 @@ export default class FieldHostRenderer extends Component<
     this.debouncedChangedValue(field, fieldPath, value);
   };
 
-  onAdd = (index: number) => {
+  private onAdd = (index: number) => {
     const { changeArrayValue, push, fieldReference, fieldPath } = this.props;
 
     const itemPath = fieldPath + "." + index;
@@ -88,14 +140,14 @@ export default class FieldHostRenderer extends Component<
 
     if (linkedStructFieldReference.hints.layout === "table") {
       push({
+        block: block.name,
         path: itemPath,
-        struct: struct.name,
-        block: block.name
+        struct: struct.name
       });
     }
   };
 
-  onEdit = (index: number) => {
+  private onEdit = (index: number) => {
     const { push, fieldReference, fieldPath } = this.props;
 
     const {
@@ -103,13 +155,13 @@ export default class FieldHostRenderer extends Component<
     } = fieldReference.field as IReferenceField;
 
     push({
+      block: block.name,
       path: `${fieldPath}.${index}`,
-      struct: struct.name,
-      block: block.name
+      struct: struct.name
     });
   };
 
-  onRemove = (index: number) => {
+  private onRemove = (index: number) => {
     const { changeArrayValue, fieldReference, fieldPath } = this.props;
 
     changeArrayValue(
@@ -120,7 +172,10 @@ export default class FieldHostRenderer extends Component<
     );
   };
 
-  renderField(fieldReference: IFieldReference, fieldProps: FieldRendererProps) {
+  private renderField(
+    fieldReference: IFieldReference,
+    fieldProps: IFieldRenderer
+  ) {
     const {
       fieldPath,
       rendererOptions,
@@ -179,7 +234,7 @@ export default class FieldHostRenderer extends Component<
           options.push(...collectionReferences[struct](formValue));
         }
 
-        const foreignKeyFieldProps: ForeignKeyFieldRendererProps = {
+        const foreignKeyFieldProps: IForeignKeyFieldRenderer = {
           ...fieldProps,
           options
         };
@@ -200,25 +255,27 @@ export default class FieldHostRenderer extends Component<
 
         if (isTable) {
           if (Array.isArray(fieldProps.value)) {
-            values = fieldProps.value.map(value =>
-              block.fields.map(({ field }) => value[field.name])
+            values = fieldProps.value.map((value) =>
+              block.fields.map(
+                ({ field: blockField }) => value[blockField.name]
+              )
             );
           }
 
-          const tableLinkedStructFieldProps: TableLinkedStructRendererProps = {
+          const tableLinkedStructFieldProps: ITableLinkedStructRenderer = {
             ...fieldProps,
-            headers: block.fields.map(x => x.field.label.short),
-            value: values,
-            valueErrorIndicators: childErrors,
+            headers: block.fields.map((x) => x.field.label.short),
             onAdd: () => this.onAdd((values && values.length) || 0),
             onEdit: this.onEdit,
-            onRemove: this.onRemove
+            onRemove: this.onRemove,
+            value: values,
+            valueErrorIndicators: childErrors
           };
 
           return <LinkedStructFieldRenderer {...tableLinkedStructFieldProps} />;
         } else {
           if (Array.isArray(fieldProps.value)) {
-            values = fieldProps.value as Array<any>;
+            values = fieldProps.value as any[];
           }
 
           const items = values.map((_, index) => {
@@ -234,11 +291,11 @@ export default class FieldHostRenderer extends Component<
             );
           });
 
-          const inlineLinkedStructFieldProps: InlinedLinkedStructRendererProps = {
+          const inlineLinkedStructFieldProps: IInlinedLinkedStructRenderer = {
             ...fieldProps,
-            renderedItems: items,
             onAdd: () => this.onAdd((values && values.length) || 0),
-            onRemove: this.onRemove
+            onRemove: this.onRemove,
+            renderedItems: items
           };
 
           return (
@@ -250,7 +307,7 @@ export default class FieldHostRenderer extends Component<
         const { options } = field as IListField;
         const ListFieldRenderer = rendererOptions.components.listField;
 
-        const listFieldProps: ListFieldRendererProps = {
+        const listFieldProps: IListFieldRenderer = {
           ...fieldProps,
           options
         };
@@ -266,53 +323,5 @@ export default class FieldHostRenderer extends Component<
         return null;
       }
     }
-  }
-
-  render({
-    rendererOptions,
-    fieldReference,
-    formValue,
-    fieldPath,
-    parentPath,
-    touched,
-    errors
-  }: FieldHostRendererProps) {
-    const field = fieldReference.field;
-    const fieldValue = formPathToValue(formValue, fieldPath);
-
-    const parentValue = parentPath
-      ? formPathToValue(formValue, parentPath)
-      : formValue;
-
-    if (!fieldReference.condition(parentValue, formValue)) {
-      return null;
-    }
-
-    const fieldProps: FieldRendererProps = {
-      fieldName: field.name,
-      fieldType: field.type,
-      fieldDescription: field.help,
-      value: fieldValue,
-      label: field.label.short,
-      placeholder: field.placeholder,
-      required: field.required,
-      onFocus: this.onFocus,
-      onBlur: this.onBlur,
-      onChange: this.onChange,
-      errors: touched ? errors : []
-    };
-
-    const fieldRenderer = this.renderField(fieldReference, fieldProps);
-    const FieldContainerRenderer = rendererOptions.components.fieldContainer;
-
-    return (
-      <FieldContainerRenderer
-        fieldName={fieldProps.fieldName}
-        fieldDescription={fieldProps.fieldDescription}
-        errors={fieldProps.errors}
-      >
-        {fieldRenderer}
-      </FieldContainerRenderer>
-    );
   }
 }

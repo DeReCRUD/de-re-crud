@@ -1,11 +1,11 @@
 import { connect } from "redux-zero/preact";
-import { StoreState } from "../../store";
-import { BlockHostRendererProps } from "./block-host-renderer.props";
+import { IStoreState } from "../../store";
 import BlockHostRenderer from "./block-host-renderer.component";
+import { IBlockHostRendererProps } from "./block-host-renderer.props";
 
 const mapToProps = ({
   value
-}: StoreState): Partial<BlockHostRendererProps> => ({
+}: IStoreState): Partial<IBlockHostRendererProps> => ({
   formValue: value
 });
 

@@ -1,5 +1,5 @@
+import { ITextFieldRenderer } from "@de-re-crud/forms/models/renderers";
 import { h } from "preact";
-import { TextFieldRendererProps } from "@de-re-crud/forms/models/renderers";
 import Bootstrap3LabelRenderer from "./label-renderer";
 
 const Bootstrap3InputFieldRenderer = ({
@@ -13,7 +13,7 @@ const Bootstrap3InputFieldRenderer = ({
   minLength,
   maxLength,
   required
-}: TextFieldRendererProps) => {
+}: ITextFieldRenderer) => {
   let inputType;
 
   switch (fieldType) {

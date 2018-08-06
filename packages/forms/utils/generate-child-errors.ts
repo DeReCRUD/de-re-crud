@@ -1,13 +1,13 @@
-import { Errors, ChildErrors } from "../store";
+import { IChildErrors, IErrors } from "../store";
 
-export default function generateChildErrors(errors: Errors): ChildErrors {
+export default function generateChildErrors(errors: IErrors): IChildErrors {
   const childErrors = {};
 
   if (!errors) {
     return childErrors;
   }
 
-  Object.keys(errors).forEach(key => {
+  Object.keys(errors).forEach((key) => {
     if (!errors[key].length) {
       return;
     }

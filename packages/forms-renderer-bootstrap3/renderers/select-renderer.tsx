@@ -1,8 +1,8 @@
+import { IListFieldRenderer } from "@de-re-crud/forms/models/renderers";
 import { h } from "preact";
-import { ListFieldRendererProps } from "@de-re-crud/forms/models/renderers";
 import Bootstrap3LabelRenderer from "./label-renderer";
 
-export type Bootstrap3SelectRendererProps = ListFieldRendererProps & {};
+export type Bootstrap3SelectRendererProps = IListFieldRenderer & {};
 
 const Bootstrap3SelectRenderer = ({
   label,
@@ -22,7 +22,7 @@ const Bootstrap3SelectRenderer = ({
       onChange={onChange}
       value={value}
     >
-      {options.map(option => (
+      {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}
         </option>

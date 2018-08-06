@@ -1,5 +1,5 @@
+import { IFieldRenderer } from "@de-re-crud/forms/models/renderers";
 import { h } from "preact";
-import { FieldRendererProps } from "@de-re-crud/forms/models/renderers";
 import Bootstrap3LabelRenderer from "./label-renderer";
 
 const Bootstrap3BooleanFieldRenderer = ({
@@ -9,7 +9,7 @@ const Bootstrap3BooleanFieldRenderer = ({
   onBlur,
   onChange,
   required
-}: FieldRendererProps) => {
+}: IFieldRenderer) => {
   const checkbox = (
     <span>
       <input

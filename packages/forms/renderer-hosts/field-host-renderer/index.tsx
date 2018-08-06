@@ -1,41 +1,40 @@
 import { connect } from "redux-zero/preact";
 import { combineActions } from "redux-zero/utils";
-import { StoreState } from "../../store";
-import {
-  FieldHostRendererProps,
-  FieldHostRendererConnectProps
-} from "./field-host-renderer.props";
-import FieldHostRenderer from "./field-host-renderer.component";
-import fieldHostRendererActions from "./field-host-renderer.actions";
 import navigationActions from "../../navigation.actions";
+import { IStoreState } from "../../store";
+import fieldHostRendererActions from "./field-host-renderer.actions";
+import FieldHostRenderer from "./field-host-renderer.component";
+import {
+  IFieldHostRendererConnectProps,
+  IFieldHostRendererProps
+} from "./field-host-renderer.props";
 
 const mapToProps = (
   {
     value,
-    navStack,
     touched,
     errors,
     childErrors,
     rendererOptions,
     collectionReferences
-  }: StoreState,
+  }: IStoreState,
   {
     fieldReference: {
       field: { name }
     },
     parentPath
-  }: FieldHostRendererConnectProps
-): Partial<FieldHostRendererProps> => {
+  }: IFieldHostRendererConnectProps
+): Partial<IFieldHostRendererProps> => {
   const fieldPath = parentPath ? `${parentPath}.${name}` : name;
 
   return {
-    fieldPath,
-    touched: touched[fieldPath] || false,
-    errors: errors[fieldPath] || [],
     childErrors: childErrors[fieldPath] || {},
+    collectionReferences,
+    errors: errors[fieldPath] || [],
+    fieldPath,
     formValue: value,
     rendererOptions,
-    collectionReferences
+    touched: touched[fieldPath] || false
   };
 };
 

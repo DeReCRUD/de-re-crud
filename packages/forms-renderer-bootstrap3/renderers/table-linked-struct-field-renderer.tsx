@@ -1,8 +1,8 @@
-import { h } from "preact";
-import { TableLinkedStructRendererProps } from "@de-re-crud/forms/models/renderers";
+import { ITableLinkedStructRenderer } from "@de-re-crud/forms/models/renderers";
 import createCssClass from "@de-re-crud/forms/utils/create-css-class";
-import Bootstrap3LabelRenderer from "./label-renderer";
+import { h } from "preact";
 import Bootstrap3ButtonRenderer from "./button-renderer";
+import Bootstrap3LabelRenderer from "./label-renderer";
 import "./table-linked-struct-field-renderer.css";
 
 const cssName = "bootstrap3-table-linked-struct-renderer";
@@ -16,13 +16,13 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   onAdd,
   onEdit,
   onRemove
-}: TableLinkedStructRendererProps) => {
+}: ITableLinkedStructRenderer) => {
   const rows = [];
 
   value.forEach((columns, index) => {
     rows.push(
       <tr className={valueErrorIndicators[index] && "danger"}>
-        {columns.map(x => (
+        {columns.map((x) => (
           <td>{x || " "}</td>
         ))}
         <td>
@@ -57,7 +57,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
       <table className="table table-bordered table-condensed">
         <thead>
           <tr>
-            {headers.map(header => (
+            {headers.map((header) => (
               <th key={header}>{header}</th>
             ))}
             <th>&nbsp;</th>

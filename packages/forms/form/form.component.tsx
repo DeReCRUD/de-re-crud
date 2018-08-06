@@ -1,21 +1,21 @@
-import { h, Component } from "preact";
-import { IStruct } from "../models/schema";
+import { Component, h } from "preact";
 import Logger from "../logger";
-import combineCssClasses from "../utils/combine-css-classes";
+import { IStruct } from "../models/schema";
 import BlockHostRenderer from "../renderer-hosts/block-host-renderer";
+import combineCssClasses from "../utils/combine-css-classes";
 import shallowCompare from "../utils/shallow-compare";
-import { FormProps } from "./form.props";
+import { IFormProps } from "./form.props";
 
-export interface FormState {
+export interface IFormState {
   structs: IStruct[];
 }
 
-export default class Form extends Component<FormProps, FormState> {
-  shouldComponentUpdate(nextProps: FormProps, nextState: FormState) {
+export default class Form extends Component<IFormProps, IFormState> {
+  public shouldComponentUpdate(nextProps: IFormProps, nextState: IFormState) {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  render({
+  public render({
     className,
     structs,
     struct,
@@ -25,7 +25,7 @@ export default class Form extends Component<FormProps, FormState> {
     submitting,
     submitForm,
     pop
-  }: FormProps) {
+  }: IFormProps) {
     let visibleBlock: string;
     let visibleStruct: string;
 
@@ -38,7 +38,7 @@ export default class Form extends Component<FormProps, FormState> {
       visibleBlock = block;
     }
 
-    const structReference = structs.find(x => x.name === visibleStruct);
+    const structReference = structs.find((x) => x.name === visibleStruct);
 
     const classNames = [
       "de-re-crud-form",
@@ -57,7 +57,7 @@ export default class Form extends Component<FormProps, FormState> {
     }
 
     let blockReference = structReference.blocks.find(
-      x => x.name === visibleBlock
+      (x) => x.name === visibleBlock
     );
 
     if (!blockReference) {

@@ -1,28 +1,28 @@
-import { h, Component } from "preact";
-import { Provider } from "redux-zero/preact";
+import { Component, h } from "preact";
 import Store from "redux-zero/interfaces/Store";
-import shallowCompare from "../utils/shallow-compare";
+import { Provider } from "redux-zero/preact";
 import { createStore } from "../store";
-import { FormConnectProps } from "./form.props";
+import shallowCompare from "../utils/shallow-compare";
 import FormConnect from "./form.connect";
+import { IFormConnectProps } from "./form.props";
 
-export default class Form extends Component<FormConnectProps> {
-  store: Store;
+export default class Form extends Component<IFormConnectProps> {
+  private store: Store;
 
-  constructor(props: FormConnectProps) {
+  constructor(props: IFormConnectProps) {
     super(props);
 
     const {
-      schema,
-      struct,
       block,
+      collectionReferences,
       errors,
-      value,
-      onSubmit,
       onChange,
       onChangeType,
+      onSubmit,
       rendererOptions,
-      collectionReferences
+      struct,
+      schema,
+      value
     } = props;
 
     this.store = createStore(
@@ -33,22 +33,24 @@ export default class Form extends Component<FormConnectProps> {
       collectionReferences,
       {
         errors,
-        value,
-        onSubmit,
         onChange,
-        onChangeType
+        onChangeType,
+        onSubmit,
+        value
       }
     );
   }
 
-  shouldComponentUpdate(nextProps: FormConnectProps) {
+  public shouldComponentUpdate(nextProps: IFormConnectProps) {
     return shallowCompare(this, nextProps);
   }
 
-  componentWillReceiveProps(nextProps: FormConnectProps) {
+  public componentWillReceiveProps(nextProps: IFormConnectProps) {
     const allowedUpates = ["onSubmit", "onChangeType", "onChange"];
 
-    if (!allowedUpates.every(value => nextProps[value] === this.props[value])) {
+    if (
+      !allowedUpates.every((value) => nextProps[value] === this.props[value])
+    ) {
       const newState = allowedUpates.reduce((prev, curr) => {
         return prev[curr];
       }, {});
@@ -57,7 +59,7 @@ export default class Form extends Component<FormConnectProps> {
     }
   }
 
-  render({ schema, ...otherProps }: FormConnectProps) {
+  public render({ schema, ...otherProps }: IFormConnectProps) {
     return (
       <Provider store={this.store}>
         <FormConnect schema={schema} {...otherProps} />

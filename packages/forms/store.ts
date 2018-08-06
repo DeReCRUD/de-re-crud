@@ -1,51 +1,54 @@
 import { default as createReduxZeroStore } from "redux-zero";
-import { applyMiddleware } from "redux-zero/middleware";
 import { connect } from "redux-zero/devtools";
-import generateChildErrors from "./utils/generate-child-errors";
+import { applyMiddleware } from "redux-zero/middleware";
 import {
-  FormSubmission,
   FormChangeNotification,
   FormChangeNotificationType,
-  CollectionReferences
+  FormSubmission,
+  ICollectionReferences
 } from "./form/form.props";
+import { IRendererOptions } from "./models/renderer-options";
 import { IStruct } from "./models/schema";
-import { RendererOptions } from "./models/renderer-options";
+import { DeReCrudOptions } from "./options";
 import SchemaParser from "./schema-parser";
-import { DeReCrudInitializer } from "@de-re-crud/forms/options";
+import generateChildErrors from "./utils/generate-child-errors";
 
-export type Errors = { [path: string]: string[] };
+export interface IErrors {
+  [path: string]: string[];
+}
 
-export type ChildErrors = {
+export interface IChildErrors {
   [parentPath: string]: { [childIndex: number]: boolean };
-};
+}
 
-export type NavState = {
+export interface INavState {
   path: string;
   struct: string;
   block: string;
-};
+}
 
-export type StoreState = {
+export interface IStoreState {
   structs: IStruct[];
   struct: string;
   block: string;
   initialValue: object;
   value: object;
-  navStack: NavState[];
+  navStack: INavState[];
   focused: { [path: string]: any };
   touched: { [path: string]: boolean };
-  errors: Errors;
-  childErrors: ChildErrors;
-  rendererOptions: RendererOptions;
-  collectionReferences?: CollectionReferences;
+  errors: IErrors;
+  childErrors: IChildErrors;
+  rendererOptions: IRendererOptions;
+  collectionReferences?: ICollectionReferences;
   submitting?: boolean;
   onSubmit?: FormSubmission;
   onChangeType: FormChangeNotificationType;
   onChange?: FormChangeNotification;
-};
+}
 
-const logger = store => next => action => {
+const logger = (store) => (next) => (action) => {
   if (process.env.ENABLE_LOGGING) {
+    // tslint:disable-next-line:no-console
     console.log("current state:", store.getState());
   }
 
@@ -56,10 +59,10 @@ export function createStore(
   schemaJson: any,
   struct: string,
   block?: string,
-  rendererOptions?: RendererOptions,
-  collectionReferences?: CollectionReferences,
+  rendererOptions?: IRendererOptions,
+  collectionReferences?: ICollectionReferences,
   formState?: {
-    errors?: Errors;
+    errors?: IErrors;
     value?: object;
     onSubmit?: FormSubmission;
     onChange?: FormChangeNotification;
@@ -69,25 +72,27 @@ export function createStore(
   const structs = SchemaParser.parse(schemaJson);
   const initialValue = (formState && formState.value) || {};
 
-  const state: StoreState = {
-    structs,
-    struct,
+  const state: IStoreState = {
     block: block || "default",
-    rendererOptions:
-      rendererOptions || DeReCrudInitializer.getDefaults().rendererOptions,
-    collectionReferences,
-    initialValue,
-    value: initialValue,
-    navStack: [],
-    focused: {},
-    touched: {},
-    errors: formState.errors || {},
     childErrors: generateChildErrors(formState.errors),
-    onSubmit: formState && formState.onSubmit,
+    collectionReferences,
+    errors: formState.errors || {},
+    focused: {},
+    initialValue,
+    navStack: [],
+    onChange: formState && formState.onChange,
     onChangeType: (formState && formState.onChangeType) || "blur",
-    onChange: formState && formState.onChange
+    onSubmit: formState && formState.onSubmit,
+    rendererOptions:
+      rendererOptions || DeReCrudOptions.getDefaults().rendererOptions,
+    struct,
+    structs,
+    touched: {},
+    value: initialValue
   };
 
-  const middlewares = [logger, connect ? connect(state) : null].filter(x => x);
+  const middlewares = [logger, connect ? connect(state) : null].filter(
+    (x) => x
+  );
   return createReduxZeroStore(state, applyMiddleware(...middlewares));
 }

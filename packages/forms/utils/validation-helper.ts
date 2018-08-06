@@ -1,8 +1,8 @@
 import {
   IField,
-  ITextField,
   IIntegerField,
-  ILinkedStructField
+  ILinkedStructField,
+  ITextField
 } from "../models/schema";
 
 export function validateField(field: IField, value?: any): string[] {
@@ -17,6 +17,9 @@ export function validateField(field: IField, value?: any): string[] {
   switch (field.type) {
     case "keyword":
       fieldTypeErrors = validateKeywordField(field, value);
+      break;
+    case "integer":
+      fieldTypeErrors = validateIntegerField(field as IIntegerField, value);
       break;
     case "text":
       fieldTypeErrors = validateTextField(field as ITextField, value);
@@ -36,7 +39,7 @@ export function validateField(field: IField, value?: any): string[] {
   return errors;
 }
 
-function validateKeywordField(field: IField, value?: string): string[] {
+function validateKeywordField(_: IField, value?: string): string[] {
   const errors = [];
 
   if (value) {
@@ -66,7 +69,7 @@ function validateTextField(field: ITextField, value?: string): string[] {
   return errors;
 }
 
-function validateInteferField(field: IIntegerField, value?: number): string[] {
+function validateIntegerField(field: IIntegerField, value?: number): string[] {
   const errors = [];
 
   if (value) {

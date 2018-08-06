@@ -1,8 +1,8 @@
+import { IStampRenderer } from "@de-re-crud/forms/models/renderers";
 import { h } from "preact";
-import { StampRendererProps } from "@de-re-crud/forms/models/renderers";
 import "./stamp-renderer.css";
 
-const Bootstrap3StampRenderer = ({ text, size }: StampRendererProps) => {
+const Bootstrap3StampRenderer = ({ text, size }: IStampRenderer) => {
   const HeaderComponent = `h${size}`;
 
   return (

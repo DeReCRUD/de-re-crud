@@ -1,65 +1,65 @@
 import { ComponentConstructor, FunctionalComponent } from "preact";
 import {
-  FieldContainerRendererProps,
-  FieldRendererProps,
-  TextFieldRendererProps,
-  TableLinkedStructRendererProps,
-  ListFieldRendererProps,
-  ButtonRendererProps,
-  InlinedLinkedStructRendererProps,
-  StampRendererProps
+  IButtonRenderer,
+  IFieldContainerRenderer,
+  IFieldRenderer,
+  IInlinedLinkedStructRenderer,
+  IListFieldRenderer,
+  IStampRenderer,
+  ITableLinkedStructRenderer,
+  ITextFieldRenderer
 } from "../models/renderers";
 
-export interface RendererOptions {
+export interface IRendererOptions {
   formClassName?: string;
   components: {
     stamp:
-      | FunctionalComponent<StampRendererProps>
-      | ComponentConstructor<StampRendererProps>;
+      | FunctionalComponent<IStampRenderer>
+      | ComponentConstructor<IStampRenderer>;
     button:
-      | FunctionalComponent<ButtonRendererProps>
-      | ComponentConstructor<ButtonRendererProps>;
+      | FunctionalComponent<IButtonRenderer>
+      | ComponentConstructor<IButtonRenderer>;
     fieldContainer:
-      | FunctionalComponent<FieldContainerRendererProps>
-      | ComponentConstructor<FieldContainerRendererProps>;
+      | FunctionalComponent<IFieldContainerRenderer>
+      | ComponentConstructor<IFieldContainerRenderer>;
     textField:
-      | FunctionalComponent<TextFieldRendererProps>
-      | ComponentConstructor<TextFieldRendererProps>;
+      | FunctionalComponent<ITextFieldRenderer>
+      | ComponentConstructor<ITextFieldRenderer>;
     keywordField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<IFieldRenderer>
+      | ComponentConstructor<IFieldRenderer>;
     integerField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<IFieldRenderer>
+      | ComponentConstructor<IFieldRenderer>;
     estimateField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<IFieldRenderer>
+      | ComponentConstructor<IFieldRenderer>;
     dateField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<IFieldRenderer>
+      | ComponentConstructor<IFieldRenderer>;
     booleanField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<IFieldRenderer>
+      | ComponentConstructor<IFieldRenderer>;
     percentField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<IFieldRenderer>
+      | ComponentConstructor<IFieldRenderer>;
     moneyField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<IFieldRenderer>
+      | ComponentConstructor<IFieldRenderer>;
     foreignKeyField:
-      | FunctionalComponent<ListFieldRendererProps>
-      | ComponentConstructor<ListFieldRendererProps>;
+      | FunctionalComponent<IListFieldRenderer>
+      | ComponentConstructor<IListFieldRenderer>;
     inlineLinkedStructField:
-      | FunctionalComponent<InlinedLinkedStructRendererProps>
-      | ComponentConstructor<InlinedLinkedStructRendererProps>;
+      | FunctionalComponent<IInlinedLinkedStructRenderer>
+      | ComponentConstructor<IInlinedLinkedStructRenderer>;
     tableLinkedStructField:
-      | FunctionalComponent<TableLinkedStructRendererProps>
-      | ComponentConstructor<TableLinkedStructRendererProps>;
+      | FunctionalComponent<ITableLinkedStructRenderer>
+      | ComponentConstructor<ITableLinkedStructRenderer>;
     listField:
-      | FunctionalComponent<ListFieldRendererProps>
-      | ComponentConstructor<ListFieldRendererProps>;
+      | FunctionalComponent<IListFieldRenderer>
+      | ComponentConstructor<IListFieldRenderer>;
     derivedField:
-      | FunctionalComponent<FieldRendererProps>
-      | ComponentConstructor<FieldRendererProps>;
+      | FunctionalComponent<IFieldRenderer>
+      | ComponentConstructor<IFieldRenderer>;
   };
 }

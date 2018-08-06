@@ -1,12 +1,12 @@
 import { IBlock } from "../../models/schema";
-import { RendererOptions } from "../../models/renderer-options";
 
-export type BlockHostRendererConnectProps = {
+export interface IBlockHostRendererConnectProps {
   struct: string;
   block: IBlock;
   path: string;
-};
+}
 
-export type BlockHostRendererProps = BlockHostRendererConnectProps & {
+export interface IBlockHostRendererProps
+  extends IBlockHostRendererConnectProps {
   formValue: object;
-};
+}

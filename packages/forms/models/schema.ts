@@ -98,8 +98,8 @@ export interface IBlock {
   name: string;
   label?: ILabel;
   condition: BlockConditionFunc;
-  items: (IFieldReference | ILinkedStructFieldReference | IStamp)[];
-  fields: (IFieldReference | ILinkedStructFieldReference)[];
+  items: Array<IFieldReference | ILinkedStructFieldReference | IStamp>;
+  fields: Array<IFieldReference | ILinkedStructFieldReference>;
 }
 
 export interface IFieldReference {
