@@ -1,12 +1,12 @@
-import { h, Component } from 'preact';
-import { IFieldReference, IStamp } from '../../models/schema';
-import StampHostRenderer from '../stamp-host-renderer';
-import FieldHostRenderer from '../field-host-renderer';
-import { BlockHostRendererProps } from './block-host-renderer.props';
+import { h, Component } from "preact";
+import { IFieldReference, IStamp } from "../../models/schema";
+import StampHostRenderer from "../stamp-host-renderer";
+import FieldHostRenderer from "../field-host-renderer";
+import { BlockHostRendererProps } from "./block-host-renderer.props";
 
 export default class BlockHostRenderer extends Component<
   BlockHostRendererProps
-  > {
+> {
   render({ struct, block, path, formValue }: BlockHostRendererProps) {
     if (!block.condition(formValue)) {
       return null;
@@ -21,7 +21,7 @@ export default class BlockHostRenderer extends Component<
               <StampHostRenderer
                 key={`${struct}${path && `-${path}`}-stamp-${
                   stamp.blockInstance
-                  }`}
+                }`}
                 stamp={stamp}
                 parentPath={path}
               />
@@ -34,7 +34,7 @@ export default class BlockHostRenderer extends Component<
               <FieldHostRenderer
                 key={`${struct}${path && `-${path}`}-${
                   fieldReference.field.name
-                  }`}
+                }`}
                 fieldReference={fieldReference}
                 parentPath={path}
               />

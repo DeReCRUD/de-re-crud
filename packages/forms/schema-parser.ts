@@ -13,18 +13,18 @@ import {
   BlockConditionFunc,
   FieldConditionFunc,
   IStamp
-} from './models/schema';
+} from "./models/schema";
 
 type SchemaMap<T> = { [key: string]: { parsed: T; json: any } };
 
 export default class SchemaParser {
-  private static defaultCondition = new Function('return true');
+  private static defaultCondition = new Function("return true");
   private static parseLabel(
     labelJson?: string | { short?: string; medium?: string; long?: string }
   ): ILabel {
     let label: ILabel;
 
-    if (typeof labelJson === 'string') {
+    if (typeof labelJson === "string") {
       label = {
         short: labelJson,
         medium: labelJson,
@@ -32,9 +32,9 @@ export default class SchemaParser {
       };
     } else {
       label = {
-        short: labelJson.short || labelJson.medium || labelJson.long || '',
-        medium: labelJson.medium || labelJson.short || labelJson.long || '',
-        long: labelJson.long || labelJson.medium || labelJson.short || ''
+        short: labelJson.short || labelJson.medium || labelJson.long || "",
+        medium: labelJson.medium || labelJson.short || labelJson.long || "",
+        long: labelJson.long || labelJson.medium || labelJson.short || ""
       };
     }
 
@@ -69,26 +69,26 @@ export default class SchemaParser {
       unique: fieldJson.unique || false
     };
 
-    if (typeof fieldJson.help !== 'undefined') {
+    if (typeof fieldJson.help !== "undefined") {
       result.help = fieldJson.help;
     }
 
-    if (typeof fieldJson.initialValue !== 'undefined') {
+    if (typeof fieldJson.initialValue !== "undefined") {
       result.initialValue = fieldJson.initialValue;
     }
 
-    if (typeof fieldJson.missingValue !== 'undefined') {
+    if (typeof fieldJson.missingValue !== "undefined") {
       result.missingValue = fieldJson.missingValue;
     }
 
-    if (typeof fieldJson.placeholder !== 'undefined') {
+    if (typeof fieldJson.placeholder !== "undefined") {
       result.placeholder = fieldJson.placeholder;
     } else {
       result.placeholder = result.label.short;
     }
 
     switch (result.type) {
-      case 'text': {
+      case "text": {
         const textField = <ITextField>result;
 
         if (fieldJson.minLength) {
@@ -101,7 +101,7 @@ export default class SchemaParser {
 
         break;
       }
-      case 'integer': {
+      case "integer": {
         const integerField = <IIntegerField>result;
 
         if (fieldJson.min) {
@@ -114,7 +114,7 @@ export default class SchemaParser {
 
         break;
       }
-      case 'list': {
+      case "list": {
         const listField = <IListField>result;
         listField.options = [];
 
@@ -127,7 +127,7 @@ export default class SchemaParser {
 
         break;
       }
-      case 'linkedStruct': {
+      case "linkedStruct": {
         const linkedStructField = <ILinkedStructField>result;
 
         if (fieldJson.minInstances) {
@@ -170,11 +170,11 @@ export default class SchemaParser {
 
     if (conditionJson) {
       const conditionBody =
-        conditionJson[0] === '{' ? conditionJson : `return ${conditionJson}`;
+        conditionJson[0] === "{" ? conditionJson : `return ${conditionJson}`;
 
-      const args = ['form', conditionBody];
+      const args = ["form", conditionBody];
       if (!blockCondition) {
-        args.unshift('fieldParent');
+        args.unshift("fieldParent");
       }
 
       condition = new Function(...args);
@@ -227,15 +227,15 @@ export default class SchemaParser {
         const json = value.json;
 
         switch (field.type) {
-          case 'linkedStruct':
-          case 'foreignKey': {
+          case "linkedStruct":
+          case "foreignKey": {
             const referenceField = <IReferenceField>field;
             const { reference } = json;
 
             referenceField.reference = {
               struct: structMap[reference.struct].parsed,
               block:
-                structBlockMap[reference.struct][reference.block || 'default']
+                structBlockMap[reference.struct][reference.block || "default"]
                   .parsed
             };
             break;
@@ -262,7 +262,7 @@ export default class SchemaParser {
             };
 
             block.items.push(stamp);
-          } else if (blockField.field || typeof blockField === 'string') {
+          } else if (blockField.field || typeof blockField === "string") {
             const fieldName = blockField.field || blockField;
             const fieldValue = structFieldMap[structName][fieldName];
             const field = fieldValue.parsed;
@@ -273,7 +273,7 @@ export default class SchemaParser {
             };
 
             switch (field.type) {
-              case 'linkedStruct': {
+              case "linkedStruct": {
                 const linkedStructField = <ILinkedStructField>field;
                 const linkedStructFieldReference = <
                   ILinkedStructFieldReference
@@ -282,12 +282,12 @@ export default class SchemaParser {
                 const { hints } = blockField;
 
                 linkedStructFieldReference.hints = {
-                  layout: (hints && hints.layout) || 'inline'
+                  layout: (hints && hints.layout) || "inline"
                 };
 
                 linkedStructFieldReference.hints.block =
                   structBlockMap[linkedStructField.reference.struct.name][
-                    (hints && hints.block) || 'default'
+                    (hints && hints.block) || "default"
                   ].parsed;
 
                 break;

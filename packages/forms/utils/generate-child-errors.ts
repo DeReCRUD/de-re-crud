@@ -1,4 +1,4 @@
-import { Errors, ChildErrors } from '../store';
+import { Errors, ChildErrors } from "../store";
 
 export default function generateChildErrors(errors: Errors): ChildErrors {
   const childErrors = {};
@@ -7,16 +7,16 @@ export default function generateChildErrors(errors: Errors): ChildErrors {
     return childErrors;
   }
 
-  Object.keys(errors).forEach((key) => {
+  Object.keys(errors).forEach(key => {
     if (!errors[key].length) {
       return;
     }
 
-    let pathArray = key.split('.');
+    let pathArray = key.split(".");
     pathArray = pathArray.slice(0, pathArray.length - 1);
 
     while (pathArray.length >= 2) {
-      const parentPath = pathArray.slice(0, pathArray.length - 1).join('.');
+      const parentPath = pathArray.slice(0, pathArray.length - 1).join(".");
       const index = pathArray[pathArray.length - 1];
 
       childErrors[parentPath] = {

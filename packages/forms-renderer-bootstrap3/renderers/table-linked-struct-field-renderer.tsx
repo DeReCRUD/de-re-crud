@@ -1,11 +1,11 @@
-import { h } from 'preact';
-import { TableLinkedStructRendererProps } from '@de-re-crud/forms/models/renderers';
-import createCssClass from '@de-re-crud/forms/utils/create-css-class';
-import Bootstrap3LabelRenderer from './label-renderer';
-import Bootstrap3ButtonRenderer from './button-renderer';
-import './table-linked-struct-field-renderer.css';
+import { h } from "preact";
+import { TableLinkedStructRendererProps } from "@de-re-crud/forms/models/renderers";
+import createCssClass from "@de-re-crud/forms/utils/create-css-class";
+import Bootstrap3LabelRenderer from "./label-renderer";
+import Bootstrap3ButtonRenderer from "./button-renderer";
+import "./table-linked-struct-field-renderer.css";
 
-const cssName = 'bootstrap3-table-linked-struct-renderer';
+const cssName = "bootstrap3-table-linked-struct-renderer";
 
 const Bootstrap3TableLinkedStructFieldRenderer = ({
   label,
@@ -21,10 +21,12 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
 
   value.forEach((columns, index) => {
     rows.push(
-      <tr className={valueErrorIndicators[index] && 'danger'}>
-        {columns.map(x => <td>{x || ' '}</td>)}
+      <tr className={valueErrorIndicators[index] && "danger"}>
+        {columns.map(x => (
+          <td>{x || " "}</td>
+        ))}
         <td>
-          <div className={createCssClass(cssName, 'row', 'actions')}>
+          <div className={createCssClass(cssName, "row", "actions")}>
             <i
               class="glyphicon glyphicon-pencil"
               title="Edit Item"
@@ -44,7 +46,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
 
   return (
     <div className={createCssClass(cssName)}>
-      <div className={createCssClass(cssName, 'controls')}>
+      <div className={createCssClass(cssName, "controls")}>
         <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
         <Bootstrap3ButtonRenderer
           classes="btn btn-sm btn-default"
@@ -55,7 +57,9 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
       <table className="table table-bordered table-condensed">
         <thead>
           <tr>
-            {headers.map(header => <th key={header}>{header}</th>)}
+            {headers.map(header => (
+              <th key={header}>{header}</th>
+            ))}
             <th>&nbsp;</th>
           </tr>
         </thead>

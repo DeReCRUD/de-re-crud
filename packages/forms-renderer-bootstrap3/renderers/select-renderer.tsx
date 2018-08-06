@@ -1,6 +1,6 @@
-import { h } from 'preact';
-import { ListFieldRendererProps } from '@de-re-crud/forms/models/renderers';
-import Bootstrap3LabelRenderer from './label-renderer';
+import { h } from "preact";
+import { ListFieldRendererProps } from "@de-re-crud/forms/models/renderers";
+import Bootstrap3LabelRenderer from "./label-renderer";
 
 export type Bootstrap3SelectRendererProps = ListFieldRendererProps & {};
 

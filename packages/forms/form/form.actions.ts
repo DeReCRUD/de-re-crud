@@ -1,7 +1,7 @@
-import { StoreState, Errors, ChildErrors } from '../store';
-import { validateField } from '../utils/validation-helper';
-import { ILinkedStructField, IBlock } from '../models/schema';
-import generateChildErrors from '../utils/generate-child-errors';
+import { StoreState, Errors, ChildErrors } from "../store";
+import { validateField } from "../utils/validation-helper";
+import { ILinkedStructField, IBlock } from "../models/schema";
+import generateChildErrors from "../utils/generate-child-errors";
 
 type ValidationResult = {
   errors: Errors;
@@ -24,7 +24,7 @@ function validateBlock(
 
     let fieldPath = field.name;
     if (parentPath) {
-      fieldPath = parentPath + '.' + fieldPath;
+      fieldPath = parentPath + "." + fieldPath;
     }
 
     if (condition(parentValue, formValue)) {
@@ -38,13 +38,13 @@ function validateBlock(
       errors[fieldPath] = fieldErrors;
 
       switch (field.type) {
-        case 'linkedStruct':
+        case "linkedStruct":
           const linkedStructField = field as ILinkedStructField;
           const linkedStructValue = parentValue[field.name] as any[];
 
           if (linkedStructValue) {
             linkedStructValue.forEach((value, index) => {
-              const itemPath = fieldPath + '.' + index;
+              const itemPath = fieldPath + "." + index;
 
               const result = validateBlock(
                 linkedStructField.reference.block,

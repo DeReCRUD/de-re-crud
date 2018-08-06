@@ -1,12 +1,12 @@
-import path from 'path';
-import del from 'del';
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import sourceMaps from 'rollup-plugin-sourcemaps';
-import typescript from 'rollup-plugin-typescript2';
-import generatePackageJson from 'rollup-plugin-generate-package-json';
+import path from "path";
+import del from "del";
+import resolve from "rollup-plugin-node-resolve";
+import commonjs from "rollup-plugin-commonjs";
+import sourceMaps from "rollup-plugin-sourcemaps";
+import typescript from "rollup-plugin-typescript2";
+import generatePackageJson from "rollup-plugin-generate-package-json";
 
-const pkg = require('./package.json');
+const pkg = require("./package.json");
 
 del.sync(path.dirname(pkg.main));
 
@@ -20,17 +20,17 @@ const newPkg = {
 delete newPkg.scripts;
 
 export default {
-  input: './public-api.ts',
+  input: "./public-api.ts",
   output: [
     {
       name: pkg.name,
       file: pkg.main,
-      format: 'umd',
+      format: "umd",
       sourcemap: true
     },
     {
       file: pkg.module,
-      format: 'es',
+      format: "es",
       sourcemap: true
     }
   ],

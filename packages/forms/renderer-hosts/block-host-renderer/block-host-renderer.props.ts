@@ -1,5 +1,5 @@
-import { IBlock } from '../../models/schema';
-import { RendererOptions } from '../../models/renderer-options';
+import { IBlock } from "../../models/schema";
+import { RendererOptions } from "../../models/renderer-options";
 
 export type BlockHostRendererConnectProps = {
   struct: string;

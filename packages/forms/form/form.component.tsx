@@ -1,10 +1,10 @@
-import { h, Component } from 'preact';
-import { IStruct } from '../models/schema';
-import Logger from '../logger';
-import combineCssClasses from '../utils/combine-css-classes';
-import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
-import shallowCompare from '../utils/shallow-compare';
-import { FormProps } from './form.props';
+import { h, Component } from "preact";
+import { IStruct } from "../models/schema";
+import Logger from "../logger";
+import combineCssClasses from "../utils/combine-css-classes";
+import BlockHostRenderer from "../renderer-hosts/block-host-renderer";
+import shallowCompare from "../utils/shallow-compare";
+import { FormProps } from "./form.props";
 
 export interface FormState {
   structs: IStruct[];
@@ -41,7 +41,7 @@ export default class Form extends Component<FormProps, FormState> {
     const structReference = structs.find(x => x.name === visibleStruct);
 
     const classNames = [
-      'de-re-crud-form',
+      "de-re-crud-form",
       className,
       rendererOptions.formClassName
     ];
@@ -69,18 +69,22 @@ export default class Form extends Component<FormProps, FormState> {
     }
 
     if (!rendererOptions || !rendererOptions.components) {
-      Logger.error('No rendererOptions have been set. Use DeReCrudInitializer.setDefaults or rendererOptions on the form instance.');
+      Logger.error(
+        "No rendererOptions have been set. Use DeReCrudInitializer.setDefaults or rendererOptions on the form instance."
+      );
       return null;
     }
 
     const ButtonRenderer = rendererOptions.components.button;
-    const path = navStack.length
-      ? navStack[navStack.length - 1].path
-      : null;
+    const path = navStack.length ? navStack[navStack.length - 1].path : null;
 
     return (
       <form className={combineCssClasses(...classNames)}>
-        <BlockHostRenderer struct={visibleStruct} block={blockReference} path={path} />
+        <BlockHostRenderer
+          struct={visibleStruct}
+          block={blockReference}
+          path={path}
+        />
         {!navStack.length ? (
           <ButtonRenderer
             text="Submit"

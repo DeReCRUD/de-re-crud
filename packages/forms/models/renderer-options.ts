@@ -1,4 +1,4 @@
-import { ComponentConstructor, FunctionalComponent } from 'preact';
+import { ComponentConstructor, FunctionalComponent } from "preact";
 import {
   FieldContainerRendererProps,
   FieldRendererProps,
@@ -8,14 +8,14 @@ import {
   ButtonRendererProps,
   InlinedLinkedStructRendererProps,
   StampRendererProps
-} from '../models/renderers';
+} from "../models/renderers";
 
 export interface RendererOptions {
   formClassName?: string;
   components: {
     stamp:
-    | FunctionalComponent<StampRendererProps>
-    | ComponentConstructor<StampRendererProps>;
+      | FunctionalComponent<StampRendererProps>
+      | ComponentConstructor<StampRendererProps>;
     button:
       | FunctionalComponent<ButtonRendererProps>
       | ComponentConstructor<ButtonRendererProps>;

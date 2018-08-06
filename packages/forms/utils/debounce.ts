@@ -7,7 +7,7 @@ export default function debounce(
 ): Function {
   let timeoutId;
 
-  return function () {
+  return function() {
     const args = arguments;
 
     const debouncedFunc = () => {

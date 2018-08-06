@@ -1,15 +1,15 @@
-import { h, Component } from 'preact';
-import Form from '@de-re-crud/forms/form';
-import { DeReCrudInitializer } from '@de-re-crud/forms/options';
-import { IOption } from '@de-re-crud/forms/models/schema';
+import { h, Component } from "preact";
+import Form from "@de-re-crud/forms/form";
+import { DeReCrudInitializer } from "@de-re-crud/forms/options";
+import { IOption } from "@de-re-crud/forms/models/schema";
 import {
   FormSubmissionCallback,
   CollectionReferences
-} from '@de-re-crud/forms/form/form.props';
-import Bootstrap3RendererOptions from '@de-re-crud/forms-renderer-bootstrap3/options';
-import schemJson from './schema.json';
-import 'bootstrap/dist/css/bootstrap.css';
-import './style.css';
+} from "@de-re-crud/forms/form/form.props";
+import Bootstrap3RendererOptions from "@de-re-crud/forms-renderer-bootstrap3/options";
+import schemJson from "./schema.json";
+import "bootstrap/dist/css/bootstrap.css";
+import "./style.css";
 
 DeReCrudInitializer.setDefaults({ rendererOptions: Bootstrap3RendererOptions });
 

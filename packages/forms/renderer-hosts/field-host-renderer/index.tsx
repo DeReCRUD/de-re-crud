@@ -1,13 +1,13 @@
-import { connect } from 'redux-zero/preact';
-import { combineActions } from 'redux-zero/utils';
-import { StoreState } from '../../store';
+import { connect } from "redux-zero/preact";
+import { combineActions } from "redux-zero/utils";
+import { StoreState } from "../../store";
 import {
   FieldHostRendererProps,
   FieldHostRendererConnectProps
-} from './field-host-renderer.props';
-import FieldHostRenderer from './field-host-renderer.component';
-import fieldHostRendererActions from './field-host-renderer.actions';
-import navigationActions from '../../navigation.actions';
+} from "./field-host-renderer.props";
+import FieldHostRenderer from "./field-host-renderer.component";
+import fieldHostRendererActions from "./field-host-renderer.actions";
+import navigationActions from "../../navigation.actions";
 
 const mapToProps = (
   {
@@ -23,12 +23,10 @@ const mapToProps = (
     fieldReference: {
       field: { name }
     },
-    parentPath,
+    parentPath
   }: FieldHostRendererConnectProps
 ): Partial<FieldHostRendererProps> => {
-  const fieldPath = parentPath
-    ? `${parentPath}.${name}`
-    : name;
+  const fieldPath = parentPath ? `${parentPath}.${name}` : name;
 
   return {
     fieldPath,

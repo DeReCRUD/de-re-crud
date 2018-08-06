@@ -1,4 +1,4 @@
-import { RendererOptions } from './models/renderer-options';
+import { RendererOptions } from "./models/renderer-options";
 
 export type DeReCrudOptions = {
   rendererOptions?: RendererOptions;
@@ -10,11 +10,11 @@ export class DeReCrudInitializer {
 
   static setDefaults(defaults: Partial<DeReCrudOptions>) {
     if (this.initialized) {
-      throw new Error('DeReCrudOptions.setDefaults can only be called once.');
+      throw new Error("DeReCrudOptions.setDefaults can only be called once.");
     }
 
     this.initialized = true;
-    
+
     this.options = Object.freeze({
       ...defaults
     });

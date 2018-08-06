@@ -1,4 +1,4 @@
-import { StoreState, NavState } from './store';
+import { StoreState, NavState } from "./store";
 
 export default function navigationActions() {
   return {

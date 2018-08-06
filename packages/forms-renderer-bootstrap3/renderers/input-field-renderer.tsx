@@ -1,6 +1,6 @@
-import { h } from 'preact';
-import { TextFieldRendererProps } from '@de-re-crud/forms/models/renderers';
-import Bootstrap3LabelRenderer from './label-renderer';
+import { h } from "preact";
+import { TextFieldRendererProps } from "@de-re-crud/forms/models/renderers";
+import Bootstrap3LabelRenderer from "./label-renderer";
 
 const Bootstrap3InputFieldRenderer = ({
   fieldType,
@@ -17,16 +17,16 @@ const Bootstrap3InputFieldRenderer = ({
   let inputType;
 
   switch (fieldType) {
-    case 'date':
+    case "date":
       inputType = fieldType;
       break;
-    case 'integer':
-    case 'estimate':
-    case 'percent':
-      inputType = 'number';
+    case "integer":
+    case "estimate":
+    case "percent":
+      inputType = "number";
       break;
     default:
-      inputType = 'text';
+      inputType = "text";
       break;
   }
 

@@ -1,6 +1,6 @@
-import { IStruct, IOption } from '../models/schema';
-import { RendererOptions } from '../models/renderer-options';
-import { NavState, Errors } from '../store';
+import { IStruct, IOption } from "../models/schema";
+import { RendererOptions } from "../models/renderer-options";
+import { NavState, Errors } from "../store";
 
 export type CollectionReference = (formValue: any) => IOption[];
 export type CollectionReferences = { [key: string]: CollectionReference };
@@ -27,7 +27,7 @@ export type FormChangeNotificationParams = {
 export type FormChangeNotification = (
   params: FormChangeNotificationParams
 ) => void;
-export type FormChangeNotificationType = 'blur' | 'change';
+export type FormChangeNotificationType = "blur" | "change";
 
 export type FormConnectProps = FormBaseProps & {
   rendererOptions?: RendererOptions;

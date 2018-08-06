@@ -1,17 +1,17 @@
-import { default as createReduxZeroStore } from 'redux-zero';
-import { applyMiddleware } from 'redux-zero/middleware';
-import { connect } from 'redux-zero/devtools';
-import generateChildErrors from './utils/generate-child-errors';
+import { default as createReduxZeroStore } from "redux-zero";
+import { applyMiddleware } from "redux-zero/middleware";
+import { connect } from "redux-zero/devtools";
+import generateChildErrors from "./utils/generate-child-errors";
 import {
   FormSubmission,
   FormChangeNotification,
   FormChangeNotificationType,
   CollectionReferences
-} from './form/form.props';
-import { IStruct } from './models/schema';
-import { RendererOptions } from './models/renderer-options';
-import SchemaParser from './schema-parser';
-import { DeReCrudInitializer } from '@de-re-crud/forms/options';
+} from "./form/form.props";
+import { IStruct } from "./models/schema";
+import { RendererOptions } from "./models/renderer-options";
+import SchemaParser from "./schema-parser";
+import { DeReCrudInitializer } from "@de-re-crud/forms/options";
 
 export type Errors = { [path: string]: string[] };
 
@@ -37,7 +37,7 @@ export type StoreState = {
   errors: Errors;
   childErrors: ChildErrors;
   rendererOptions: RendererOptions;
-  collectionReferences?: CollectionReferences,
+  collectionReferences?: CollectionReferences;
   submitting?: boolean;
   onSubmit?: FormSubmission;
   onChangeType: FormChangeNotificationType;
@@ -46,7 +46,7 @@ export type StoreState = {
 
 const logger = store => next => action => {
   if (process.env.ENABLE_LOGGING) {
-    console.log('current state:', store.getState());
+    console.log("current state:", store.getState());
   }
 
   return next(action);
@@ -72,8 +72,9 @@ export function createStore(
   const state: StoreState = {
     structs,
     struct,
-    block: block || 'default',
-    rendererOptions: rendererOptions || DeReCrudInitializer.getDefaults().rendererOptions,
+    block: block || "default",
+    rendererOptions:
+      rendererOptions || DeReCrudInitializer.getDefaults().rendererOptions,
     collectionReferences,
     initialValue,
     value: initialValue,
@@ -83,7 +84,7 @@ export function createStore(
     errors: formState.errors || {},
     childErrors: generateChildErrors(formState.errors),
     onSubmit: formState && formState.onSubmit,
-    onChangeType: (formState && formState.onChangeType) || 'blur',
+    onChangeType: (formState && formState.onChangeType) || "blur",
     onChange: formState && formState.onChange
   };
 
