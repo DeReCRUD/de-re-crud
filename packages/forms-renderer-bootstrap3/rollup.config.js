@@ -1,15 +1,19 @@
 import path from "path";
-import del from "del";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import sourceMaps from "rollup-plugin-sourcemaps";
 import typescript from "rollup-plugin-typescript2";
-import css from "rollup-plugin-css-only";
+import postcss from "rollup-plugin-postcss";
 import generatePackageJson from "rollup-plugin-generate-package-json";
 
 const pkg = require("./package.json");
+const env = process.env.npm_lifecycle_event;
+const isProd = env.endsWith("prod");
 
-del.sync(path.dirname(pkg.main));
+let styleBundlePath = path.resolve(process.cwd(), pkg.style);
+if (isProd) {
+  styleBundlePath = styleBundlePath.replace(".css", ".min.css");
+}
 
 const newPkg = {
   ...pkg,
@@ -36,10 +40,13 @@ export default {
       sourcemap: true
     }
   ],
-  external: (id) => /(\@de-re-crud\/forms|bootstrap|preact)/.test(id),
+  external: (id) => /(\@de-re-crud\/forms\/|bootstrap\/|preact)/.test(id),
   plugins: [
     typescript({ useTsconfigDeclarationDir: true }),
-    css({ output: pkg.main.replace("js", "css") }),
+    postcss({
+      extract: styleBundlePath,
+      minimize: isProd
+    }),
     commonjs(),
     resolve(),
     sourceMaps(),

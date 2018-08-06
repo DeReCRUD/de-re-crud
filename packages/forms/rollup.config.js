@@ -1,5 +1,4 @@
 import path from "path";
-import del from "del";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import sourceMaps from "rollup-plugin-sourcemaps";
@@ -7,8 +6,6 @@ import typescript from "rollup-plugin-typescript2";
 import generatePackageJson from "rollup-plugin-generate-package-json";
 
 const pkg = require("./package.json");
-
-del.sync(path.dirname(pkg.main));
 
 const newPkg = {
   ...pkg,

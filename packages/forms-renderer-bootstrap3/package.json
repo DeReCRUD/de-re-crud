@@ -9,7 +9,10 @@
   "typings": "dist/de-re-crud-forms-bootstrap3.d.ts",
   "scripts": {
     "lint": "tslint --project ./tsconfig.json",
-    "build": "rollup -c"
+    "clean": "del-cli 'dist/**/*'",
+    "build:dev": "rollup -c rollup.config.js",
+    "build:prod": "rollup -c rollup.config.prod.js",
+    "build": "npm-run-all clean build:dev build:prod"
   },
   "optionalDependencies": {
     "bootstrap": ">= 3 < 4"
