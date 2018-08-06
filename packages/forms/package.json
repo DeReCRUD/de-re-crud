@@ -7,7 +7,7 @@
   "module": "dist/de-re-crud-forms.es5.js",
   "typings": "dist/de-re-crud-forms.d.ts",
   "scripts": {
-    "lint": "tslint --project tsconfig.json",
+    "lint": "tslint --project ./tsconfig.json",
     "build": "rollup -c"
   },
   "devDependencies": {

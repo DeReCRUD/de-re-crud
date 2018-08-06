@@ -8,7 +8,7 @@
   "module": "dist/de-re-crud-forms-bootstrap3.es5.js",
   "typings": "dist/de-re-crud-forms-bootstrap3.d.ts",
   "scripts": {
-    "lint": "tslint --project tsconfig.json",
+    "lint": "tslint --project ./tsconfig.json",
     "build": "rollup -c"
   },
   "optionalDependencies": {
