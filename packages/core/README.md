@@ -19,8 +19,7 @@ npm install --save @de-re-crud/renderer-bootstrap3
 You will also need to install an appropriate version of Preact (check the `peerDependencies` of the core library):
 
 ```bash
-npm install --save preact@~8
-#or, yarn add preact@~8
+npm install --save preact@~8 #or, yarn add preact@~8
 ```
 
 ---
@@ -31,6 +30,7 @@ For Preact:
 import { h } from "preact";
 import { Form } from "@de-re-crud/core";
 import { Bootstrap3RendererOptions } from "@de-re-crud/renderer-bootstrap3";
+import schemaJson from "./schema.json";
 
 h(
   <Form
