@@ -13,21 +13,19 @@
     "clean": "del-cli \"dist/**/*\"",
     "build:dev": "rollup --config",
     "build:prod": "rollup --config",
-    "build": "npm-run-all -s clean build:dev build:prod"
+    "build": "npm-run-all -s clean build:dev build:prod",
+    "publish": "npm publish ./dist "
   },
   "optionalDependencies": {
     "bootstrap": ">= 3 < 4"
   },
   "peerDependencies": {
-    "@de-re-crud/core": "^0.0.1"
+    "@de-re-crud/core": "0.0.x"
   },
   "dependencies": {
     "preact": "~8"
   },
   "devDependencies": {
     "@de-re-crud/core": "^0.0.2"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
