@@ -1,0 +1,1 @@
+export { IOption } from './schema';

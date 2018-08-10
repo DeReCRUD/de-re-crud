@@ -1,11 +1,6 @@
-import Form from "@de-re-crud/core/form";
-import {
-  FormSubmissionCallback,
-  ICollectionReferences
-} from "@de-re-crud/core/form/form.props";
-import { IOption } from "@de-re-crud/core/models/schema";
-import { DeReCrudOptions } from "@de-re-crud/core/options";
-import Bootstrap3RendererOptions from "@de-re-crud/renderer-bootstrap3/options";
+import { DeReCrudOptions, Form, FormSubmissionCallback, ICollectionReferences } from "@de-re-crud/core";
+import { IOption } from "@de-re-crud/core/models";
+import { Bootstrap3RendererOptions } from "@de-re-crud/renderer-bootstrap3";
 import "bootstrap/dist/css/bootstrap.css";
 import { Component, h } from "preact";
 import schemJson from "./schema.json";
