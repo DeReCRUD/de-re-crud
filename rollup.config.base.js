@@ -1,13 +1,19 @@
 import path from "path";
+import fs from "fs-extra";
 import glob from "glob";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import sourceMaps from "rollup-plugin-sourcemaps";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
+import generatePackageJson from "rollup-plugin-generate-package-json";
 import { terser } from "rollup-plugin-terser";
 import filesize from "rollup-plugin-filesize";
 import replace from "rollup-plugin-replace";
+
+const outDir = "./dist";
+
+fs.ensureDirSync(outDir);
 
 function getDefaults(input, output, external) {
   return {
@@ -46,6 +52,11 @@ function getMainBundle(pkg, external, isProd) {
     }
   }
 
+  const readmeFile = "README.md"; 
+  if (isProd && fs.pathExistsSync(readmeFile)) {
+    fs.copySync(readmeFile, path.join(outDir, readmeFile));
+  }
+
   const config = getDefaults("index.ts", pkg.module, external);
 
   config.output.push({
@@ -57,8 +68,9 @@ function getMainBundle(pkg, external, isProd) {
   });
 
   if (styleBundlePath) {
-    config.plugins.unshift(
+    config.plugins.splice(
       1,
+      0,
       postcss({
         extract: styleBundlePath,
         minimize: isProd
@@ -66,19 +78,33 @@ function getMainBundle(pkg, external, isProd) {
     );
   }
 
+  const newPkg = {
+    ...pkg,
+    main: path.basename(pkg.main),
+    module: path.basename(pkg.module),
+    types: path.basename(pkg.types)
+  };
+
+  if (newPkg.style) {
+    newPkg.style = path.basename(pkg.style);
+  }
+
+  delete newPkg.scripts;
+
+  config.plugins.push(generatePackageJson({ baseContents: newPkg }));
+
   return config;
 }
 
 function getAdditionalBundles(_, external) {
-  const tsConfig = require("./tsconfig.json");
   const files = glob.sync(path.join(process.cwd(), "*/**/public-api.ts"));
 
   return files.map((file) => {
     const dir = path.relative(process.cwd(), path.dirname(file));
-    const input = path.join(dir, 'index.ts');
-    const output = path.join(tsConfig.compilerOptions.outDir, input.replace('.ts', '.js'));
+    const input = path.join(dir, "index.ts");
+    const output = path.join(outDir, input.replace(".ts", ".js"));
 
-    return getDefaults(input, output , external);
+    return getDefaults(input, output, external);
   });
 }
 
