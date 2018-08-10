@@ -5,6 +5,5 @@ for d in dist/*/; do
 
   echo "Deploying $packageName"
 
-  cd "$d"
-  npm publish --access public 
+  npm publish "$d" --access public 
 done
