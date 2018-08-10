@@ -1,4 +1,4 @@
-import { IListFieldRenderer } from "@de-re-crud/forms/models/renderers";
+import { IListFieldRenderer } from "@de-re-crud/core/models/renderers";
 import { h } from "preact";
 import Bootstrap3SelectRenderer from "./select-renderer";
 

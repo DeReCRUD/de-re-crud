@@ -1,4 +1,4 @@
-import { IFieldRenderer } from "@de-re-crud/forms/models/renderers";
+import { IFieldRenderer } from "@de-re-crud/core/models/renderers";
 import { h } from "preact";
 import Bootstrap3LabelRenderer from "./label-renderer";
 

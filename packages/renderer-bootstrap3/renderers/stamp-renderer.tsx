@@ -1,4 +1,4 @@
-import { IStampRenderer } from "@de-re-crud/forms/models/renderers";
+import { IStampRenderer } from "@de-re-crud/core/models/renderers";
 import { h } from "preact";
 import "./stamp-renderer.css";
 
