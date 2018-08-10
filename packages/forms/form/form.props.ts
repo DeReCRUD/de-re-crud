@@ -1,49 +1,53 @@
-import { IStruct, IOption } from '../models/schema';
-import { RendererOptions } from '../models/renderer-options';
-import { NavState, Errors } from '../store';
+import { IRendererOptions } from "../models/renderer-options";
+import { IOption, IStruct } from "../models/schema";
+import { IErrors, INavState } from "../store";
 
 export type CollectionReference = (formValue: any) => IOption[];
-export type CollectionReferences = { [key: string]: CollectionReference };
 
-type FormBaseProps = {
+export interface ICollectionReferences {
+  [key: string]: CollectionReference;
+}
+
+interface IFormBaseProps {
   className?: string;
   schema: any;
   struct: string;
   block?: string;
-  collectionReferences?: CollectionReferences;
-};
+  collectionReferences?: ICollectionReferences;
+}
 
-export type FormSubmissionCallback = (errors?: Errors) => void;
+export type FormSubmissionCallback = (errors?: IErrors) => void;
 export type FormSubmission = (value: any, cb: FormSubmissionCallback) => void;
 
-export type FormChangeNotificationParams = {
+export interface IFormChangeNotificationParams {
   path: string;
   oldValue?: any;
   newValue?: any;
   parentValue: any;
   formValue: any;
-};
+}
 
 export type FormChangeNotification = (
-  params: FormChangeNotificationParams
+  params: IFormChangeNotificationParams
 ) => void;
-export type FormChangeNotificationType = 'blur' | 'change';
 
-export type FormConnectProps = FormBaseProps & {
-  rendererOptions?: RendererOptions;
-  errors?: Errors;
+export type FormChangeNotificationType = "blur" | "change";
+
+export interface IFormConnectProps extends IFormBaseProps {
+  rendererOptions?: IRendererOptions;
+  errors?: IErrors;
   value?: object;
   onSubmit: FormSubmission;
   onChangeType?: FormChangeNotificationType;
   onChange?: FormChangeNotification;
-};
+}
 
-export type FormProps = FormBaseProps & {
-  rendererOptions: RendererOptions;
+export interface IFormProps extends IFormBaseProps {
+  rendererOptions: IRendererOptions;
   structs: IStruct[];
   value: object;
   submitting: boolean;
-  navStack: NavState[];
+  navStack: INavState[];
   submitForm: () => void;
   pop: () => void;
-};
+}

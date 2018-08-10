@@ -1,13 +1,13 @@
-import { FieldType, IOption, StampSize } from './schema';
+import { FieldType, IOption, StampSize } from "./schema";
 
-export interface FieldContainerRendererProps {
+export interface IFieldContainerRenderer {
   fieldName: string;
   fieldDescription?: string;
   errors: string[];
   children?: JSX.Element;
 }
 
-export interface StampRendererProps {
+export interface IStampRenderer {
   text: string;
   size: StampSize;
 }
@@ -22,7 +22,7 @@ export type FieldChangeEvent = Event & {
   };
 };
 
-export interface FieldRendererProps {
+export interface IFieldRenderer {
   label: string;
   placeholder?: string;
   fieldName: string;
@@ -36,18 +36,19 @@ export interface FieldRendererProps {
   onChange: (e: FieldChangeEvent) => void;
 }
 
-export interface TextFieldRendererProps extends FieldRendererProps {
+export interface ITextFieldRenderer extends IFieldRenderer {
   minLength?: number;
   maxLength?: number;
 }
 
-export interface ListFieldRendererProps extends FieldRendererProps {
+export interface IListFieldRenderer extends IFieldRenderer {
   options: IOption[];
 }
 
-export interface ForeignKeyFieldRendererProps extends ListFieldRendererProps {}
+// tslint:disable-next-line:no-empty-interface
+export interface IForeignKeyFieldRenderer extends IListFieldRenderer {}
 
-export interface TableLinkedStructRendererProps extends FieldRendererProps {
+export interface ITableLinkedStructRenderer extends IFieldRenderer {
   headers: string[];
   value: string[][];
   valueErrorIndicators: { [index: number]: boolean };
@@ -56,13 +57,13 @@ export interface TableLinkedStructRendererProps extends FieldRendererProps {
   onRemove: (index: number) => void;
 }
 
-export interface InlinedLinkedStructRendererProps extends FieldRendererProps {
+export interface IInlinedLinkedStructRenderer extends IFieldRenderer {
   renderedItems: JSX.Element[];
   onAdd: () => void;
   onRemove: (index: number) => void;
 }
 
-export interface ButtonRendererProps {
+export interface IButtonRenderer {
   classes?: string | string[];
   text: string;
   disabled?: boolean;

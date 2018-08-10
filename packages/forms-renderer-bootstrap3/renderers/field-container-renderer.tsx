@@ -1,17 +1,17 @@
-import { h } from 'preact';
-import { FieldContainerRendererProps } from '@de-re-crud/forms/models/renderers';
-import combineCssClasses from '@de-re-crud/forms/utils/combine-css-classes';
+import { IFieldContainerRenderer } from "@de-re-crud/forms/models/renderers";
+import { combineCssClasses } from "@de-re-crud/forms/utils";
+import { h } from "preact";
 
 const Bootstrap3FieldContainerRenderer = ({
   fieldDescription,
   errors,
   children
-}: FieldContainerRendererProps) => (
+}: IFieldContainerRenderer) => (
   <div
     className={combineCssClasses(
-      'form-group',
-      'bootstrap3-field-container-renderer',
-      errors.length && 'has-error'
+      "form-group",
+      "bootstrap3-field-container-renderer",
+      errors.length && "has-error"
     )}
   >
     {children}

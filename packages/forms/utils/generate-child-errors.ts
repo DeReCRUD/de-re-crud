@@ -1,6 +1,6 @@
-import { Errors, ChildErrors } from '../store';
+import { IChildErrors, IErrors } from "../store";
 
-export default function generateChildErrors(errors: Errors): ChildErrors {
+export default function generateChildErrors(errors: IErrors): IChildErrors {
   const childErrors = {};
 
   if (!errors) {
@@ -12,11 +12,11 @@ export default function generateChildErrors(errors: Errors): ChildErrors {
       return;
     }
 
-    let pathArray = key.split('.');
+    let pathArray = key.split(".");
     pathArray = pathArray.slice(0, pathArray.length - 1);
 
     while (pathArray.length >= 2) {
-      const parentPath = pathArray.slice(0, pathArray.length - 1).join('.');
+      const parentPath = pathArray.slice(0, pathArray.length - 1).join(".");
       const index = pathArray[pathArray.length - 1];
 
       childErrors[parentPath] = {

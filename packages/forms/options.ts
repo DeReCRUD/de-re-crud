@@ -1,26 +1,27 @@
-import { RendererOptions } from './models/renderer-options';
+import { IRendererOptions } from "./models/renderer-options";
 
-export type DeReCrudOptions = {
-  rendererOptions?: RendererOptions;
-};
-
-export class DeReCrudInitializer {
-  private static initialized = false;
-  private static options: DeReCrudOptions = Object.freeze({});
-
-  static setDefaults(defaults: Partial<DeReCrudOptions>) {
+export class DeReCrudOptions {
+  public static setDefaults(defaults: Partial<DeReCrudOptions>) {
     if (this.initialized) {
-      throw new Error('DeReCrudOptions.setDefaults can only be called once.');
+      throw new Error("DeReCrudOptions.setDefaults can only be called once.");
     }
 
     this.initialized = true;
-    
-    this.options = Object.freeze({
-      ...defaults
-    });
+
+    const options = new DeReCrudOptions();
+    Object.assign(options, defaults);
+
+    this.options = Object.freeze(options);
   }
 
-  static getDefaults(): DeReCrudOptions {
+  public static getDefaults() {
     return this.options;
   }
+
+  private static initialized = false;
+  private static options: DeReCrudOptions = Object.freeze(
+    new DeReCrudOptions()
+  );
+
+  public rendererOptions?: IRendererOptions;
 }

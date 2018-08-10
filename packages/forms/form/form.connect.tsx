@@ -1,27 +1,27 @@
-import { connect } from 'redux-zero/preact';
-import { combineActions } from 'redux-zero/utils';
-import { StoreState } from '../store';
-import navigationActions from '../navigation.actions';
-import formActions from './form.actions';
-import { FormProps } from './form.props';
-import Form from './form.component';
+import { connect } from "redux-zero/preact";
+import { combineActions } from "redux-zero/utils";
+import navigationActions from "../navigation.actions";
+import { IStoreState } from "../store";
+import formActions from "./form.actions";
+import Form from "./form.component";
+import { IFormProps } from "./form.props";
 
 const mapToProps = ({
-  structs,
-  struct,
   block,
-  value,
   navStack,
-  submitting,
-  rendererOptions
-}: StoreState): Partial<FormProps> => ({
-  structs,
+  rendererOptions,
   struct,
-  block,
-  value,
-  navStack,
+  structs,
   submitting,
-  rendererOptions
+  value
+}: IStoreState): Partial<IFormProps> => ({
+  block,
+  navStack,
+  rendererOptions,
+  struct,
+  structs,
+  submitting,
+  value
 });
 
 export default connect(

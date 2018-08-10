@@ -1,14 +1,14 @@
-import { h } from 'preact';
-import { ButtonRendererProps } from '@de-re-crud/forms/models/renderers';
-import combineCssClasses from '@de-re-crud/forms/utils/combine-css-classes';
+import { IButtonRenderer } from "@de-re-crud/forms/models/renderers";
+import { combineCssClasses } from "@de-re-crud/forms/utils";
+import { h } from "preact";
 
 const Bootstrap3ButtonRenderer = ({
   classes,
   text,
   disabled,
   onClick
-}: ButtonRendererProps) => {
-  const classNames = ['btn btn-default'];
+}: IButtonRenderer) => {
+  const classNames = ["btn btn-default"];
   if (Array.isArray(classes)) {
     classNames.push(...classes);
   } else if (classes) {

@@ -1,52 +1,63 @@
-import { default as createReduxZeroStore } from 'redux-zero';
-import { applyMiddleware } from 'redux-zero/middleware';
-import { connect } from 'redux-zero/devtools';
-import generateChildErrors from './utils/generate-child-errors';
+import { default as createReduxZeroStore } from "redux-zero";
+import { connect } from "redux-zero/devtools";
+import { applyMiddleware } from "redux-zero/middleware";
 import {
-  FormSubmission,
   FormChangeNotification,
   FormChangeNotificationType,
-  CollectionReferences
-} from './form/form.props';
-import { IStruct } from './models/schema';
-import { RendererOptions } from './models/renderer-options';
-import SchemaParser from './schema-parser';
-import { DeReCrudInitializer } from '@de-re-crud/forms/options';
+  FormSubmission,
+  ICollectionReferences
+} from "./form/form.props";
+import { IRendererOptions } from "./models/renderer-options";
+import { IStruct } from "./models/schema";
+import { DeReCrudOptions } from "./options";
+import SchemaParser from "./schema-parser";
+import generateChildErrors from "./utils/generate-child-errors";
 
-export type Errors = { [path: string]: string[] };
+export interface IStore {
+  middleware(): void;
+  setState(state: any): void;
+  subscribe(cb: () => any): any;
+  getState(): object;
+  reset(): void;
+}
 
-export type ChildErrors = {
+export interface IErrors {
+  [path: string]: string[];
+}
+
+export interface IChildErrors {
   [parentPath: string]: { [childIndex: number]: boolean };
-};
+}
 
-export type NavState = {
+export interface INavState {
   path: string;
   struct: string;
   block: string;
-};
+}
 
-export type StoreState = {
+export interface IStoreState {
   structs: IStruct[];
   struct: string;
   block: string;
   initialValue: object;
   value: object;
-  navStack: NavState[];
+  navStack: INavState[];
   focused: { [path: string]: any };
   touched: { [path: string]: boolean };
-  errors: Errors;
-  childErrors: ChildErrors;
-  rendererOptions: RendererOptions;
-  collectionReferences?: CollectionReferences,
+  errors: IErrors;
+  childErrors: IChildErrors;
+  rendererOptions: IRendererOptions;
+  collectionReferences?: ICollectionReferences;
   submitting?: boolean;
   onSubmit?: FormSubmission;
   onChangeType: FormChangeNotificationType;
   onChange?: FormChangeNotification;
-};
+}
 
-const logger = store => next => action => {
+const logger = (store) => (next) => (action) => {
   if (process.env.ENABLE_LOGGING) {
-    console.log('current state:', store.getState());
+    // tslint:disable-next-line:no-console
+    console.log("current state:", store.getState());
   }
 
   return next(action);
@@ -56,37 +67,41 @@ export function createStore(
   schemaJson: any,
   struct: string,
   block?: string,
-  rendererOptions?: RendererOptions,
-  collectionReferences?: CollectionReferences,
+  rendererOptions?: IRendererOptions,
+  collectionReferences?: ICollectionReferences,
   formState?: {
-    errors?: Errors;
+    errors?: IErrors;
     value?: object;
     onSubmit?: FormSubmission;
     onChange?: FormChangeNotification;
     onChangeType?: FormChangeNotificationType;
   }
-) {
+): IStore {
   const structs = SchemaParser.parse(schemaJson);
   const initialValue = (formState && formState.value) || {};
 
-  const state: StoreState = {
-    structs,
-    struct,
-    block: block || 'default',
-    rendererOptions: rendererOptions || DeReCrudInitializer.getDefaults().rendererOptions,
-    collectionReferences,
-    initialValue,
-    value: initialValue,
-    navStack: [],
-    focused: {},
-    touched: {},
-    errors: formState.errors || {},
+  const state: IStoreState = {
+    block: block || "default",
     childErrors: generateChildErrors(formState.errors),
+    collectionReferences,
+    errors: formState.errors || {},
+    focused: {},
+    initialValue,
+    navStack: [],
+    onChange: formState && formState.onChange,
+    onChangeType: (formState && formState.onChangeType) || "blur",
     onSubmit: formState && formState.onSubmit,
-    onChangeType: (formState && formState.onChangeType) || 'blur',
-    onChange: formState && formState.onChange
+    rendererOptions:
+      rendererOptions || DeReCrudOptions.getDefaults().rendererOptions,
+    struct,
+    structs,
+    touched: {},
+    value: initialValue
   };
 
-  const middlewares = [logger, connect ? connect(state) : null].filter(x => x);
-  return createReduxZeroStore(state, applyMiddleware(...middlewares));
+  const middlewares = [logger, connect ? connect(state) : null].filter(
+    (x) => x
+  );
+
+  return createReduxZeroStore(state, applyMiddleware(...middlewares)) as IStore;
 }

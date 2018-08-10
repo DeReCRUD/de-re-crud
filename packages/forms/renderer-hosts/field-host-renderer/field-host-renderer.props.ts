@@ -1,17 +1,18 @@
-import { RendererOptions } from '../../models/renderer-options';
-import { IFieldReference, IField } from '../../models/schema';
-import { ChangeArrayActionType } from '../../renderer-hosts/field-host-renderer/field-host-renderer.actions';
-import { NavState } from '../../store';
-import { CollectionReferences } from '../../form/form.props';
+import { ICollectionReferences } from "../../form/form.props";
+import { IRendererOptions } from "../../models/renderer-options";
+import { IField, IFieldReference } from "../../models/schema";
+import { ChangeArrayActionType } from "../../renderer-hosts/field-host-renderer/field-host-renderer.actions";
+import { INavState } from "../../store";
 
-export type FieldHostRendererConnectProps = {
+export interface IFieldHostRendererConnectProps {
   parentPath?: string;
   fieldReference: IFieldReference;
-};
+}
 
-export type FieldHostRendererProps = FieldHostRendererConnectProps & {
-  rendererOptions: RendererOptions;
-  collectionReferences?: CollectionReferences;
+export interface IFieldHostRendererProps
+  extends IFieldHostRendererConnectProps {
+  rendererOptions: IRendererOptions;
+  collectionReferences?: ICollectionReferences;
   fieldPath: string;
   parentPath?: string;
   formValue: object;
@@ -27,6 +28,6 @@ export type FieldHostRendererProps = FieldHostRendererConnectProps & {
     itemPath: string,
     type: ChangeArrayActionType
   ) => void;
-  push: (state: NavState) => void;
+  push: (state: INavState) => void;
   pop: () => void;
-};
+}

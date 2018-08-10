@@ -1,21 +1,22 @@
-import { h, Component } from 'preact';
-import { IStruct } from '../models/schema';
-import Logger from '../logger';
-import combineCssClasses from '../utils/combine-css-classes';
-import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
-import shallowCompare from '../utils/shallow-compare';
-import { FormProps } from './form.props';
+import { Component, h } from "preact";
+import Logger from "../logger";
+import { IStruct } from "../models/schema";
+import BlockHostRenderer from "../renderer-hosts/block-host-renderer";
+import combineCssClasses from "../utils/combine-css-classes";
+import shallowCompare from "../utils/shallow-compare";
+import { IFormProps } from "./form.props";
 
-export interface FormState {
+export interface IFormState {
   structs: IStruct[];
 }
 
-export default class Form extends Component<FormProps, FormState> {
-  shouldComponentUpdate(nextProps: FormProps, nextState: FormState) {
+export default class Form extends Component<IFormProps, IFormState> {
+  public shouldComponentUpdate(nextProps: IFormProps, nextState: IFormState) {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  render({
+  public render({
+    schema,
     className,
     structs,
     struct,
@@ -25,7 +26,23 @@ export default class Form extends Component<FormProps, FormState> {
     submitting,
     submitForm,
     pop
-  }: FormProps) {
+  }: IFormProps) {
+    if (!schema) {
+      Logger.error("No schema defined.");
+    }
+
+    if (!Array.isArray(schema)) {
+      Logger.error("Invalid schema defined.", schema);
+      return null;
+    }
+
+    if (!rendererOptions || !rendererOptions.components) {
+      Logger.error(
+        "No rendererOptions have been set. Use DeReCrudOptions.setDefaults or rendererOptions on the form instance."
+      );
+      return null;
+    }
+
     let visibleBlock: string;
     let visibleStruct: string;
 
@@ -38,26 +55,26 @@ export default class Form extends Component<FormProps, FormState> {
       visibleBlock = block;
     }
 
-    const structReference = structs.find(x => x.name === visibleStruct);
+    const structReference = structs.find((x) => x.name === visibleStruct);
 
     const classNames = [
-      'de-re-crud-form',
+      "de-re-crud-form",
       className,
       rendererOptions.formClassName
     ];
 
     if (!structReference) {
-      Logger.error(`Struct '${struct}' is not defined.`);
+      Logger.error(`Struct '${struct}' is not defined.`, structs);
       return null;
     }
 
     if (!structReference.blocks.length) {
-      Logger.error(`No blocks defined for struct '${visibleStruct}'.`);
+      Logger.error(`No blocks defined for struct '${visibleStruct}'.`, structReference);
       return null;
     }
 
     let blockReference = structReference.blocks.find(
-      x => x.name === visibleBlock
+      (x) => x.name === visibleBlock
     );
 
     if (!blockReference) {
@@ -68,19 +85,16 @@ export default class Form extends Component<FormProps, FormState> {
       blockReference = structReference.blocks[0];
     }
 
-    if (!rendererOptions || !rendererOptions.components) {
-      Logger.error('No rendererOptions have been set. Use DeReCrudInitializer.setDefaults or rendererOptions on the form instance.');
-      return null;
-    }
-
     const ButtonRenderer = rendererOptions.components.button;
-    const path = navStack.length
-      ? navStack[navStack.length - 1].path
-      : null;
+    const path = navStack.length ? navStack[navStack.length - 1].path : null;
 
     return (
       <form className={combineCssClasses(...classNames)}>
-        <BlockHostRenderer struct={visibleStruct} block={blockReference} path={path} />
+        <BlockHostRenderer
+          struct={visibleStruct}
+          block={blockReference}
+          path={path}
+        />
         {!navStack.length ? (
           <ButtonRenderer
             text="Submit"

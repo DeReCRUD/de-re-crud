@@ -6,10 +6,13 @@
   "style": "dist/de-re-crud-forms-bootstrap3.css",
   "main": "dist/de-re-crud-forms-bootstrap3.umd.js",
   "module": "dist/de-re-crud-forms-bootstrap3.es5.js",
-  "typings": "dist/de-re-crud-forms-bootstrap3.d.ts",
+  "types": "dist/types",
   "scripts": {
-    "lint": "tslint --project tsconfig.json",
-    "build": "rollup -c"
+    "lint": "tslint --project ./tsconfig.json",
+    "clean": "del-cli \"dist/**/*\"",
+    "build:dev": "rollup --config",
+    "build:prod": "rollup --config",
+    "build": "npm-run-all -s clean build:dev build:prod"
   },
   "optionalDependencies": {
     "bootstrap": ">= 3 < 4"
@@ -17,9 +20,11 @@
   "peerDependencies": {
     "@de-re-crud/forms": "^0.0.1"
   },
+  "dependencies": {
+    "preact": "~8"
+  },
   "devDependencies": {
-    "@de-re-crud/forms": "^0.0.1",
-    "preact": "^8.2.9"
+    "@de-re-crud/forms": "^0.0.1"
   },
   "publishConfig": {
     "access": "public"
