@@ -1,5 +1,5 @@
-import { IFieldContainerRenderer } from "@de-re-crud/forms/models/renderers";
-import { combineCssClasses } from "@de-re-crud/forms/utils";
+import { IFieldContainerRenderer } from "@de-re-crud/core/models/renderers";
+import { combineCssClasses } from "@de-re-crud/core/utils";
 import { h } from "preact";
 
 const Bootstrap3FieldContainerRenderer = ({
