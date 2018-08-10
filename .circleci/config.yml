@@ -11,11 +11,11 @@ jobs:
 
       - restore_cache:
           keys:
-          - yarn-cache-v1-{{ checksum "yarn.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - yarn-cache-v1-
+            - yarn-cache-v1-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - yarn-cache-v1-
 
-      - run: 
+      - run:
           name: Install Dependencies
           command: yarn install
 
@@ -28,15 +28,15 @@ jobs:
           name: Lint Source
           command: yarn lint
 
-      - run: 
+      - run:
           name: Run Tests
           command: yarn test
 
-      - run: 
+      - run:
           name: Build
           command: yarn build
 
-      - run: 
+      - run:
           name: Copy Artifacts
           command: ./scripts/copy-artifacts.sh
 
@@ -46,4 +46,33 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths:
+            - scripts
             - dist
+
+  deploy:
+    docker:
+      - image: circleci/node:8.11.3-browsers
+
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+
+      - run:
+          name: Configure NPM
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+
+      - run:
+          name: Publish Packages
+          command: cd /tmp/workspace && ./scripts/publish.sh
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/

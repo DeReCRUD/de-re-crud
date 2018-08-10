@@ -11,8 +11,7 @@
     "lint": "lerna run lint -- --format stylish",
     "test": "jest",
     "format": "prettier \"**/*.{ts,tsx,js,json}\"",
-    "bump-version": "lerna publish --skip-npm --force-publish '*'",
-    "publish-release": "yarn lint && yarn test && yarn build && lerna run publish -- --access public"
+    "bump": "lerna publish --skip-npm --force-publish '*'"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.56",
