@@ -14,7 +14,7 @@ Install a renderer:
 
 ```bash
 # This is the Bootstrap 3 renderer as an example. You will need to include Bootstrap CSS and the CSS shipped with the renderer library.
-npm install --save @de-re-crud/renderer-boostrap3
+npm install --save @de-re-crud/renderer-bootstrap3
 #or, yarn add @de-re-crud/renderer-bootstrap3
 ```
 
