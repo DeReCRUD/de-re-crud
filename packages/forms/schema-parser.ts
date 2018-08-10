@@ -21,6 +21,10 @@ interface ISchemaMap<T> {
 
 export default class SchemaParser {
   public static parse(schemaJson: any): IStruct[] {
+    if (!Array.isArray(schemaJson)) {
+      return [];
+    }
+
     const structMap: ISchemaMap<IStruct> = {};
 
     const structFieldMap: { [structName: string]: ISchemaMap<IField> } = {};
@@ -35,20 +39,24 @@ export default class SchemaParser {
         parsed: this.parseStruct(structJson)
       };
 
-      for (const fieldJson of structJson.fields) {
-        fieldMap[fieldJson.name] = {
-          json: fieldJson,
-          parsed: this.parseField(fieldJson)
-        };
+      if (Array.isArray(structJson.fields)) {
+        for (const fieldJson of structJson.fields) {
+          fieldMap[fieldJson.name] = {
+            json: fieldJson,
+            parsed: this.parseField(fieldJson)
+          };
+        }
       }
 
       structFieldMap[structJson.name] = fieldMap;
 
-      for (const blockJson of structJson.blocks) {
-        blockMap[blockJson.name] = {
-          json: blockJson,
-          parsed: this.parseBlock(blockJson)
-        };
+      if (Array.isArray(structJson.blocks)) {
+        for (const blockJson of structJson.blocks) {
+          blockMap[blockJson.name] = {
+            json: blockJson,
+            parsed: this.parseBlock(blockJson)
+          };
+        }
       }
 
       structBlockMap[structJson.name] = blockMap;
@@ -137,13 +145,17 @@ export default class SchemaParser {
       const struct = structMap[structName].parsed;
       const json = structMap[structName].json;
 
-      json.fields.forEach((field) => {
-        struct.fields.push(structFieldMap[structName][field.name].parsed);
-      });
+      if (Array.isArray(json.fields)) {
+        json.fields.forEach((field) => {
+          struct.fields.push(structFieldMap[structName][field.name].parsed);
+        });
+      }
 
-      json.blocks.forEach((block) => {
-        struct.blocks.push(structBlockMap[structName][block.name].parsed);
-      });
+      if (Array.isArray(json.blocks)) {
+        json.blocks.forEach((block) => {
+          struct.blocks.push(structBlockMap[structName][block.name].parsed);
+        });
+      }
 
       return struct;
     });

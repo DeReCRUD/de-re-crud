@@ -1,13 +1,12 @@
 import { Component, h } from "preact";
-import Store from "redux-zero/interfaces/Store";
 import { Provider } from "redux-zero/preact";
-import { createStore } from "../store";
+import { createStore, IStore } from "../store";
 import shallowCompare from "../utils/shallow-compare";
 import FormConnect from "./form.connect";
 import { IFormConnectProps } from "./form.props";
 
 export default class Form extends Component<IFormConnectProps> {
-  private store: Store;
+  private store: IStore;
 
   constructor(props: IFormConnectProps) {
     super(props);

@@ -10,6 +10,7 @@ export default function fieldHostRendererActions({ setState }) {
   return {
     focusField: (
       state: IStoreState,
+      _: IField,
       fieldPath: string
     ): Partial<IStoreState> => {
       const value = formPathToValue(state.value, fieldPath);
@@ -37,6 +38,7 @@ export default function fieldHostRendererActions({ setState }) {
         state.value,
         fieldPath.substring(0, fieldPath.lastIndexOf("."))
       );
+
       const errors = validateField(field, value);
 
       const focused = { ...state.focused };

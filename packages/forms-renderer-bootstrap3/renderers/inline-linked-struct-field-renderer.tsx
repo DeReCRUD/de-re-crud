@@ -1,7 +1,7 @@
 import Bootstrap3ButtonRenderer from "@de-re-crud/forms-renderer-bootstrap3/renderers/button-renderer";
 import Bootstrap3LabelRenderer from "@de-re-crud/forms-renderer-bootstrap3/renderers/label-renderer";
 import { IInlinedLinkedStructRenderer } from "@de-re-crud/forms/models/renderers";
-import createCssClass from "@de-re-crud/forms/utils/create-css-class";
+import { createCssClass } from "@de-re-crud/forms/utils";
 import { h } from "preact";
 import "./inline-linked-struct-field-renderer.css";
 

@@ -13,6 +13,14 @@ import { DeReCrudOptions } from "./options";
 import SchemaParser from "./schema-parser";
 import generateChildErrors from "./utils/generate-child-errors";
 
+export interface IStore {
+  middleware(): void;
+  setState(state: any): void;
+  subscribe(cb: () => any): any;
+  getState(): object;
+  reset(): void;
+}
+
 export interface IErrors {
   [path: string]: string[];
 }
@@ -68,7 +76,7 @@ export function createStore(
     onChange?: FormChangeNotification;
     onChangeType?: FormChangeNotificationType;
   }
-) {
+): IStore {
   const structs = SchemaParser.parse(schemaJson);
   const initialValue = (formState && formState.value) || {};
 
@@ -94,5 +102,6 @@ export function createStore(
   const middlewares = [logger, connect ? connect(state) : null].filter(
     (x) => x
   );
-  return createReduxZeroStore(state, applyMiddleware(...middlewares));
+
+  return createReduxZeroStore(state, applyMiddleware(...middlewares)) as IStore;
 }

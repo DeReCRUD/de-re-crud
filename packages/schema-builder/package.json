@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "lint": "tslint --project ./tsconfig.json",
-    "dev": "preact watch"
+    "dev": "preact watch --cwd ../.."
   },
   "dependencies": {
     "@de-re-crud/forms": "^0.0.1",

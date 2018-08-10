@@ -16,6 +16,7 @@ export default class Form extends Component<IFormProps, IFormState> {
   }
 
   public render({
+    schema,
     className,
     structs,
     struct,
@@ -26,6 +27,22 @@ export default class Form extends Component<IFormProps, IFormState> {
     submitForm,
     pop
   }: IFormProps) {
+    if (!schema) {
+      Logger.error("No schema defined.");
+    }
+
+    if (!Array.isArray(schema)) {
+      Logger.error("Invalid schema defined.", schema);
+      return null;
+    }
+
+    if (!rendererOptions || !rendererOptions.components) {
+      Logger.error(
+        "No rendererOptions have been set. Use DeReCrudOptions.setDefaults or rendererOptions on the form instance."
+      );
+      return null;
+    }
+
     let visibleBlock: string;
     let visibleStruct: string;
 
@@ -47,12 +64,12 @@ export default class Form extends Component<IFormProps, IFormState> {
     ];
 
     if (!structReference) {
-      Logger.error(`Struct '${struct}' is not defined.`);
+      Logger.error(`Struct '${struct}' is not defined.`, structs);
       return null;
     }
 
     if (!structReference.blocks.length) {
-      Logger.error(`No blocks defined for struct '${visibleStruct}'.`);
+      Logger.error(`No blocks defined for struct '${visibleStruct}'.`, structReference);
       return null;
     }
 
@@ -66,13 +83,6 @@ export default class Form extends Component<IFormProps, IFormState> {
       );
 
       blockReference = structReference.blocks[0];
-    }
-
-    if (!rendererOptions || !rendererOptions.components) {
-      Logger.error(
-        "No rendererOptions have been set. Use DeReCrudInitializer.setDefaults or rendererOptions on the form instance."
-      );
-      return null;
     }
 
     const ButtonRenderer = rendererOptions.components.button;

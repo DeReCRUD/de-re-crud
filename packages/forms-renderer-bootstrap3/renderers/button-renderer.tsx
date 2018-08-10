@@ -1,5 +1,5 @@
 import { IButtonRenderer } from "@de-re-crud/forms/models/renderers";
-import combineCssClasses from "@de-re-crud/forms/utils/combine-css-classes";
+import { combineCssClasses } from "@de-re-crud/forms/utils";
 import { h } from "preact";
 
 const Bootstrap3ButtonRenderer = ({

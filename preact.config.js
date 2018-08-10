@@ -1,19 +1,17 @@
-import { resolve } from "path";
-import webpack from "webpack";
-import preactCliTypeScript from "preact-cli-plugin-typescript";
+const { resolve } = require('path')
+const webpack = require('webpack');
+const preactCliTypeScript = require("preact-cli-plugin-typescript");
 
-export default function(config) {
+module.exports = function(config) {
   // NOTE: Hack to add Webpack 4 support to plugin
   config.module.loaders = config.module.rules;
   preactCliTypeScript(config);
   delete config.module.loaders;
 
-  const rootModulesDir = resolve(process.cwd(), "..", "..", "node_modules");
-  config.resolveLoader.modules.unshift(rootModulesDir);
-
   const jsonLoaderIndex = config.module.rules.findIndex(
     (x) => x.loader === "json-loader"
   );
+  
   config.module.rules.splice(jsonLoaderIndex, 1);
 
   config.plugins.push(
@@ -23,7 +21,9 @@ export default function(config) {
   );
 
   config.resolve.alias["preact-cli-entrypoint"] = resolve(
-    process.cwd(),
+    __dirname,
+    "packages",
+    "schema-builder",
     "index"
   );
 }
