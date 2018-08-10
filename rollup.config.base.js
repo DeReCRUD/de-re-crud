@@ -5,7 +5,6 @@ import commonjs from "rollup-plugin-commonjs";
 import sourceMaps from "rollup-plugin-sourcemaps";
 import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
-import generatePackageJson from "rollup-plugin-generate-package-json";
 import { terser } from "rollup-plugin-terser";
 import filesize from "rollup-plugin-filesize";
 import replace from "rollup-plugin-replace";
@@ -66,21 +65,6 @@ function getMainBundle(pkg, external, isProd) {
       })
     );
   }
-
-  const newPkg = {
-    ...pkg,
-    main: path.basename(pkg.main),
-    module: path.basename(pkg.module),
-    types: path.basename(pkg.types)
-  };
-
-  if (newPkg.style) {
-    newPkg.style = path.basename(pkg.style);
-  }
-
-  delete newPkg.scripts;
-
-  config.plugins.push(generatePackageJson({ baseContents: newPkg }));
 
   return config;
 }

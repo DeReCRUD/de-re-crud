@@ -7177,13 +7177,6 @@ rollup-plugin-filesize@^4.0.1:
     gzip-size "^3.0.0"
     terser "^3.8.0"
 
-rollup-plugin-generate-package-json@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-generate-package-json/-/rollup-plugin-generate-package-json-2.1.1.tgz#0ce1ea5204a87662a1b5491ef0934884b5ce03e2"
-  dependencies:
-    read-pkg "^3.0.0"
-    write-pkg "^3.2.0"
-
 rollup-plugin-node-resolve@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-node-resolve/-/rollup-plugin-node-resolve-3.3.0.tgz#c26d110a36812cbefa7ce117cadcd3439aa1c713"
@@ -8809,7 +8802,7 @@ write-json-file@^2.2.0:
     sort-keys "^2.0.0"
     write-file-atomic "^2.0.0"
 
-write-pkg@^3.1.0, write-pkg@^3.2.0:
+write-pkg@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/write-pkg/-/write-pkg-3.2.0.tgz#0e178fe97820d389a8928bc79535dbe68c2cff21"
   dependencies:
