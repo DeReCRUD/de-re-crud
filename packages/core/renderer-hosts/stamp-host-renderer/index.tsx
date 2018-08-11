@@ -1,11 +1,11 @@
-import { connect } from "redux-zero/preact";
-import { IStoreState } from "../../store";
-import formPathToValue from "../../utils/form-path-to-value";
-import StampHostRenderer from "./stamp-host-renderer.component";
+import { connect } from 'redux-zero/preact';
+import { IStoreState } from '../../store';
+import formPathToValue from '../../utils/form-path-to-value';
+import StampHostRenderer from './stamp-host-renderer.component';
 import {
   IStampHostRendererConnectProps,
   IStampHostRendererProps
-} from "./stamp-host-renderer.props";
+} from './stamp-host-renderer.props';
 
 const mapToProps = (
   { value, rendererOptions }: IStoreState,

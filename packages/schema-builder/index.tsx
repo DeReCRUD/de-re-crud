@@ -3,13 +3,13 @@ import {
   Form,
   FormSubmissionCallback,
   ICollectionReferences
-} from "@de-re-crud/core";
-import { IOption } from "@de-re-crud/core/models";
-import { Bootstrap3RendererOptions } from "@de-re-crud/renderer-bootstrap3";
-import "bootstrap/dist/css/bootstrap.css";
-import { Component, h } from "preact";
-import schemJson from "./schema.json";
-import "./style.css";
+} from '@de-re-crud/core';
+import { IOption } from '@de-re-crud/core/models';
+import { Bootstrap3RendererOptions } from '@de-re-crud/renderer-bootstrap3';
+import 'bootstrap/dist/css/bootstrap.css';
+import { Component, h } from 'preact';
+import schemJson from './schema.json';
+import './style.css';
 
 DeReCrudOptions.setDefaults({ rendererOptions: Bootstrap3RendererOptions });
 

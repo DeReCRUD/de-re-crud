@@ -5,7 +5,7 @@ export default function debounce(
   func: Function,
   wait: number = 200,
   immediate: boolean = false
-// tslint:disable-next-line:ban-types
+  // tslint:disable-next-line:ban-types
 ): Function {
   let timeoutId;
 

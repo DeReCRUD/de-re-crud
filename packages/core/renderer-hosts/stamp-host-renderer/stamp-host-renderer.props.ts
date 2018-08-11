@@ -1,5 +1,5 @@
-import { IRendererOptions } from "../../models/renderer-options";
-import { IStamp } from "../../models/schema";
+import { IRendererOptions } from '../../models/renderer-options';
+import { IStamp } from '../../models/schema';
 
 export interface IStampHostRendererConnectProps {
   stamp: IStamp;

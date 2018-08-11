@@ -1,4 +1,4 @@
-import { IBlock } from "../../models/schema";
+import { IBlock } from '../../models/schema';
 
 export interface IBlockHostRendererConnectProps {
   struct: string;

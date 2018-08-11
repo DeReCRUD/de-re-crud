@@ -1,10 +1,10 @@
-import { IField } from "../../models/schema";
-import { IStoreState } from "../../store";
-import formPathToValue from "../../utils/form-path-to-value";
-import generateChildErrors from "../../utils/generate-child-errors";
-import { validateField } from "../../utils/validation-helper";
+import { IField } from '../../models/schema';
+import { IStoreState } from '../../store';
+import formPathToValue from '../../utils/form-path-to-value';
+import generateChildErrors from '../../utils/generate-child-errors';
+import { validateField } from '../../utils/validation-helper';
 
-export type ChangeArrayActionType = "add" | "remove";
+export type ChangeArrayActionType = 'add' | 'remove';
 
 export default function fieldHostRendererActions({ setState }) {
   return {
@@ -36,7 +36,7 @@ export default function fieldHostRendererActions({ setState }) {
       const value = formPathToValue(state.value, fieldPath);
       const parentValue = formPathToValue(
         state.value,
-        fieldPath.substring(0, fieldPath.lastIndexOf("."))
+        fieldPath.substring(0, fieldPath.lastIndexOf('.'))
       );
 
       const errors = validateField(field, value);
@@ -59,7 +59,7 @@ export default function fieldHostRendererActions({ setState }) {
       if (
         oldValue !== value &&
         state.onChange &&
-        state.onChangeType === "blur"
+        state.onChangeType === 'blur'
       ) {
         state.onChange({
           formValue: state.value,
@@ -80,7 +80,7 @@ export default function fieldHostRendererActions({ setState }) {
       value: any
     ): Partial<IStoreState> => {
       const oldValue = formPathToValue(state.value, fieldPath);
-      const pathArray = fieldPath.split(".");
+      const pathArray = fieldPath.split('.');
 
       const newValue = { ...state.value };
       let iterationValue = newValue;
@@ -96,7 +96,7 @@ export default function fieldHostRendererActions({ setState }) {
           parentValue[path] = value;
         } else if (Array.isArray(iterationValue)) {
           parentValue[path] = iterationValue.concat();
-        } else if (typeof iterationValue === "object") {
+        } else if (typeof iterationValue === 'object') {
           parentValue[path] = { ...iterationValue };
         }
 
@@ -124,7 +124,7 @@ export default function fieldHostRendererActions({ setState }) {
       if (
         oldValue !== value &&
         state.onChange &&
-        state.onChangeType === "change"
+        state.onChangeType === 'change'
       ) {
         state.onChange({
           formValue: newValue,
@@ -145,7 +145,7 @@ export default function fieldHostRendererActions({ setState }) {
       itemPath: string,
       type: ChangeArrayActionType
     ): Partial<IStoreState> => {
-      const pathArray = itemPath.split(".");
+      const pathArray = itemPath.split('.');
 
       const newValue = { ...state.value };
       let iterationValue: any = newValue;
@@ -158,19 +158,19 @@ export default function fieldHostRendererActions({ setState }) {
         iterationValue = iterationValue[path];
         if (i === pathArray.length - 1) {
           switch (type) {
-            case "add":
+            case 'add':
               parentValue.push({});
               break;
-            case "remove":
+            case 'remove':
               parentValue.splice(path, 1);
               break;
           }
         } else if (Array.isArray(iterationValue)) {
           parentValue[path] = iterationValue.concat();
-        } else if (typeof iterationValue === "object") {
+        } else if (typeof iterationValue === 'object') {
           parentValue[path] = { ...iterationValue };
         } else if (
-          typeof iterationValue === "undefined" &&
+          typeof iterationValue === 'undefined' &&
           i === pathArray.length - 2
         ) {
           parentValue[path] = [];
@@ -199,8 +199,8 @@ export default function fieldHostRendererActions({ setState }) {
       if (state.onChange) {
         state.onChange({
           formValue: newValue,
-          newValue: type === "add" ? {} : undefined,
-          oldValue: type === "remove" ? state.value : undefined,
+          newValue: type === 'add' ? {} : undefined,
+          oldValue: type === 'remove' ? state.value : undefined,
           parentValue,
           path: itemPath
         });

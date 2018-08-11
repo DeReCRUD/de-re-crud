@@ -1,8 +1,8 @@
-import { ICollectionReferences } from "../../form/form.props";
-import { IRendererOptions } from "../../models/renderer-options";
-import { IField, IFieldReference } from "../../models/schema";
-import { ChangeArrayActionType } from "../../renderer-hosts/field-host-renderer/field-host-renderer.actions";
-import { INavState } from "../../store";
+import { ICollectionReferences } from '../../form/form.props';
+import { IRendererOptions } from '../../models/renderer-options';
+import { IField, IFieldReference } from '../../models/schema';
+import { ChangeArrayActionType } from '../../renderer-hosts/field-host-renderer/field-host-renderer.actions';
+import { INavState } from '../../store';
 
 export interface IFieldHostRendererConnectProps {
   parentPath?: string;

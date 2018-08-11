@@ -1,6 +1,6 @@
-import { h } from "preact";
-import BaseComponent from "../../base-component";
-import { IStampHostRendererProps } from "./stamp-host-renderer.props";
+import { h } from 'preact';
+import BaseComponent from '../../base-component';
+import { IStampHostRendererProps } from './stamp-host-renderer.props';
 
 export default class StampHostRenderer extends BaseComponent<
   IStampHostRendererProps

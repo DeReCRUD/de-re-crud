@@ -1,6 +1,6 @@
-import { h } from "preact";
-import BaseComponent from "../../base-component";
-import Logger from "../../logger";
+import { h } from 'preact';
+import BaseComponent from '../../base-component';
+import Logger from '../../logger';
 import {
   FieldBlurEvent,
   FieldChangeEvent,
@@ -10,7 +10,7 @@ import {
   IInlinedLinkedStructRenderer,
   IListFieldRenderer,
   ITableLinkedStructRenderer
-} from "../../models/renderers";
+} from '../../models/renderers';
 import {
   IField,
   IFieldReference,
@@ -20,11 +20,11 @@ import {
   IListField,
   IOption,
   IReferenceField
-} from "../../models/schema";
-import debounce from "../../utils/debounce";
-import formPathToValue from "../../utils/form-path-to-value";
-import BlockHostRenderer from "../block-host-renderer";
-import { IFieldHostRendererProps } from "./field-host-renderer.props";
+} from '../../models/schema';
+import debounce from '../../utils/debounce';
+import formPathToValue from '../../utils/form-path-to-value';
+import BlockHostRenderer from '../block-host-renderer';
+import { IFieldHostRendererProps } from './field-host-renderer.props';
 
 export default class FieldHostRenderer extends BaseComponent<
   IFieldHostRendererProps
@@ -123,7 +123,7 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldPath
     } = this.props;
     const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
     this.debouncedChangedValue(field, fieldPath, value);
   };
@@ -131,7 +131,7 @@ export default class FieldHostRenderer extends BaseComponent<
   private onAdd = (index: number) => {
     const { changeArrayValue, push, fieldReference, fieldPath } = this.props;
 
-    const itemPath = fieldPath + "." + index;
+    const itemPath = fieldPath + '.' + index;
 
     const {
       reference: { struct, block }
@@ -139,9 +139,9 @@ export default class FieldHostRenderer extends BaseComponent<
 
     const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
 
-    changeArrayValue(fieldReference.field, fieldPath, itemPath, "add");
+    changeArrayValue(fieldReference.field, fieldPath, itemPath, 'add');
 
-    if (linkedStructFieldReference.hints.layout === "table") {
+    if (linkedStructFieldReference.hints.layout === 'table') {
       push({
         block: block.name,
         path: itemPath,
@@ -171,7 +171,7 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldReference.field,
       fieldPath,
       `${fieldPath}.${index}`,
-      "remove"
+      'remove'
     );
   };
 
@@ -189,39 +189,39 @@ export default class FieldHostRenderer extends BaseComponent<
     const { field } = fieldReference;
 
     switch (field.type) {
-      case "text": {
+      case 'text': {
         const TextFieldRenderer = rendererOptions.components.textField;
         return <TextFieldRenderer {...fieldProps} />;
       }
-      case "keyword": {
+      case 'keyword': {
         const KeywordFieldRenderer = rendererOptions.components.keywordField;
         return <KeywordFieldRenderer {...fieldProps} />;
       }
-      case "integer": {
+      case 'integer': {
         const IntegerFieldRenderer = rendererOptions.components.integerField;
         return <IntegerFieldRenderer {...fieldProps} />;
       }
-      case "estimate": {
+      case 'estimate': {
         const EsimateFieldRenderer = rendererOptions.components.estimateField;
         return <EsimateFieldRenderer {...fieldProps} />;
       }
-      case "date": {
+      case 'date': {
         const DateFieldRenderer = rendererOptions.components.dateField;
         return <DateFieldRenderer {...fieldProps} />;
       }
-      case "boolean": {
+      case 'boolean': {
         const BooleanFieldRenderer = rendererOptions.components.booleanField;
         return <BooleanFieldRenderer {...fieldProps} />;
       }
-      case "percent": {
+      case 'percent': {
         const PercentFieldRenderer = rendererOptions.components.percentField;
         return <PercentFieldRenderer {...fieldProps} />;
       }
-      case "money": {
+      case 'money': {
         const MoneyFieldRenderer = rendererOptions.components.moneyField;
         return <MoneyFieldRenderer {...fieldProps} />;
       }
-      case "foreignKey": {
+      case 'foreignKey': {
         const ForeignKeyFieldRenderer =
           rendererOptions.components.foreignKeyField;
         const options: IOption[] = [];
@@ -244,10 +244,10 @@ export default class FieldHostRenderer extends BaseComponent<
 
         return <ForeignKeyFieldRenderer {...foreignKeyFieldProps} />;
       }
-      case "linkedStruct": {
+      case 'linkedStruct': {
         const { reference } = field as ILinkedStructField;
         const { hints } = fieldReference as ILinkedStructFieldReference;
-        const isTable = hints.layout === "table";
+        const isTable = hints.layout === 'table';
         const block = hints.block || reference.block;
 
         const LinkedStructFieldRenderer = isTable
@@ -306,7 +306,7 @@ export default class FieldHostRenderer extends BaseComponent<
           );
         }
       }
-      case "list": {
+      case 'list': {
         const { options } = field as IListField;
         const ListFieldRenderer = rendererOptions.components.listField;
 
@@ -317,7 +317,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
         return <ListFieldRenderer {...listFieldProps} />;
       }
-      case "derived": {
+      case 'derived': {
         const DerivedFieldRenderer = rendererOptions.components.derivedField;
         return <DerivedFieldRenderer {...fieldProps} />;
       }

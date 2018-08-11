@@ -1,18 +1,18 @@
-import { default as createReduxZeroStore } from "redux-zero";
-import { connect } from "redux-zero/devtools";
-import { applyMiddleware } from "redux-zero/middleware";
+import { default as createReduxZeroStore } from 'redux-zero';
+import { connect } from 'redux-zero/devtools';
+import { applyMiddleware } from 'redux-zero/middleware';
 import {
   FormChangeNotification,
   FormChangeNotificationType,
   FormSubmission,
   ICollectionReferences
-} from "./form/form.props";
-import { IChildErrors, IErrors } from "./models/errors";
-import { IRendererOptions } from "./models/renderer-options";
-import { IStruct } from "./models/schema";
-import { DeReCrudOptions } from "./options";
-import SchemaParser from "./schema-parser";
-import generateChildErrors from "./utils/generate-child-errors";
+} from './form/form.props';
+import { IChildErrors, IErrors } from './models/errors';
+import { IRendererOptions } from './models/renderer-options';
+import { IStruct } from './models/schema';
+import { DeReCrudOptions } from './options';
+import SchemaParser from './schema-parser';
+import generateChildErrors from './utils/generate-child-errors';
 
 export interface IStore {
   middleware(): void;
@@ -50,7 +50,7 @@ export interface IStoreState {
 const logger = (store) => (next) => (action) => {
   if (process.env.ENABLE_LOGGING) {
     // tslint:disable-next-line:no-console
-    console.log("current state:", store.getState());
+    console.log('current state:', store.getState());
   }
 
   return next(action);
@@ -74,7 +74,7 @@ export function createStore(
   const initialValue = (formState && formState.value) || {};
 
   const state: IStoreState = {
-    block: block || "default",
+    block: block || 'default',
     childErrors: generateChildErrors(formState.errors),
     collectionReferences,
     errors: formState.errors || {},
@@ -82,7 +82,7 @@ export function createStore(
     initialValue,
     navStack: [],
     onChange: formState && formState.onChange,
-    onChangeType: (formState && formState.onChangeType) || "blur",
+    onChangeType: (formState && formState.onChangeType) || 'blur',
     onSubmit: formState && formState.onSubmit,
     rendererOptions:
       rendererOptions || DeReCrudOptions.getDefaults().rendererOptions,

@@ -1,7 +1,7 @@
-import formPathToValue from "./form-path-to-value";
+import formPathToValue from './form-path-to-value';
 
-describe("formPathToValue", () => {
-  it("should return value from object path", () => {
+describe('formPathToValue', () => {
+  it('should return value from object path', () => {
     const value = {
       parent: {
         child: {
@@ -10,10 +10,10 @@ describe("formPathToValue", () => {
       }
     };
 
-    expect(formPathToValue(value, "parent.child.value")).toBe(1);
+    expect(formPathToValue(value, 'parent.child.value')).toBe(1);
   });
 
-  it("should return value from array path", () => {
+  it('should return value from array path', () => {
     const value = {
       parent: {
         child: {
@@ -22,6 +22,6 @@ describe("formPathToValue", () => {
       }
     };
 
-    expect(formPathToValue(value, "parent.child.array.0.value")).toBe(1);
+    expect(formPathToValue(value, 'parent.child.array.0.value')).toBe(1);
   });
 });

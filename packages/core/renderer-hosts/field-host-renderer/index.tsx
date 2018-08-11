@@ -1,13 +1,13 @@
-import { connect } from "redux-zero/preact";
-import { combineActions } from "redux-zero/utils";
-import navigationActions from "../../navigation.actions";
-import { IStoreState } from "../../store";
-import fieldHostRendererActions from "./field-host-renderer.actions";
-import FieldHostRenderer from "./field-host-renderer.component";
+import { connect } from 'redux-zero/preact';
+import { combineActions } from 'redux-zero/utils';
+import navigationActions from '../../navigation.actions';
+import { IStoreState } from '../../store';
+import fieldHostRendererActions from './field-host-renderer.actions';
+import FieldHostRenderer from './field-host-renderer.component';
 import {
   IFieldHostRendererConnectProps,
   IFieldHostRendererProps
-} from "./field-host-renderer.props";
+} from './field-host-renderer.props';
 
 const mapToProps = (
   {

@@ -1,4 +1,4 @@
-import { FieldType, IOption, StampSize } from "./schema";
+import { FieldType, IOption, StampSize } from './schema';
 
 export interface IFieldContainerRenderer {
   fieldName: string;

@@ -1,6 +1,6 @@
-import { ComponentConstructor, h, render } from "preact";
-import Form from "./form";
-import { IFormConnectProps as IFormProps } from "./form/form.props";
+import { ComponentConstructor, h, render } from 'preact';
+import Form from './form';
+import { IFormConnectProps as IFormProps } from './form/form.props';
 
 export { Form };
 
@@ -13,9 +13,9 @@ export {
   IFormChangeNotificationParams,
   ICollectionReferences,
   CollectionReference
-} from "./form/form.props";
+} from './form/form.props';
 
-export { DeReCrudOptions } from "./options";
+export { DeReCrudOptions } from './options';
 
 export function renderForm(
   formComponent: ComponentConstructor<IFormProps>,

@@ -1,11 +1,11 @@
-import { h } from "preact";
-import BaseComponent from "../base-component";
-import Logger from "../logger";
-import { IStruct } from "../models/schema";
-import BlockHostRenderer from "../renderer-hosts/block-host-renderer";
-import combineCssClasses from "../utils/combine-css-classes";
-import shallowCompare from "../utils/shallow-compare";
-import { IFormProps } from "./form.props";
+import { h } from 'preact';
+import BaseComponent from '../base-component';
+import Logger from '../logger';
+import { IStruct } from '../models/schema';
+import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
+import combineCssClasses from '../utils/combine-css-classes';
+import shallowCompare from '../utils/shallow-compare';
+import { IFormProps } from './form.props';
 
 export interface IFormState {
   structs: IStruct[];
@@ -31,17 +31,17 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     } = this.props;
 
     if (!schema) {
-      Logger.error("No schema defined.");
+      Logger.error('No schema defined.');
     }
 
     if (!Array.isArray(schema)) {
-      Logger.error("Invalid schema defined.", schema);
+      Logger.error('Invalid schema defined.', schema);
       return null;
     }
 
     if (!rendererOptions || !rendererOptions.components) {
       Logger.error(
-        "No rendererOptions have been set. Use DeReCrudOptions.setDefaults or rendererOptions on the form instance."
+        'No rendererOptions have been set. Use DeReCrudOptions.setDefaults or rendererOptions on the form instance.'
       );
       return null;
     }
@@ -61,7 +61,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     const structReference = structs.find((x) => x.name === visibleStruct);
 
     const classNames = [
-      "de-re-crud-form",
+      'de-re-crud-form',
       className,
       rendererOptions.formClassName
     ];

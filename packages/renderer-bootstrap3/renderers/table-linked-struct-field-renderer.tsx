@@ -1,11 +1,11 @@
-import { ITableLinkedStructRenderer } from "@de-re-crud/core/models/renderers";
-import { createCssClass } from "@de-re-crud/core/utils";
-import { h } from "preact";
-import Bootstrap3ButtonRenderer from "./button-renderer";
-import Bootstrap3LabelRenderer from "./label-renderer";
-import "./table-linked-struct-field-renderer.css";
+import { ITableLinkedStructRenderer } from '@de-re-crud/core/models/renderers';
+import { createCssClass } from '@de-re-crud/core/utils';
+import { h } from 'preact';
+import Bootstrap3ButtonRenderer from './button-renderer';
+import Bootstrap3LabelRenderer from './label-renderer';
+import './table-linked-struct-field-renderer.css';
 
-const cssName = "bootstrap3-table-linked-struct-renderer";
+const cssName = 'bootstrap3-table-linked-struct-renderer';
 
 const Bootstrap3TableLinkedStructFieldRenderer = ({
   label,
@@ -21,12 +21,12 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
 
   value.forEach((columns, index) => {
     rows.push(
-      <tr className={valueErrorIndicators[index] && "danger"}>
+      <tr className={valueErrorIndicators[index] && 'danger'}>
         {columns.map((x) => (
-          <td>{x || " "}</td>
+          <td>{x || ' '}</td>
         ))}
         <td>
-          <div className={createCssClass(cssName, "row", "actions")}>
+          <div className={createCssClass(cssName, 'row', 'actions')}>
             <i
               class="glyphicon glyphicon-pencil"
               title="Edit Item"
@@ -46,7 +46,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
 
   return (
     <div className={createCssClass(cssName)}>
-      <div className={createCssClass(cssName, "controls")}>
+      <div className={createCssClass(cssName, 'controls')}>
         <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
         <Bootstrap3ButtonRenderer
           classes="btn btn-sm btn-default"

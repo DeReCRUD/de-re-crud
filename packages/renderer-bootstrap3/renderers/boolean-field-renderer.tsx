@@ -1,6 +1,6 @@
-import { IFieldRenderer } from "@de-re-crud/core/models/renderers";
-import { h } from "preact";
-import Bootstrap3LabelRenderer from "./label-renderer";
+import { IFieldRenderer } from '@de-re-crud/core/models/renderers';
+import { h } from 'preact';
+import Bootstrap3LabelRenderer from './label-renderer';
 
 const Bootstrap3BooleanFieldRenderer = ({
   label,

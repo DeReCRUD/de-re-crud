@@ -1,9 +1,9 @@
-import { IRendererOptions } from "./models/renderer-options";
+import { IRendererOptions } from './models/renderer-options';
 
 export class DeReCrudOptions {
   public static setDefaults(defaults: Partial<DeReCrudOptions>) {
     if (this.initialized) {
-      throw new Error("DeReCrudOptions.setDefaults can only be called once.");
+      throw new Error('DeReCrudOptions.setDefaults can only be called once.');
     }
 
     this.initialized = true;

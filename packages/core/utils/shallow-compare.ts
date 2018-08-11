@@ -12,7 +12,7 @@ function shallowDiffers(a, b) {
       return true;
     }
   }
-  
+
   return false;
 }
 

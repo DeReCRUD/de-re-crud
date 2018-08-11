@@ -1,10 +1,10 @@
-import { h } from "preact";
-import { Provider } from "redux-zero/preact";
-import BaseComponent from "../base-component";
-import { createStore, IStore } from "../store";
-import shallowCompare from "../utils/shallow-compare";
-import FormConnect from "./form.connect";
-import { IFormConnectProps } from "./form.props";
+import { h } from 'preact';
+import { Provider } from 'redux-zero/preact';
+import BaseComponent from '../base-component';
+import { createStore, IStore } from '../store';
+import shallowCompare from '../utils/shallow-compare';
+import FormConnect from './form.connect';
+import { IFormConnectProps } from './form.props';
 
 export default class Form extends BaseComponent<IFormConnectProps> {
   private store: IStore;
@@ -46,7 +46,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
   }
 
   public componentWillReceiveProps(nextProps: IFormConnectProps) {
-    const allowedUpates = ["onSubmit", "onChangeType", "onChange"];
+    const allowedUpates = ['onSubmit', 'onChangeType', 'onChange'];
 
     if (
       !allowedUpates.every((value) => nextProps[value] === this.props[value])

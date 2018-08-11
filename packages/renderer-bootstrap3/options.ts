@@ -1,12 +1,12 @@
-import { IRendererOptions } from "@de-re-crud/core/models";
-import Bootstrap3BooleanFieldRenderer from "./renderers/boolean-field-renderer";
-import Bootstrap3ButtonRenderer from "./renderers/button-renderer";
-import Bootstrap3FieldContainerRenderer from "./renderers/field-container-renderer";
-import Bootstrap3InlineLinkedStructFieldRenderer from "./renderers/inline-linked-struct-field-renderer";
-import Bootstrap3InputFieldRenderer from "./renderers/input-field-renderer";
-import Bootstrap3ListFieldRenderer from "./renderers/list-field-renderer";
-import Bootstrap3StampRenderer from "./renderers/stamp-renderer";
-import Bootstrap3TableLinkedStructFieldRenderer from "./renderers/table-linked-struct-field-renderer";
+import { IRendererOptions } from '@de-re-crud/core/models';
+import Bootstrap3BooleanFieldRenderer from './renderers/boolean-field-renderer';
+import Bootstrap3ButtonRenderer from './renderers/button-renderer';
+import Bootstrap3FieldContainerRenderer from './renderers/field-container-renderer';
+import Bootstrap3InlineLinkedStructFieldRenderer from './renderers/inline-linked-struct-field-renderer';
+import Bootstrap3InputFieldRenderer from './renderers/input-field-renderer';
+import Bootstrap3ListFieldRenderer from './renderers/list-field-renderer';
+import Bootstrap3StampRenderer from './renderers/stamp-renderer';
+import Bootstrap3TableLinkedStructFieldRenderer from './renderers/table-linked-struct-field-renderer';
 
 const Bootstrap3RendererOptions: IRendererOptions = {
   components: {
@@ -27,7 +27,7 @@ const Bootstrap3RendererOptions: IRendererOptions = {
     tableLinkedStructField: Bootstrap3TableLinkedStructFieldRenderer,
     textField: Bootstrap3InputFieldRenderer
   },
-  formClassName: "de-re-crud-form-bootstrap3"
+  formClassName: 'de-re-crud-form-bootstrap3'
 };
 
 export default Bootstrap3RendererOptions;

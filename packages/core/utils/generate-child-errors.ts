@@ -1,4 +1,4 @@
-import { IChildErrors, IErrors } from "../models/errors";
+import { IChildErrors, IErrors } from '../models/errors';
 
 export default function generateChildErrors(errors: IErrors): IChildErrors {
   const childErrors = {};
@@ -12,11 +12,11 @@ export default function generateChildErrors(errors: IErrors): IChildErrors {
       return;
     }
 
-    let pathArray = key.split(".");
+    let pathArray = key.split('.');
     pathArray = pathArray.slice(0, pathArray.length - 1);
 
     while (pathArray.length >= 2) {
-      const parentPath = pathArray.slice(0, pathArray.length - 1).join(".");
+      const parentPath = pathArray.slice(0, pathArray.length - 1).join('.');
       const index = pathArray[pathArray.length - 1];
 
       childErrors[parentPath] = {

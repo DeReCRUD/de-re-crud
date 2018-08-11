@@ -4,19 +4,19 @@ export type FieldConditionFunc = (fieldParent: any, form: any) => boolean;
 export type BlockConditionFunc = (form: any) => boolean;
 
 export type FieldType =
-  | "text"
-  | "keyword"
-  | "integer"
-  | "estimate"
-  | "date"
-  | "boolean"
-  | "percent"
-  | "money"
-  | "foreignKey"
-  | "linkedStruct"
-  | "list"
-  | "derived"
-  | "stamp";
+  | 'text'
+  | 'keyword'
+  | 'integer'
+  | 'estimate'
+  | 'date'
+  | 'boolean'
+  | 'percent'
+  | 'money'
+  | 'foreignKey'
+  | 'linkedStruct'
+  | 'list'
+  | 'derived'
+  | 'stamp';
 
 export interface ILabel {
   short: string;
@@ -46,7 +46,7 @@ export interface IField {
 }
 
 export interface ITextField extends IField {
-  type: "text";
+  type: 'text';
   initialValue?: string;
   missingValue?: string;
   minLength?: number;
@@ -54,7 +54,7 @@ export interface ITextField extends IField {
 }
 
 export interface IIntegerField extends IField {
-  type: "integer";
+  type: 'integer';
   initialValue?: number;
   missingValue?: number;
   min?: number;
@@ -62,7 +62,7 @@ export interface IIntegerField extends IField {
 }
 
 export interface IListField extends IField {
-  type: "list";
+  type: 'list';
   initialValue?: any[];
   missingValue?: any[];
   options: IOption[];
@@ -74,7 +74,7 @@ export interface IOption {
 }
 
 export interface IReferenceField extends IField {
-  type: "linkedStruct" | "foreignKey";
+  type: 'linkedStruct' | 'foreignKey';
   initialValue?: any[] | object;
   reference: {
     struct: IStruct;
@@ -83,14 +83,14 @@ export interface IReferenceField extends IField {
 }
 
 export interface ILinkedStructField extends IReferenceField {
-  type: "linkedStruct";
+  type: 'linkedStruct';
   initialValue?: any[];
   minInstances?: number;
   maxInstances?: number;
 }
 
 export interface IForeignKeyField extends IReferenceField {
-  type: "foreignKey";
+  type: 'foreignKey';
   initialValue?: object;
 }
 
@@ -116,7 +116,7 @@ export interface IStamp {
 
 export interface ILinkedStructFieldReference extends IFieldReference {
   hints: {
-    layout: "inline" | "table";
+    layout: 'inline' | 'table';
     block?: IBlock;
   };
 }

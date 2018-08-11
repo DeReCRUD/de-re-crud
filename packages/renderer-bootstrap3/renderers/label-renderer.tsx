@@ -1,5 +1,5 @@
-import { h } from "preact";
-import "./label-renderer.css";
+import { h } from 'preact';
+import './label-renderer.css';
 
 export interface IBootstrap3LabelRenderer {
   label: string | JSX.Element;

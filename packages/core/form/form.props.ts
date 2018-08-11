@@ -1,7 +1,7 @@
-import { IErrors } from "../models/errors";
-import { IRendererOptions } from "../models/renderer-options";
-import { IOption, IStruct } from "../models/schema";
-import { INavState } from "../store";
+import { IErrors } from '../models/errors';
+import { IRendererOptions } from '../models/renderer-options';
+import { IOption, IStruct } from '../models/schema';
+import { INavState } from '../store';
 
 export type CollectionReference = (formValue: any) => IOption[];
 
@@ -32,7 +32,7 @@ export type FormChangeNotification = (
   params: IFormChangeNotificationParams
 ) => void;
 
-export type FormChangeNotificationType = "blur" | "change";
+export type FormChangeNotificationType = 'blur' | 'change';
 
 export interface IFormConnectProps extends IFormBaseProps {
   rendererOptions?: IRendererOptions;

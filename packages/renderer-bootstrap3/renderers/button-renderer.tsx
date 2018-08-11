@@ -1,6 +1,6 @@
-import { IButtonRenderer } from "@de-re-crud/core/models/renderers";
-import { combineCssClasses } from "@de-re-crud/core/utils";
-import { h } from "preact";
+import { IButtonRenderer } from '@de-re-crud/core/models/renderers';
+import { combineCssClasses } from '@de-re-crud/core/utils';
+import { h } from 'preact';
 
 const Bootstrap3ButtonRenderer = ({
   classes,
@@ -8,7 +8,7 @@ const Bootstrap3ButtonRenderer = ({
   disabled,
   onClick
 }: IButtonRenderer) => {
-  const classNames = ["btn btn-default"];
+  const classNames = ['btn btn-default'];
   if (Array.isArray(classes)) {
     classNames.push(...classes);
   } else if (classes) {

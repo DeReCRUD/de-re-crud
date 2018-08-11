@@ -1,4 +1,4 @@
-import { ComponentConstructor, FunctionalComponent } from "preact";
+import { ComponentConstructor, FunctionalComponent } from 'preact';
 import {
   IButtonRenderer,
   IFieldContainerRenderer,
@@ -8,7 +8,7 @@ import {
   IStampRenderer,
   ITableLinkedStructRenderer,
   ITextFieldRenderer
-} from "../models/renderers";
+} from '../models/renderers';
 
 export interface IRendererOptions {
   formClassName?: string;
