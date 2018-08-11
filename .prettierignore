@@ -1,3 +1,6 @@
+.vscode/
+dist/
+.rpt2_cache/
 package.json
 lerna.json
 tsconfig.json
