@@ -1,6 +1,7 @@
+import { IErrors } from "../models/errors";
 import { IRendererOptions } from "../models/renderer-options";
 import { IOption, IStruct } from "../models/schema";
-import { IErrors, INavState } from "../store";
+import { INavState } from "../store";
 
 export type CollectionReference = (formValue: any) => IOption[];
 

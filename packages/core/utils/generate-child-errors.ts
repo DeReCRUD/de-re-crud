@@ -1,4 +1,4 @@
-import { IChildErrors, IErrors } from "../store";
+import { IChildErrors, IErrors } from "../models/errors";
 
 export default function generateChildErrors(errors: IErrors): IChildErrors {
   const childErrors = {};

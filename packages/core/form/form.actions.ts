@@ -1,5 +1,6 @@
+import { IErrors } from "../models/errors";
 import { IBlock, ILinkedStructField } from "../models/schema";
-import { IErrors, IStoreState } from "../store";
+import { IStoreState } from "../store";
 import generateChildErrors from "../utils/generate-child-errors";
 import { validateField } from "../utils/validation-helper";
 
