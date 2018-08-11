@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Install the core library:
+Install library:
 
 ```bash
 npm install --save @de-re-crud/core #or, yarn add @de-re-crud/core
@@ -14,12 +14,6 @@ Install a renderer:
 # This is the Bootstrap 3 renderer as an example. You will need to include Bootstrap CSS and the CSS shipped with the renderer library.
 npm install --save @de-re-crud/renderer-bootstrap3
 #or, yarn add @de-re-crud/renderer-bootstrap3
-```
-
-You will also need to install an appropriate version of Preact (check the `peerDependencies` of the core library):
-
-```bash
-npm install --save preact@~8 #or, yarn add preact@~8
 ```
 
 ---

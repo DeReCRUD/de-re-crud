@@ -1,15 +1,13 @@
-import { Component, h } from "preact";
+import BaseComponent from "@de-re-crud/core/base-component";
+import { h } from "preact";
 import { IStampHostRendererProps } from "./stamp-host-renderer.props";
 
-export default class StampHostRenderer extends Component<
+export default class StampHostRenderer extends BaseComponent<
   IStampHostRendererProps
 > {
-  public render({
-    stamp,
-    formValue,
-    parentValue,
-    rendererOptions
-  }: IStampHostRendererProps) {
+  public render() {
+    const { stamp, formValue, parentValue, rendererOptions } = this.props;
+
     if (!stamp.condition(parentValue, formValue)) {
       return null;
     }

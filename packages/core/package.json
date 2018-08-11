@@ -2,7 +2,7 @@
   "name": "@de-re-crud/core",
   "description": "Library for creating DeReCRUD interfaces and services",
   "version": "0.1.1",
-  "repository": "https://github.com/DeReCRUD/core.git",
+  "repository": "https://github.com/DeReCRUD/de-re-crud.git",
   "license": "Apache-2.0",
   "main": "dist/de-re-crud-core.umd.js",
   "module": "dist/de-re-crud-core.es5.js",

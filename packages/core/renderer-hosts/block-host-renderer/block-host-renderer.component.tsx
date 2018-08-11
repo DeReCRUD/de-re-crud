@@ -1,13 +1,16 @@
-import { Component, h } from "preact";
+import BaseComponent from "@de-re-crud/core/base-component";
+import { h } from "preact";
 import { IFieldReference, IStamp } from "../../models/schema";
 import FieldHostRenderer from "../field-host-renderer";
 import StampHostRenderer from "../stamp-host-renderer";
 import { IBlockHostRendererProps } from "./block-host-renderer.props";
 
-export default class BlockHostRenderer extends Component<
+export default class BlockHostRenderer extends BaseComponent<
   IBlockHostRendererProps
 > {
-  public render({ struct, block, path, formValue }: IBlockHostRendererProps) {
+  public render() {
+    const { struct, block, path, formValue } = this.props;
+
     if (!block.condition(formValue)) {
       return null;
     }

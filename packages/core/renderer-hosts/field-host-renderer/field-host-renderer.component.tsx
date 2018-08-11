@@ -1,4 +1,5 @@
-import { Component, h } from "preact";
+import BaseComponent from "@de-re-crud/core/base-component";
+import { h } from "preact";
 import Logger from "../../logger";
 import {
   FieldBlurEvent,
@@ -25,7 +26,7 @@ import formPathToValue from "../../utils/form-path-to-value";
 import BlockHostRenderer from "../block-host-renderer";
 import { IFieldHostRendererProps } from "./field-host-renderer.props";
 
-export default class FieldHostRenderer extends Component<
+export default class FieldHostRenderer extends BaseComponent<
   IFieldHostRendererProps
 > {
   private debouncedChangedValue: (
@@ -46,15 +47,17 @@ export default class FieldHostRenderer extends Component<
     }
   }
 
-  public render({
-    errors,
-    fieldPath,
-    fieldReference,
-    formValue,
-    parentPath,
-    rendererOptions,
-    touched
-  }: IFieldHostRendererProps) {
+  public render() {
+    const {
+      errors,
+      fieldPath,
+      fieldReference,
+      formValue,
+      parentPath,
+      rendererOptions,
+      touched
+    } = this.props;
+
     const field = fieldReference.field;
     const fieldValue = formPathToValue(formValue, fieldPath);
 

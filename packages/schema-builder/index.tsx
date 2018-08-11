@@ -1,4 +1,9 @@
-import { DeReCrudOptions, Form, FormSubmissionCallback, ICollectionReferences } from "@de-re-crud/core";
+import {
+  DeReCrudOptions,
+  Form,
+  FormSubmissionCallback,
+  ICollectionReferences
+} from "@de-re-crud/core";
 import { IOption } from "@de-re-crud/core/models";
 import { Bootstrap3RendererOptions } from "@de-re-crud/renderer-bootstrap3";
 import "bootstrap/dist/css/bootstrap.css";

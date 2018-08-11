@@ -1,4 +1,5 @@
-import { Component, h } from "preact";
+import BaseComponent from "@de-re-crud/core/base-component";
+import { h } from "preact";
 import Logger from "../logger";
 import { IStruct } from "../models/schema";
 import BlockHostRenderer from "../renderer-hosts/block-host-renderer";
@@ -10,23 +11,25 @@ export interface IFormState {
   structs: IStruct[];
 }
 
-export default class Form extends Component<IFormProps, IFormState> {
+export default class Form extends BaseComponent<IFormProps, IFormState> {
   public shouldComponentUpdate(nextProps: IFormProps, nextState: IFormState) {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  public render({
-    schema,
-    className,
-    structs,
-    struct,
-    block,
-    rendererOptions,
-    navStack,
-    submitting,
-    submitForm,
-    pop
-  }: IFormProps) {
+  public render() {
+    const {
+      schema,
+      className,
+      structs,
+      struct,
+      block,
+      rendererOptions,
+      navStack,
+      submitting,
+      submitForm,
+      pop
+    } = this.props;
+
     if (!schema) {
       Logger.error("No schema defined.");
     }
@@ -69,7 +72,10 @@ export default class Form extends Component<IFormProps, IFormState> {
     }
 
     if (!structReference.blocks.length) {
-      Logger.error(`No blocks defined for struct '${visibleStruct}'.`, structReference);
+      Logger.error(
+        `No blocks defined for struct '${visibleStruct}'.`,
+        structReference
+      );
       return null;
     }
 

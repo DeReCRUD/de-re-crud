@@ -1,11 +1,12 @@
-import { Component, h } from "preact";
+import BaseComponent from "@de-re-crud/core/base-component";
+import { h } from "preact";
 import { Provider } from "redux-zero/preact";
 import { createStore, IStore } from "../store";
 import shallowCompare from "../utils/shallow-compare";
 import FormConnect from "./form.connect";
 import { IFormConnectProps } from "./form.props";
 
-export default class Form extends Component<IFormConnectProps> {
+export default class Form extends BaseComponent<IFormConnectProps> {
   private store: IStore;
 
   constructor(props: IFormConnectProps) {
@@ -58,7 +59,9 @@ export default class Form extends Component<IFormConnectProps> {
     }
   }
 
-  public render({ schema, ...otherProps }: IFormConnectProps) {
+  public render() {
+    const { schema, ...otherProps } = this.props;
+
     return (
       <Provider store={this.store}>
         <FormConnect schema={schema} {...otherProps} />

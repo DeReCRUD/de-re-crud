@@ -1,6 +1,11 @@
-export { default as Form } from "./form";
+import { ComponentConstructor, h, render } from "preact";
+import Form from "./form";
+import { IFormConnectProps as IForm } from "./form/form.props";
+
+export { Form };
+export { IForm };
+
 export {
-  IFormConnectProps as IFormProps,
   FormSubmission,
   FormSubmissionCallback,
   FormChangeNotification,
@@ -8,4 +13,15 @@ export {
   ICollectionReferences,
   CollectionReference
 } from "./form/form.props";
+
 export { DeReCrudOptions } from "./options";
+
+export function renderForm(
+  formComponent: ComponentConstructor<IForm>,
+  props: IForm,
+  nativeElement: Element
+) {
+  const preactElement = h(formComponent, props);
+
+  render(preactElement, nativeElement);
+}

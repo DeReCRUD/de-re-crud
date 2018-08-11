@@ -97,8 +97,8 @@ or maintenance screen again!
 
 ## Explore in more detail
 
-* [Current features](docs/features.md#current)
-* [Planned features](docs/features.md#future)
-* [Origin of the project](docs/origins.md)
-* [Schema defintion](docs/schema.md)
-* [Schema example](packages/schema-builder/schema.json)
+* [Current features](features.md#current)
+* [Planned features](features.md#future)
+* [Origin of the project](origins.md)
+* [Schema defintion](schema.md)
+* [Schema example](../packages/schema-builder/schema.json)
