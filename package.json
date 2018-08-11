@@ -8,7 +8,7 @@
     "bootstrap": "lerna bootstrap",
     "dev": "yarn workspace @de-re-crud/schema-builder dev",
     "build": "lerna run build",
-    "lint": "lerna run lint -- --format stylish",
+    "lint": "yarn format:check && lerna run lint -- --format stylish",
     "test": "jest",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
     "format:write": "prettier \"**/*.{ts,tsx,js,json}\" --write",
