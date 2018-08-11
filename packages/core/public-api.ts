@@ -15,6 +15,7 @@ export {
 } from "./form/form.props";
 
 export { DeReCrudOptions } from "./options";
+export { default as BaseComponent} from "@de-re-crud/core/base-component";
 
 export function renderForm(
   formComponent: ComponentConstructor<IForm>,
