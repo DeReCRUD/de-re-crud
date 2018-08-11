@@ -1,6 +1,6 @@
-import BaseComponent from "@de-re-crud/core/base-component";
 import { h } from "preact";
 import { Provider } from "redux-zero/preact";
+import BaseComponent from "../base-component";
 import { createStore, IStore } from "../store";
 import shallowCompare from "../utils/shallow-compare";
 import FormConnect from "./form.connect";

@@ -1,5 +1,5 @@
-import BaseComponent from "@de-re-crud/core/base-component";
 import { h } from "preact";
+import BaseComponent from "../../base-component";
 import Logger from "../../logger";
 import {
   FieldBlurEvent,

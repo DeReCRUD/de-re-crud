@@ -1,5 +1,5 @@
-import BaseComponent from "@de-re-crud/core/base-component";
 import { h } from "preact";
+import BaseComponent from "../../base-component";
 import { IFieldReference, IStamp } from "../../models/schema";
 import FieldHostRenderer from "../field-host-renderer";
 import StampHostRenderer from "../stamp-host-renderer";
