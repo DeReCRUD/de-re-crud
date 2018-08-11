@@ -7,6 +7,7 @@ import {
   FormSubmission,
   ICollectionReferences
 } from "./form/form.props";
+import { IChildErrors, IErrors } from "./models/errors";
 import { IRendererOptions } from "./models/renderer-options";
 import { IStruct } from "./models/schema";
 import { DeReCrudOptions } from "./options";
@@ -19,14 +20,6 @@ export interface IStore {
   subscribe(cb: () => any): any;
   getState(): object;
   reset(): void;
-}
-
-export interface IErrors {
-  [path: string]: string[];
-}
-
-export interface IChildErrors {
-  [parentPath: string]: { [childIndex: number]: boolean };
 }
 
 export interface INavState {
