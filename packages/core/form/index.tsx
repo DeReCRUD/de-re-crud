@@ -60,11 +60,9 @@ export default class Form extends BaseComponent<IFormConnectProps> {
   }
 
   public render() {
-    const { schema, ...otherProps } = this.props;
-
     return (
       <Provider store={this.store}>
-        <FormConnect schema={schema} {...otherProps} />
+        <FormConnect />
       </Provider>
     );
   }
