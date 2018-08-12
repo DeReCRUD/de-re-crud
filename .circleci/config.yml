@@ -25,6 +25,10 @@ jobs:
           key: yarn-cache-v1-{{ checksum "yarn.lock" }}
 
       - run:
+          name: Link Packages
+          command: yarn bootstrap
+
+      - run:
           name: Lint Source
           command: yarn lint
 
