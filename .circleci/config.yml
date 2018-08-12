@@ -36,10 +36,6 @@ jobs:
           name: Build
           command: yarn build
 
-      - run:
-          name: Copy Artifacts
-          command: ./scripts/copy-artifacts.sh
-
       - store_artifacts:
           path: dist
 
@@ -63,7 +59,17 @@ jobs:
 
       - run:
           name: Publish Packages
-          command: cd /tmp/workspace && ./scripts/publish.sh
+          command:
+            - >
+              cd /tmp/workspace
+
+              for d in dist/*/; do
+                packageName=`basename $d`
+
+                echo "Deploying $packageName"
+
+                npm publish "$d" --access public 
+              done
 
 workflows:
   version: 2

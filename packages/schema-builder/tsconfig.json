@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "./dist/types",
-    "outDir": "./dist"
+    "declarationDir": "../../dist/schema-builder",
+    "outDir": "../../dist/schema-builder"
   }
 }

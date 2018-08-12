@@ -5,10 +5,11 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
+    "clean": "del-cli dist",
     "bootstrap": "lerna bootstrap",
-    "dev": "yarn workspace @de-re-crud/schema-builder dev",
-    "build": "lerna run build",
     "lint": "yarn format:check && lerna run lint -- --format stylish",
+    "dev": "yarn workspace @de-re-crud/schema-builder dev",
+    "build": "yarn clean && lerna run build && replace-in-file \"/import '(.*).css';/g\" \"\" dist/**/*.js --isRegex --verbose",
     "test": "jest",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
     "format:write": "prettier \"**/*.{ts,tsx,js,json}\" --write",
@@ -24,9 +25,8 @@
     "del-cli": "^1.1.0",
     "jest": "^23.4.2",
     "lerna": "^2.11.0",
-    "node-glob": "^1.2.0",
-    "npm-run-all": "^4.1.3",
     "prettier": "^1.14.0",
+    "replace-in-file": "^3.4.0",
     "rollup": "^0.63.5",
     "rollup-plugin-commonjs": "^9.1.4",
     "rollup-plugin-css-only": "^0.4.0",
@@ -56,6 +56,10 @@
     "transform": {
       "\\.(ts|tsx)$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(js|jsx|ts|tsx)?$"
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(js|jsx|ts|tsx)?$",
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/dist/"
+    ]
   }
 }

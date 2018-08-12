@@ -2,19 +2,22 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-      "@de-re-crud/*": ["./packages/*"]
-    },
     "target": "es5",
     "module": "es2015",
     "lib": ["dom", "es2015"],
     "jsx": "react",
     "jsxFactory": "h",
     "moduleResolution": "node",
-    "sourceMap": true,
+    "sourceMap": false,
     "rootDirs": ["./packages/*"],
     "typeRoots": ["node_modules/@types"],
     "noUnusedLocals": true,
     "noUnusedParameters": true
-  }
+  },
+  "exclude": [
+    "dist", 
+    "node_modules",
+    "**/__tests__/**.ts",
+    "**/__mocks__/**.ts"
+  ]
 }

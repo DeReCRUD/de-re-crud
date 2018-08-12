@@ -1,1 +1,1 @@
-export * from './public-api';
+export { default as Bootstrap3RendererOptions } from './options';

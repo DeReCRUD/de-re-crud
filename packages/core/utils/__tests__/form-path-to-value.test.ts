@@ -1,4 +1,4 @@
-import formPathToValue from './form-path-to-value';
+import formPathToValue from '../form-path-to-value';
 
 describe('formPathToValue', () => {
   it('should return value from object path', () => {

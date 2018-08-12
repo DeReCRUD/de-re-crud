@@ -1,5 +1,5 @@
 import { ITableLinkedStructRenderer } from '@de-re-crud/core/models/renderers';
-import { createCssClass } from '@de-re-crud/core/utils';
+import createCssClass from '@de-re-crud/core/utils/create-css-class';
 import { h } from 'preact';
 import Bootstrap3ButtonRenderer from './button-renderer';
 import Bootstrap3LabelRenderer from './label-renderer';

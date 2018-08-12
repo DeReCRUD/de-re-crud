@@ -1,6 +1,5 @@
 import path from 'path';
 import fs from 'fs-extra';
-import glob from 'glob';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import sourceMaps from 'rollup-plugin-sourcemaps';
@@ -11,124 +10,116 @@ import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 import replace from 'rollup-plugin-replace';
 
-const outDir = './dist';
+const tsConfig = require(path.resolve(process.cwd(), 'tsconfig.json'));
+const { outDir } = tsConfig.compilerOptions;
 
 fs.ensureDirSync(outDir);
 
-function getDefaults(input, output, external) {
-  return {
-    input,
-    output: [
-      {
-        file: output,
-        format: 'es',
-        sourcemap: true
-      }
-    ],
+function generateDefaultConfig(pkg, external, minify) {
+  let mainFile = pkg.main;
+  if (minify) {
+    mainFile = mainFile.replace('.js', '.min.js');
+  }
+
+  let styleFile = null;
+
+  if (pkg.style) {
+    styleFile = path.join(outDir, pkg.style);
+
+    if (minify) {
+      styleFile = styleFile.replace('.css', '.min.css');
+    }
+  }
+
+  const outDirParts = outDir.split('/');
+  outDirParts[outDirParts.length - 2] = '.rpt2_cache';
+  const cacheRoot = outDirParts.join('/');
+
+  const output = [
+    {
+      name: pkg.name,
+      file: path.join(outDir, mainFile),
+      format: 'umd',
+      sourcemap: true,
+      globals: { preact: 'preact' }
+    }
+  ];
+
+  if (!minify) {
+    output.push({
+      file: path.join(outDir, pkg.module),
+      format: 'es',
+      sourcemap: true
+    });
+  }
+
+  const config = {
+    input: 'index.ts',
+    output: output,
     external,
     plugins: [
       replace({
         'process.env.ENABLE_LOGGING': false
       }),
+      postcss({
+        extract: styleFile,
+        minimize: minify
+      }),
       typescript({
-        useTsconfigDeclarationDir: true,
-        typescript: require('typescript')
+        typescript: require('typescript'),
+        tsconfigOverride: {
+          compilerOptions: {
+            declaration: false
+          }
+        },
+        cacheRoot
       }),
       commonjs(),
       resolve(),
       sourceMaps()
     ]
   };
-}
 
-function getMainBundle(pkg, external, isProd) {
-  let styleBundlePath = null;
+  config.plugins.push(filesize());
 
-  if (pkg.style) {
-    styleBundlePath = path.resolve(process.cwd(), pkg.style);
-
-    if (isProd) {
-      styleBundlePath = styleBundlePath.replace('.css', '.min.css');
-    }
+  if (minify) {
+    config.plugins.push(terser());
   }
-
-  const readmeFile = 'README.md';
-  if (isProd && fs.pathExistsSync(readmeFile)) {
-    fs.copySync(readmeFile, path.join(outDir, readmeFile));
-  }
-
-  const config = getDefaults('index.ts', pkg.module, external);
-
-  config.output.push({
-    name: pkg.name,
-    file: pkg.main,
-    format: 'umd',
-    globals: { preact: 'preact' },
-    sourcemap: true
-  });
-
-  if (styleBundlePath) {
-    config.plugins.splice(
-      1,
-      0,
-      postcss({
-        extract: styleBundlePath,
-        minimize: isProd
-      })
-    );
-  }
-
-  const newPkg = {
-    ...pkg,
-    main: path.basename(pkg.main),
-    module: path.basename(pkg.module),
-    types: path.basename(pkg.types)
-  };
-
-  if (newPkg.style) {
-    newPkg.style = path.basename(pkg.style);
-  }
-
-  delete newPkg.scripts;
-
-  config.plugins.push(generatePackageJson({ baseContents: newPkg }));
 
   return config;
 }
 
-function getAdditionalBundles(_, external) {
-  const files = glob.sync(path.join(process.cwd(), '*/**/public-api.ts'));
+function generateMainConfig(pkg, external, minify) {
+  const config = generateDefaultConfig(pkg, external, minify);
 
-  return files.map((file) => {
-    const dir = path.relative(process.cwd(), path.dirname(file));
-    const input = path.join(dir, 'index.ts');
-    const output = path.join(outDir, input.replace('.ts', '.js'));
+  const newPkg = {
+    ...pkg
+  };
 
-    return getDefaults(input, output, external);
-  });
+  delete newPkg.scripts;
+
+  if (!minify) {
+    const readmeFile = 'README.md';
+    if (fs.pathExistsSync(readmeFile)) {
+      fs.copySync(readmeFile, path.join(outDir, readmeFile));
+    }
+
+    config.plugins.push(
+      generatePackageJson({
+        baseContents: newPkg,
+        outputFolder: outDir
+      })
+    );
+  }
+
+  return config;
 }
 
 export function generateConfig(external) {
   const pkg = require('./package.json');
 
-  const env = process.env.npm_lifecycle_event;
-  const isProd = env.endsWith('prod');
-
-  const configs = [
-    getMainBundle(pkg, external, isProd),
-    ...getAdditionalBundles(pkg, external, isProd)
+  return [
+    generateMainConfig(pkg, external),
+    generateMainConfig(pkg, external, true)
   ];
-
-  return configs.map((config) => {
-    if (isProd) {
-      config.output.forEach((x) => {
-        x.file = x.file.replace('.js', '.min.js');
-      });
-
-      config.plugins.push(filesize());
-      config.plugins.push(terser());
-    }
-
-    return config;
-  });
 }

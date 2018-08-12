@@ -1,5 +1,5 @@
-import shallowCompare from '@de-re-crud/core/utils/shallow-compare';
 import { Component as PreactComponent } from 'preact';
+import shallowCompare from './utils/shallow-compare';
 
 export default abstract class BaseComponent<
   P = {},
