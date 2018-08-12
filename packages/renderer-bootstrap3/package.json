@@ -1,25 +1,24 @@
 {
   "name": "@de-re-crud/renderer-bootstrap3",
   "description": "Bootstrap 3 renderers for De Re CRUD interfaces",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "repository": "https://github.com/DeReCRUD/core.git",
   "license": "Apache-2.0",
   "style": "dist/de-re-crud-renderer-bootstrap3.css",
   "main": "dist/de-re-crud-renderer-bootstrap3.umd.js",
-  "module": "dist/de-re-crud-renderer-bootstrap3.es5.js",
-  "types": "dist/types",
+  "module": "dist/de-re-crud-renderer-bootstrap3.es.js",
+  "types": "index.d.ts",
   "scripts": {
     "lint": "tslint --project ./tsconfig.json",
-    "clean": "del-cli \"dist/**/*\"",
-    "build:dev": "rollup --config",
-    "build:prod": "rollup --config",
-    "build": "npm-run-all -s clean build:dev build:prod"
+    "compile": "tsc",
+    "bundle": "rollup --config",
+    "build": "yarn compile && yarn bundle"
   },
   "optionalDependencies": {
     "bootstrap": ">= 3 < 4"
   },
   "peerDependencies": {
-    "@de-re-crud/core": "0.x"
+    "@de-re-crud/core": "0.2.x"
   },
   "dependencies": {
     "preact": "~8"

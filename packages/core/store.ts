@@ -29,6 +29,7 @@ export interface INavState {
 }
 
 export interface IStoreState {
+  schema: any;
   structs: IStruct[];
   struct: string;
   block: string;
@@ -57,7 +58,7 @@ const logger = (store) => (next) => (action) => {
 };
 
 export function createStore(
-  schemaJson: any,
+  schema: any,
   struct: string,
   block?: string,
   rendererOptions?: IRendererOptions,
@@ -70,7 +71,7 @@ export function createStore(
     onChangeType?: FormChangeNotificationType;
   }
 ): IStore {
-  const structs = SchemaParser.parse(schemaJson);
+  const structs = SchemaParser.parse(schema);
   const initialValue = (formState && formState.value) || {};
 
   const state: IStoreState = {
@@ -86,6 +87,7 @@ export function createStore(
     onSubmit: formState && formState.onSubmit,
     rendererOptions:
       rendererOptions || DeReCrudOptions.getDefaults().rendererOptions,
+    schema,
     struct,
     structs,
     touched: {},

@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "./dist/types",
-    "outDir": "./dist"
+    "declarationDir": "../../dist/renderer-bootstrap3",
+    "outDir": "../../dist/renderer-bootstrap3"
   }
 }
