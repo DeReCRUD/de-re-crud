@@ -59,17 +59,16 @@ jobs:
 
       - run:
           name: Publish Packages
-          command:
-            - >
-              cd /tmp/workspace
+          command: |
+            cd /tmp/workspace
 
-              for d in dist/*/; do
-                packageName=`basename $d`
+            for d in dist/*/; do
+              packageName=`basename $d`
 
-                echo "Deploying $packageName"
+              echo "Deploying $packageName"
 
-                npm publish "$d" --access public 
-              done
+              npm publish "$d" --access public 
+            done
 
 workflows:
   version: 2
