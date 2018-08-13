@@ -1,4 +1,6 @@
-import { ComponentConstructor, h, render } from 'preact';
+import { h, render } from 'preact';
+import { ComponentConstructor } from '../core/models/constructors';
+import BaseComponent from './base-component';
 import Form from './form';
 import { IFormConnectProps as IFormProps } from './form/form.props';
 
@@ -25,4 +27,37 @@ export function renderForm(
   const preactElement = h(formComponent, props);
 
   render(preactElement, nativeElement);
+}
+
+export type DestroyFunc = () => {};
+
+export type ComponentRenderer<IProps> = (
+  props: Readonly<IProps>,
+  nativeElement: Element
+) => DestroyFunc;
+
+export function wrapComponent<IProps>(
+  renderer: ComponentRenderer<IProps>
+): ComponentConstructor<IProps> {
+  return class WrappedComponent extends BaseComponent<IProps> {
+    private destroyFunc: DestroyFunc;
+
+    public componentDidMount() {
+      this.destroyFunc = renderer(this.props, this.base);
+    }
+
+    public componentDidUpdate() {
+      this.destroyFunc = renderer(this.props, this.base);
+    }
+
+    public componentWillUnmount() {
+      if (this.destroyFunc) {
+        this.destroyFunc();
+      }
+    }
+
+    public render() {
+      return h('div', {});
+    }
+  };
 }

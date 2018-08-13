@@ -1,4 +1,7 @@
-import { ComponentConstructor, FunctionalComponent } from 'preact';
+import {
+  ComponentConstructor,
+  FunctionalComponent
+} from '../models/constructors';
 import {
   IButtonRenderer,
   IFieldContainerRenderer,
