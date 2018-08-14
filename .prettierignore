@@ -2,3 +2,4 @@
 dist/
 build/
 .rpt2_cache/
+lerna.json
