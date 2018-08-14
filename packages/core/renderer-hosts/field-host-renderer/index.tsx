@@ -19,9 +19,7 @@ const mapToProps = (
     rendererOptions,
     collectionReferences
   }: IStoreState,
-  {
-    fieldPath
-  }: IFieldHostRendererConnectProps
+  { fieldPath }: IFieldHostRendererConnectProps
 ): Partial<IFieldHostRendererProps> => {
   return {
     childErrors: childErrors[fieldPath] || {},
