@@ -29,7 +29,7 @@ export function renderForm(
   render(preactElement, nativeElement);
 }
 
-export type DestroyFunc = () => {};
+export type DestroyFunc = () => void;
 
 export type ComponentRenderer<IProps> = (
   props: Readonly<IProps>,
