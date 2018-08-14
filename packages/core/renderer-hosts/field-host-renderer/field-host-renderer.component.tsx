@@ -54,6 +54,7 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldReference,
       formValue,
       parentPath,
+      rendererId,
       rendererOptions,
       touched
     } = this.props;
@@ -79,6 +80,7 @@ export default class FieldHostRenderer extends BaseComponent<
       onChange: this.onChange,
       onFocus: this.onFocus,
       placeholder: field.placeholder,
+      rendererId,
       required: field.required,
       value: fieldValue
     };
@@ -88,6 +90,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
     return (
       <FieldContainerRenderer
+        rendererId={rendererId}
         fieldName={fieldProps.fieldName}
         fieldDescription={fieldProps.fieldDescription}
         errors={fieldProps.errors}
@@ -287,7 +290,7 @@ export default class FieldHostRenderer extends BaseComponent<
             return (
               <BlockHostRenderer
                 key={itemPath}
-                struct={reference.struct}
+                struct={reference.struct.name}
                 block={block}
                 path={itemPath}
               />

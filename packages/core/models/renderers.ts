@@ -1,13 +1,17 @@
 import { FieldType, IOption, StampSize } from './schema';
 
-export interface IFieldContainerRenderer {
+export interface IRenderer {
+  rendererId: string;
+}
+
+export interface IFieldContainerRenderer extends IRenderer {
   fieldName: string;
   fieldDescription?: string;
   errors: string[];
   children?: JSX.Element;
 }
 
-export interface IStampRenderer {
+export interface IStampRenderer extends IRenderer {
   text: string;
   size: StampSize;
 }
@@ -22,7 +26,7 @@ export type FieldChangeEvent = Event & {
   };
 };
 
-export interface IFieldRenderer {
+export interface IFieldRenderer extends IRenderer {
   label: string;
   placeholder?: string;
   fieldName: string;

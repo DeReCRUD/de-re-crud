@@ -14,6 +14,8 @@ import { DeReCrudOptions } from './options';
 import SchemaParser from './schema-parser';
 import generateChildErrors from './utils/generate-child-errors';
 
+let FORM_COUNTER = 0;
+
 export interface IStore {
   middleware(): void;
   setState(state: any): void;
@@ -29,6 +31,7 @@ export interface INavState {
 }
 
 export interface IStoreState {
+  formId: number;
   schema: any;
   structs: IStruct[];
   struct: string;
@@ -80,6 +83,7 @@ export function createStore(
     collectionReferences,
     errors: formState.errors || {},
     focused: {},
+    formId: ++FORM_COUNTER,
     initialValue,
     navStack: [],
     onChange: formState && formState.onChange,

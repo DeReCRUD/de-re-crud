@@ -8,5 +8,6 @@ export interface IBlockHostRendererConnectProps {
 
 export interface IBlockHostRendererProps
   extends IBlockHostRendererConnectProps {
+  formId: number;
   formValue: object;
 }

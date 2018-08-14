@@ -1,5 +1,6 @@
 import { connect } from 'redux-zero/preact';
 import { combineActions } from 'redux-zero/utils';
+import { ComponentConstructor } from '../../models/constructors';
 import navigationActions from '../../navigation.actions';
 import { IStoreState } from '../../store';
 import fieldHostRendererActions from './field-host-renderer.actions';
@@ -19,14 +20,9 @@ const mapToProps = (
     collectionReferences
   }: IStoreState,
   {
-    fieldReference: {
-      field: { name }
-    },
-    parentPath
+    fieldPath
   }: IFieldHostRendererConnectProps
 ): Partial<IFieldHostRendererProps> => {
-  const fieldPath = parentPath ? `${parentPath}.${name}` : name;
-
   return {
     childErrors: childErrors[fieldPath] || {},
     collectionReferences,
@@ -41,4 +37,4 @@ const mapToProps = (
 export default connect(
   mapToProps,
   combineActions(fieldHostRendererActions, navigationActions)
-)(FieldHostRenderer);
+)(FieldHostRenderer) as ComponentConstructor<IFieldHostRendererConnectProps>;

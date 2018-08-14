@@ -1,5 +1,6 @@
 import { connect } from 'redux-zero/preact';
 import { combineActions } from 'redux-zero/utils';
+import { ComponentConstructor } from '../models/constructors';
 import navigationActions from '../navigation.actions';
 import { IStoreState } from '../store';
 import formActions from './form.actions';
@@ -29,4 +30,4 @@ const mapToProps = ({
 export default connect(
   mapToProps,
   combineActions(navigationActions, formActions)
-)(Form);
+)(Form) as ComponentConstructor<{}>;

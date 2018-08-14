@@ -5,12 +5,15 @@ import { ChangeArrayActionType } from '../../renderer-hosts/field-host-renderer/
 import { INavState } from '../../store';
 
 export interface IFieldHostRendererConnectProps {
+  rendererId: string;
+  fieldPath: string;
   parentPath?: string;
   fieldReference: IFieldReference;
 }
 
 export interface IFieldHostRendererProps
   extends IFieldHostRendererConnectProps {
+  rendererId: string;
   rendererOptions: IRendererOptions;
   collectionReferences?: ICollectionReferences;
   fieldPath: string;

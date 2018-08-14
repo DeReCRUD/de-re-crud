@@ -9,7 +9,7 @@ export default class BlockHostRenderer extends BaseComponent<
   IBlockHostRendererProps
 > {
   public render() {
-    const { struct, block, path, formValue } = this.props;
+    const { formId, struct, block, path: parentPath, formValue } = this.props;
 
     if (!block.condition(formValue)) {
       return null;
@@ -19,27 +19,41 @@ export default class BlockHostRenderer extends BaseComponent<
       <div class="de-re-crud-block-renderer">
         {block.items.map((item) => {
           const stamp = item as IStamp;
+
           if (stamp.text) {
+            let path = `stamp.${stamp.blockInstance}`;
+            if (parentPath) {
+              path = `${parentPath}.${path}`;
+            }
+
+            const rendererId = `${formId}.${path}`;
+
             return (
               <StampHostRenderer
-                key={`${struct}${path && `-${path}`}-stamp-${
-                  stamp.blockInstance
-                }`}
+                key={`${struct}-${rendererId}`}
+                rendererId={rendererId}
                 stamp={stamp}
-                parentPath={path}
+                parentPath={parentPath}
               />
             );
           }
 
           const fieldReference = item as IFieldReference;
           if (fieldReference.field) {
+            const { name: fieldName } = fieldReference.field;
+            const fieldPath = parentPath
+              ? `${parentPath}.${fieldName}`
+              : fieldName;
+
+            const rendererId = `${formId}.${fieldPath}`;
+
             return (
               <FieldHostRenderer
-                key={`${struct}${path && `-${path}`}-${
-                  fieldReference.field.name
-                }`}
+                key={`${struct}-${rendererId}`}
+                rendererId={rendererId}
+                fieldPath={fieldPath}
                 fieldReference={fieldReference}
-                parentPath={path}
+                parentPath={parentPath}
               />
             );
           }
