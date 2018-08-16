@@ -16,3 +16,5 @@ Follow the guide [here](packages/core/README.md).
 - React Native support
 - Vue support
 - Schema builder
+- Support for the R and D in CRUD
+- Backend service and database support
