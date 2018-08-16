@@ -36,6 +36,7 @@ export default class App extends Component<any> {
         <div className="row">
           <div class="col-sm-6">
             <Form
+              type="create"
               schema={schemJson}
               struct="struct"
               collectionReferences={this.collectionReferences}

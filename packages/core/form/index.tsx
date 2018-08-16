@@ -20,16 +20,20 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       onChangeType,
       onSubmit,
       rendererOptions,
+      buttonOptions,
       struct,
       schema,
+      type,
       value
     } = props;
 
     this.store = createStore(
       schema,
+      type,
       struct,
       block,
       rendererOptions,
+      buttonOptions,
       collectionReferences,
       {
         errors,

@@ -1,3 +1,4 @@
+import { IButtonOptions } from '../models/button-options';
 import { IErrors } from '../models/errors';
 import { IRendererOptions } from '../models/renderer-options';
 import { IOption, IStruct } from '../models/schema';
@@ -9,8 +10,11 @@ export interface ICollectionReferences {
   [key: string]: CollectionReference;
 }
 
+export type FormType = 'create' | 'update';
+
 interface IFormBaseProps {
   className?: string;
+  type: FormType;
   schema: any;
   struct: string;
   block?: string;
@@ -36,6 +40,7 @@ export type FormChangeNotificationType = 'blur' | 'change';
 
 export interface IFormConnectProps extends IFormBaseProps {
   rendererOptions?: IRendererOptions;
+  buttonOptions?: IButtonOptions;
   errors?: IErrors;
   value?: object;
   onSubmit: FormSubmission;
@@ -45,6 +50,7 @@ export interface IFormConnectProps extends IFormBaseProps {
 
 export interface IFormProps extends IFormBaseProps {
   rendererOptions: IRendererOptions;
+  buttonOptions: IButtonOptions;
   structs: IStruct[];
   value: object;
   submitting: boolean;

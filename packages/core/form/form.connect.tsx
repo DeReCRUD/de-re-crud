@@ -11,19 +11,23 @@ const mapToProps = ({
   block,
   navStack,
   rendererOptions,
+  buttonOptions,
   schema,
   struct,
   structs,
   submitting,
+  type,
   value
 }: IStoreState): Partial<IFormProps> => ({
   block,
+  buttonOptions,
   navStack,
   rendererOptions,
   schema,
   struct,
   structs,
   submitting,
+  type,
   value
 });
 
