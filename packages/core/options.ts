@@ -1,3 +1,4 @@
+import { IButtonOptions } from './models/button-options';
 import { IRendererOptions } from './models/renderer-options';
 
 export class DeReCrudOptions {
@@ -9,6 +10,7 @@ export class DeReCrudOptions {
     this.initialized = true;
 
     const options = new DeReCrudOptions();
+
     Object.assign(options, defaults);
 
     this.options = Object.freeze(options);
@@ -24,4 +26,5 @@ export class DeReCrudOptions {
   );
 
   public rendererOptions?: IRendererOptions;
+  public buttonOptions?: IButtonOptions;
 }

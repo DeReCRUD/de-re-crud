@@ -5,14 +5,17 @@ import {
   FormChangeNotification,
   FormChangeNotificationType,
   FormSubmission,
+  FormType,
   ICollectionReferences
 } from './form/form.props';
+import { IButtonOptions } from './models/button-options';
 import { IChildErrors, IErrors } from './models/errors';
 import { IRendererOptions } from './models/renderer-options';
 import { IStruct } from './models/schema';
 import { DeReCrudOptions } from './options';
 import SchemaParser from './schema-parser';
 import generateChildErrors from './utils/generate-child-errors';
+import parseButtonOptions from './utils/parse-button-options';
 
 let FORM_COUNTER = 0;
 
@@ -33,6 +36,7 @@ export interface INavState {
 export interface IStoreState {
   formId: number;
   schema: any;
+  type: FormType;
   structs: IStruct[];
   struct: string;
   block: string;
@@ -44,6 +48,7 @@ export interface IStoreState {
   errors: IErrors;
   childErrors: IChildErrors;
   rendererOptions: IRendererOptions;
+  buttonOptions: IButtonOptions;
   collectionReferences?: ICollectionReferences;
   submitting?: boolean;
   onSubmit?: FormSubmission;
@@ -62,9 +67,11 @@ const logger = (store) => (next) => (action) => {
 
 export function createStore(
   schema: any,
+  type: FormType,
   struct: string,
   block?: string,
   rendererOptions?: IRendererOptions,
+  buttonOptions?: IButtonOptions,
   collectionReferences?: ICollectionReferences,
   formState?: {
     errors?: IErrors;
@@ -77,8 +84,14 @@ export function createStore(
   const structs = SchemaParser.parse(schema);
   const initialValue = (formState && formState.value) || {};
 
+  const optionDefaults = DeReCrudOptions.getDefaults();
+
   const state: IStoreState = {
     block: block || 'default',
+    buttonOptions: parseButtonOptions(
+      buttonOptions,
+      optionDefaults.buttonOptions
+    ),
     childErrors: generateChildErrors(formState.errors),
     collectionReferences,
     errors: formState.errors || {},
@@ -89,12 +102,12 @@ export function createStore(
     onChange: formState && formState.onChange,
     onChangeType: (formState && formState.onChangeType) || 'blur',
     onSubmit: formState && formState.onSubmit,
-    rendererOptions:
-      rendererOptions || DeReCrudOptions.getDefaults().rendererOptions,
+    rendererOptions: rendererOptions || optionDefaults.rendererOptions,
     schema,
     struct,
     structs,
     touched: {},
+    type,
     value: initialValue
   };
 

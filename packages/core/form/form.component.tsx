@@ -20,10 +20,12 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     const {
       schema,
       className,
+      type,
       structs,
       struct,
       block,
       rendererOptions,
+      buttonOptions: { backButton, submitButton },
       navStack,
       submitting,
       submitForm,
@@ -94,6 +96,13 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     const ButtonRenderer = rendererOptions.components.button;
     const path = navStack.length ? navStack[navStack.length - 1].path : null;
 
+    let submitButtonText =
+      type === 'update' ? submitButton.updateText : submitButton.createText;
+
+    if (submitButton.appendStructLabel && structReference.label) {
+      submitButtonText += ` ${structReference.label.short}`;
+    }
+
     return (
       <form className={combineCssClasses(...classNames)}>
         <BlockHostRenderer
@@ -102,13 +111,22 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
           path={path}
         />
         {!navStack.length ? (
-          <ButtonRenderer
-            text="Submit"
-            onClick={submitForm}
-            disabled={submitting}
-          />
+          <div>
+            {submitButton.visible && (
+              <ButtonRenderer
+                classes={submitButton.classNames}
+                text={submitButtonText}
+                onClick={submitForm}
+                disabled={submitting}
+              />
+            )}
+          </div>
         ) : (
-          <ButtonRenderer text="Back" onClick={pop} />
+          <ButtonRenderer
+            classes={backButton.classNames}
+            text={backButton.text}
+            onClick={pop}
+          />
         )}
       </form>
     );
