@@ -101,11 +101,15 @@ export default function parseButtonOptions(
 
   if (buttonOptions.button.classNames.length) {
     if (buttonOptions.submitButton.includeButtonClassNames) {
-      buttonOptions.submitButton.classNames = buttonOptions.submitButton.classNames.concat(buttonOptions.button.classNames);
+      buttonOptions.submitButton.classNames = buttonOptions.submitButton.classNames.concat(
+        buttonOptions.button.classNames
+      );
     }
 
     if (buttonOptions.backButton.includeButtonClassNames) {
-      buttonOptions.backButton.classNames = buttonOptions.backButton.classNames.concat(buttonOptions.button.classNames);
+      buttonOptions.backButton.classNames = buttonOptions.backButton.classNames.concat(
+        buttonOptions.button.classNames
+      );
     }
   }
 
