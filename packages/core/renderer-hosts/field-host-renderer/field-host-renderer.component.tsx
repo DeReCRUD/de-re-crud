@@ -22,7 +22,6 @@ import {
   IReferenceField
 } from '../../models/schema';
 import debounce from '../../utils/debounce';
-import formPathToValue from '../../utils/form-path-to-value';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
 
@@ -50,25 +49,14 @@ export default class FieldHostRenderer extends BaseComponent<
   public render() {
     const {
       errors,
-      fieldPath,
       fieldReference,
-      formValue,
-      parentPath,
+      fieldValue,
       rendererId,
       rendererOptions,
       touched
     } = this.props;
 
     const field = fieldReference.field;
-    const fieldValue = formPathToValue(formValue, fieldPath);
-
-    const parentValue = parentPath
-      ? formPathToValue(formValue, parentPath)
-      : formValue;
-
-    if (!fieldReference.condition(parentValue, formValue)) {
-      return null;
-    }
 
     const fieldProps: IFieldRenderer = {
       errors: touched ? errors : [],

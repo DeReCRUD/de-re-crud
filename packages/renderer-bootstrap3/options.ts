@@ -1,4 +1,5 @@
 import { IRendererOptions } from '@de-re-crud/core/models/renderer-options';
+import Bootstrap3BlockContainerRenderer from './renderers/block-container-renderer';
 import Bootstrap3BooleanFieldRenderer from './renderers/boolean-field-renderer';
 import Bootstrap3ButtonRenderer from './renderers/button-renderer';
 import Bootstrap3FieldContainerRenderer from './renderers/field-container-renderer';
@@ -10,6 +11,7 @@ import Bootstrap3TableLinkedStructFieldRenderer from './renderers/table-linked-s
 
 const Bootstrap3RendererOptions: IRendererOptions = {
   components: {
+    blockContainer: Bootstrap3BlockContainerRenderer,
     booleanField: Bootstrap3BooleanFieldRenderer,
     button: Bootstrap3ButtonRenderer,
     dateField: Bootstrap3InputFieldRenderer,

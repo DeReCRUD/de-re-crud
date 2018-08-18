@@ -1,3 +1,4 @@
+export const DEFAULT_FIELD_WIDTH = 12;
 export type StampSize = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type FieldConditionFunc = (fieldParent: any, form: any) => boolean;
@@ -43,6 +44,9 @@ export interface IField {
   initialValue?: any;
   missingValue?: any;
   placeholder?: string;
+  hints: {
+    width: number;
+  };
 }
 
 export interface ITextField extends IField {
@@ -98,13 +102,25 @@ export interface IBlock {
   name: string;
   label?: ILabel;
   condition: BlockConditionFunc;
-  items: Array<IFieldReference | ILinkedStructFieldReference | IStamp>;
+  items: Array<
+    IBlockReference | IFieldReference | ILinkedStructFieldReference | IStamp
+  >;
   fields: Array<IFieldReference | ILinkedStructFieldReference>;
+  hints: {
+    layout: 'vertical' | 'horizontal';
+  };
+}
+
+export interface IBlockReference {
+  block: IBlock;
 }
 
 export interface IFieldReference {
   field: IField;
   condition: FieldConditionFunc;
+  hints: {
+    width?: number;
+  };
 }
 
 export interface IStamp {
@@ -116,6 +132,7 @@ export interface IStamp {
 
 export interface ILinkedStructFieldReference extends IFieldReference {
   hints: {
+    width?: number;
     layout: 'inline' | 'table';
     block?: IBlock;
   };

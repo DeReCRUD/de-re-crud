@@ -1,5 +1,6 @@
 import {
   BlockConditionFunc,
+  DEFAULT_FIELD_WIDTH,
   FieldConditionFunc,
   IBlock,
   IField,
@@ -104,6 +105,12 @@ export default class SchemaParser {
             };
 
             block.items.push(stamp);
+          } else if (blockField.block) {
+            const nestedBlockValue =
+              structBlockMap[structName][blockField.block];
+            const nestedBlock = nestedBlockValue.parsed;
+
+            block.items.push({ block: nestedBlock });
           } else if (blockField.field || typeof blockField === 'string') {
             const fieldName = blockField.field || blockField;
             const fieldValue = structFieldMap[structName][fieldName];
@@ -111,8 +118,19 @@ export default class SchemaParser {
 
             const fieldReference: IFieldReference = {
               condition: this.parseCondition(blockField.condition),
-              field
+              field,
+              hints: {}
             };
+
+            if (blockField.hints) {
+              if (
+                typeof blockField.hints.width !== 'undefined' &&
+                blockField.hints.width >= 1 &&
+                blockField.hints.width <= DEFAULT_FIELD_WIDTH
+              ) {
+                fieldReference.hints.width = blockField.hints.width;
+              }
+            }
 
             switch (field.type) {
               case 'linkedStruct': {
@@ -205,6 +223,9 @@ export default class SchemaParser {
 
   private static parseField(fieldJson: any): IField {
     const result: IField = {
+      hints: {
+        width: DEFAULT_FIELD_WIDTH
+      },
       keyField: fieldJson.keyField || false,
       label: this.parseLabel(fieldJson.label),
       name: fieldJson.name,
@@ -229,6 +250,16 @@ export default class SchemaParser {
       result.placeholder = fieldJson.placeholder;
     } else {
       result.placeholder = result.label.short;
+    }
+
+    if (typeof fieldJson.hints !== 'undefined') {
+      if (
+        typeof fieldJson.hints.width !== 'undefined' &&
+        fieldJson.hints.width >= 1 &&
+        fieldJson.hints.width <= DEFAULT_FIELD_WIDTH
+      ) {
+        result.hints.width = fieldJson.hints.width;
+      }
     }
 
     switch (result.type) {
@@ -295,12 +326,21 @@ export default class SchemaParser {
         true
       ) as BlockConditionFunc,
       fields: [],
+      hints: {
+        layout: 'vertical'
+      },
       items: [],
       name: blockJson.name
     };
 
     if (blockJson.label) {
       result.label = this.parseLabel(blockJson.label);
+    }
+
+    if (blockJson.hints) {
+      if (blockJson.hints.layout) {
+        result.hints.layout = blockJson.hints.layout;
+      }
     }
 
     return result;

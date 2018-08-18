@@ -1,15 +1,19 @@
 .bootstrap3-table-linked-struct-renderer-controls {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .bootstrap3-table-linked-struct-renderer-controls * {
-    margin-right: 3px;
+  margin-right: 3px;
 }
 
 .bootstrap3-table-linked-struct-renderer-row-actions {
-    text-align: center;
+  text-align: center;
 }
 
 .bootstrap3-table-linked-struct-renderer-row-actions i {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.bootstrap3-table-linked-struct-renderer .table {
+  margin-bottom: 0;
 }

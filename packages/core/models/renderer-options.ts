@@ -3,6 +3,7 @@ import {
   FunctionalComponent
 } from '../models/constructors';
 import {
+  IBlockContainerRenderer,
   IButtonRenderer,
   IFieldContainerRenderer,
   IFieldRenderer,
@@ -19,6 +20,9 @@ export interface IRendererOptions {
     stamp:
       | FunctionalComponent<IStampRenderer>
       | ComponentConstructor<IStampRenderer>;
+    blockContainer:
+      | FunctionalComponent<IBlockContainerRenderer>
+      | ComponentConstructor<IBlockContainerRenderer>;
     button:
       | FunctionalComponent<IButtonRenderer>
       | ComponentConstructor<IButtonRenderer>;

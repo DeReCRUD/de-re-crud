@@ -47,7 +47,9 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   return (
     <div className={createCssClass(cssName)}>
       <div className={createCssClass(cssName, 'controls')}>
-        <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
+        <Bootstrap3LabelRenderer fieldRequired={required}>
+          {label}
+        </Bootstrap3LabelRenderer>
         <Bootstrap3ButtonRenderer
           classes="btn btn-sm btn-default"
           text="Add"

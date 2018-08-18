@@ -9,19 +9,28 @@
         "label": "Name",
         "keyField": true,
         "type": "keyword",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "label",
         "label": "Label",
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "collectionLabel",
         "label": "Collection Label",
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "fields",
@@ -76,25 +85,37 @@
         "label": "Name",
         "keyField": true,
         "type": "keyword",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "label",
         "label": "Label",
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "placeholder",
         "label": "Placeholder",
         "type": "text",
-        "help": "Label is used if not specified."
+        "help": "Label is used if not specified.",
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "help",
         "label": "Description",
         "type": "text",
-        "help": "Shown under a control, like this!"
+        "help": "Shown under a control, like this!",
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "required",
@@ -164,7 +185,10 @@
             "label": "Derived",
             "value": "derived"
           }
-        ]
+        ],
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "options",
@@ -176,12 +200,12 @@
         }
       },
       {
-        "name": "minlength",
+        "name": "minLength",
         "label": "Min Length",
         "type": "integer"
       },
       {
-        "name": "maxlength",
+        "name": "maxLength",
         "label": "Max Length",
         "type": "integer"
       },
@@ -198,7 +222,10 @@
       {
         "name": "pattern",
         "label": "Pattern",
-        "type": "text"
+        "type": "text",
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "reference",
@@ -206,6 +233,9 @@
         "type": "foreignKey",
         "reference": {
           "struct": "struct"
+        },
+        "hints": {
+          "width": 8
         }
       }
     ],
@@ -227,20 +257,10 @@
             "condition": "fieldParent.type === 'text' || fieldParent.type === 'integer' || fieldParent.type === 'derived' || fieldParent.type === 'linkedStruct' || fieldParent.type === 'list'"
           },
           {
-            "field": "minlength",
-            "condition": "fieldParent.type === 'text'"
+            "block": "textFieldOptions"
           },
           {
-            "field": "maxlength",
-            "condition": "fieldParent.type === 'text'"
-          },
-          {
-            "field": "min",
-            "condition": "fieldParent.type === 'integer'"
-          },
-          {
-            "field": "max",
-            "condition": "fieldParent.type === 'integer'"
+            "block": "integerFieldOptions"
           },
           {
             "field": "pattern",
@@ -255,6 +275,50 @@
             "condition": "fieldParent.type === 'list'"
           }
         ]
+      },
+      {
+        "name": "textFieldOptions",
+        "fields": [
+          {
+            "field": "minLength",
+            "condition": "fieldParent.type === 'text'",
+            "hints": {
+              "width": 4
+            }
+          },
+          {
+            "field": "maxLength",
+            "condition": "fieldParent.type === 'text'",
+            "hints": {
+              "width": 4
+            }
+          }
+        ],
+        "hints": {
+          "layout": "horizontal"
+        }
+      },
+      {
+        "name": "integerFieldOptions",
+        "fields": [
+          {
+            "field": "min",
+            "condition": "fieldParent.type === 'integer'",
+            "hints": {
+              "width": 4
+            }
+          },
+          {
+            "field": "max",
+            "condition": "fieldParent.type === 'integer'",
+            "hints": {
+              "width": 4
+            }
+          }
+        ],
+        "hints": {
+          "layout": "horizontal"
+        }
       },
       {
         "name": "table",
@@ -272,7 +336,10 @@
         "label": "Name",
         "keyField": true,
         "type": "keyword",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "fields",
@@ -312,12 +379,18 @@
         "required": true,
         "reference": {
           "struct": "field"
+        },
+        "hints": {
+          "width": 8
         }
       },
       {
         "name": "condition",
         "label": "Condition",
-        "type": "text"
+        "type": "text",
+        "hints": {
+          "width": 8
+        }
       }
     ],
     "blocks": [
@@ -337,13 +410,19 @@
         "label": "Value",
         "keyField": true,
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "label",
         "label": "Label",
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       }
     ],
     "blocks": [

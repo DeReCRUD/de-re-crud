@@ -7,6 +7,7 @@ import { INavState } from '../../store';
 export interface IFieldHostRendererConnectProps {
   rendererId: string;
   fieldPath: string;
+  fieldValue: any;
   parentPath?: string;
   fieldReference: IFieldReference;
 }
