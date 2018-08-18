@@ -9,19 +9,28 @@
         "label": "Name",
         "keyField": true,
         "type": "keyword",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "label",
         "label": "Label",
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "collectionLabel",
         "label": "Collection Label",
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "fields",
@@ -76,25 +85,37 @@
         "label": "Name",
         "keyField": true,
         "type": "keyword",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "label",
         "label": "Label",
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "placeholder",
         "label": "Placeholder",
         "type": "text",
-        "help": "Label is used if not specified."
+        "help": "Label is used if not specified.",
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "help",
         "label": "Description",
         "type": "text",
-        "help": "Shown under a control, like this!"
+        "help": "Shown under a control, like this!",
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "required",
@@ -164,7 +185,10 @@
             "label": "Derived",
             "value": "derived"
           }
-        ]
+        ],
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "options",
@@ -178,27 +202,42 @@
       {
         "name": "minlength",
         "label": "Min Length",
-        "type": "integer"
+        "type": "integer",
+        "hints": {
+          "width": 4
+        }
       },
       {
         "name": "maxlength",
         "label": "Max Length",
-        "type": "integer"
+        "type": "integer",
+        "hints": {
+          "width": 4
+        }
       },
       {
         "name": "min",
         "label": "Min Value",
-        "type": "integer"
+        "type": "integer",
+        "hints": {
+          "width": 4
+        }
       },
       {
         "name": "max",
         "label": "Max Value",
-        "type": "integer"
+        "type": "integer",
+        "hints": {
+          "width": 4
+        }
       },
       {
         "name": "pattern",
         "label": "Pattern",
-        "type": "text"
+        "type": "text",
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "reference",
@@ -206,6 +245,9 @@
         "type": "foreignKey",
         "reference": {
           "struct": "struct"
+        },
+        "hints": {
+          "width": 8
         }
       }
     ],
@@ -272,7 +314,10 @@
         "label": "Name",
         "keyField": true,
         "type": "keyword",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "fields",
@@ -312,12 +357,18 @@
         "required": true,
         "reference": {
           "struct": "field"
+        },
+        "hints": {
+          "width": 8
         }
       },
       {
         "name": "condition",
         "label": "Condition",
-        "type": "text"
+        "type": "text",
+        "hints": {
+          "width": 8
+        }
       }
     ],
     "blocks": [
@@ -337,13 +388,19 @@
         "label": "Value",
         "keyField": true,
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       },
       {
         "name": "label",
         "label": "Label",
         "type": "text",
-        "required": true
+        "required": true,
+        "hints": {
+          "width": 8
+        }
       }
     ],
     "blocks": [

@@ -9,10 +9,12 @@ import {
 
 const mapToProps = ({
   formId,
-  value
+  value,
+  rendererOptions
 }: IStoreState): Partial<IBlockHostRendererProps> => ({
   formId,
-  formValue: value
+  formValue: value,
+  rendererOptions
 });
 
 export default connect(mapToProps)(BlockHostRenderer) as ComponentConstructor<

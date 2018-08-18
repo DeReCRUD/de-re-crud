@@ -1,5 +1,6 @@
 import {
   BlockConditionFunc,
+  DEFAULT_FIELD_WIDTH,
   FieldConditionFunc,
   IBlock,
   IField,
@@ -205,6 +206,9 @@ export default class SchemaParser {
 
   private static parseField(fieldJson: any): IField {
     const result: IField = {
+      hints: {
+        width: DEFAULT_FIELD_WIDTH
+      },
       keyField: fieldJson.keyField || false,
       label: this.parseLabel(fieldJson.label),
       name: fieldJson.name,
@@ -229,6 +233,16 @@ export default class SchemaParser {
       result.placeholder = fieldJson.placeholder;
     } else {
       result.placeholder = result.label.short;
+    }
+    
+    if (typeof fieldJson.hints !== 'undefined') {
+      if (
+        typeof fieldJson.hints.width !== 'undefined' &&
+        fieldJson.hints.width >= 1 &&
+        fieldJson.hints.width <= 12
+      ) {
+        result.hints.width = fieldJson.hints.width;
+      }
     }
 
     switch (result.type) {

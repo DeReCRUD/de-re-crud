@@ -1,5 +1,6 @@
 import { IFieldRenderer } from '@de-re-crud/core/models/renderers';
 import { h } from 'preact';
+import './boolean-field-renderer.css';
 import Bootstrap3LabelRenderer from './label-renderer';
 
 const Bootstrap3BooleanFieldRenderer = ({
@@ -11,7 +12,7 @@ const Bootstrap3BooleanFieldRenderer = ({
   required
 }: IFieldRenderer) => {
   const checkbox = (
-    <span>
+    <div>
       <input
         type="checkbox"
         onFocus={onFocus}
@@ -20,7 +21,7 @@ const Bootstrap3BooleanFieldRenderer = ({
         checked={value}
       />
       {label}
-    </span>
+    </div>
   );
 
   return (

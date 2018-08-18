@@ -82,7 +82,8 @@ export default class FieldHostRenderer extends BaseComponent<
       placeholder: field.placeholder,
       rendererId,
       required: field.required,
-      value: fieldValue
+      value: fieldValue,
+      width: field.hints.width
     };
 
     const fieldRenderer = this.renderField(fieldReference, fieldProps);
@@ -94,6 +95,7 @@ export default class FieldHostRenderer extends BaseComponent<
         fieldName={fieldProps.fieldName}
         fieldDescription={fieldProps.fieldDescription}
         errors={fieldProps.errors}
+        width={fieldProps.width}
       >
         {fieldRenderer}
       </FieldContainerRenderer>

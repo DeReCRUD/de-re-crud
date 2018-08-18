@@ -34,7 +34,7 @@ export default class App extends Component<any> {
     return (
       <div className="container">
         <div className="row">
-          <div class="col-sm-6">
+          <div class="col-sm-8">
             <Form
               type="create"
               schema={schemJson}

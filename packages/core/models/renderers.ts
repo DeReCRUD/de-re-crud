@@ -4,11 +4,25 @@ export interface IRenderer {
   rendererId: string;
 }
 
+export interface IBlockCell {
+  width: number;
+  renderedItem: JSX.Element;
+}
+
+export interface IBlockRow {
+  cells: IBlockCell[];
+}
+
+export interface IBlockContainerRenderer extends IRenderer {
+  rows: IBlockRow[];
+}
+
 export interface IFieldContainerRenderer extends IRenderer {
   fieldName: string;
   fieldDescription?: string;
   errors: string[];
   children?: JSX.Element;
+  width: number;
 }
 
 export interface IStampRenderer extends IRenderer {
@@ -35,6 +49,7 @@ export interface IFieldRenderer extends IRenderer {
   errors: string[];
   value?: any;
   required: boolean;
+  width: number;
   onFocus: (e: FieldFocusEvent) => void;
   onBlur: (e: FieldBlurEvent) => void;
   onChange: (e: FieldChangeEvent) => void;

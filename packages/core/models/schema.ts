@@ -1,3 +1,4 @@
+export const DEFAULT_FIELD_WIDTH = 12;
 export type StampSize = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type FieldConditionFunc = (fieldParent: any, form: any) => boolean;
@@ -43,6 +44,9 @@ export interface IField {
   initialValue?: any;
   missingValue?: any;
   placeholder?: string;
+  hints: {
+    width: number;
+  };
 }
 
 export interface ITextField extends IField {

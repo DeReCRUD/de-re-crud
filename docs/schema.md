@@ -90,13 +90,13 @@ The property level portions of a [Struct](#struct)
 
 A grouping of fields displayed in the UI
 
-| Field     | Type                                                                             | Required | Notes                                                                           |
-| --------- | -------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------- |
-| name      | keyword                                                                          | true     | The common name used to identify the block                                      |
-| label     | string or [Label](#label)                                                        | false    | Describes the block in the UI                                                   |
+| Field     | Type                                                                             | Required | Notes                                                                               |
+| --------- | -------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------------------------- |
+| name      | keyword                                                                          | true     | The common name used to identify the block                                          |
+| label     | string or [Label](#label)                                                        | false    | Describes the block in the UI                                                       |
 | condition | [condition](#condition)                                                          | false    | The [Condition](#condition) evaluated to determine if the block should be displayed |
-| fields    | (string or [Field Reference](#conditional_field_reference) or [Stamp](#stamp))[] | true     |                                                                                 |
-| hints     | [hint](#hint)                                                                    | false    | Display recomendation to the UI                                                 |
+| fields    | (string or [Field Reference](#conditional_field_reference) or [Stamp](#stamp))[] | true     |                                                                                     |
+| hints     | [hint](#hint)                                                                    | false    | Display recomendation to the UI                                                     |
 
 ### <a name="label"></a> Label
 
@@ -121,6 +121,12 @@ Describes a relationship to another struct
 ### <a name="hint"></a> Hint
 
 Recommendations given to the UI about how to display the form element. Applies to [structs](#struct), [fields](#field), and [blocks](#block).
+
+#### [Field](#field) Hints
+| Field | Type   | Required | Missing Val | Notes                          |
+| ----- | ------ | -------- | ----------- | ------------------------------ |
+| width | number | false    | 12          | The width of the field (1-12). |
+
 
 #### [Block](#block) Hints
 
