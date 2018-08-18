@@ -19,12 +19,15 @@ jobs:
           name: Install Dependencies
           command: |
             yarn install
-            yarn global add codecov
 
       - save_cache:
           paths:
             - node_modules
           key: yarn-cache-v1-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install Tools
+          command: yarn add codecov -D -W
 
       - run:
           name: Link Packages
@@ -42,7 +45,7 @@ jobs:
           name: Run Tests and Coverage
           command: |
             yarn cover
-            codecov
+            ./node_modules/.bin/codecov
 
       - store_artifacts:
           path: dist
