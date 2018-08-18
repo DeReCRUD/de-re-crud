@@ -102,13 +102,25 @@ export interface IBlock {
   name: string;
   label?: ILabel;
   condition: BlockConditionFunc;
-  items: Array<IFieldReference | ILinkedStructFieldReference | IStamp>;
+  items: Array<
+    IBlockReference | IFieldReference | ILinkedStructFieldReference | IStamp
+  >;
   fields: Array<IFieldReference | ILinkedStructFieldReference>;
+  hints: {
+    layout: 'vertical' | 'horizontal';
+  };
+}
+
+export interface IBlockReference {
+  block: IBlock;
 }
 
 export interface IFieldReference {
   field: IField;
   condition: FieldConditionFunc;
+  hints: {
+    width?: number;
+  };
 }
 
 export interface IStamp {
@@ -120,6 +132,7 @@ export interface IStamp {
 
 export interface ILinkedStructFieldReference extends IFieldReference {
   hints: {
+    width?: number;
     layout: 'inline' | 'table';
     block?: IBlock;
   };

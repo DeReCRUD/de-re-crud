@@ -200,36 +200,24 @@
         }
       },
       {
-        "name": "minlength",
+        "name": "minLength",
         "label": "Min Length",
-        "type": "integer",
-        "hints": {
-          "width": 4
-        }
+        "type": "integer"
       },
       {
-        "name": "maxlength",
+        "name": "maxLength",
         "label": "Max Length",
-        "type": "integer",
-        "hints": {
-          "width": 4
-        }
+        "type": "integer"
       },
       {
         "name": "min",
         "label": "Min Value",
-        "type": "integer",
-        "hints": {
-          "width": 4
-        }
+        "type": "integer"
       },
       {
         "name": "max",
         "label": "Max Value",
-        "type": "integer",
-        "hints": {
-          "width": 4
-        }
+        "type": "integer"
       },
       {
         "name": "pattern",
@@ -269,20 +257,10 @@
             "condition": "fieldParent.type === 'text' || fieldParent.type === 'integer' || fieldParent.type === 'derived' || fieldParent.type === 'linkedStruct' || fieldParent.type === 'list'"
           },
           {
-            "field": "minlength",
-            "condition": "fieldParent.type === 'text'"
+            "block": "textFieldOptions"
           },
           {
-            "field": "maxlength",
-            "condition": "fieldParent.type === 'text'"
-          },
-          {
-            "field": "min",
-            "condition": "fieldParent.type === 'integer'"
-          },
-          {
-            "field": "max",
-            "condition": "fieldParent.type === 'integer'"
+            "block": "integerFieldOptions"
           },
           {
             "field": "pattern",
@@ -297,6 +275,50 @@
             "condition": "fieldParent.type === 'list'"
           }
         ]
+      },
+      {
+        "name": "textFieldOptions",
+        "fields": [
+          {
+            "field": "minLength",
+            "condition": "fieldParent.type === 'text'",
+            "hints": {
+              "width": 4
+            }
+          },
+          {
+            "field": "maxLength",
+            "condition": "fieldParent.type === 'text'",
+            "hints": {
+              "width": 4
+            }
+          }
+        ],
+        "hints": {
+          "layout": "horizontal"
+        }
+      },
+      {
+        "name": "integerFieldOptions",
+        "fields": [
+          {
+            "field": "min",
+            "condition": "fieldParent.type === 'integer'",
+            "hints": {
+              "width": 4
+            }
+          },
+          {
+            "field": "max",
+            "condition": "fieldParent.type === 'integer'",
+            "hints": {
+              "width": 4
+            }
+          }
+        ],
+        "hints": {
+          "layout": "horizontal"
+        }
       },
       {
         "name": "table",

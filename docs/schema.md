@@ -90,13 +90,13 @@ The property level portions of a [Struct](#struct)
 
 A grouping of fields displayed in the UI
 
-| Field     | Type                                                                             | Required | Notes                                                                               |
-| --------- | -------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------------------------- |
-| name      | keyword                                                                          | true     | The common name used to identify the block                                          |
-| label     | string or [Label](#label)                                                        | false    | Describes the block in the UI                                                       |
-| condition | [condition](#condition)                                                          | false    | The [Condition](#condition) evaluated to determine if the block should be displayed |
-| fields    | (string or [Field Reference](#conditional_field_reference) or [Stamp](#stamp))[] | true     |                                                                                     |
-| hints     | [hint](#hint)                                                                    | false    | Display recomendation to the UI                                                     |
+| Field     | Type                                                                                                        | Required | Notes                                                                               |
+| --------- | ----------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------------------------- |
+| name      | keyword                                                                                                     | true     | The common name used to identify the block                                          |
+| label     | string or [Label](#label)                                                                                   | false    | Describes the block in the UI                                                       |
+| condition | [condition](#condition)                                                                                     | false    | The [Condition](#condition) evaluated to determine if the block should be displayed |
+| fields    | (string or [Field Reference](#field-reference) or [Block Reference](#block-reference) or [Stamp](#stamp))[] | true     |                                                                                     |
+| hints     | [hint](#hint)                                                                                               | false    | Display recomendation to the UI                                                     |
 
 ### <a name="label"></a> Label
 
@@ -118,32 +118,6 @@ Describes a relationship to another struct
 | struct | keyword | true     |             | The name of the other [struct](#struct)              |
 | block  | string  | false    | default     | The name of the [block](#block) to display in the UI |
 
-### <a name="hint"></a> Hint
-
-Recommendations given to the UI about how to display the form element. Applies to [structs](#struct), [fields](#field), and [blocks](#block).
-
-#### [Field](#field) Hints
-| Field | Type   | Required | Missing Val | Notes                          |
-| ----- | ------ | -------- | ----------- | ------------------------------ |
-| width | number | false    | 12          | The width of the field (1-12). |
-
-
-#### [Block](#block) Hints
-
-##### <a name="block-linked-struct-hint"></a> Additional properties for hints of [type](#type) linkedStruct reference
-
-| Field  | Type   | Required | Missing Val | Notes                                                                                             |
-| ------ | ------ | -------- | ----------- | ------------------------------------------------------------------------------------------------- |
-| layout | string | false    | inline      | Indicates how to [layout](#block-linked-struct-hint-layout) the [Struct](#struct) instances       |
-| block  | string | false    | default     | The name of the [block](#block) to display in the UI, overrides the [Reference](#reference) block |
-
-##### <a name="block-linked-struct-hint-layout"></a> Linked Struct Layout Type
-
-| Type   | Description                                                               |
-| ------ | ------------------------------------------------------------------------- |
-| inline | Displays instances of the reference block within the main displayed block |
-| table  | Displays instances of the referenced struct in a table                    |
-
 ### <a name="option"></a> Option
 
 | Field | Type                                          | Required | Notes                                      |
@@ -151,7 +125,7 @@ Recommendations given to the UI about how to display the form element. Applies t
 | label | string or [Label](#label)                     | true     | The display value for the option in the UI |
 | value | value consistent with the field [type](#type) | true     | The value associated with the option       |
 
-### <a name="field_reference"></a> Field Reference
+### <a name="field-reference"></a> Field Reference
 
 References a [Field](#field) and defines a condition to be evaluated to determine if the field should be displayed.
 
@@ -160,14 +134,64 @@ References a [Field](#field) and defines a condition to be evaluated to determin
 | field     | string                  | true     | The name of the field to display                                         |
 | condition | [condition](#condition) | false    | Expression to be evaluated to determine if the field should be displayed |
 
+### <a name="block-reference"></a> Block Reference
+
+References a [Block](#block).
+| Field | Type   | Required | Notes                            |
+| ----- | ------ | -------- | -------------------------------- |
+| block | string | true     | The name of the block to display |
+
 ### <a name="stamp"></a> Stamp
 
 | Field     | Type                    | Required | Missing Val | Notes                                                                    |
 | --------- | ----------------------- | -------- | ----------- | ------------------------------------------------------------------------ |
 | stamp     | string                  | true     |             |                                                                          |
-| size      | integer                 | false    | 3           | The size of the stamp element when display using the `h` tag             |
+| size      | integer                 | false    | 3           | The size of the stamp element when display using the `h` element tag     |
 | condition | [condition](#condition) | false    |             | Expression to be evaluated to determine if the stamp should be displayed |
 
-### <a name="conditional"></a> Condition
+### <a name="condition"></a> Condition
 
 An expression that if evaluated as truthy or falsy.
+
+### <a name="hint"></a> Hint
+
+Recommendations given to the UI about how to display the form element. Applies to [structs](#struct), [fields](#field), and [blocks](#block).
+
+#### [Field](#field) Hints
+
+| Field | Type   | Required | Missing Val | Notes                          |
+| ----- | ------ | -------- | ----------- | ------------------------------ |
+| width | number | false    | 12          | The width of the field (1-12). |
+
+#### [Block](#block) Hints
+
+| Field  | Type                                | Required | Missing Val |
+| ------ | ----------------------------------- | -------- | ----------- |
+| layout | [Block Layout](#block-hints-layout) | false    | vertical    |
+
+##### <a name="block-hints-layout"></a> Block Layout
+
+| Value      | Description                                                                      |
+| ---------- | -------------------------------------------------------------------------------- |
+| vertical   | Displays each field on multiple rows                                             |
+| horizontal | Displays each field on a single row (can overflow), widths must explicity be set |
+
+#### [Field Reference](#field-reference) Hints
+
+| Field | Type   | Required | Missing Val                                         | Notes                          |
+| ----- | ------ | -------- | --------------------------------------------------- | ------------------------------ |
+| width | number | false    | defaults to width hint specified on [Field](#field) | The width of the field (1-12). |
+
+##### <a name="field-reference-linked-struct-hints"></a> Additional properties for hints of [type](#type) linkedStruct reference
+
+| Field  | Type                                                                | Required | Missing Val | Notes                                                                                             |
+| ------ | ------------------------------------------------------------------- | -------- | ----------- | ------------------------------------------------------------------------------------------------- |
+| layout | [Linked Struct Layout](#field-reference-linked-struct-hints-layout) | false    | inline      | Indicates how to display the [Struct](#struct) instances                                          |
+| block  | string                                                              | false    | default     | The name of the [block](#block) to display in the UI, overrides the [Reference](#reference) block |
+
+##### <a name="field-reference-linked-struct-hints-layout"></a> Linked Struct Layout
+
+| Value  | Description                                            |
+| ------ | ------------------------------------------------------ |
+| inline | Displays instances of the reference block inline       |
+| table  | Displays instances of the referenced struct in a table |

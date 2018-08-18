@@ -22,7 +22,6 @@ export interface IFieldContainerRenderer extends IRenderer {
   fieldDescription?: string;
   errors: string[];
   children?: JSX.Element;
-  width: number;
 }
 
 export interface IStampRenderer extends IRenderer {
@@ -49,7 +48,6 @@ export interface IFieldRenderer extends IRenderer {
   errors: string[];
   value?: any;
   required: boolean;
-  width: number;
   onFocus: (e: FieldFocusEvent) => void;
   onBlur: (e: FieldBlurEvent) => void;
   onChange: (e: FieldChangeEvent) => void;

@@ -3,9 +3,12 @@ import BaseComponent from '../../base-component';
 import { IBlockRow } from '../../models/renderers';
 import {
   DEFAULT_FIELD_WIDTH,
+  IBlock,
+  IBlockReference,
   IFieldReference,
   IStamp
 } from '../../models/schema';
+import formPathToValue from '../../utils/form-path-to-value';
 import FieldHostRenderer from '../field-host-renderer';
 import StampHostRenderer from '../stamp-host-renderer';
 import { IBlockHostRendererProps } from './block-host-renderer.props';
@@ -35,31 +38,67 @@ export default class BlockHostRenderer extends BaseComponent<
     const rendererId = `${formId}.${path}`;
     const BlockContainerRenderer = rendererOptions.components.blockContainer;
 
-    const rows = block.items.map((item) => {
-      let width = DEFAULT_FIELD_WIDTH;
-
-      const fieldReference = item as IFieldReference;
-      if (fieldReference.field) {
-        width = fieldReference.field.hints.width;
-      }
-
-      const row: IBlockRow = {
-        cells: [
-          {
-            renderedItem: this.renderField(item),
-            width
-          }
-        ]
-      };
-
-      return row;
-    });
+    const rows = this.createRows(block, true);
 
     return <BlockContainerRenderer rendererId={rendererId} rows={rows} />;
   }
 
-  private renderField(item: IFieldReference | IStamp) {
-    const { formId, struct, path: parentPath } = this.props;
+  private createRows(block: IBlock, root: boolean = false) {
+    const { formValue, path: parentPath } = this.props;
+
+    const rows = [];
+
+    if (!root && !block.condition(formValue)) {
+      return rows;
+    }
+
+    let nextRow: IBlockRow;
+
+    block.items.forEach((item) => {
+      let width = DEFAULT_FIELD_WIDTH;
+
+      const blockReference = item as IBlockReference;
+      if (blockReference.block) {
+        rows.push(...this.createRows(blockReference.block));
+        return;
+      }
+
+      const fieldReference = item as IFieldReference;
+      if (fieldReference.field) {
+        const parentValue = parentPath
+          ? formPathToValue(formValue, parentPath)
+          : formValue;
+
+        if (!fieldReference.condition(parentValue, formValue)) {
+          return;
+        }
+
+        width = fieldReference.hints.width || fieldReference.field.hints.width;
+      }
+
+      if (block.hints.layout !== 'horizontal') {
+        nextRow = null;
+      }
+
+      if (!nextRow) {
+        nextRow = {
+          cells: []
+        };
+
+        rows.push(nextRow);
+      }
+
+      nextRow.cells.push({
+        renderedItem: this.renderItem(item as IFieldReference | IStamp),
+        width
+      });
+    });
+
+    return rows;
+  }
+
+  private renderItem(item: IFieldReference | IStamp) {
+    const { formId, formValue, struct, path: parentPath } = this.props;
 
     const stamp = item as IStamp;
 
@@ -85,7 +124,7 @@ export default class BlockHostRenderer extends BaseComponent<
     if (fieldReference.field) {
       const { name: fieldName } = fieldReference.field;
       const fieldPath = parentPath ? `${parentPath}.${fieldName}` : fieldName;
-
+      const fieldValue = formPathToValue(formValue, fieldPath);
       const rendererId = `${formId}.${fieldPath}`;
 
       return (
@@ -94,6 +133,7 @@ export default class BlockHostRenderer extends BaseComponent<
           rendererId={rendererId}
           fieldPath={fieldPath}
           fieldReference={fieldReference}
+          fieldValue={fieldValue}
           parentPath={parentPath}
         />
       );
