@@ -11,22 +11,18 @@ const Bootstrap3BooleanFieldRenderer = ({
   onChange,
   required
 }: IFieldRenderer) => {
-  const checkbox = (
-    <div>
-      <input
-        type="checkbox"
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onInput={onChange}
-        checked={value}
-      />
-      {label}
-    </div>
-  );
-
   return (
     <div className="checkbox bootstrap3-boolean-field-renderer">
-      <Bootstrap3LabelRenderer label={checkbox} fieldRequired={required} />
+      <Bootstrap3LabelRenderer fieldRequired={required}>
+        <input
+          type="checkbox"
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onInput={onChange}
+          checked={value}
+        />
+        {label}
+      </Bootstrap3LabelRenderer>
     </div>
   );
 };

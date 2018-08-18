@@ -32,7 +32,9 @@ const Bootstrap3InputFieldRenderer = ({
 
   return (
     <div className={`bootstrap3-${fieldType}-renderer`}>
-      <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
+      <Bootstrap3LabelRenderer fieldRequired={required}>
+        {label}
+      </Bootstrap3LabelRenderer>
       <input
         class="form-control"
         type={inputType}

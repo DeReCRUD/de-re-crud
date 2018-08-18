@@ -14,7 +14,9 @@ const Bootstrap3SelectRenderer = ({
   required
 }: Bootstrap3SelectRendererProps) => (
   <div className="bootstrap3-select-renderer">
-    <Bootstrap3LabelRenderer label={label} fieldRequired={required} />
+    <Bootstrap3LabelRenderer fieldRequired={required}>
+      {label}
+    </Bootstrap3LabelRenderer>
     <select
       className="form-control"
       onFocus={onFocus}
