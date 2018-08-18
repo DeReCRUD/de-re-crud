@@ -17,7 +17,9 @@ jobs:
 
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: |
+            yarn install
+            yarn global add codecov
 
       - save_cache:
           paths:
@@ -37,8 +39,10 @@ jobs:
           command: yarn build
 
       - run:
-          name: Run Tests
-          command: yarn test
+          name: Run Tests and Coverage
+          command: |
+            yarn cover
+            codecov
 
       - store_artifacts:
           path: dist

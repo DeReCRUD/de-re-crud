@@ -1,6 +1,6 @@
 # De Re CRUD
 
-[![GitHub license](https://img.shields.io/github/license/DeReCRUD/de-re-crud.svg)](https://github.com/DeReCRUD/de-re-crud/blob/master/LICENSE) [![CircleCI Status](https://circleci.com/gh/DeReCRUD/de-re-crud.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/DeReCRUD/de-re-crud)
+[![GitHub License](https://img.shields.io/github/license/DeReCRUD/de-re-crud.svg)](https://github.com/DeReCRUD/de-re-crud/blob/master/LICENSE) [![CircleCI Status](https://circleci.com/gh/DeReCRUD/de-re-crud.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/DeReCRUD/de-re-crud) [![Coverage](https://img.shields.io/codecov/c/github/DeReCRUD/de-re-crud.svg)](https://codecov.io/gh/DeReCRUD/de-re-crud)
 
 For more information about the ideology of library, see [this](docs/ideology.md).
 

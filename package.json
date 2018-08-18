@@ -11,6 +11,7 @@
     "dev": "yarn workspace @de-re-crud/schema-builder dev",
     "build": "yarn clean && lerna run build && replace-in-file \"/import '(.*).css';/g\" \"\" dist/**/*.js --isRegex --verbose",
     "test": "jest",
+    "cover": "jest --coverage",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
     "format:write": "prettier \"**/*.{ts,tsx,js,json}\" --write",
     "bump": "lerna publish --skip-npm --force-publish=*"
@@ -60,6 +61,11 @@
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/dist/"
+    ],
+    "collectCoverageFrom": [
+      "packages/**/*.{ts,js}",
+      "!packages/**/rollup*",
+      "!packages/**/*.d.ts"
     ]
   }
 }
