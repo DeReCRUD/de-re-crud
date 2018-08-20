@@ -14,12 +14,36 @@ export default function parseButtonOptions(
     buttonOptions.backButton = {};
   }
 
+  if (!buttonOptions.cancelButton) {
+    buttonOptions.cancelButton = {};
+  }
+
   if (!buttonOptions.submitButton) {
     buttonOptions.submitButton = {};
   }
 
   if (instanceOptions && instanceOptions.button) {
     assignIfDefined(buttonOptions.button, 'classNames', instanceOptions.button);
+  }
+
+  if (instanceOptions && instanceOptions.cancelButton) {
+    assignIfDefined(
+      buttonOptions.cancelButton,
+      'classNames',
+      instanceOptions.cancelButton
+    );
+
+    assignIfDefined(
+      buttonOptions.cancelButton,
+      'includeButtonClassNames',
+      instanceOptions.cancelButton
+    );
+
+    assignIfDefined(
+      buttonOptions.cancelButton,
+      'text',
+      instanceOptions.cancelButton
+    );
   }
 
   if (instanceOptions && instanceOptions.submitButton) {
@@ -99,6 +123,10 @@ export default function parseButtonOptions(
   assignDefault(buttonOptions.backButton, 'includeButtonClassNames', true);
   assignDefault(buttonOptions.backButton, 'text', 'Back');
 
+  assignDefault(buttonOptions.cancelButton, 'classNames', []);
+  assignDefault(buttonOptions.cancelButton, 'includeButtonClassNames', true);
+  assignDefault(buttonOptions.cancelButton, 'text', 'Cancel');
+
   if (buttonOptions.button.classNames.length) {
     if (buttonOptions.submitButton.includeButtonClassNames) {
       buttonOptions.submitButton.classNames = buttonOptions.submitButton.classNames.concat(
@@ -108,6 +136,12 @@ export default function parseButtonOptions(
 
     if (buttonOptions.backButton.includeButtonClassNames) {
       buttonOptions.backButton.classNames = buttonOptions.backButton.classNames.concat(
+        buttonOptions.button.classNames
+      );
+    }
+
+    if (buttonOptions.cancelButton.includeButtonClassNames) {
+      buttonOptions.cancelButton.classNames = buttonOptions.cancelButton.classNames.concat(
         buttonOptions.button.classNames
       );
     }

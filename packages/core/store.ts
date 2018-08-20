@@ -52,6 +52,7 @@ export interface IStoreState {
   collectionReferences?: ICollectionReferences;
   submitting?: boolean;
   onSubmit?: FormSubmission;
+  onCancel?: () => void;
   onChangeType: FormChangeNotificationType;
   onChange?: FormChangeNotification;
 }
@@ -77,6 +78,7 @@ export function createStore(
     errors?: IErrors;
     value?: object;
     onSubmit?: FormSubmission;
+    onCancel?: () => void;
     onChange?: FormChangeNotification;
     onChangeType?: FormChangeNotificationType;
   }
@@ -99,6 +101,7 @@ export function createStore(
     formId: ++FORM_COUNTER,
     initialValue,
     navStack: [],
+    onCancel: formState && formState.onCancel,
     onChange: formState && formState.onChange,
     onChangeType: (formState && formState.onChangeType) || 'blur',
     onSubmit: formState && formState.onSubmit,

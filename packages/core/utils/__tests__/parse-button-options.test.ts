@@ -12,6 +12,11 @@ describe('parseButtonOptions', () => {
       button: {
         classNames: []
       },
+      cancelButton: {
+        classNames: [],
+        includeButtonClassNames: true,
+        text: 'Cancel'
+      },
       submitButton: {
         appendStructLabel: true,
         classNames: [],
@@ -30,6 +35,9 @@ describe('parseButtonOptions', () => {
       backButton: {
         text: 'Return'
       },
+      cancelButton: {
+        text: 'Close'
+      },
       submitButton: {
         classNames: ['.action-button'],
         createText: 'Add',
@@ -45,6 +53,11 @@ describe('parseButtonOptions', () => {
       },
       button: {
         classNames: []
+      },
+      cancelButton: {
+        classNames: [],
+        includeButtonClassNames: true,
+        text: 'Close'
       },
       submitButton: {
         appendStructLabel: true,
@@ -67,6 +80,9 @@ describe('parseButtonOptions', () => {
       button: {
         classNames: ['.button']
       },
+      cancelButton: {
+        includeButtonClassNames: false
+      },
       submitButton: {
         updateText: 'Save'
       }
@@ -80,6 +96,11 @@ describe('parseButtonOptions', () => {
       },
       button: {
         classNames: ['.button']
+      },
+      cancelButton: {
+        classNames: [],
+        includeButtonClassNames: false,
+        text: 'Cancel'
       },
       submitButton: {
         appendStructLabel: true,

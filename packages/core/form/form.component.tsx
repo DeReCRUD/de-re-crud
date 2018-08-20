@@ -25,11 +25,12 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       struct,
       block,
       rendererOptions,
-      buttonOptions: { backButton, submitButton },
+      buttonOptions: { backButton, cancelButton, submitButton },
       navStack,
       submitting,
       submitForm,
-      pop
+      pop,
+      onCancel
     } = this.props;
 
     if (!schema) {
@@ -111,16 +112,27 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
           path={path}
         />
         {!navStack.length ? (
-          <div>
-            {submitButton.visible && (
-              <ButtonRenderer
-                classes={submitButton.classNames}
-                text={submitButtonText}
-                onClick={submitForm}
-                disabled={submitting}
-              />
-            )}
-          </div>
+          (submitButton.visible || onCancel) && (
+            <div>
+              {submitButton.visible && (
+                <ButtonRenderer
+                  classes={submitButton.classNames}
+                  text={submitButtonText}
+                  onClick={submitForm}
+                  disabled={submitting}
+                />
+              )}
+              {submitButton.visible && ' '}
+              {onCancel && (
+                <ButtonRenderer
+                  classes={cancelButton.classNames}
+                  text={cancelButton.text}
+                  onClick={onCancel}
+                  disabled={submitting}
+                />
+              )}
+            </div>
+          )
         ) : (
           <ButtonRenderer
             classes={backButton.classNames}

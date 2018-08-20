@@ -46,6 +46,25 @@ export interface IButtonOptions {
     visible?: boolean;
   };
   /**
+   * Defines the options for cancel buttons.
+   */
+  cancelButton?: {
+    /**
+     * The CSS class names to use.
+     */
+    classNames?: string[];
+
+    /**
+     * Indicates whether the global button CSS class names are included. Default: true.
+     */
+    includeButtonClassNames?: boolean;
+
+    /**
+     * The text to display. Default: 'Cancel'.
+     */
+    text?: string;
+  };
+  /**
    * Defines the options for back buttons.
    */
   backButton?: {

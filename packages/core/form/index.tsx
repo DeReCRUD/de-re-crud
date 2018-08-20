@@ -16,6 +16,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       block,
       collectionReferences,
       errors,
+      onCancel,
       onChange,
       onChangeType,
       onSubmit,
@@ -37,6 +38,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       collectionReferences,
       {
         errors,
+        onCancel,
         onChange,
         onChangeType,
         onSubmit,
@@ -50,7 +52,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
   }
 
   public componentWillReceiveProps(nextProps: IFormConnectProps) {
-    const allowedUpates = ['onSubmit', 'onChangeType', 'onChange'];
+    const allowedUpates = ['onSubmit', 'onCancel', 'onChangeType', 'onChange'];
 
     if (
       !allowedUpates.every((value) => nextProps[value] === this.props[value])

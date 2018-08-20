@@ -19,6 +19,7 @@ interface IFormBaseProps {
   struct: string;
   block?: string;
   collectionReferences?: ICollectionReferences;
+  onCancel?: () => void;
 }
 
 export type FormSubmissionCallback = (errors?: IErrors) => void;
