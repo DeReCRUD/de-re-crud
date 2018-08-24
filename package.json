@@ -9,7 +9,7 @@
     "bootstrap": "lerna bootstrap",
     "lint": "yarn format:check && lerna run lint -- --format stylish",
     "dev": "yarn workspace @de-re-crud/schema-builder dev",
-    "build": "yarn clean && lerna run build && replace-in-file \"/import '(.*).css';/g\" \"\" dist/**/*.js --isRegex --verbose",
+    "build": "yarn clean && lerna run build && node ./scripts/replace-dist-css-imports.js",
     "test": "jest",
     "cover": "jest --coverage",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
