@@ -3,9 +3,9 @@ import {
   FieldType,
   IField,
   IIntegerField,
-  ITextField,
+  ILinkedStructField,
   IListField,
-  ILinkedStructField
+  ITextField
 } from '../../../models/schema';
 import parseField from '../../schema-parser/parse-field';
 
