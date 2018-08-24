@@ -16,7 +16,8 @@ module.exports = function(config) {
 
   config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env.ENABLE_LOGGING': process.env.ENABLE_LOGGING || false
+      'process.env.ENABLE_LOGGING': process.env.ENABLE_LOGGING || false,
+      'process.env.NODE_ENV': process.env.NODE_ENV
     })
   );
 

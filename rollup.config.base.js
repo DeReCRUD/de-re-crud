@@ -59,7 +59,8 @@ function generateDefaultConfig(pkg, external, minify) {
     external,
     plugins: [
       replace({
-        'process.env.ENABLE_LOGGING': false
+        'process.env.ENABLE_LOGGING': false,
+        'process.env.NODE_ENV': process.env.NODE_ENV
       }),
       postcss({
         extract: styleFile,

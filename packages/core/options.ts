@@ -1,13 +1,21 @@
 import { IButtonOptions } from './models/button-options';
 import { IRendererOptions } from './models/renderer-options';
 
+let optionDefaultsInitialized = false;
+
+if (process.env.NODE_ENV === 'development' && module.hot && module.hot.active) {
+  module.hot.accept('./options', () => {
+    optionDefaultsInitialized = false;
+  });
+}
+
 export class DeReCrudOptions {
   public static setDefaults(defaults: Partial<DeReCrudOptions>) {
-    if (this.initialized) {
+    if (optionDefaultsInitialized) {
       throw new Error('DeReCrudOptions.setDefaults can only be called once.');
     }
 
-    this.initialized = true;
+    optionDefaultsInitialized = true;
 
     const options = new DeReCrudOptions();
 
@@ -20,7 +28,6 @@ export class DeReCrudOptions {
     return this.options;
   }
 
-  private static initialized = false;
   private static options: DeReCrudOptions = Object.freeze(
     new DeReCrudOptions()
   );
