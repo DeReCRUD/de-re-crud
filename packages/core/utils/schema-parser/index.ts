@@ -5,22 +5,22 @@ import {
   IBlock,
   IField,
   IFieldReference,
-  IIntegerField,
-  ILabel,
   ILinkedStructField,
   ILinkedStructFieldReference,
-  IListField,
   IReferenceField,
   IStamp,
-  IStruct,
-  ITextField
-} from './models/schema';
+  IStruct
+} from '../../models/schema';
+import parseField from './parse-field';
+import parseLabel from './parse-label';
 
 interface ISchemaMap<T> {
   [key: string]: { parsed: T; json: any };
 }
 
 export default class SchemaParser {
+  public static readonly DEFAULT_CONDITION = () => true;
+
   public static parse(schemaJson: any): IStruct[] {
     if (!Array.isArray(schemaJson)) {
       return [];
@@ -44,7 +44,7 @@ export default class SchemaParser {
         for (const fieldJson of structJson.fields) {
           fieldMap[fieldJson.name] = {
             json: fieldJson,
-            parsed: this.parseField(fieldJson)
+            parsed: parseField(fieldJson)
           };
         }
       }
@@ -179,30 +179,6 @@ export default class SchemaParser {
     });
   }
 
-  private static defaultCondition = new Function('return true');
-
-  private static parseLabel(
-    labelJson?: string | { short?: string; medium?: string; long?: string }
-  ): ILabel {
-    let label: ILabel;
-
-    if (typeof labelJson === 'string') {
-      label = {
-        long: labelJson,
-        medium: labelJson,
-        short: labelJson
-      };
-    } else {
-      label = {
-        long: labelJson.long || labelJson.medium || labelJson.short || '',
-        medium: labelJson.medium || labelJson.short || labelJson.long || '',
-        short: labelJson.short || labelJson.medium || labelJson.long || ''
-      };
-    }
-
-    return label;
-  }
-
   private static parseStruct(structJson: any): IStruct {
     const result: IStruct = {
       blocks: [],
@@ -211,109 +187,11 @@ export default class SchemaParser {
     };
 
     if (structJson.label) {
-      result.label = this.parseLabel(structJson.label);
+      result.label = parseLabel(structJson.label);
     }
 
     if (structJson.collectionLabel) {
-      result.collectionLabel = this.parseLabel(structJson.collectionLabel);
-    }
-
-    return result;
-  }
-
-  private static parseField(fieldJson: any): IField {
-    const result: IField = {
-      hints: {
-        width: DEFAULT_FIELD_WIDTH
-      },
-      keyField: fieldJson.keyField || false,
-      label: this.parseLabel(fieldJson.label),
-      name: fieldJson.name,
-      required: fieldJson.required || false,
-      type: fieldJson.type,
-      unique: fieldJson.unique || false
-    };
-
-    if (typeof fieldJson.help !== 'undefined') {
-      result.help = fieldJson.help;
-    }
-
-    if (typeof fieldJson.initialValue !== 'undefined') {
-      result.initialValue = fieldJson.initialValue;
-    }
-
-    if (typeof fieldJson.missingValue !== 'undefined') {
-      result.missingValue = fieldJson.missingValue;
-    }
-
-    if (typeof fieldJson.placeholder !== 'undefined') {
-      result.placeholder = fieldJson.placeholder;
-    } else {
-      result.placeholder = result.label.short;
-    }
-
-    if (typeof fieldJson.hints !== 'undefined') {
-      if (
-        typeof fieldJson.hints.width !== 'undefined' &&
-        fieldJson.hints.width >= 1 &&
-        fieldJson.hints.width <= DEFAULT_FIELD_WIDTH
-      ) {
-        result.hints.width = fieldJson.hints.width;
-      }
-    }
-
-    switch (result.type) {
-      case 'text': {
-        const textField = result as ITextField;
-
-        if (fieldJson.minLength) {
-          textField.minLength = fieldJson.minLength;
-        }
-
-        if (fieldJson.maxLength) {
-          textField.maxLength = fieldJson.maxLength;
-        }
-
-        break;
-      }
-      case 'integer': {
-        const integerField = result as IIntegerField;
-
-        if (fieldJson.min) {
-          integerField.min = fieldJson.min;
-        }
-
-        if (fieldJson.max) {
-          integerField.max = fieldJson.max;
-        }
-
-        break;
-      }
-      case 'list': {
-        const listField = result as IListField;
-        listField.options = [];
-
-        fieldJson.options.forEach((option) => {
-          listField.options.push({
-            label: option.label,
-            value: option.value
-          });
-        });
-
-        break;
-      }
-      case 'linkedStruct': {
-        const linkedStructField = result as ILinkedStructField;
-
-        if (fieldJson.minInstances) {
-          linkedStructField.minInstances = fieldJson.minInstances;
-        }
-
-        if (fieldJson.maxInstances) {
-          linkedStructField.maxInstances = fieldJson.maxInstances;
-        }
-        break;
-      }
+      result.collectionLabel = parseLabel(structJson.collectionLabel);
     }
 
     return result;
@@ -334,7 +212,7 @@ export default class SchemaParser {
     };
 
     if (blockJson.label) {
-      result.label = this.parseLabel(blockJson.label);
+      result.label = parseLabel(blockJson.label);
     }
 
     if (blockJson.hints) {
@@ -364,7 +242,7 @@ export default class SchemaParser {
       condition = new Function(...args);
     } else {
       // tslint:disable-next-line:no-function-constructor-with-string-args
-      condition = this.defaultCondition;
+      condition = this.DEFAULT_CONDITION;
     }
 
     return condition;

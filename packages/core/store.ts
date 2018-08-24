@@ -13,9 +13,9 @@ import { IChildErrors, IErrors } from './models/errors';
 import { IRendererOptions } from './models/renderer-options';
 import { IStruct } from './models/schema';
 import { DeReCrudOptions } from './options';
-import SchemaParser from './schema-parser';
 import generateChildErrors from './utils/generate-child-errors';
 import parseButtonOptions from './utils/parse-button-options';
+import SchemaParser from './utils/schema-parser';
 
 let FORM_COUNTER = 0;
 
