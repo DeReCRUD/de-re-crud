@@ -114,10 +114,10 @@ describe('parseField', () => {
     it('should include min instances when specified', () => {
       const linkedStructField = parseField({
         ...field,
-        maxInstances: 2
+        minInstances: 2
       }) as ILinkedStructField;
 
-      expect(linkedStructField.maxInstances).toBe(2);
+      expect(linkedStructField.minInstances).toBe(2);
     });
 
     it('should include max instances when specified', () => {
