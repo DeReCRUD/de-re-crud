@@ -10,6 +10,6 @@ const options = {
 const changes = replace.sync(options);
 if (!changes.length) {
   console.warn('CSS Import Replacement: No files were modified.');
-} else{
-  console.log(changes.map(x => `CSS Import Replacement: ${x}`).join('\n'));
+} else {
+  console.log(changes.map((x) => `CSS Import Replacement: ${x}`).join('\n'));
 }
