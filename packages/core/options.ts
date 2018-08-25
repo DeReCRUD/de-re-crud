@@ -3,10 +3,18 @@ import { IRendererOptions } from './models/renderer-options';
 
 let optionDefaultsInitialized = false;
 
-if (process.env.NODE_ENV === 'development' && module.hot && module.hot.active) {
-  module.hot.accept('./options', () => {
+if (module.hot) {
+  module.hot.accept(() => {
     optionDefaultsInitialized = false;
   });
+
+  if (module.hot.addStatusHandler) {
+    module.hot.addStatusHandler((status) => {
+      if (status === 'apply') {
+        optionDefaultsInitialized = false;
+      }
+    });
+  }
 }
 
 export class DeReCrudOptions {
