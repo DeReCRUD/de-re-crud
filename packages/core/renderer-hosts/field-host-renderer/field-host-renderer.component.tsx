@@ -37,13 +37,7 @@ export default class FieldHostRenderer extends BaseComponent<
   constructor(props: IFieldHostRendererProps) {
     super(props);
 
-    this.debouncedChangedValue = debounce(props.changeValue) as any;
-  }
-
-  public componentWillReceiveProps(nextProps: IFieldHostRendererProps) {
-    if (nextProps.changeValue !== this.props.changeValue) {
-      this.debouncedChangedValue = debounce(nextProps.changeValue) as any;
-    }
+    this.debouncedChangedValue = debounce(this.changeValue) as any;
   }
 
   public render() {
@@ -87,6 +81,10 @@ export default class FieldHostRenderer extends BaseComponent<
       </FieldContainerRenderer>
     );
   }
+
+  private changeValue = (field: IField, fieldPath: string, value: any) => {
+    this.props.changeValue(field, fieldPath, value);
+  };
 
   private onFocus = (_: FieldFocusEvent) => {
     const {
