@@ -67,7 +67,7 @@ export default class FieldHostRenderer extends BaseComponent<
       value: fieldValue
     };
 
-    const fieldRenderer = this.renderField(fieldReference, fieldProps);
+    const renderedField = this.renderField(fieldReference, fieldProps);
     const FieldContainerRenderer = rendererOptions.components.fieldContainer;
 
     return (
@@ -76,9 +76,8 @@ export default class FieldHostRenderer extends BaseComponent<
         fieldName={fieldProps.fieldName}
         fieldDescription={fieldProps.fieldDescription}
         errors={fieldProps.errors}
-      >
-        {fieldRenderer}
-      </FieldContainerRenderer>
+        renderedField={renderedField}
+      />
     );
   }
 

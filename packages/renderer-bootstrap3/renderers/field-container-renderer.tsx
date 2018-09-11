@@ -5,7 +5,7 @@ import { h } from 'preact';
 const Bootstrap3FieldContainerRenderer = ({
   fieldDescription,
   errors,
-  children
+  renderedField
 }: IFieldContainerRenderer) => (
   <div
     className={combineCssClasses(
@@ -14,7 +14,7 @@ const Bootstrap3FieldContainerRenderer = ({
       errors.length && 'has-error'
     )}
   >
-    {children}
+    {renderedField}
     {fieldDescription &&
       !errors.length && <span className="help-block">{fieldDescription}</span>}
     {errors.length ? <span className="help-block">{errors[0]}</span> : null}

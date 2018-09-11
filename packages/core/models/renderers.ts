@@ -21,7 +21,7 @@ export interface IFieldContainerRenderer extends IRenderer {
   fieldName: string;
   fieldDescription?: string;
   errors: string[];
-  children?: JSX.Element;
+  renderedField?: JSX.Element;
 }
 
 export interface IStampRenderer extends IRenderer {
