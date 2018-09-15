@@ -217,7 +217,7 @@ export default class FieldHostRenderer extends BaseComponent<
         const foreignKeyField = field as IForeignKeyField;
         const struct = foreignKeyField.reference.struct.name;
 
-        if (!collectionReferences || !collectionReferences[field.name]) {
+        if (!collectionReferences || !collectionReferences[struct]) {
           Logger.error(
             `A collection reference must be defined for key: ${struct}.`
           );
