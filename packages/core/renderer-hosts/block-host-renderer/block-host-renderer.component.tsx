@@ -65,9 +65,7 @@ export default class BlockHostRenderer extends BaseComponent<
 
       const fieldReference = item as IFieldReference;
       if (fieldReference.field) {
-        const parentValue = parentPath
-          ? formPathToValue(formValue, parentPath)
-          : formValue;
+        const parentValue = this.getParentValue(formValue, parentPath);
 
         if (!fieldReference.condition(parentValue, formValue)) {
           return;
@@ -97,6 +95,10 @@ export default class BlockHostRenderer extends BaseComponent<
     return rows;
   }
 
+  private getParentValue(formValue: any, parentPath?: string) {
+    return parentPath ? formPathToValue(formValue, parentPath) : formValue;
+  }
+
   private renderItem(item: IFieldReference | IStamp) {
     const { formId, formValue, struct, path: parentPath } = this.props;
 
@@ -123,6 +125,7 @@ export default class BlockHostRenderer extends BaseComponent<
     const fieldReference = item as IFieldReference;
     if (fieldReference.field) {
       const { name: fieldName } = fieldReference.field;
+      const parentValue = this.getParentValue(formValue, parentPath);
       const fieldPath = parentPath ? `${parentPath}.${fieldName}` : fieldName;
       const fieldValue = formPathToValue(formValue, fieldPath);
       const rendererId = `${formId}.${fieldPath}`;
@@ -134,7 +137,7 @@ export default class BlockHostRenderer extends BaseComponent<
           fieldPath={fieldPath}
           fieldReference={fieldReference}
           fieldValue={fieldValue}
-          parentPath={parentPath}
+          parentValue={parentValue}
         />
       );
     }

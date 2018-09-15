@@ -82,14 +82,16 @@ export interface IOption {
 
 type ReferenceValues = ListValues | object;
 
+export interface IStructReference {
+  struct: IStruct;
+  block: IBlock;
+}
+
 export interface IReferenceField extends IField {
   type: 'linkedStruct' | 'foreignKey';
   initialValue?: ReferenceValues | ReferenceValues[];
   missingValue?: ReferenceValues | ReferenceValues[];
-  reference: {
-    struct: IStruct;
-    block: IBlock;
-  };
+  reference: IStructReference;
 }
 
 export interface ILinkedStructField extends IReferenceField {
@@ -104,6 +106,9 @@ export interface IForeignKeyField extends IReferenceField {
   type: 'foreignKey';
   initialValue?: ListValues;
   missingValue?: ListValues;
+  reference: IStructReference & {
+    labelField: IField;
+  };
 }
 
 export interface IBlock {

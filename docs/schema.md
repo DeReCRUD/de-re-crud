@@ -114,10 +114,15 @@ one of the following.
 
 Describes a relationship to another struct
 
-| Field  | Type    | Required | Missing Val | Notes                                                |
-| ------ | ------- | -------- | ----------- | ---------------------------------------------------- |
-| struct | keyword | true     |             | The name of the other [struct](#struct)              |
-| block  | string  | false    | default     | The name of the [block](#block) to display in the UI |
+| Field      | Type   | Required | Missing Val | Notes                                   |
+| ---------- | ------ | -------- | ----------- | --------------------------------------- |
+| labelField | string | true     |             | The name of the other [struct](#struct) |
+
+##### <a name="reference-foreign-key"></a> Additional properties for references of [type](#type) foreignKey
+
+| Field  | Type    | Required | Missing Val | Notes                                                                                             |
+| ------ | ------- | -------- | ----------- | ------------------------------------------------------------------------------------------------- |
+| struct | keyword | true     |             | TThe name of the [field](#field) whose value will identify the other [struct](#struct)  instance. |
 
 ### <a name="option"></a> Option
 
@@ -138,6 +143,7 @@ References a [Field](#field) and defines a condition to be evaluated to determin
 ### <a name="block-reference"></a> Block Reference
 
 References a [Block](#block).
+
 | Field | Type   | Required | Notes                            |
 | ----- | ------ | -------- | -------------------------------- |
 | block | string | true     | The name of the block to display |
@@ -183,7 +189,7 @@ Recommendations given to the UI about how to display the form element. Applies t
 | ----- | ------ | -------- | --------------------------------------------------- | ------------------------------ |
 | width | number | false    | defaults to width hint specified on [Field](#field) | The width of the field (1-12). |
 
-##### <a name="field-reference-linked-struct-hints"></a> Additional properties for hints of [type](#type) linkedStruct reference
+##### <a name="field-reference-linked-struct-hints"></a> Additional properties for hints of [type](#type) linkedStruct
 
 | Field  | Type                                                                | Required | Missing Val | Notes                                                                                             |
 | ------ | ------------------------------------------------------------------- | -------- | ----------- | ------------------------------------------------------------------------------------------------- |

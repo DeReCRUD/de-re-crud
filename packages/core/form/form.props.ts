@@ -1,10 +1,17 @@
 import { IButtonOptions } from '../models/button-options';
 import { IErrors } from '../models/errors';
 import { IRendererOptions } from '../models/renderer-options';
-import { IOption, IStruct } from '../models/schema';
+import { IStruct } from '../models/schema';
 import { INavState } from '../store';
 
-export type CollectionReference = (formValue: any) => IOption[];
+export interface ICollectionReferenceParams {
+  parentValue: any;
+  formValue: any;
+}
+
+export type CollectionReference = (
+  params: ICollectionReferenceParams
+) => object[];
 
 export interface ICollectionReferences {
   [key: string]: CollectionReference;

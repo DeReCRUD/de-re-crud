@@ -8,7 +8,7 @@ export interface IFieldHostRendererConnectProps {
   rendererId: string;
   fieldPath: string;
   fieldValue: any;
-  parentPath?: string;
+  parentValue: any;
   fieldReference: IFieldReference;
 }
 
@@ -18,7 +18,6 @@ export interface IFieldHostRendererProps
   rendererOptions: IRendererOptions;
   collectionReferences?: ICollectionReferences;
   fieldPath: string;
-  parentPath?: string;
   formValue: object;
   touched: boolean;
   errors: string[];

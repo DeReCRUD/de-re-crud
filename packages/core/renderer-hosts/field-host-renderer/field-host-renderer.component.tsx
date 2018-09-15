@@ -191,6 +191,7 @@ export default class FieldHostRenderer extends BaseComponent<
       rendererOptions,
       childErrors,
       collectionReferences,
+      parentValue,
       formValue
     } = this.props;
     const { field } = fieldReference;
@@ -231,22 +232,33 @@ export default class FieldHostRenderer extends BaseComponent<
       case 'foreignKey': {
         const ForeignKeyFieldRenderer =
           rendererOptions.components.foreignKeyField;
-        const options: ISelectableOption[] = [];
+        let options: ISelectableOption[];
 
         const foreignKeyField = field as IForeignKeyField;
-        const struct = foreignKeyField.reference.struct.name;
+        const { struct, labelField } = foreignKeyField.reference;
+        const keyField = struct.fields.find((x) => x.keyField);
 
-        if (!collectionReferences || !collectionReferences[struct]) {
+        if (!collectionReferences || !collectionReferences[struct.name]) {
           Logger.error(
-            `A collection reference must be defined for key: ${struct}.`
+            `A collection reference must be defined for key: ${struct.name}.`
           );
         } else {
-          options.push(
-            ...collectionReferences[struct](formValue).map((option) => ({
-              ...option,
-              selected: option.value === fieldProps.value
-            }))
-          );
+          const collectionReference = collectionReferences[struct.name]({
+            formValue,
+            parentValue
+          });
+
+          if (Array.isArray(collectionReference)) {
+            options = collectionReference.map((x) => ({
+              label: x[labelField.name],
+              selected: x[keyField.name] === fieldProps.value,
+              value: x[keyField.name]
+            }));
+          }
+        }
+
+        if (!options) {
+          options = [];
         }
 
         if (typeof fieldProps.value === 'undefined') {

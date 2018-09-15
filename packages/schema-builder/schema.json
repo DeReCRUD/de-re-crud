@@ -232,6 +232,7 @@
         "label": "Reference",
         "type": "foreignKey",
         "reference": {
+          "labelField": "name",
           "struct": "struct"
         },
         "hints": {
@@ -378,6 +379,7 @@
         "type": "foreignKey",
         "required": true,
         "reference": {
+          "labelField": "name",
           "struct": "field"
         },
         "hints": {

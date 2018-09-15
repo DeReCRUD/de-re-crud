@@ -5,6 +5,7 @@ import {
   IBlock,
   IField,
   IFieldReference,
+  IForeignKeyField,
   ILinkedStructField,
   ILinkedStructFieldReference,
   IReferenceField,
@@ -81,6 +82,12 @@ export default class SchemaParser {
                   .parsed,
               struct: structMap[reference.struct].parsed
             };
+
+            if (field.type === 'foreignKey') {
+              const foreignKeyField = referenceField as IForeignKeyField;
+              foreignKeyField.reference.labelField =
+                structFieldMap[reference.struct][reference.labelField].parsed;
+            }
             break;
           }
         }

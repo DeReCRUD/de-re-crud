@@ -3,7 +3,6 @@ import {
   FormSubmissionCallback,
   ICollectionReferences
 } from '@de-re-crud/core/form/form.props';
-import { IOption } from '@de-re-crud/core/models/schema';
 import { DeReCrudOptions } from '@de-re-crud/core/options';
 import Bootstrap3RendererOptions from '@de-re-crud/renderer-bootstrap3/options';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -15,19 +14,7 @@ DeReCrudOptions.setDefaults({ rendererOptions: Bootstrap3RendererOptions });
 
 export default class App extends Component<any> {
   private collectionReferences: ICollectionReferences = {
-    field: ({ fields }: { fields: any[] }) => {
-      const options: IOption[] = [];
-
-      if (fields) {
-        fields.forEach((field) => {
-          if (field.name && field.label) {
-            options.push({ label: field.label, value: field.name });
-          }
-        });
-      }
-
-      return options;
-    }
+    field: ({ formValue: { fields } }) => fields
   };
 
   public render() {
