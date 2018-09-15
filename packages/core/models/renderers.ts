@@ -1,5 +1,9 @@
 import { FieldType, IOption, StampSize } from './schema';
 
+export interface ISelectableOption extends IOption {
+  selected: boolean;
+}
+
 export interface IRenderer {
   rendererId: string;
 }
@@ -31,12 +35,34 @@ export interface IStampRenderer extends IRenderer {
 
 export type FieldFocusEvent = FocusEvent;
 export type FieldBlurEvent = FocusEvent;
+
+export type CheckboxEventTarget = EventTarget & {
+  type: 'checkbox';
+  checked: boolean;
+};
+
+export type MultipleSelectEventTarget = EventTarget & {
+  type: 'select-multiple';
+  options: [
+    {
+      selected: boolean;
+      value: any;
+    }
+  ];
+};
+
+export type GenericEventTarget = EventTarget & {
+  type: '';
+  value: any;
+};
+
+export type TypedEventTarget =
+  | CheckboxEventTarget
+  | MultipleSelectEventTarget
+  | GenericEventTarget;
+
 export type FieldChangeEvent = Event & {
-  target: EventTarget & {
-    type?: string;
-    checked?: boolean;
-    value: any;
-  };
+  target: TypedEventTarget;
 };
 
 export interface IFieldRenderer extends IRenderer {
@@ -59,11 +85,13 @@ export interface ITextFieldRenderer extends IFieldRenderer {
 }
 
 export interface IListFieldRenderer extends IFieldRenderer {
-  options: IOption[];
+  multiSelect: boolean;
+  options: ISelectableOption[];
 }
 
-// tslint:disable-next-line:no-empty-interface
-export interface IForeignKeyFieldRenderer extends IListFieldRenderer {}
+export interface IForeignKeyFieldRenderer extends IFieldRenderer {
+  options: ISelectableOption[];
+}
 
 export interface ITableLinkedStructRenderer extends IFieldRenderer {
   headers: string[];

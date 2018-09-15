@@ -65,21 +65,27 @@ export interface IIntegerField extends IField {
   max?: number;
 }
 
+export type ListValues = string | number;
+
 export interface IListField extends IField {
   type: 'list';
-  initialValue?: any[];
-  missingValue?: any[];
+  initialValue?: ListValues | ListValues[];
+  missingValue?: ListValues | ListValues[];
+  multiSelect: boolean;
   options: IOption[];
 }
 
 export interface IOption {
   label: string;
-  value: any;
+  value: string | number;
 }
+
+type ReferenceValues = ListValues | object;
 
 export interface IReferenceField extends IField {
   type: 'linkedStruct' | 'foreignKey';
-  initialValue?: any[] | object;
+  initialValue?: ReferenceValues | ReferenceValues[];
+  missingValue?: ReferenceValues | ReferenceValues[];
   reference: {
     struct: IStruct;
     block: IBlock;
@@ -88,14 +94,16 @@ export interface IReferenceField extends IField {
 
 export interface ILinkedStructField extends IReferenceField {
   type: 'linkedStruct';
-  initialValue?: any[];
+  initialValue?: object[];
+  missingValue?: object[];
   minInstances?: number;
   maxInstances?: number;
 }
 
 export interface IForeignKeyField extends IReferenceField {
   type: 'foreignKey';
-  initialValue?: object;
+  initialValue?: ListValues;
+  missingValue?: ListValues;
 }
 
 export interface IBlock {

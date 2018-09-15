@@ -6,7 +6,7 @@ export type Bootstrap3SelectRendererProps = IListFieldRenderer & {};
 
 const Bootstrap3SelectRenderer = ({
   label,
-  value,
+  multiSelect,
   options,
   onFocus,
   onBlur,
@@ -22,10 +22,14 @@ const Bootstrap3SelectRenderer = ({
       onFocus={onFocus}
       onBlur={onBlur}
       onChange={onChange}
-      value={value}
+      multiple={multiSelect}
     >
       {options.map((option) => (
-        <option key={option.value} value={option.value}>
+        <option
+          key={option.value}
+          value={option.value}
+          selected={option.selected}
+        >
           {option.label}
         </option>
       ))}

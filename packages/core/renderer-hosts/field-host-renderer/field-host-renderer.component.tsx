@@ -9,6 +9,7 @@ import {
   IForeignKeyFieldRenderer,
   IInlinedLinkedStructRenderer,
   IListFieldRenderer,
+  ISelectableOption,
   ITableLinkedStructRenderer
 } from '../../models/renderers';
 import {
@@ -18,7 +19,6 @@ import {
   ILinkedStructField,
   ILinkedStructFieldReference,
   IListField,
-  IOption,
   IReferenceField
 } from '../../models/schema';
 import debounce from '../../utils/debounce';
@@ -106,12 +106,31 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private onChange = (e: FieldChangeEvent) => {
+    let value;
+
+    switch (e.target.type) {
+      case 'checkbox':
+        value = e.target.checked;
+        break;
+      case 'select-multiple':
+        value = [];
+
+        const { options } = e.target;
+        for (const option of options) {
+          if (option.selected) {
+            value.push(option.value);
+          }
+        }
+        break;
+      default:
+        value = e.target.value;
+        break;
+    }
+
     const {
       fieldReference: { field },
       fieldPath
     } = this.props;
-    const value =
-      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
     this.debouncedChangedValue(field, fieldPath, value);
   };
@@ -212,7 +231,7 @@ export default class FieldHostRenderer extends BaseComponent<
       case 'foreignKey': {
         const ForeignKeyFieldRenderer =
           rendererOptions.components.foreignKeyField;
-        const options: IOption[] = [];
+        const options: ISelectableOption[] = [];
 
         const foreignKeyField = field as IForeignKeyField;
         const struct = foreignKeyField.reference.struct.name;
@@ -222,7 +241,16 @@ export default class FieldHostRenderer extends BaseComponent<
             `A collection reference must be defined for key: ${struct}.`
           );
         } else {
-          options.push(...collectionReferences[struct](formValue));
+          options.push(
+            ...collectionReferences[struct](formValue).map((option) => ({
+              ...option,
+              selected: option.value === fieldProps.value
+            }))
+          );
+        }
+
+        if (typeof fieldProps.value === 'undefined') {
+          options.unshift({ label: '', value: '', selected: false });
         }
 
         const foreignKeyFieldProps: IForeignKeyFieldRenderer = {
@@ -295,11 +323,30 @@ export default class FieldHostRenderer extends BaseComponent<
         }
       }
       case 'list': {
-        const { options } = field as IListField;
+        const { multiSelect, options: listOptions } = field as IListField;
         const ListFieldRenderer = rendererOptions.components.listField;
+
+        let value;
+        if (typeof fieldProps.value === 'undefined') {
+          value = [];
+        } else {
+          value = !Array.isArray(fieldProps.value)
+            ? [fieldProps.value]
+            : fieldProps.value;
+        }
+
+        const options = listOptions.map((option) => ({
+          ...option,
+          selected: value.findIndex((x) => x === option.value) >= 0
+        }));
+
+        if (!multiSelect && typeof fieldProps.value === 'undefined') {
+          options.unshift({ label: '', value: '', selected: false });
+        }
 
         const listFieldProps: IListFieldRenderer = {
           ...fieldProps,
+          multiSelect,
           options
         };
 

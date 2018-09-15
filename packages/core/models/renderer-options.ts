@@ -7,6 +7,7 @@ import {
   IButtonRenderer,
   IFieldContainerRenderer,
   IFieldRenderer,
+  IForeignKeyFieldRenderer,
   IInlinedLinkedStructRenderer,
   IListFieldRenderer,
   IStampRenderer,
@@ -54,8 +55,8 @@ export interface IRendererOptions {
       | FunctionalComponent<IFieldRenderer>
       | ComponentConstructor<IFieldRenderer>;
     foreignKeyField:
-      | FunctionalComponent<IListFieldRenderer>
-      | ComponentConstructor<IListFieldRenderer>;
+      | FunctionalComponent<IForeignKeyFieldRenderer>
+      | ComponentConstructor<IForeignKeyFieldRenderer>;
     inlineLinkedStructField:
       | FunctionalComponent<IInlinedLinkedStructRenderer>
       | ComponentConstructor<IInlinedLinkedStructRenderer>;

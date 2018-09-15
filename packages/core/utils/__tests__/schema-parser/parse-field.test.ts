@@ -130,7 +130,16 @@ describe('parseField', () => {
     });
   });
 
-  createFieldTests('list', { options: [] }, (field) => {
+  createFieldTests('list', { multiSelect: false, options: [] }, (field) => {
+    it('should enable multi select when specified', () => {
+      const listField = parseField({
+        ...field,
+        multiSelect: true
+      }) as IListField;
+
+      expect(listField.multiSelect).toBe(true);
+    });
+
     it('should include options when specified', () => {
       const listField = parseField({
         ...field,

@@ -78,6 +78,7 @@ export default function parseField(fieldJson: any): IField {
     }
     case 'list': {
       const listField = result as IListField;
+      listField.multiSelect = fieldJson.multiSelect || false;
       listField.options = [];
 
       if (Array.isArray(fieldJson.options)) {
