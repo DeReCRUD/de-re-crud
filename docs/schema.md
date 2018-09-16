@@ -114,15 +114,15 @@ one of the following.
 
 Describes a relationship to another struct
 
-| Field      | Type   | Required | Missing Val | Notes                                   |
-| ---------- | ------ | -------- | ----------- | --------------------------------------- |
-| labelField | string | true     |             | The name of the other [struct](#struct) |
+| Field  | Type    | Required | Missing Val | Notes                                   |
+| ------ | ------- | -------- | ----------- | --------------------------------------- |
+| struct | keyword | true     |             | The name of the other [struct](#struct) |
 
 ##### <a name="reference-foreign-key"></a> Additional properties for references of [type](#type) foreignKey
 
-| Field  | Type    | Required | Missing Val | Notes                                                                                             |
-| ------ | ------- | -------- | ----------- | ------------------------------------------------------------------------------------------------- |
-| struct | keyword | true     |             | TThe name of the [field](#field) whose value will identify the other [struct](#struct)  instance. |
+| Field      | Type   | Required | Missing Val | Notes                                                                                            |
+| ---------- | ------ | -------- | ----------- | ------------------------------------------------------------------------------------------------ |
+| labelField | string | true     |             | TThe name of the [field](#field) whose value will identify the other [struct](#struct) instance. |
 
 ### <a name="option"></a> Option
 
