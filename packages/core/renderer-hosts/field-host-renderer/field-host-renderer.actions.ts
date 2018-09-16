@@ -30,14 +30,12 @@ export default function fieldHostRendererActions({ setState }) {
     blurField: (
       state: IStoreState,
       field: IField,
-      fieldPath: string
+      fieldPath: string,
+      parentPath?: string,
     ): Partial<IStoreState> => {
       const oldValue = state.focused[fieldPath];
       const value = formPathToValue(state.value, fieldPath);
-      const parentValue = formPathToValue(
-        state.value,
-        fieldPath.substring(0, fieldPath.lastIndexOf('.'))
-      );
+      const parentValue = formPathToValue(state.value, parentPath);
 
       const errors = validateField(field, value);
 

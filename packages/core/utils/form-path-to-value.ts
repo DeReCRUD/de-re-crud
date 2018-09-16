@@ -1,4 +1,8 @@
-export default function formPathToValue(value: object, path: string) {
+export default function formPathToValue(value: object, path?: string) {
+  if (!path) {
+    return value;
+  }
+
   const pathArray = path.split('.');
 
   const pathValue = pathArray.reduce((prev, curr) => {

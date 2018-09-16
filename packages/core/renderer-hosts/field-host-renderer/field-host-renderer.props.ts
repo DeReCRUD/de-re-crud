@@ -7,8 +7,7 @@ import { INavState } from '../../store';
 export interface IFieldHostRendererConnectProps {
   rendererId: string;
   fieldPath: string;
-  fieldValue: any;
-  parentValue: any;
+  parentPath?: string;
   fieldReference: IFieldReference;
 }
 
@@ -18,12 +17,14 @@ export interface IFieldHostRendererProps
   rendererOptions: IRendererOptions;
   collectionReferences?: ICollectionReferences;
   fieldPath: string;
+  fieldValue: any;
+  parentValue: any;
   formValue: object;
   touched: boolean;
   errors: string[];
   childErrors: { [index: number]: boolean };
   focusField: (field: IField, fieldPath: string) => void;
-  blurField: (field: IField, fieldPath: string) => void;
+  blurField: (field: IField, fieldPath: string, parentPath?: string) => void;
   changeValue: (field: IField, fieldPath: string, value: any) => void;
   changeArrayValue: (
     field: IField,

@@ -13,7 +13,7 @@ const mapToProps = (
   { parentPath }: IStampHostRendererConnectProps
 ): Partial<IStampHostRendererProps> => ({
   formValue: value,
-  parentValue: parentPath ? formPathToValue(value, parentPath) : value,
+  parentValue: formPathToValue(value, parentPath),
   rendererOptions
 });
 

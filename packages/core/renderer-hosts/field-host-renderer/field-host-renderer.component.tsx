@@ -99,10 +99,11 @@ export default class FieldHostRenderer extends BaseComponent<
     const {
       blurField,
       fieldReference: { field },
-      fieldPath
+      fieldPath,
+      parentPath
     } = this.props;
 
-    blurField(field, fieldPath);
+    blurField(field, fieldPath, parentPath);
   };
 
   private onChange = (e: FieldChangeEvent) => {

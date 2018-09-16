@@ -1,6 +1,18 @@
 import formPathToValue from '../form-path-to-value';
 
 describe('formPathToValue', () => {
+  it('should return value parameter if object path is null', () => {
+    const value = {
+      parent: {
+        child: {
+          value: 1
+        }
+      }
+    };
+
+    expect(formPathToValue(value)).toBe(value);
+  });
+
   it('should return value from object path', () => {
     const value = {
       parent: {
