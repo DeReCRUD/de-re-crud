@@ -5,6 +5,7 @@ import generateChildErrors from '../utils/generate-child-errors';
 import { validateField } from '../utils/validation-helper';
 
 interface IValidationResult {
+  outputValue: {};
   errors: IErrors;
   touched: { [path: string]: boolean };
   hasErrors: boolean;
@@ -16,6 +17,7 @@ function validateBlock(
   parentValue: any,
   parentPath?: string
 ): IValidationResult {
+  const outputValue = {};
   const errors: IErrors = {};
   const touched: { [path: string]: boolean } = {};
   let hasErrors = false;
@@ -30,6 +32,7 @@ function validateBlock(
 
     if (condition(parentValue, formValue)) {
       const fieldValue = parentValue[field.name];
+      outputValue[field.name] = fieldValue;
 
       const fieldErrors = validateField(field, fieldValue);
       if (fieldErrors.length) {
@@ -57,6 +60,8 @@ function validateBlock(
               Object.assign(errors, result.errors);
               Object.assign(touched, result.touched);
 
+              outputValue[field.name][index] = result.outputValue;
+
               if (!hasErrors) {
                 hasErrors = result.hasErrors;
               }
@@ -66,12 +71,20 @@ function validateBlock(
       }
     }
 
+    if (
+      field.hasOwnProperty('missingValue') &&
+      typeof outputValue[field.name] === 'undefined'
+    ) {
+      outputValue[field.name] = field.missingValue;
+    }
+
     touched[fieldPath] = true;
   });
 
   return {
     errors,
     hasErrors,
+    outputValue,
     touched
   };
 }
@@ -86,7 +99,7 @@ export default function formActions({ setState }) {
       const formValue = state.value;
 
       const result = validateBlock(block, formValue, formValue);
-      const { errors, touched, hasErrors } = result;
+      const { outputValue, errors, touched, hasErrors } = result;
 
       setState({
         childErrors: generateChildErrors(errors),
@@ -100,7 +113,7 @@ export default function formActions({ setState }) {
       }
 
       return new Promise((resolve) => {
-        state.onSubmit(formValue, (submissionErrors) => {
+        state.onSubmit(outputValue, (submissionErrors) => {
           if (submissionErrors) {
             setState({ submissionErrors, submitting: false });
             return;
