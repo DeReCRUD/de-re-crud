@@ -17,8 +17,7 @@ const mapToProps = ({
   struct,
   structs,
   submitting,
-  type,
-  value
+  type
 }: IStoreState): Partial<IFormProps> => ({
   block,
   buttonOptions,
@@ -29,8 +28,7 @@ const mapToProps = ({
   struct,
   structs,
   submitting,
-  type,
-  value
+  type
 });
 
 export default connect(

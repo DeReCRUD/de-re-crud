@@ -76,7 +76,7 @@ export function createStore(
   collectionReferences?: ICollectionReferences,
   formState?: {
     errors?: IErrors;
-    value?: object;
+    initialValue?: object;
     onSubmit?: FormSubmission;
     onCancel?: () => void;
     onChange?: FormChangeNotification;
@@ -84,7 +84,7 @@ export function createStore(
   }
 ): IStore {
   const structs = SchemaParser.parse(schema);
-  const initialValue = (formState && formState.value) || {};
+  const initialValue = (formState && formState.initialValue) || {};
 
   const optionDefaults = DeReCrudOptions.getDefaults();
 

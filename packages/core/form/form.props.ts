@@ -50,7 +50,7 @@ export interface IFormConnectProps extends IFormBaseProps {
   rendererOptions?: IRendererOptions;
   buttonOptions?: IButtonOptions;
   errors?: IErrors;
-  value?: object;
+  initialValue?: object;
   onSubmit: FormSubmission;
   onChangeType?: FormChangeNotificationType;
   onChange?: FormChangeNotification;
@@ -61,7 +61,6 @@ export interface IFormProps extends IFormBaseProps {
   rendererOptions: IRendererOptions;
   buttonOptions: IButtonOptions;
   structs: IStruct[];
-  value: object;
   submitting: boolean;
   navStack: INavState[];
   submitForm: () => void;
