@@ -1,6 +1,6 @@
 import { ICollectionReferences } from '../../form/form.props';
 import { IRendererOptions } from '../../models/renderer-options';
-import { IField, IFieldReference } from '../../models/schema';
+import { IField, IFieldReference, IReferenceField } from '../../models/schema';
 import { ChangeArrayActionType } from '../../renderer-hosts/field-host-renderer/field-host-renderer.actions';
 import { INavState } from '../../store';
 
@@ -27,7 +27,7 @@ export interface IFieldHostRendererProps
   blurField: (field: IField, fieldPath: string, parentPath?: string) => void;
   changeValue: (field: IField, fieldPath: string, value: any) => void;
   changeArrayValue: (
-    field: IField,
+    field: IReferenceField,
     fieldPath: string,
     itemPath: string,
     type: ChangeArrayActionType

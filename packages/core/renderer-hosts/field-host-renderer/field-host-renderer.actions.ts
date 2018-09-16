@@ -1,5 +1,6 @@
-import { IField } from '../../models/schema';
+import { IField, IReferenceField } from '../../models/schema';
 import { IStoreState } from '../../store';
+import createFieldParent from '../../utils/create-field-parent';
 import formPathToValue from '../../utils/form-path-to-value';
 import generateChildErrors from '../../utils/generate-child-errors';
 import { validateField } from '../../utils/validation-helper';
@@ -31,7 +32,7 @@ export default function fieldHostRendererActions({ setState }) {
       state: IStoreState,
       field: IField,
       fieldPath: string,
-      parentPath?: string,
+      parentPath?: string
     ): Partial<IStoreState> => {
       const oldValue = state.focused[fieldPath];
       const value = formPathToValue(state.value, fieldPath);
@@ -138,7 +139,7 @@ export default function fieldHostRendererActions({ setState }) {
 
     changeArrayValue: (
       state: IStoreState,
-      field: IField,
+      field: IReferenceField,
       fieldPath: string,
       itemPath: string,
       type: ChangeArrayActionType
@@ -157,7 +158,11 @@ export default function fieldHostRendererActions({ setState }) {
         if (i === pathArray.length - 1) {
           switch (type) {
             case 'add':
-              parentValue.push({});
+              const fieldParent = createFieldParent(
+                field.reference.block.fields.map((x) => x.field)
+              );
+
+              parentValue.push(fieldParent);
               break;
             case 'remove':
               parentValue.splice(path, 1);

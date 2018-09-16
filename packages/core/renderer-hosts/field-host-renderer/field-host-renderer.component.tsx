@@ -141,13 +141,15 @@ export default class FieldHostRenderer extends BaseComponent<
 
     const itemPath = fieldPath + '.' + index;
 
+    const referenceField = fieldReference.field as IReferenceField;
+
     const {
       reference: { struct, block }
-    } = fieldReference.field as IReferenceField;
+    } = referenceField;
 
     const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
 
-    changeArrayValue(fieldReference.field, fieldPath, itemPath, 'add');
+    changeArrayValue(referenceField, fieldPath, itemPath, 'add');
 
     if (linkedStructFieldReference.hints.layout === 'table') {
       push({
@@ -175,8 +177,10 @@ export default class FieldHostRenderer extends BaseComponent<
   private onRemove = (index: number) => {
     const { changeArrayValue, fieldReference, fieldPath } = this.props;
 
+    const referenceField = fieldReference.field as IReferenceField;
+    
     changeArrayValue(
-      fieldReference.field,
+      referenceField,
       fieldPath,
       `${fieldPath}.${index}`,
       'remove'

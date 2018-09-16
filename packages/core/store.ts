@@ -13,6 +13,7 @@ import { IChildErrors, IErrors } from './models/errors';
 import { IRendererOptions } from './models/renderer-options';
 import { IStruct } from './models/schema';
 import { DeReCrudOptions } from './options';
+import createFieldParent from './utils/create-field-parent';
 import generateChildErrors from './utils/generate-child-errors';
 import parseButtonOptions from './utils/parse-button-options';
 import SchemaParser from './utils/schema-parser';
@@ -84,22 +85,29 @@ export function createStore(
   }
 ): IStore {
   const structs = SchemaParser.parse(schema);
-  const initialValue = (formState && formState.initialValue) || {};
 
   const optionDefaults = DeReCrudOptions.getDefaults();
 
+  let initialValue;
   let inferredType: FormType;
-  
+
   if (!type) {
     const structReference = structs.find((x) => x.name === struct);
-    
+
     if (structReference) {
+      initialValue = createFieldParent(
+        structReference.fields,
+        formState && formState.initialValue
+      );
+
       const keyFields = structReference.fields.filter((x) => x.keyField);
       const allKeyFieldsSet = keyFields.every(
         (keyField) => typeof initialValue[keyField.name] !== 'undefined'
       );
+
       inferredType = allKeyFieldsSet ? 'update' : 'create';
     } else {
+      initialValue = {};
       inferredType = 'create';
     }
   }
