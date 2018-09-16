@@ -68,8 +68,8 @@ const logger = (store) => (next) => (action) => {
 
 export function createStore(
   schema: any,
-  type: FormType,
   struct: string,
+  type?: FormType,
   block?: string,
   rendererOptions?: IRendererOptions,
   buttonOptions?: IButtonOptions,
@@ -87,6 +87,22 @@ export function createStore(
   const initialValue = (formState && formState.value) || {};
 
   const optionDefaults = DeReCrudOptions.getDefaults();
+
+  let inferredType: FormType;
+  
+  if (!type) {
+    const structReference = structs.find((x) => x.name === struct);
+    
+    if (structReference) {
+      const keyFields = structReference.fields.filter((x) => x.keyField);
+      const allKeyFieldsSet = keyFields.every(
+        (keyField) => typeof initialValue[keyField.name] !== 'undefined'
+      );
+      inferredType = allKeyFieldsSet ? 'update' : 'create';
+    } else {
+      inferredType = 'create';
+    }
+  }
 
   const state: IStoreState = {
     block: block || 'default',
@@ -110,7 +126,7 @@ export function createStore(
     struct,
     structs,
     touched: {},
-    type,
+    type: inferredType,
     value: initialValue
   };
 

@@ -21,7 +21,6 @@ export type FormType = 'create' | 'update';
 
 interface IFormBaseProps {
   className?: string;
-  type: FormType;
   schema: any;
   struct: string;
   block?: string;
@@ -47,6 +46,7 @@ export type FormChangeNotification = (
 export type FormChangeNotificationType = 'blur' | 'change';
 
 export interface IFormConnectProps extends IFormBaseProps {
+  type?: FormType;
   rendererOptions?: IRendererOptions;
   buttonOptions?: IButtonOptions;
   errors?: IErrors;
@@ -57,6 +57,7 @@ export interface IFormConnectProps extends IFormBaseProps {
 }
 
 export interface IFormProps extends IFormBaseProps {
+  type: FormType;
   rendererOptions: IRendererOptions;
   buttonOptions: IButtonOptions;
   structs: IStruct[];
