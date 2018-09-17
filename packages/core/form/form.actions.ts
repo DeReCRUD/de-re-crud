@@ -13,9 +13,9 @@ interface IValidationResult {
 
 function validateBlock(
   block: IBlock,
-  formValue: any,
+  formValue: object,
   parentValue: any,
-  parentPath?: string
+  parentPath?: string,
 ): IValidationResult {
   const outputValue = {};
   const errors: IErrors = {};
@@ -98,7 +98,7 @@ export default function formActions({ setState }) {
       const block = struct.blocks.find((x) => x.name === state.block);
       const formValue = state.value;
 
-      const result = validateBlock(block, formValue, formValue);
+      const result = validateBlock(block, formValue, state.initialValue);
       const { outputValue, errors, touched, hasErrors } = result;
 
       setState({
