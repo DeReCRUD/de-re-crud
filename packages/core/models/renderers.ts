@@ -1,4 +1,4 @@
-import { FieldType, IOption, StampSize } from './schema';
+import { FieldType, FieldValue, IOption, StampSize } from './schema';
 
 export interface ISelectableOption extends IOption {
   selected: boolean;
@@ -46,14 +46,14 @@ export type MultipleSelectEventTarget = EventTarget & {
   options: [
     {
       selected: boolean;
-      value: any;
+      value: string | number | boolean;
     }
   ];
 };
 
 export type GenericEventTarget = EventTarget & {
   type: '';
-  value: any;
+  value: string | boolean | number;
 };
 
 export type TypedEventTarget =
@@ -72,7 +72,7 @@ export interface IFieldRenderer extends IRenderer {
   fieldType: FieldType;
   fieldDescription?: string;
   errors: string[];
-  value?: any;
+  value?: FieldValue;
   required: boolean;
   onFocus: (e: FieldFocusEvent) => void;
   onBlur: (e: FieldBlurEvent) => void;

@@ -1,7 +1,7 @@
 import { IButtonOptions } from '../models/button-options';
 import { IErrors } from '../models/errors';
 import { IRendererOptions } from '../models/renderer-options';
-import { IStruct } from '../models/schema';
+import { FieldValue, IStruct } from '../models/schema';
 import { INavState } from '../store';
 
 export interface ICollectionReferenceParams {
@@ -29,14 +29,17 @@ interface IFormBaseProps {
 }
 
 export type FormSubmissionCallback = (errors?: IErrors) => void;
-export type FormSubmission = (value: any, cb: FormSubmissionCallback) => void;
+export type FormSubmission = (
+  value: any,
+  cb: FormSubmissionCallback
+) => void;
 
 export interface IFormChangeNotificationParams {
   path: string;
-  oldValue?: any;
-  newValue?: any;
-  parentValue: any;
-  formValue: any;
+  oldValue?: FieldValue;
+  newValue?: FieldValue;
+  parentValue: object | object[];
+  formValue: object;
 }
 
 export type FormChangeNotification = (

@@ -1,8 +1,8 @@
 export const DEFAULT_FIELD_WIDTH = 12;
 export type StampSize = 1 | 2 | 3 | 4 | 5 | 6;
 
-export type FieldConditionFunc = (fieldParent: any, form: any) => boolean;
-export type BlockConditionFunc = (form: any) => boolean;
+export type FieldConditionFunc = (fieldParent: object, form: object) => boolean;
+export type BlockConditionFunc = (form: object) => boolean;
 
 export type FieldType =
   | 'text'
@@ -33,6 +33,11 @@ export interface IStruct {
   blocks: IBlock[];
 }
 
+export type SimpleFieldValue = string | number | boolean ;
+export type ComplexFieldValue = object | object[];
+
+export type FieldValue = SimpleFieldValue | ComplexFieldValue;
+
 export interface IField {
   name: string;
   label: ILabel;
@@ -41,8 +46,8 @@ export interface IField {
   required: boolean;
   unique: boolean;
   help?: string;
-  initialValue?: any;
-  missingValue?: any;
+  initialValue?: FieldValue;
+  missingValue?: FieldValue;
   placeholder?: string;
   hints: {
     width: number;
@@ -65,22 +70,22 @@ export interface IIntegerField extends IField {
   max?: number;
 }
 
-export type ListValues = string | number;
+export type ListValue = string | number;
 
 export interface IListField extends IField {
   type: 'list';
-  initialValue?: ListValues | ListValues[];
-  missingValue?: ListValues | ListValues[];
+  initialValue?: ListValue | ListValue[];
+  missingValue?: ListValue | ListValue[];
   multiSelect: boolean;
   options: IOption[];
 }
 
 export interface IOption {
   label: string;
-  value: string | number;
+  value: ListValue;
 }
 
-type ReferenceValues = ListValues | object;
+type ReferenceValue = ListValue | object;
 
 export interface IStructReference {
   struct: IStruct;
@@ -89,8 +94,8 @@ export interface IStructReference {
 
 export interface IReferenceField extends IField {
   type: 'linkedStruct' | 'foreignKey';
-  initialValue?: ReferenceValues | ReferenceValues[];
-  missingValue?: ReferenceValues | ReferenceValues[];
+  initialValue?: ReferenceValue | ReferenceValue[];
+  missingValue?: ReferenceValue | ReferenceValue[];
   reference: IStructReference;
 }
 
@@ -104,8 +109,8 @@ export interface ILinkedStructField extends IReferenceField {
 
 export interface IForeignKeyField extends IReferenceField {
   type: 'foreignKey';
-  initialValue?: ListValues;
-  missingValue?: ListValues;
+  initialValue?: ListValue;
+  missingValue?: ListValue;
   reference: IStructReference & {
     labelField: IField;
   };

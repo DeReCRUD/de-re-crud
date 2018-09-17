@@ -12,7 +12,7 @@ import './style.css';
 
 DeReCrudOptions.setDefaults({ rendererOptions: Bootstrap3RendererOptions });
 
-export default class App extends Component<any> {
+export default class App extends Component {
   private collectionReferences: ICollectionReferences = {
     field: ({ formValue: { fields } }) => fields
   };
@@ -35,7 +35,7 @@ export default class App extends Component<any> {
     );
   }
 
-  private onSubmit = (_: any, cb: FormSubmissionCallback) => {
+  private onSubmit = (_: object, cb: FormSubmissionCallback) => {
     cb();
   };
 }

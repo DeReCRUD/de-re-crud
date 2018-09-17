@@ -11,7 +11,7 @@ import {
 import { IButtonOptions } from './models/button-options';
 import { IChildErrors, IErrors } from './models/errors';
 import { IRendererOptions } from './models/renderer-options';
-import { IStruct } from './models/schema';
+import { IStruct, SimpleFieldValue } from './models/schema';
 import { DeReCrudOptions } from './options';
 import createFieldParent from './utils/create-field-parent';
 import generateChildErrors from './utils/generate-child-errors';
@@ -44,7 +44,7 @@ export interface IStoreState {
   initialValue: object;
   value: object;
   navStack: INavState[];
-  focused: { [path: string]: any };
+  focused: { [path: string]: SimpleFieldValue };
   touched: { [path: string]: boolean };
   errors: IErrors;
   childErrors: IChildErrors;

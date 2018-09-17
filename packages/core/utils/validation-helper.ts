@@ -1,11 +1,12 @@
 import {
+  FieldValue,
   IField,
   IIntegerField,
   ILinkedStructField,
   ITextField
 } from '../models/schema';
 
-export function validateField(field: IField, value?: any): string[] {
+export function validateField(field: IField, value: FieldValue): string[] {
   const errors = [];
 
   if (!value && field.required && field.type !== 'linkedStruct') {
@@ -16,18 +17,18 @@ export function validateField(field: IField, value?: any): string[] {
 
   switch (field.type) {
     case 'keyword':
-      fieldTypeErrors = validateKeywordField(field, value);
+      fieldTypeErrors = validateKeywordField(field, value as string);
       break;
     case 'integer':
-      fieldTypeErrors = validateIntegerField(field as IIntegerField, value);
+      fieldTypeErrors = validateIntegerField(field as IIntegerField, value as number);
       break;
     case 'text':
-      fieldTypeErrors = validateTextField(field as ITextField, value);
+      fieldTypeErrors = validateTextField(field as ITextField, value as string);
       break;
     case 'linkedStruct':
       fieldTypeErrors = validateLinkedStructField(
         field as ILinkedStructField,
-        value
+        value as object[]
       );
       break;
     default:
@@ -39,7 +40,7 @@ export function validateField(field: IField, value?: any): string[] {
   return errors;
 }
 
-function validateKeywordField(_: IField, value?: string): string[] {
+function validateKeywordField(_: IField, value: string): string[] {
   const errors = [];
 
   if (value) {
@@ -51,7 +52,7 @@ function validateKeywordField(_: IField, value?: string): string[] {
   return errors;
 }
 
-function validateTextField(field: ITextField, value?: string): string[] {
+function validateTextField(field: ITextField, value: string): string[] {
   const errors = [];
 
   if (value) {
@@ -69,7 +70,7 @@ function validateTextField(field: ITextField, value?: string): string[] {
   return errors;
 }
 
-function validateIntegerField(field: IIntegerField, value?: number): string[] {
+function validateIntegerField(field: IIntegerField, value: number): string[] {
   const errors = [];
 
   if (value) {
@@ -83,7 +84,7 @@ function validateIntegerField(field: IIntegerField, value?: number): string[] {
   return errors;
 }
 
-function validateLinkedStructField(field: ILinkedStructField, value?: any[]) {
+function validateLinkedStructField(field: ILinkedStructField, value: object[]) {
   const errors = [];
 
   if ((!value || !value.length) && field.required) {

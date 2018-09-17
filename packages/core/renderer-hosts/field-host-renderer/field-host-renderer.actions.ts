@@ -1,4 +1,9 @@
-import { IField, IReferenceField } from '../../models/schema';
+import {
+  ComplexFieldValue,
+  IField,
+  IReferenceField,
+  SimpleFieldValue
+} from '../../models/schema';
 import { IStoreState } from '../../store';
 import createFieldParent from '../../utils/create-field-parent';
 import formPathToValue from '../../utils/form-path-to-value';
@@ -35,10 +40,10 @@ export default function fieldHostRendererActions({ setState }) {
       parentPath?: string
     ): Partial<IStoreState> => {
       const oldValue = state.focused[fieldPath];
-      const value = formPathToValue(state.value, fieldPath);
+      const newValue = formPathToValue(state.value, fieldPath);
       const parentValue = formPathToValue(state.value, parentPath);
 
-      const errors = validateField(field, value);
+      const errors = validateField(field, newValue);
 
       const focused = { ...state.focused };
       delete focused[fieldPath];
@@ -56,13 +61,13 @@ export default function fieldHostRendererActions({ setState }) {
       });
 
       if (
-        oldValue !== value &&
+        oldValue !== newValue &&
         state.onChange &&
         state.onChangeType === 'blur'
       ) {
         state.onChange({
           formValue: state.value,
-          newValue: value,
+          newValue,
           oldValue,
           parentValue: parentValue || state.value,
           path: fieldPath
@@ -76,13 +81,13 @@ export default function fieldHostRendererActions({ setState }) {
       state: IStoreState,
       field: IField,
       fieldPath: string,
-      value: any
+      value: SimpleFieldValue
     ): Partial<IStoreState> => {
       const oldValue = formPathToValue(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
 
-      const newValue = { ...state.value };
-      let iterationValue = newValue;
+      const newFormValue = { ...state.value };
+      let iterationValue = newFormValue;
       let parentValue;
 
       for (let i = 0; i < pathArray.length; i++) {
@@ -103,7 +108,7 @@ export default function fieldHostRendererActions({ setState }) {
       }
 
       const updates: Partial<IStoreState> = {
-        value: newValue
+        value: newFormValue
       };
 
       if (state.touched[fieldPath]) {
@@ -126,7 +131,7 @@ export default function fieldHostRendererActions({ setState }) {
         state.onChangeType === 'change'
       ) {
         state.onChange({
-          formValue: newValue,
+          formValue: newFormValue,
           newValue: value,
           oldValue,
           parentValue,
@@ -144,10 +149,16 @@ export default function fieldHostRendererActions({ setState }) {
       itemPath: string,
       type: ChangeArrayActionType
     ): Partial<IStoreState> => {
+      const oldValue = formPathToValue(state.value, itemPath);
       const pathArray = itemPath.split('.');
 
-      const newValue = { ...state.value };
-      let iterationValue: any = newValue;
+      const newValue =
+        type === 'add'
+          ? undefined
+          : createFieldParent(field.reference.block.fields.map((x) => x.field));
+
+      const newFormValue = { ...state.value };
+      let iterationValue: ComplexFieldValue = newFormValue;
       let parentValue;
 
       for (let i = 0; i < pathArray.length; i++) {
@@ -158,11 +169,7 @@ export default function fieldHostRendererActions({ setState }) {
         if (i === pathArray.length - 1) {
           switch (type) {
             case 'add':
-              const fieldParent = createFieldParent(
-                field.reference.block.fields.map((x) => x.field)
-              );
-
-              parentValue.push(fieldParent);
+              parentValue.push(newValue);
               break;
             case 'remove':
               parentValue.splice(path, 1);
@@ -196,14 +203,14 @@ export default function fieldHostRendererActions({ setState }) {
           ...state.touched,
           [fieldPath]: true
         },
-        value: newValue
+        value: newFormValue
       });
 
       if (state.onChange) {
         state.onChange({
-          formValue: newValue,
-          newValue: type === 'add' ? {} : undefined,
-          oldValue: type === 'remove' ? state.value : undefined,
+          formValue: newFormValue,
+          newValue: type === 'add' ? newValue : undefined,
+          oldValue: type === 'remove' ? oldValue : undefined,
           parentValue,
           path: itemPath
         });

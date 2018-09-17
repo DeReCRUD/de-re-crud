@@ -14,7 +14,7 @@ interface IValidationResult {
 function validateBlock(
   block: IBlock,
   formValue: object,
-  parentValue: any,
+  parentValue: object,
   parentPath?: string,
 ): IValidationResult {
   const outputValue = {};
@@ -44,7 +44,7 @@ function validateBlock(
       switch (field.type) {
         case 'linkedStruct':
           const linkedStructField = field as ILinkedStructField;
-          const linkedStructValue = parentValue[field.name] as any[];
+          const linkedStructValue = parentValue[field.name] as object[];
 
           if (linkedStructValue) {
             linkedStructValue.forEach((value, index) => {
@@ -98,7 +98,7 @@ export default function formActions({ setState }) {
       const block = struct.blocks.find((x) => x.name === state.block);
       const formValue = state.value;
 
-      const result = validateBlock(block, formValue, state.initialValue);
+      const result = validateBlock(block, formValue, formValue);
       const { outputValue, errors, touched, hasErrors } = result;
 
       setState({

@@ -19,25 +19,30 @@ import {
   ILinkedStructField,
   ILinkedStructFieldReference,
   IListField,
-  IReferenceField
+  IReferenceField,
+  SimpleFieldValue
 } from '../../models/schema';
 import debounce from '../../utils/debounce';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
 
+type DebouncedChangedValue = (
+  field: IField,
+  fieldPath: string,
+  value: SimpleFieldValue
+) => void;
+
 export default class FieldHostRenderer extends BaseComponent<
   IFieldHostRendererProps
 > {
-  private debouncedChangedValue: (
-    field: IField,
-    fieldPath: string,
-    value: any
-  ) => void;
+  private debouncedChangedValue: DebouncedChangedValue;
 
   constructor(props: IFieldHostRendererProps) {
     super(props);
 
-    this.debouncedChangedValue = debounce(this.changeValue) as any;
+    this.debouncedChangedValue = debounce(
+      this.changeValue
+    ) as DebouncedChangedValue;
   }
 
   public render() {
@@ -81,7 +86,7 @@ export default class FieldHostRenderer extends BaseComponent<
     );
   }
 
-  private changeValue = (field: IField, fieldPath: string, value: any) => {
+  private changeValue = (field: IField, fieldPath: string, value: SimpleFieldValue) => {
     this.props.changeValue(field, fieldPath, value);
   };
 
@@ -178,7 +183,7 @@ export default class FieldHostRenderer extends BaseComponent<
     const { changeArrayValue, fieldReference, fieldPath } = this.props;
 
     const referenceField = fieldReference.field as IReferenceField;
-    
+
     changeArrayValue(
       referenceField,
       fieldPath,
@@ -311,7 +316,7 @@ export default class FieldHostRenderer extends BaseComponent<
           return <LinkedStructFieldRenderer {...tableLinkedStructFieldProps} />;
         } else {
           if (Array.isArray(fieldProps.value)) {
-            values = fieldProps.value as any[];
+            values = fieldProps.value as object[];
           }
 
           const items = values.map((_, index) => {
