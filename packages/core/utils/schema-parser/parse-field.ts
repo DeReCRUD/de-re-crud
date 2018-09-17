@@ -8,7 +8,7 @@ import {
 } from '../../models/schema';
 import parseLabel from './parse-label';
 
-export default function parseField(fieldJson: any): IField {
+export default function parseField(structName: string, fieldJson: any): IField {
   const result: IField = {
     hints: {
       width: DEFAULT_FIELD_WIDTH
@@ -17,6 +17,7 @@ export default function parseField(fieldJson: any): IField {
     label: parseLabel(fieldJson.label),
     name: fieldJson.name,
     required: fieldJson.required || false,
+    struct: structName,
     type: fieldJson.type,
     unique: fieldJson.unique || false
   };

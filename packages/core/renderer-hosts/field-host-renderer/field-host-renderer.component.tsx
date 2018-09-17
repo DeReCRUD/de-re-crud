@@ -150,15 +150,15 @@ export default class FieldHostRenderer extends BaseComponent<
 
     const itemPath = fieldPath + '.' + index;
 
-    const referenceField = fieldReference.field as IReferenceField;
+    const linkedStructField = fieldReference.field as ILinkedStructField;
 
     const {
       reference: { struct, block }
-    } = referenceField;
+    } = linkedStructField;
 
     const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
 
-    changeArrayValue(referenceField, fieldPath, itemPath, 'add');
+    changeArrayValue(linkedStructField, fieldPath, itemPath, 'add');
 
     if (linkedStructFieldReference.hints.layout === 'table') {
       push({
@@ -186,10 +186,10 @@ export default class FieldHostRenderer extends BaseComponent<
   private onRemove = (index: number) => {
     const { changeArrayValue, fieldReference, fieldPath } = this.props;
 
-    const referenceField = fieldReference.field as IReferenceField;
+    const linkedStructField = fieldReference.field as ILinkedStructField;
 
     changeArrayValue(
-      referenceField,
+      linkedStructField,
       fieldPath,
       `${fieldPath}.${index}`,
       'remove'
@@ -213,7 +213,7 @@ export default class FieldHostRenderer extends BaseComponent<
     switch (field.type) {
       case 'text': {
         const TextFieldRenderer = rendererOptions.components.textField;
-        return <TextFieldRenderer {...fieldProps} />;
+        return <TextFieldRenderer {...fieldProps} value={fieldProps.value as string} />;
       }
       case 'keyword': {
         const KeywordFieldRenderer = rendererOptions.components.keywordField;
@@ -233,7 +233,7 @@ export default class FieldHostRenderer extends BaseComponent<
       }
       case 'boolean': {
         const BooleanFieldRenderer = rendererOptions.components.booleanField;
-        return <BooleanFieldRenderer {...fieldProps} />;
+        return <BooleanFieldRenderer {...fieldProps} value={fieldProps.value as boolean} />;
       }
       case 'percent': {
         const PercentFieldRenderer = rendererOptions.components.percentField;

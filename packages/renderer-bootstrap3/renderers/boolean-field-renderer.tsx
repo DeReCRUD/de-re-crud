@@ -1,4 +1,4 @@
-import { IFieldRenderer } from '@de-re-crud/core/models/renderers';
+import { IBooleanFieldRenderer } from '@de-re-crud/core/models/renderers';
 import { h } from 'preact';
 import './boolean-field-renderer.css';
 import Bootstrap3LabelRenderer from './label-renderer';
@@ -10,7 +10,7 @@ const Bootstrap3BooleanFieldRenderer = ({
   onBlur,
   onChange,
   required
-}: IFieldRenderer) => {
+}: IBooleanFieldRenderer) => {
   return (
     <div className="checkbox bootstrap3-boolean-field-renderer">
       <Bootstrap3LabelRenderer fieldRequired={required}>

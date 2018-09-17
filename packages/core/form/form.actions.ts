@@ -1,6 +1,7 @@
 import { IErrors } from '../models/errors';
-import { IBlock, ILinkedStructField } from '../models/schema';
+import { IBlock, ILinkedStructField, IStruct } from '../models/schema';
 import { IStoreState } from '../store';
+import formPathToValue from '../utils/form-path-to-value';
 import generateChildErrors from '../utils/generate-child-errors';
 import { validateField } from '../utils/validation-helper';
 
@@ -12,8 +13,9 @@ interface IValidationResult {
 }
 
 function validateBlock(
+  state: IStoreState,
+  struct: IStruct,
   block: IBlock,
-  formValue: object,
   parentValue: object,
   parentPath?: string
 ): IValidationResult {
@@ -30,11 +32,21 @@ function validateBlock(
       fieldPath = parentPath + '.' + fieldPath;
     }
 
-    if (condition(parentValue, formValue)) {
+    if (condition(parentValue, state.value)) {
       const fieldValue = parentValue[field.name];
       outputValue[field.name] = fieldValue;
 
-      const fieldErrors = validateField(field, fieldValue);
+      const initialFieldValue = formPathToValue(state.initialValue, fieldPath);
+      const fieldErrors = validateField(
+        struct,
+        field,
+        fieldValue,
+        initialFieldValue,
+        state.value,
+        parentValue,
+        state.collectionReferences
+      );
+
       if (fieldErrors.length) {
         hasErrors = true;
       }
@@ -51,8 +63,9 @@ function validateBlock(
               const itemPath = fieldPath + '.' + index;
 
               const result = validateBlock(
+                state,
+                linkedStructField.reference.struct,
                 linkedStructField.reference.block,
-                formValue,
                 value,
                 itemPath
               );
@@ -96,9 +109,8 @@ export default function formActions({ setState }) {
     ): Partial<IStoreState> | Promise<boolean> => {
       const struct = state.structs.find((x) => x.name === state.struct);
       const block = struct.blocks.find((x) => x.name === state.block);
-      const formValue = state.value;
 
-      const result = validateBlock(block, formValue, formValue);
+      const result = validateBlock(state, struct, block, state.value);
       const { outputValue, errors, touched, hasErrors } = result;
 
       setState({

@@ -5,7 +5,7 @@ import {
   FieldValue,
   IField,
   IFieldReference,
-  IReferenceField,
+  ILinkedStructField,
   SimpleFieldValue
 } from '../../models/schema';
 import { ChangeArrayActionType } from '../../renderer-hosts/field-host-renderer/field-host-renderer.actions';
@@ -38,7 +38,7 @@ export interface IFieldHostRendererProps
     value: SimpleFieldValue
   ) => void;
   changeArrayValue: (
-    field: IReferenceField,
+    field: ILinkedStructField,
     fieldPath: string,
     itemPath: string,
     type: ChangeArrayActionType

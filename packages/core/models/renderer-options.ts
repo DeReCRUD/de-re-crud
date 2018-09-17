@@ -4,6 +4,7 @@ import {
 } from '../models/constructors';
 import {
   IBlockContainerRenderer,
+  IBooleanFieldRenderer,
   IButtonRenderer,
   IFieldContainerRenderer,
   IFieldRenderer,
@@ -46,8 +47,8 @@ export interface IRendererOptions {
       | FunctionalComponent<IFieldRenderer>
       | ComponentConstructor<IFieldRenderer>;
     booleanField:
-      | FunctionalComponent<IFieldRenderer>
-      | ComponentConstructor<IFieldRenderer>;
+      | FunctionalComponent<IBooleanFieldRenderer>
+      | ComponentConstructor<IBooleanFieldRenderer>;
     percentField:
       | FunctionalComponent<IFieldRenderer>
       | ComponentConstructor<IFieldRenderer>;

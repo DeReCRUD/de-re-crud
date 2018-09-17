@@ -1,14 +1,17 @@
 import {
   ComplexFieldValue,
   IField,
-  IReferenceField,
+  ILinkedStructField,
   SimpleFieldValue
 } from '../../models/schema';
 import { IStoreState } from '../../store';
 import createFieldParent from '../../utils/create-field-parent';
 import formPathToValue from '../../utils/form-path-to-value';
 import generateChildErrors from '../../utils/generate-child-errors';
-import { validateField } from '../../utils/validation-helper';
+import {
+  validateField,
+  validateLinkedStructField
+} from '../../utils/validation-helper';
 
 export type ChangeArrayActionType = 'add' | 'remove';
 
@@ -39,11 +42,21 @@ export default function fieldHostRendererActions({ setState }) {
       fieldPath: string,
       parentPath?: string
     ): Partial<IStoreState> => {
+      const struct = state.structs.find(x => x.name === field.struct);
       const oldValue = state.focused[fieldPath];
       const newValue = formPathToValue(state.value, fieldPath);
       const parentValue = formPathToValue(state.value, parentPath);
+      const initialValue = formPathToValue(state.initialValue, fieldPath);
 
-      const errors = validateField(field, newValue);
+      const errors = validateField(
+        struct,
+        field,
+        newValue,
+        initialValue,
+        state.value,
+        parentValue,
+        state.collectionReferences
+      );
 
       const focused = { ...state.focused };
       delete focused[fieldPath];
@@ -81,9 +94,11 @@ export default function fieldHostRendererActions({ setState }) {
       state: IStoreState,
       field: IField,
       fieldPath: string,
-      value: SimpleFieldValue
+      fieldValue: SimpleFieldValue
     ): Partial<IStoreState> => {
+      const struct = state.structs.find(x => x.name === field.struct);
       const oldValue = formPathToValue(state.value, fieldPath);
+      const initialValue = formPathToValue(state.initialValue, fieldPath);
       const pathArray = fieldPath.split('.');
 
       const newFormValue = { ...state.value };
@@ -97,7 +112,7 @@ export default function fieldHostRendererActions({ setState }) {
         iterationValue = iterationValue[path];
 
         if (i === pathArray.length - 1) {
-          parentValue[path] = value;
+          parentValue[path] = fieldValue;
         } else if (Array.isArray(iterationValue)) {
           parentValue[path] = iterationValue.concat();
         } else if (typeof iterationValue === 'object') {
@@ -112,7 +127,15 @@ export default function fieldHostRendererActions({ setState }) {
       };
 
       if (state.touched[fieldPath]) {
-        const errors = validateField(field, value);
+        const errors = validateField(
+          struct,
+          field,
+          fieldValue,
+          initialValue,
+          newFormValue,
+          parentValue,
+          state.collectionReferences
+        );
 
         const newErrors = {
           ...state.errors,
@@ -126,13 +149,13 @@ export default function fieldHostRendererActions({ setState }) {
       setState(updates);
 
       if (
-        oldValue !== value &&
+        oldValue !== fieldValue &&
         state.onChange &&
         state.onChangeType === 'change'
       ) {
         state.onChange({
           formValue: newFormValue,
-          newValue: value,
+          newValue: fieldValue,
           oldValue,
           parentValue,
           path: fieldPath
@@ -144,7 +167,7 @@ export default function fieldHostRendererActions({ setState }) {
 
     changeArrayValue: (
       state: IStoreState,
-      field: IReferenceField,
+      field: ILinkedStructField,
       fieldPath: string,
       itemPath: string,
       type: ChangeArrayActionType
@@ -154,7 +177,7 @@ export default function fieldHostRendererActions({ setState }) {
 
       const newValue =
         type === 'add'
-          ? undefined
+          ? {}
           : createFieldParent(field.reference.block.fields.map((x) => x.field));
 
       const newFormValue = { ...state.value };
@@ -189,7 +212,7 @@ export default function fieldHostRendererActions({ setState }) {
         iterationValue = parentValue[path];
       }
 
-      const errors = validateField(field, parentValue);
+      const errors = validateLinkedStructField(field, parentValue);
 
       const newErrors = {
         ...state.errors,

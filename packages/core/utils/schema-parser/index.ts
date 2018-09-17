@@ -45,7 +45,7 @@ export default class SchemaParser {
         for (const fieldJson of structJson.fields) {
           fieldMap[fieldJson.name] = {
             json: fieldJson,
-            parsed: parseField(fieldJson)
+            parsed: parseField(structJson.name, fieldJson)
           };
         }
       }
@@ -56,7 +56,7 @@ export default class SchemaParser {
         for (const blockJson of structJson.blocks) {
           blockMap[blockJson.name] = {
             json: blockJson,
-            parsed: this.parseBlock(blockJson)
+            parsed: this.parseBlock(structJson.name, blockJson)
           };
         }
       }
@@ -204,7 +204,7 @@ export default class SchemaParser {
     return result;
   }
 
-  private static parseBlock(blockJson: any): IBlock {
+  private static parseBlock(structName: string, blockJson: any): IBlock {
     const result: IBlock = {
       condition: this.parseCondition(
         blockJson.condition,
@@ -215,7 +215,8 @@ export default class SchemaParser {
         layout: 'vertical'
       },
       items: [],
-      name: blockJson.name
+      name: blockJson.name,
+      struct: structName
     };
 
     if (blockJson.label) {

@@ -18,6 +18,7 @@ describe('SchemaParser', () => {
       name: 'field1',
       placeholder: 'Field1',
       required: false,
+      struct: 'struct1',
       type: 'text',
       unique: false
     };
@@ -54,7 +55,8 @@ describe('SchemaParser', () => {
                 hints: {}
               }
             ],
-            name: 'block1'
+            name: 'block1',
+            struct: 'struct1'
           }
         ],
         fields: [field],

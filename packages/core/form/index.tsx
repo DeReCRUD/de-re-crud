@@ -38,11 +38,11 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       collectionReferences,
       {
         errors,
+        initialValue,
         onCancel,
         onChange,
         onChangeType,
-        onSubmit,
-        initialValue
+        onSubmit
       }
     );
   }

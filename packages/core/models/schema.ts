@@ -39,6 +39,7 @@ export type ComplexFieldValue = object | object[];
 export type FieldValue = SimpleFieldValue | ComplexFieldValue;
 
 export interface IField {
+  struct: string;
   name: string;
   label: ILabel;
   keyField: boolean;
@@ -117,6 +118,7 @@ export interface IForeignKeyField extends IReferenceField {
 }
 
 export interface IBlock {
+  struct: string;
   name: string;
   label?: ILabel;
   condition: BlockConditionFunc;

@@ -82,6 +82,11 @@ export interface IFieldRenderer extends IRenderer {
 export interface ITextFieldRenderer extends IFieldRenderer {
   minLength?: number;
   maxLength?: number;
+  value?: string | number;
+}
+
+export interface IBooleanFieldRenderer extends IFieldRenderer {
+  value?: boolean;
 }
 
 export interface IListFieldRenderer extends IFieldRenderer {

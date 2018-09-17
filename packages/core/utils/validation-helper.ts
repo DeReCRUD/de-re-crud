@@ -1,37 +1,94 @@
+import { ICollectionReferences } from '../form/form.props';
 import {
   FieldValue,
   IField,
   IIntegerField,
   ILinkedStructField,
+  IStruct,
   ITextField
 } from '../models/schema';
 
-export function validateField(field: IField, value: FieldValue): string[] {
+export function validateField(
+  struct: IStruct,
+  field: IField,
+  fieldValue: FieldValue,
+  initialFieldValue: FieldValue,
+  formValue: object,
+  parentValue: object,
+  collectionReferences: ICollectionReferences = {}
+): string[] {
   const errors = [];
 
-  if (!value && field.required && field.type !== 'linkedStruct') {
-    errors.push('This field is required.');
+  if (field.type !== 'linkedStruct') {
+    if (!fieldValue && field.required) {
+      errors.unshift('This field is required.');
+    }
+
+    if (
+      (field.unique || field.keyField) &&
+      fieldValue !== initialFieldValue &&
+      collectionReferences[field.struct]
+    ) {
+      const references = collectionReferences[field.struct]({
+        formValue,
+        parentValue
+      });
+
+      if (Array.isArray(references)) {
+        const keyFields = struct.fields.filter((x) => x.keyField);
+        let sameInstanceFound = false;
+
+        const uniqueError = references.find((reference) => {
+          if (!sameInstanceFound) {
+            const sameInstances = keyFields.filter((keyField) => {
+              return reference[keyField.name] === parentValue[keyField.name];
+            });
+
+            if (sameInstances.length) {
+              sameInstanceFound = true;
+            }
+
+            if (sameInstances.length > 1) {
+              return true;
+            }
+
+            if (sameInstances.length === 1) {
+              return false;
+            }
+          }
+
+          return reference[field.name] === fieldValue;
+        });
+
+        if (uniqueError) {
+          errors.push('This field must be unique.');
+        }
+      }
+    }
   }
 
   let fieldTypeErrors;
 
   switch (field.type) {
     case 'keyword':
-      fieldTypeErrors = validateKeywordField(field, value as string);
+      fieldTypeErrors = validateKeywordField(field, fieldValue as string);
       break;
     case 'integer':
       fieldTypeErrors = validateIntegerField(
         field as IIntegerField,
-        value as number
+        fieldValue as number
       );
       break;
     case 'text':
-      fieldTypeErrors = validateTextField(field as ITextField, value as string);
+      fieldTypeErrors = validateTextField(
+        field as ITextField,
+        fieldValue as string
+      );
       break;
     case 'linkedStruct':
       fieldTypeErrors = validateLinkedStructField(
         field as ILinkedStructField,
-        value as object[]
+        fieldValue as object[]
       );
       break;
     default:
@@ -87,7 +144,10 @@ function validateIntegerField(field: IIntegerField, value: number): string[] {
   return errors;
 }
 
-function validateLinkedStructField(field: ILinkedStructField, value: object[]) {
+export function validateLinkedStructField(
+  field: ILinkedStructField,
+  value: object[]
+) {
   const errors = [];
 
   if ((!value || !value.length) && field.required) {
