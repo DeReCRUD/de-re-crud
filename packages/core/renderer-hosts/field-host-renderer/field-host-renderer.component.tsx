@@ -213,7 +213,12 @@ export default class FieldHostRenderer extends BaseComponent<
     switch (field.type) {
       case 'text': {
         const TextFieldRenderer = rendererOptions.components.textField;
-        return <TextFieldRenderer {...fieldProps} value={fieldProps.value as string} />;
+        return (
+          <TextFieldRenderer
+            {...fieldProps}
+            value={fieldProps.value as string}
+          />
+        );
       }
       case 'keyword': {
         const KeywordFieldRenderer = rendererOptions.components.keywordField;
@@ -233,7 +238,12 @@ export default class FieldHostRenderer extends BaseComponent<
       }
       case 'boolean': {
         const BooleanFieldRenderer = rendererOptions.components.booleanField;
-        return <BooleanFieldRenderer {...fieldProps} value={fieldProps.value as boolean} />;
+        return (
+          <BooleanFieldRenderer
+            {...fieldProps}
+            value={fieldProps.value as boolean}
+          />
+        );
       }
       case 'percent': {
         const PercentFieldRenderer = rendererOptions.components.percentField;
