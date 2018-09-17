@@ -101,7 +101,7 @@ export function createStore(
       );
 
       const keyFields = structReference.fields.filter((x) => x.keyField);
-      const allKeyFieldsSet = keyFields.every(
+      const allKeyFieldsSet = keyFields.length > 0 && keyFields.every(
         (keyField) => typeof initialValue[keyField.name] !== 'undefined'
       );
 
