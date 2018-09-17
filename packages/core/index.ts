@@ -26,7 +26,7 @@ export function renderForm(
 ) {
   const preactElement = h(formComponent, props);
 
-  render(preactElement, nativeElement);
+  render(preactElement, null, nativeElement);
 }
 
 export type DestroyFunc = () => void;
