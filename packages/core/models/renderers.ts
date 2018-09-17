@@ -102,6 +102,8 @@ export interface ITableLinkedStructRenderer extends IFieldRenderer {
   headers: string[];
   value: string[][];
   valueErrorIndicators: { [index: number]: boolean };
+  canAdd: () => boolean;
+  canRemove: (index: number) => boolean;
   onAdd: () => void;
   onEdit: (index: number) => void;
   onRemove: (index: number) => void;
@@ -109,6 +111,8 @@ export interface ITableLinkedStructRenderer extends IFieldRenderer {
 
 export interface IInlinedLinkedStructRenderer extends IFieldRenderer {
   renderedItems: JSX.Element[];
+  canAdd: () => boolean;
+  canRemove: (index: number) => boolean;
   onAdd: () => void;
   onRemove: (index: number) => void;
 }

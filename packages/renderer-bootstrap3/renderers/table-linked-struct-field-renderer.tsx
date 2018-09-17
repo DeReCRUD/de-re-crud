@@ -13,6 +13,8 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   headers,
   value,
   valueErrorIndicators,
+  canAdd,
+  canRemove,
   onAdd,
   onEdit,
   onRemove
@@ -20,6 +22,8 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   const rows = [];
 
   value.forEach((columns, index) => {
+    const removeButtonVisible = canRemove(index);
+
     rows.push(
       <tr className={valueErrorIndicators[index] && 'danger'}>
         {columns.map((x) => (
@@ -32,12 +36,14 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
               title="Edit Item"
               onClick={() => onEdit(index)}
             />
-            <span>&nbsp;</span>
-            <i
-              class="glyphicon glyphicon-trash"
-              title="Remove Item"
-              onClick={() => onRemove(index)}
-            />
+            {removeButtonVisible && <span>&nbsp;</span>}
+            {removeButtonVisible && (
+              <i
+                class="glyphicon glyphicon-trash"
+                title="Remove Item"
+                onClick={() => onRemove(index)}
+              />
+            )}
           </div>
         </td>
       </tr>
@@ -50,11 +56,13 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
         <Bootstrap3LabelRenderer fieldRequired={required}>
           {label}
         </Bootstrap3LabelRenderer>
-        <Bootstrap3ButtonRenderer
-          classes="btn btn-sm btn-default"
-          text="Add"
-          onClick={onAdd}
-        />
+        {canAdd() && (
+          <Bootstrap3ButtonRenderer
+            classes="btn btn-sm btn-default"
+            text="Add"
+            onClick={onAdd}
+          />
+        )}
       </div>
       <table className="table table-bordered table-condensed">
         <thead>

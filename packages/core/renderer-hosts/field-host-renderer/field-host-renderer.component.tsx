@@ -145,7 +145,7 @@ export default class FieldHostRenderer extends BaseComponent<
     this.debouncedChangedValue(field, fieldPath, value);
   };
 
-  private onAdd = (index: number) => {
+  private onAdd = (index: number, count: number = null) => {
     const { changeArrayValue, push, fieldReference, fieldPath } = this.props;
 
     const itemPath = fieldPath + '.' + index;
@@ -158,15 +158,50 @@ export default class FieldHostRenderer extends BaseComponent<
 
     const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
 
-    changeArrayValue(linkedStructField, fieldPath, itemPath, 'add');
+    changeArrayValue(linkedStructField, fieldPath, itemPath, 'add', count);
 
-    if (linkedStructFieldReference.hints.layout === 'table') {
+    if (count == null && linkedStructFieldReference.hints.layout === 'table') {
       push({
         block: block.name,
         path: itemPath,
         struct: struct.name
       });
     }
+  };
+
+  private canAdd = () => {
+    const {
+      fieldReference: { field },
+      fieldValue
+    } = this.props;
+
+    const linkedStructField = field as ILinkedStructField;
+    const value = (fieldValue as object[]) || [];
+
+    if (
+      linkedStructField.minInstances &&
+      linkedStructField.maxInstances &&
+      linkedStructField.minInstances === linkedStructField.maxInstances
+    ) {
+      return false;
+    }
+
+    return (
+      typeof linkedStructField.maxInstances === 'undefined' ||
+      value.length < linkedStructField.maxInstances
+    );
+  };
+
+  private canRemove = (_: number) => {
+    const {
+      fieldReference: { field },
+      fieldValue
+    } = this.props;
+
+    const linkedStructField = field as ILinkedStructField;
+    const value = (fieldValue as object[]) || [];
+
+    return value.length > linkedStructField.minInstances;
   };
 
   private onEdit = (index: number) => {
@@ -297,7 +332,7 @@ export default class FieldHostRenderer extends BaseComponent<
         return <ForeignKeyFieldRenderer {...foreignKeyFieldProps} />;
       }
       case 'linkedStruct': {
-        const { reference } = field as ILinkedStructField;
+        const { reference, minInstances } = field as ILinkedStructField;
         const { hints } = fieldReference as ILinkedStructFieldReference;
         const isTable = hints.layout === 'table';
         const block = hints.block || reference.block;
@@ -308,31 +343,36 @@ export default class FieldHostRenderer extends BaseComponent<
 
         let values = [];
 
+        if (Array.isArray(fieldProps.value)) {
+          values = fieldProps.value as object[];
+        }
+
+        if (values.length < minInstances) {
+          const startingIndex = values.length - 1;
+          const itemsToCreate = minInstances - values.length;
+
+          this.onAdd(startingIndex, itemsToCreate);
+        }
+
         if (isTable) {
-          if (Array.isArray(fieldProps.value)) {
-            values = fieldProps.value.map((value) =>
-              block.fields.map(
-                ({ field: blockField }) => value[blockField.name]
-              )
-            );
-          }
+          const mappedValue = values.map((value) =>
+            block.fields.map(({ field: blockField }) => value[blockField.name])
+          );
 
           const tableLinkedStructFieldProps: ITableLinkedStructRenderer = {
             ...fieldProps,
+            canAdd: this.canAdd,
+            canRemove: this.canRemove,
             headers: block.fields.map((x) => x.field.label.short),
-            onAdd: () => this.onAdd((values && values.length) || 0),
+            onAdd: () => this.onAdd((mappedValue && mappedValue.length) || 0),
             onEdit: this.onEdit,
             onRemove: this.onRemove,
-            value: values,
+            value: mappedValue,
             valueErrorIndicators: childErrors
           };
 
           return <LinkedStructFieldRenderer {...tableLinkedStructFieldProps} />;
         } else {
-          if (Array.isArray(fieldProps.value)) {
-            values = fieldProps.value as object[];
-          }
-
           const items = values.map((_, index) => {
             const itemPath = `${fieldPath}.${index}`;
 
@@ -348,6 +388,8 @@ export default class FieldHostRenderer extends BaseComponent<
 
           const inlineLinkedStructFieldProps: IInlinedLinkedStructRenderer = {
             ...fieldProps,
+            canAdd: this.canAdd,
+            canRemove: this.canRemove,
             onAdd: () => this.onAdd((values && values.length) || 0),
             onRemove: this.onRemove,
             renderedItems: items

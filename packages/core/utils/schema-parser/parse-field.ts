@@ -98,6 +98,8 @@ export default function parseField(structName: string, fieldJson: any): IField {
 
       if (fieldJson.minInstances) {
         linkedStructField.minInstances = fieldJson.minInstances;
+      } else {
+        linkedStructField.minInstances = 0;
       }
 
       if (fieldJson.maxInstances) {

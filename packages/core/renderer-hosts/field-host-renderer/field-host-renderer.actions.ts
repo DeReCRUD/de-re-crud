@@ -170,15 +170,24 @@ export default function fieldHostRendererActions({ setState }) {
       field: ILinkedStructField,
       fieldPath: string,
       itemPath: string,
-      type: ChangeArrayActionType
+      type: ChangeArrayActionType,
+      count: number = null
     ): Partial<IStoreState> => {
       const oldValue = formPathToValue(state.value, itemPath);
       const pathArray = itemPath.split('.');
+      const itemsToCreate = count || 1;
 
-      const newValue =
-        type === 'add'
-          ? {}
-          : createFieldParent(field.reference.block.fields.map((x) => x.field));
+      const newValues = [];
+
+      if (type === 'add') {
+        for (let i = 0; i < itemsToCreate; i++) {
+          const newValue = createFieldParent(
+            field.reference.block.fields.map((x) => x.field)
+          );
+
+          newValues.push(newValue);
+        }
+      }
 
       const newFormValue = { ...state.value };
       let iterationValue: ComplexFieldValue = newFormValue;
@@ -192,7 +201,7 @@ export default function fieldHostRendererActions({ setState }) {
         if (i === pathArray.length - 1) {
           switch (type) {
             case 'add':
-              parentValue.push(newValue);
+              parentValue.push(...newValues);
               break;
             case 'remove':
               parentValue.splice(path, 1);
@@ -230,13 +239,15 @@ export default function fieldHostRendererActions({ setState }) {
       });
 
       if (state.onChange) {
-        state.onChange({
-          formValue: newFormValue,
-          newValue: type === 'add' ? newValue : undefined,
-          oldValue: type === 'remove' ? oldValue : undefined,
-          parentValue,
-          path: itemPath
-        });
+        for (const newValue of newValues) {
+          state.onChange({
+            formValue: newFormValue,
+            newValue: type === 'add' ? newValue : undefined,
+            oldValue: type === 'remove' ? oldValue : undefined,
+            parentValue,
+            path: itemPath
+          });
+        }
       }
 
       return {};

@@ -11,20 +11,28 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
   label,
   required,
   renderedItems,
+  canAdd,
+  canRemove,
   onAdd,
   onRemove
 }: IInlinedLinkedStructRenderer) => {
-  const rows = renderedItems.map((item, index) => (
-    <div className={createCssClass(cssName, 'item')}>
-      {item}
-      <Bootstrap3ButtonRenderer
-        classes="btn btn-sm btn-danger"
-        text="Remove"
-        onClick={() => onRemove(index)}
-      />
-      <hr />
-    </div>
-  ));
+  const rows = renderedItems.map((item, index) => {
+    const removeButtonVisible = canRemove(index);
+
+    return (
+      <div className={createCssClass(cssName, 'item')}>
+        {item}
+        {removeButtonVisible && (
+          <Bootstrap3ButtonRenderer
+            classes="btn btn-sm btn-danger"
+            text="Remove"
+            onClick={() => onRemove(index)}
+          />
+        )}
+        {removeButtonVisible && <hr />}
+      </div>
+    );
+  });
 
   return (
     <div className={createCssClass(cssName)}>
@@ -32,11 +40,13 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
         <Bootstrap3LabelRenderer fieldRequired={required}>
           {label}
         </Bootstrap3LabelRenderer>{' '}
-        <Bootstrap3ButtonRenderer
-          classes="btn btn-sm btn-default"
-          text="Add"
-          onClick={onAdd}
-        />
+        {canAdd() && (
+          <Bootstrap3ButtonRenderer
+            classes="btn btn-sm btn-default"
+            text="Add"
+            onClick={onAdd}
+          />
+        )}
       </div>
       <div className={createCssClass(cssName, 'items')}>
         {!rows.length ? <span>None</span> : rows}
