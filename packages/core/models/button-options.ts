@@ -63,6 +63,11 @@ export interface IButtonOptions {
      * The text to display. Default: 'Cancel'.
      */
     text?: string;
+
+    /**
+     * Indicates whether button is visible. Default: true.
+     */
+    visible?: boolean;
   };
   /**
    * Defines the options for back buttons.
@@ -82,5 +87,10 @@ export interface IButtonOptions {
      * The text to display. Default: 'Back'.
      */
     text?: string;
+
+    /**
+     * Indicates whether button is visible. Default: true.
+     */
+    visible?: boolean;
   };
 }

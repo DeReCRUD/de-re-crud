@@ -44,6 +44,12 @@ export default function parseButtonOptions(
       'text',
       instanceOptions.cancelButton
     );
+
+    assignIfDefined(
+      buttonOptions.cancelButton,
+      'visible',
+      instanceOptions.backButton
+    );
   }
 
   if (instanceOptions && instanceOptions.submitButton) {
@@ -122,10 +128,12 @@ export default function parseButtonOptions(
   assignDefault(buttonOptions.backButton, 'classNames', []);
   assignDefault(buttonOptions.backButton, 'includeButtonClassNames', true);
   assignDefault(buttonOptions.backButton, 'text', 'Back');
+  assignDefault(buttonOptions.backButton, 'visible', true);
 
   assignDefault(buttonOptions.cancelButton, 'classNames', []);
   assignDefault(buttonOptions.cancelButton, 'includeButtonClassNames', true);
   assignDefault(buttonOptions.cancelButton, 'text', 'Cancel');
+  assignDefault(buttonOptions.cancelButton, 'visible', true);
 
   if (buttonOptions.button.classNames.length) {
     if (buttonOptions.submitButton.includeButtonClassNames) {

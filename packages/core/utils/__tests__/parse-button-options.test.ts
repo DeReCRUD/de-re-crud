@@ -7,7 +7,8 @@ describe('parseButtonOptions', () => {
       backButton: {
         classNames: [],
         includeButtonClassNames: true,
-        text: 'Back'
+        text: 'Back',
+        visible: true
       },
       button: {
         classNames: []
@@ -15,7 +16,8 @@ describe('parseButtonOptions', () => {
       cancelButton: {
         classNames: [],
         includeButtonClassNames: true,
-        text: 'Cancel'
+        text: 'Cancel',
+        visible: true
       },
       submitButton: {
         appendStructLabel: true,
@@ -33,10 +35,12 @@ describe('parseButtonOptions', () => {
   it('should override defaults', () => {
     const input: IButtonOptions = {
       backButton: {
-        text: 'Return'
+        text: 'Return',
+        visible: false
       },
       cancelButton: {
-        text: 'Close'
+        text: 'Close',
+        visible: false
       },
       submitButton: {
         classNames: ['.action-button'],
@@ -49,7 +53,8 @@ describe('parseButtonOptions', () => {
       backButton: {
         classNames: [],
         includeButtonClassNames: true,
-        text: 'Return'
+        text: 'Return',
+        visible: false
       },
       button: {
         classNames: []
@@ -57,7 +62,8 @@ describe('parseButtonOptions', () => {
       cancelButton: {
         classNames: [],
         includeButtonClassNames: true,
-        text: 'Close'
+        text: 'Close',
+        visible: false
       },
       submitButton: {
         appendStructLabel: true,
@@ -92,7 +98,8 @@ describe('parseButtonOptions', () => {
       backButton: {
         classNames: [],
         includeButtonClassNames: false,
-        text: 'Back'
+        text: 'Back',
+        visible: true
       },
       button: {
         classNames: ['.button']
@@ -100,7 +107,8 @@ describe('parseButtonOptions', () => {
       cancelButton: {
         classNames: [],
         includeButtonClassNames: false,
-        text: 'Cancel'
+        text: 'Cancel',
+        visible: true
       },
       submitButton: {
         appendStructLabel: true,

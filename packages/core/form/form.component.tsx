@@ -111,35 +111,36 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
           block={blockReference}
           path={path}
         />
-        {!navStack.length ? (
-          (submitButton.visible || onCancel) && (
-            <div>
-              {submitButton.visible && (
-                <ButtonRenderer
-                  classes={submitButton.classNames}
-                  text={submitButtonText}
-                  onClick={submitForm}
-                  disabled={submitting}
-                />
-              )}
-              {submitButton.visible && ' '}
-              {onCancel && (
-                <ButtonRenderer
-                  classes={cancelButton.classNames}
-                  text={cancelButton.text}
-                  onClick={onCancel}
-                  disabled={submitting}
-                />
-              )}
-            </div>
-          )
-        ) : (
-          <ButtonRenderer
-            classes={backButton.classNames}
-            text={backButton.text}
-            onClick={pop}
-          />
-        )}
+        {!navStack.length
+          ? (submitButton.visible || onCancel) && (
+              <div>
+                {submitButton.visible && (
+                  <ButtonRenderer
+                    classes={submitButton.classNames}
+                    text={submitButtonText}
+                    onClick={submitForm}
+                    disabled={submitting}
+                  />
+                )}
+                {submitButton.visible && cancelButton.visible && ' '}
+                {cancelButton.visible &&
+                  onCancel && (
+                    <ButtonRenderer
+                      classes={cancelButton.classNames}
+                      text={cancelButton.text}
+                      onClick={onCancel}
+                      disabled={submitting}
+                    />
+                  )}
+              </div>
+            )
+          : backButton.visible && (
+              <ButtonRenderer
+                classes={backButton.classNames}
+                text={backButton.text}
+                onClick={pop}
+              />
+            )}
       </form>
     );
   }
