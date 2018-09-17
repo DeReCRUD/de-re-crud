@@ -29,10 +29,7 @@ interface IFormBaseProps {
 }
 
 export type FormSubmissionCallback = (errors?: IErrors) => void;
-export type FormSubmission = (
-  value: any,
-  cb: FormSubmissionCallback
-) => void;
+export type FormSubmission = (value: any, cb: FormSubmissionCallback) => void;
 
 export interface IFormChangeNotificationParams {
   path: string;

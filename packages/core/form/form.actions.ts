@@ -15,7 +15,7 @@ function validateBlock(
   block: IBlock,
   formValue: object,
   parentValue: object,
-  parentPath?: string,
+  parentPath?: string
 ): IValidationResult {
   const outputValue = {};
   const errors: IErrors = {};

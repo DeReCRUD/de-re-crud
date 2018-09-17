@@ -20,7 +20,10 @@ export function validateField(field: IField, value: FieldValue): string[] {
       fieldTypeErrors = validateKeywordField(field, value as string);
       break;
     case 'integer':
-      fieldTypeErrors = validateIntegerField(field as IIntegerField, value as number);
+      fieldTypeErrors = validateIntegerField(
+        field as IIntegerField,
+        value as number
+      );
       break;
     case 'text':
       fieldTypeErrors = validateTextField(field as ITextField, value as string);

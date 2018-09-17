@@ -33,7 +33,7 @@ export interface IStruct {
   blocks: IBlock[];
 }
 
-export type SimpleFieldValue = string | number | boolean ;
+export type SimpleFieldValue = string | number | boolean;
 export type ComplexFieldValue = object | object[];
 
 export type FieldValue = SimpleFieldValue | ComplexFieldValue;

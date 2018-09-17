@@ -32,7 +32,11 @@ export interface IFieldHostRendererProps
   childErrors: { [index: number]: boolean };
   focusField: (field: IField, fieldPath: string) => void;
   blurField: (field: IField, fieldPath: string, parentPath?: string) => void;
-  changeValue: (field: IField, fieldPath: string, value: SimpleFieldValue) => void;
+  changeValue: (
+    field: IField,
+    fieldPath: string,
+    value: SimpleFieldValue
+  ) => void;
   changeArrayValue: (
     field: IReferenceField,
     fieldPath: string,

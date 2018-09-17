@@ -86,7 +86,11 @@ export default class FieldHostRenderer extends BaseComponent<
     );
   }
 
-  private changeValue = (field: IField, fieldPath: string, value: SimpleFieldValue) => {
+  private changeValue = (
+    field: IField,
+    fieldPath: string,
+    value: SimpleFieldValue
+  ) => {
     this.props.changeValue(field, fieldPath, value);
   };
 
