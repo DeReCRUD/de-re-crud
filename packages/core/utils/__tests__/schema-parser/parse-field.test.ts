@@ -142,30 +142,47 @@ describe('parseField', () => {
     });
   });
 
-  createFieldTests('list', { multiSelect: false, options: [] }, (field) => {
-    it('should enable multi select when specified', () => {
-      const listField = parseField(structName, {
-        ...field,
-        multiSelect: true
-      }) as IListField;
+  createFieldTests(
+    'list',
+    {
+      hints: { width: DEFAULT_FIELD_WIDTH, layout: 'select' },
+      multiSelect: false,
+      options: []
+    },
+    (field) => {
+      it('should enable multi select when specified', () => {
+        const listField = parseField(structName, {
+          ...field,
+          multiSelect: true
+        }) as IListField;
 
-      expect(listField.multiSelect).toBe(true);
-    });
+        expect(listField.multiSelect).toBe(true);
+      });
 
-    it('should include options when specified', () => {
-      const listField = parseField(structName, {
-        ...field,
-        options: [{ label: 'Label', value: 'Value' }]
-      }) as IListField;
+      it('should include options when specified', () => {
+        const listField = parseField(structName, {
+          ...field,
+          options: [{ label: 'Label', value: 'Value' }]
+        }) as IListField;
 
-      expect(listField.options).toEqual([
-        {
-          label: 'Label',
-          value: 'Value'
-        }
-      ]);
-    });
-  });
+        expect(listField.options).toEqual([
+          {
+            label: 'Label',
+            value: 'Value'
+          }
+        ]);
+      });
+
+      it('should layout as radio when specified', () => {
+        const listField = parseField(structName, {
+          ...field,
+          hints: { layout: 'radio' }
+        }) as IListField;
+
+        expect(listField.hints.layout).toEqual('radio');
+      });
+    }
+  );
 
   createFieldTests('money');
   createFieldTests('percent');

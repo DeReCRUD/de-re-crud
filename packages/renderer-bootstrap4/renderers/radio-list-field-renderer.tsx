@@ -12,27 +12,35 @@ const Bootstrap4RadioListFieldRenderer = ({
   options
 }: IRadioListFieldRenderer) => (
   <div className="bootstrap4-radio-list-field-renderer">
-    {options.map((option) => (
-      <div className="custom-control custom-radio">
-        <input
-          id={rendererId}
-          className="custom-control-input"
-          type="radio"
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onChange={onChange}
-          value={option.value}
-          checked={option.selected}
-        />
-        <Bootstrap4LabelRenderer
-          htmlFor={rendererId}
-          className="custom-control-label"
-          fieldRequired={required}
-        >
-          w{label}
-        </Bootstrap4LabelRenderer>
-      </div>
-    ))}
+    <Bootstrap4LabelRenderer fieldRequired={required}>
+      {label}
+    </Bootstrap4LabelRenderer>
+
+    {options.map((option) => {
+      const inputId = `${rendererId}.${option.value}`;
+
+      return (
+        <div className="custom-control custom-radio">
+          <input
+            id={inputId}
+            className="custom-control-input"
+            type="radio"
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onChange={onChange}
+            value={option.value}
+            checked={option.selected}
+          />
+          <Bootstrap4LabelRenderer
+            htmlFor={inputId}
+            className="custom-control-label"
+            fieldRequired={false}
+          >
+            {option.label}
+          </Bootstrap4LabelRenderer>
+        </div>
+      );
+    })}
   </div>
 );
 

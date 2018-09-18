@@ -170,6 +170,12 @@ Recommendations given to the UI about how to display the form element. Applies t
 | ----- | ------ | -------- | ----------- | ------------------------------ |
 | width | number | false    | 12          | The width of the field (1-12). |
 
+##### <a name="field-list-hints"></a> Additional properties for hints of [type](#type) list
+
+| Field  | Type            | Required | Missing Val | Notes                                                  |
+| ------ | --------------- | -------- | ----------- | ------------------------------------------------------ |
+| layout | select or radio | false    | select      | Indicates how to display the [Field](#struct) instance |
+
 #### [Block](#block) Hints
 
 | Field  | Type                                | Required | Missing Val |
@@ -189,7 +195,7 @@ Recommendations given to the UI about how to display the form element. Applies t
 | ----- | ------ | -------- | --------------------------------------------------- | ------------------------------ |
 | width | number | false    | defaults to width hint specified on [Field](#field) | The width of the field (1-12). |
 
-##### <a name="field-reference-linked-struct-hints"></a> Additional properties for hints of [type](#type) linkedStruct
+##### <a name="field-reference-linked-struct-hints"></a> Additional properties for hints of [type](#type) linkedStruct reference
 
 | Field  | Type                                                                | Required | Missing Val | Notes                                                                                             |
 | ------ | ------------------------------------------------------------------- | -------- | ----------- | ------------------------------------------------------------------------------------------------- |

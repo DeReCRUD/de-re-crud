@@ -91,6 +91,16 @@ export default function parseField(structName: string, fieldJson: any): IField {
         });
       }
 
+      if (
+        !listField.multiSelect &&
+        typeof fieldJson.hints !== 'undefined' &&
+        typeof fieldJson.hints.layout !== 'undefined'
+      ) {
+        listField.hints.layout = fieldJson.hints.layout;
+      } else {
+        listField.hints.layout = 'select';
+      }
+
       break;
     }
     case 'linkedStruct': {

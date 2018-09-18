@@ -11,9 +11,13 @@ const Bootstrap3RadioListFieldRenderer = ({
   options
 }: IRadioListFieldRenderer) => (
   <div className="bootstrap3-radio-list-field-renderer">
+    <Bootstrap3LabelRenderer fieldRequired={required}>
+      {label}
+    </Bootstrap3LabelRenderer>
+
     {options.map((option) => (
       <div className="radio">
-        <Bootstrap3LabelRenderer fieldRequired={required}>
+        <Bootstrap3LabelRenderer fieldRequired={false}>
           <input
             type="radio"
             onFocus={onFocus}
@@ -22,7 +26,7 @@ const Bootstrap3RadioListFieldRenderer = ({
             value={option.value}
             checked={option.selected}
           />
-          {label}
+          {option.label}
         </Bootstrap3LabelRenderer>
       </div>
     ))}

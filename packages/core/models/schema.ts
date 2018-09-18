@@ -79,6 +79,10 @@ export interface IListField extends IField {
   missingValue?: ListValue | ListValue[];
   multiSelect: boolean;
   options: IOption[];
+  hints: {
+    width: number;
+    layout: 'select' | 'radio';
+  };
 }
 
 export interface IOption {

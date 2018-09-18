@@ -401,8 +401,16 @@ export default class FieldHostRenderer extends BaseComponent<
         }
       }
       case 'list': {
-        const { multiSelect, options: listOptions } = field as IListField;
-        const ListFieldRenderer = rendererOptions.components.selectListField;
+        const {
+          multiSelect,
+          options: listOptions,
+          hints: { layout }
+        } = field as IListField;
+
+        const ListFieldRenderer =
+          layout === 'radio'
+            ? rendererOptions.components.radioListField
+            : rendererOptions.components.selectListField;
 
         let value;
         if (typeof fieldProps.value === 'undefined') {
@@ -418,7 +426,11 @@ export default class FieldHostRenderer extends BaseComponent<
           selected: value.findIndex((x) => x === option.value) >= 0
         }));
 
-        if (!multiSelect && typeof fieldProps.value === 'undefined') {
+        if (
+          layout === 'select' &&
+          !multiSelect &&
+          typeof fieldProps.value === 'undefined'
+        ) {
           options.unshift({ label: '', value: '', selected: false });
         }
 
