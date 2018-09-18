@@ -2,14 +2,14 @@ import { IButtonRenderer } from '@de-re-crud/core/models/renderers';
 import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
 import { h } from 'preact';
 
-const Bootstrap3ButtonRenderer = ({
+const Bootstrap4ButtonRenderer = ({
   classes,
   text,
   disabled,
   onClick
 }: IButtonRenderer) => {
   const classNames = ['btn'];
-
+  
   if (Array.isArray(classes)) {
     classNames.push(...classes);
   } else if (classes) {
@@ -17,7 +17,7 @@ const Bootstrap3ButtonRenderer = ({
   }
 
   if (classNames.length === 1) {
-    classNames.push('btn-default');
+    classNames.push('btn-secondary');
   }
 
   return (
@@ -32,4 +32,4 @@ const Bootstrap3ButtonRenderer = ({
   );
 };
 
-export default Bootstrap3ButtonRenderer;
+export default Bootstrap4ButtonRenderer;
