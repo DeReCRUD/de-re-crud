@@ -1,8 +1,8 @@
-import { IListFieldRenderer } from '@de-re-crud/core/models/renderers';
+import { ISelectListFieldRenderer } from '@de-re-crud/core/models/renderers';
 import { h } from 'preact';
 import Bootstrap4LabelRenderer from './label-renderer';
 
-export type Bootstrap4SelectRendererProps = IListFieldRenderer & {};
+export type Bootstrap4SelectRendererProps = ISelectListFieldRenderer & {};
 
 const Bootstrap4SelectRenderer = ({
   label,

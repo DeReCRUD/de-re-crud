@@ -8,8 +8,8 @@ import {
   IFieldRenderer,
   IForeignKeyFieldRenderer,
   IInlinedLinkedStructRenderer,
-  IListFieldRenderer,
   ISelectableOption,
+  ISelectListFieldRenderer,
   ITableLinkedStructRenderer
 } from '../../models/renderers';
 import {
@@ -402,7 +402,7 @@ export default class FieldHostRenderer extends BaseComponent<
       }
       case 'list': {
         const { multiSelect, options: listOptions } = field as IListField;
-        const ListFieldRenderer = rendererOptions.components.listField;
+        const ListFieldRenderer = rendererOptions.components.selectListField;
 
         let value;
         if (typeof fieldProps.value === 'undefined') {
@@ -422,7 +422,7 @@ export default class FieldHostRenderer extends BaseComponent<
           options.unshift({ label: '', value: '', selected: false });
         }
 
-        const listFieldProps: IListFieldRenderer = {
+        const listFieldProps: ISelectListFieldRenderer = {
           ...fieldProps,
           multiSelect,
           options

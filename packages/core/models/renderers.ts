@@ -89,7 +89,7 @@ export interface IBooleanFieldRenderer extends IFieldRenderer {
   value?: boolean;
 }
 
-export interface IListFieldRenderer extends IFieldRenderer {
+export interface ISelectListFieldRenderer extends IFieldRenderer {
   multiSelect: boolean;
   options: ISelectableOption[];
 }

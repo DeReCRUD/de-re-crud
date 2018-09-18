@@ -10,8 +10,8 @@ import {
   IFieldRenderer,
   IForeignKeyFieldRenderer,
   IInlinedLinkedStructRenderer,
-  IListFieldRenderer,
   IRadioListFieldRenderer,
+  ISelectListFieldRenderer,
   IStampRenderer,
   ITableLinkedStructRenderer,
   ITextFieldRenderer
@@ -65,9 +65,9 @@ export interface IRendererOptions {
     tableLinkedStructField:
       | FunctionalComponent<ITableLinkedStructRenderer>
       | ComponentConstructor<ITableLinkedStructRenderer>;
-    listField:
-      | FunctionalComponent<IListFieldRenderer>
-      | ComponentConstructor<IListFieldRenderer>;
+    selectListField:
+      | FunctionalComponent<ISelectListFieldRenderer>
+      | ComponentConstructor<ISelectListFieldRenderer>;
     radioListField:
       | FunctionalComponent<IRadioListFieldRenderer>
       | ComponentConstructor<IRadioListFieldRenderer>;

@@ -23,10 +23,10 @@ const Bootstrap3RendererOptions: IRendererOptions = {
     inlineLinkedStructField: Bootstrap3InlineLinkedStructFieldRenderer,
     integerField: Bootstrap3InputFieldRenderer,
     keywordField: Bootstrap3InputFieldRenderer,
-    listField: Bootstrap3ListFieldRenderer,
     moneyField: Bootstrap3InputFieldRenderer,
     percentField: Bootstrap3InputFieldRenderer,
     radioListField: Bootstrap3RadioListFieldRenderer,
+    selectListField: Bootstrap3ListFieldRenderer,
     stamp: Bootstrap3StampRenderer,
     tableLinkedStructField: Bootstrap3TableLinkedStructFieldRenderer,
     textField: Bootstrap3InputFieldRenderer
