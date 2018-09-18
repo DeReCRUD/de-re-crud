@@ -22,29 +22,12 @@ import {
   IReferenceField,
   SimpleFieldValue
 } from '../../models/schema';
-import debounce from '../../utils/debounce';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
-
-type DebouncedChangedValue = (
-  field: IField,
-  fieldPath: string,
-  value: SimpleFieldValue
-) => void;
 
 export default class FieldHostRenderer extends BaseComponent<
   IFieldHostRendererProps
 > {
-  private debouncedChangedValue: DebouncedChangedValue;
-
-  constructor(props: IFieldHostRendererProps) {
-    super(props);
-
-    this.debouncedChangedValue = debounce(
-      this.changeValue
-    ) as DebouncedChangedValue;
-  }
-
   public render() {
     const {
       errors,
@@ -142,7 +125,7 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldPath
     } = this.props;
 
-    this.debouncedChangedValue(field, fieldPath, value);
+    this.changeValue(field, fieldPath, value);
   };
 
   private onAdd = (index: number, count: number = null) => {
