@@ -8,7 +8,7 @@ const Bootstrap3ButtonRenderer = ({
   disabled,
   onClick
 }: IButtonRenderer) => {
-  const classNames = ['btn'];
+  const classNames = [];
 
   if (Array.isArray(classes)) {
     classNames.push(...classes);
@@ -16,8 +16,8 @@ const Bootstrap3ButtonRenderer = ({
     classNames.push(classes);
   }
 
-  if (classNames.length === 1) {
-    classNames.push('btn-default');
+  if (!classNames.length) {
+    classNames.push('btn btn-default');
   }
 
   return (
