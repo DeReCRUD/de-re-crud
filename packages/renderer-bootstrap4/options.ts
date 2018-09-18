@@ -1,13 +1,14 @@
 import { IRendererOptions } from '@de-re-crud/core/models/renderer-options';
-import Bootstrap4BlockContainerRenderer from '@de-re-crud/renderer-bootstrap4/renderers/block-container-renderer';
-import Bootstrap4BooleanFieldRenderer from '@de-re-crud/renderer-bootstrap4/renderers/boolean-field-renderer';
-import Bootstrap4ButtonRenderer from '@de-re-crud/renderer-bootstrap4/renderers/button-renderer';
-import Bootstrap4FieldContainerRenderer from '@de-re-crud/renderer-bootstrap4/renderers/field-container-renderer';
-import Bootstrap4InlineLinkedStructFieldRenderer from '@de-re-crud/renderer-bootstrap4/renderers/inline-linked-struct-field-renderer';
-import Bootstrap4InputFieldRenderer from '@de-re-crud/renderer-bootstrap4/renderers/input-field-renderer';
-import Bootstrap4ListFieldRenderer from '@de-re-crud/renderer-bootstrap4/renderers/list-field-renderer';
-import Bootstrap4StampRenderer from '@de-re-crud/renderer-bootstrap4/renderers/stamp-renderer';
-import Bootstrap4TableLinkedStructFieldRenderer from '@de-re-crud/renderer-bootstrap4/renderers/table-linked-struct-field-renderer';
+import Bootstrap4BlockContainerRenderer from './renderers/block-container-renderer';
+import Bootstrap4BooleanFieldRenderer from './renderers/boolean-field-renderer';
+import Bootstrap4ButtonRenderer from './renderers/button-renderer';
+import Bootstrap4FieldContainerRenderer from './renderers/field-container-renderer';
+import Bootstrap4InlineLinkedStructFieldRenderer from './renderers/inline-linked-struct-field-renderer';
+import Bootstrap4InputFieldRenderer from './renderers/input-field-renderer';
+import Bootstrap4ListFieldRenderer from './renderers/list-field-renderer';
+import Bootstrap4RadioListFieldRenderer from './renderers/radio-list-field-renderer';
+import Bootstrap4StampRenderer from './renderers/stamp-renderer';
+import Bootstrap4TableLinkedStructFieldRenderer from './renderers/table-linked-struct-field-renderer';
 
 const Bootstrap4RendererOptions: IRendererOptions = {
   components: {
@@ -25,6 +26,7 @@ const Bootstrap4RendererOptions: IRendererOptions = {
     listField: Bootstrap4ListFieldRenderer,
     moneyField: Bootstrap4InputFieldRenderer,
     percentField: Bootstrap4InputFieldRenderer,
+    radioListField: Bootstrap4RadioListFieldRenderer,
     stamp: Bootstrap4StampRenderer,
     tableLinkedStructField: Bootstrap4TableLinkedStructFieldRenderer,
     textField: Bootstrap4InputFieldRenderer

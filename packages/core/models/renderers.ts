@@ -94,6 +94,10 @@ export interface IListFieldRenderer extends IFieldRenderer {
   options: ISelectableOption[];
 }
 
+export interface IRadioListFieldRenderer extends IFieldRenderer {
+  options: ISelectableOption[];
+}
+
 export interface IForeignKeyFieldRenderer extends IFieldRenderer {
   options: ISelectableOption[];
 }

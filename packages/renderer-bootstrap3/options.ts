@@ -6,6 +6,7 @@ import Bootstrap3FieldContainerRenderer from './renderers/field-container-render
 import Bootstrap3InlineLinkedStructFieldRenderer from './renderers/inline-linked-struct-field-renderer';
 import Bootstrap3InputFieldRenderer from './renderers/input-field-renderer';
 import Bootstrap3ListFieldRenderer from './renderers/list-field-renderer';
+import Bootstrap3RadioListFieldRenderer from './renderers/radio-list-field-renderer';
 import Bootstrap3StampRenderer from './renderers/stamp-renderer';
 import Bootstrap3TableLinkedStructFieldRenderer from './renderers/table-linked-struct-field-renderer';
 
@@ -25,6 +26,7 @@ const Bootstrap3RendererOptions: IRendererOptions = {
     listField: Bootstrap3ListFieldRenderer,
     moneyField: Bootstrap3InputFieldRenderer,
     percentField: Bootstrap3InputFieldRenderer,
+    radioListField: Bootstrap3RadioListFieldRenderer,
     stamp: Bootstrap3StampRenderer,
     tableLinkedStructField: Bootstrap3TableLinkedStructFieldRenderer,
     textField: Bootstrap3InputFieldRenderer
