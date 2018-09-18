@@ -1,6 +1,6 @@
 {
   "name": "@de-re-crud/schema-builder",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
@@ -8,9 +8,9 @@
     "dev": "preact watch --cwd ../.."
   },
   "dependencies": {
-    "@de-re-crud/core": "^0.4.4",
-    "@de-re-crud/renderer-bootstrap3": "^0.4.4",
-    "@de-re-crud/renderer-bootstrap4": "^0.4.4",
+    "@de-re-crud/core": "^0.4.5",
+    "@de-re-crud/renderer-bootstrap3": "^0.4.5",
+    "@de-re-crud/renderer-bootstrap4": "^0.4.5",
     "bootstrap": "^4.1.3",
     "bootstrap3": "npm:bootstrap@331231",
     "preact": "^8.2.9",
