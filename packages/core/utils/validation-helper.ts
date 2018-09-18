@@ -151,9 +151,12 @@ export function validateLinkedStructField(
   const errors = [];
 
   if (
-    (!value || !value.length) && (field.required || value.length < field.minInstances)
+    (!value || !value.length) &&
+    (field.required || value.length < field.minInstances)
   ) {
-    errors.push(`This field must have at least ${field.minInstances || 1} item(s).`);
+    errors.push(
+      `This field must have at least ${field.minInstances || 1} item(s).`
+    );
   } else if (field.maxInstances && value.length > field.maxInstances) {
     errors.push(
       `This field can not have more than ${field.maxInstances} item(s).`

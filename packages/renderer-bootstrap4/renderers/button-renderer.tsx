@@ -9,7 +9,7 @@ const Bootstrap4ButtonRenderer = ({
   onClick
 }: IButtonRenderer) => {
   const classNames = [];
-  
+
   if (Array.isArray(classes)) {
     classNames.push(...classes);
   } else if (classes) {

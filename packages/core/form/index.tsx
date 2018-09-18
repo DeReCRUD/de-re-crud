@@ -52,7 +52,13 @@ export default class Form extends BaseComponent<IFormConnectProps> {
   }
 
   public componentWillReceiveProps(nextProps: IFormConnectProps) {
-    const allowedUpates = ['onSubmit', 'onCancel', 'onChangeType', 'onChange', 'rendererOptions'];
+    const allowedUpates = [
+      'onSubmit',
+      'onCancel',
+      'onChangeType',
+      'onChange',
+      'rendererOptions'
+    ];
 
     if (
       !allowedUpates.every((value) => nextProps[value] === this.props[value])

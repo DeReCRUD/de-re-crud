@@ -122,7 +122,7 @@ describe('parseField', () => {
 
   createFieldTests('keyword');
 
-  createFieldTests('linkedStruct', null, (field) => {
+  createFieldTests('linkedStruct', { minInstances: 0 }, (field) => {
     it('should include min instances when specified', () => {
       const linkedStructField = parseField(structName, {
         ...field,
