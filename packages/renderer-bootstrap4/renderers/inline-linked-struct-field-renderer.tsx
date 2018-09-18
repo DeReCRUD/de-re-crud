@@ -1,13 +1,12 @@
 import { IInlinedLinkedStructRenderer } from '@de-re-crud/core/models/renderers';
 import createCssClass from '@de-re-crud/core/utils/create-css-class';
-import Bootstrap3ButtonRenderer from '@de-re-crud/renderer-bootstrap3/renderers/button-renderer';
-import Bootstrap3LabelRenderer from '@de-re-crud/renderer-bootstrap3/renderers/label-renderer';
+import Bootstrap4ButtonRenderer from '@de-re-crud/renderer-bootstrap4/renderers/button-renderer';
+import Bootstrap4LabelRenderer from '@de-re-crud/renderer-bootstrap4/renderers/label-renderer';
 import { h } from 'preact';
-import './inline-linked-struct-field-renderer.css';
 
-const cssName = 'bootstrap3-inline-linked-struct-renderer';
+const cssName = 'bootstrap4-inline-linked-struct-renderer';
 
-const Bootstrap3InlineLinkedStructFieldRenderer = ({
+const Bootstrap4InlineLinkedStructFieldRenderer = ({
   label,
   required,
   renderedItems,
@@ -23,7 +22,7 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
       <div className={createCssClass(cssName, 'item')}>
         {item}
         {removeButtonVisible && (
-          <Bootstrap3ButtonRenderer
+          <Bootstrap4ButtonRenderer
             classes="btn btn-sm btn-danger"
             text="Remove"
             onClick={() => onRemove(index)}
@@ -37,12 +36,12 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
   return (
     <div className={createCssClass(cssName)}>
       <div className={createCssClass(cssName, 'controls')}>
-        <Bootstrap3LabelRenderer fieldRequired={required}>
+        <Bootstrap4LabelRenderer fieldRequired={required}>
           {label}
-        </Bootstrap3LabelRenderer>{' '}
+        </Bootstrap4LabelRenderer>{' '}
         {canAdd() && (
-          <Bootstrap3ButtonRenderer
-            classes="btn btn-sm btn-default"
+          <Bootstrap4ButtonRenderer
+            classes="btn btn-sm btn-secondary"
             text="Add"
             onClick={onAdd}
           />
@@ -55,4 +54,4 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
   );
 };
 
-export default Bootstrap3InlineLinkedStructFieldRenderer;
+export default Bootstrap4InlineLinkedStructFieldRenderer;

@@ -104,7 +104,7 @@ export interface ILinkedStructField extends IReferenceField {
   type: 'linkedStruct';
   initialValue?: object[];
   missingValue?: object[];
-  minInstances?: number;
+  minInstances: number;
   maxInstances?: number;
 }
 

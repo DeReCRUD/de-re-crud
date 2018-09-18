@@ -1,5 +1,4 @@
 import { h } from 'preact';
-import './label-renderer.css';
 
 type Children = string | JSX.Element;
 
@@ -14,7 +13,7 @@ const Bootstrap3LabelRenderer = ({
 }: IBootstrap3LabelRenderer) => (
   <label class="bootstrap3-label-renderer">
     {children}
-    {fieldRequired ? <span className="required"> *</span> : null}
+    {fieldRequired ? <span className="required text-danger"> *</span> : null}
   </label>
 );
 

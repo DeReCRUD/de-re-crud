@@ -1,13 +1,12 @@
 import { ITableLinkedStructRenderer } from '@de-re-crud/core/models/renderers';
 import createCssClass from '@de-re-crud/core/utils/create-css-class';
 import { h } from 'preact';
-import Bootstrap3ButtonRenderer from './button-renderer';
-import Bootstrap3LabelRenderer from './label-renderer';
-import './table-linked-struct-field-renderer.css';
+import Bootstrap4ButtonRenderer from './button-renderer';
+import Bootstrap4LabelRenderer from './label-renderer';
 
-const cssName = 'bootstrap3-table-linked-struct-renderer';
+const cssName = 'bootstrap4-table-linked-struct-renderer';
 
-const Bootstrap3TableLinkedStructFieldRenderer = ({
+const Bootstrap4TableLinkedStructFieldRenderer = ({
   label,
   required,
   headers,
@@ -25,22 +24,22 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
     const removeButtonVisible = canRemove(index);
 
     rows.push(
-      <tr className={valueErrorIndicators[index] && 'danger'}>
+      <tr className={valueErrorIndicators[index] && 'table-danger'}>
         {columns.map((x) => (
           <td>{x || ' '}</td>
         ))}
         <td>
           <div className={createCssClass(cssName, 'row', 'actions')}>
-            <i
-              class="glyphicon glyphicon-pencil"
-              title="Edit Item"
+            <Bootstrap4ButtonRenderer
+              classes="btn btn-link"
+              text="Edit"
               onClick={() => onEdit(index)}
             />
-            {removeButtonVisible && <span>&nbsp;</span>}
+            {removeButtonVisible && <span>|</span>}
             {removeButtonVisible && (
-              <i
-                class="glyphicon glyphicon-trash"
-                title="Remove Item"
+              <Bootstrap4ButtonRenderer
+                classes="btn btn-link"
+                text="Remove"
                 onClick={() => onRemove(index)}
               />
             )}
@@ -53,18 +52,18 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   return (
     <div className={createCssClass(cssName)}>
       <div className={createCssClass(cssName, 'controls')}>
-        <Bootstrap3LabelRenderer fieldRequired={required}>
+        <Bootstrap4LabelRenderer fieldRequired={required}>
           {label}
-        </Bootstrap3LabelRenderer>
+        </Bootstrap4LabelRenderer>{' '}
         {canAdd() && (
-          <Bootstrap3ButtonRenderer
-            classes="btn btn-sm btn-default"
+          <Bootstrap4ButtonRenderer
+            classes="btn btn-sm btn-secondary"
             text="Add"
             onClick={onAdd}
           />
         )}
       </div>
-      <table className="table table-bordered table-condensed">
+      <table className="table table-bordered table-sm">
         <thead>
           <tr>
             {headers.map((header) => (
@@ -87,4 +86,4 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   );
 };
 
-export default Bootstrap3TableLinkedStructFieldRenderer;
+export default Bootstrap4TableLinkedStructFieldRenderer;
