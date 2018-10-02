@@ -30,6 +30,7 @@ export default class FieldHostRenderer extends BaseComponent<
 > {
   public render() {
     const {
+      busy,
       errors,
       fieldReference,
       fieldValue,
@@ -41,6 +42,7 @@ export default class FieldHostRenderer extends BaseComponent<
     const field = fieldReference.field;
 
     const fieldProps: IFieldRenderer = {
+      busy,
       errors: touched ? errors : [],
       fieldDescription: field.help,
       fieldName: field.name,

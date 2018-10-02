@@ -74,6 +74,7 @@ export interface IFieldRenderer extends IRenderer {
   errors: string[];
   value?: FieldValue;
   required: boolean;
+  busy: boolean;
   onFocus: (e: FieldFocusEvent) => void;
   onBlur: (e: FieldBlurEvent) => void;
   onChange: (e: FieldChangeEvent) => void;

@@ -11,6 +11,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   label,
   required,
   headers,
+  busy,
   value,
   valueErrorIndicators,
   canAdd,
@@ -61,6 +62,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
             classes="btn btn-sm btn-default"
             text="Add"
             onClick={onAdd}
+            disabled={busy}
           />
         )}
       </div>

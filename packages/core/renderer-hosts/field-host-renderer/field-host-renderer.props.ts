@@ -28,6 +28,7 @@ export interface IFieldHostRendererProps
   parentValue: ComplexFieldValue;
   formValue: object;
   touched: boolean;
+  busy: boolean;
   errors: string[];
   childErrors: { [index: number]: boolean };
   focusField: (field: IField, fieldPath: string) => void;

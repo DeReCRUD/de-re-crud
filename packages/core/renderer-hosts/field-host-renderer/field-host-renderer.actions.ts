@@ -16,13 +16,70 @@ import {
 
 export type ChangeArrayActionType = 'add' | 'remove';
 
-function onChange(state: IStoreState, params: IFormChangeNotificationParams) {
-  state.onChange(params);
+function onChange(
+  store: {
+    getState: () => IStoreState;
+    setState: (state: Partial<IStoreState>) => void;
+  },
+  params: IFormChangeNotificationParams
+) {
+  const state = store.getState();
 
+  if (!state.onChange) {
+    return;
+  }
+
+  const argumentsLength = state.onChange.length;
+
+  if (argumentsLength > 1) {
+    return new Promise((resolve) => {
+      const fieldPath = params.path;
+
+      store.setState({
+        ...state,
+        busy: {
+          ...state.busy,
+          [fieldPath]: true
+        }
+      });
+
+      state.onChange(params, (errors) => {
+        const oldState = store.getState();
+
+        let newErrors = oldState.errors[fieldPath];
+
+        if (!newErrors) {
+          newErrors = [];
+        } else {
+          newErrors = newErrors.concat();
+        }
+
+        newErrors.push(...errors);
+
+        store.setState({
+          ...oldState,
+          busy: {
+            ...oldState.busy,
+            [fieldPath]: false
+          },
+          errors: {
+            ...oldState.errors,
+            [fieldPath]: newErrors
+          }
+        });
+
+        resolve();
+      });
+    });
+  }
+
+  state.onChange(params);
   return {};
 }
 
-export default function fieldHostRendererActions({ setState }) {
+export default function fieldHostRendererActions(store) {
+  const { setState } = store;
+
   return {
     focusField: (
       state: IStoreState,
@@ -80,12 +137,8 @@ export default function fieldHostRendererActions({ setState }) {
         }
       });
 
-      if (
-        oldValue !== newValue &&
-        state.onChange &&
-        state.onChangeType === 'blur'
-      ) {
-        return onChange(state, {
+      if (oldValue !== newValue && state.onChangeType === 'blur') {
+        return onChange(store, {
           formValue: state.value,
           newValue,
           oldValue,
@@ -155,12 +208,8 @@ export default function fieldHostRendererActions({ setState }) {
 
       setState(updates);
 
-      if (
-        oldValue !== fieldValue &&
-        state.onChange &&
-        state.onChangeType === 'change'
-      ) {
-        return onChange(state, {
+      if (oldValue !== fieldValue && state.onChangeType === 'change') {
+        return onChange(store, {
           formValue: newFormValue,
           newValue: fieldValue,
           oldValue,
@@ -214,7 +263,7 @@ export default function fieldHostRendererActions({ setState }) {
           }
 
           const arrayValue = parentValue[path];
-          
+
           switch (type) {
             case 'add':
               arrayValue.push(...newValues);
@@ -232,7 +281,10 @@ export default function fieldHostRendererActions({ setState }) {
         iterationValue = parentValue[path];
       }
 
-      const errors = validateLinkedStructField(field, iterationValue as object[]);
+      const errors = validateLinkedStructField(
+        field,
+        iterationValue as object[]
+      );
 
       const newErrors = {
         ...state.errors,
@@ -263,13 +315,13 @@ export default function fieldHostRendererActions({ setState }) {
           changedIndicies.push(i);
         }
 
-         if (type === 'add') {
+        if (type === 'add') {
           params.addedIndicies = changedIndicies;
         } else if (type === 'remove') {
           params.removedIndicies = changedIndicies;
         }
 
-        return onChange(state, params);
+        return onChange(store, params);
       }
 
       return {};

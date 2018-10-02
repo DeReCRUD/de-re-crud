@@ -10,6 +10,7 @@ const cssName = 'bootstrap3-inline-linked-struct-renderer';
 const Bootstrap3InlineLinkedStructFieldRenderer = ({
   label,
   required,
+  busy,
   renderedItems,
   canAdd,
   canRemove,
@@ -45,6 +46,7 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
             classes="btn btn-sm btn-default"
             text="Add"
             onClick={onAdd}
+            disabled={busy}
           />
         )}
       </div>

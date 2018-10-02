@@ -46,6 +46,7 @@ export interface IStoreState {
   navStack: INavState[];
   focused: { [path: string]: SimpleFieldValue };
   touched: { [path: string]: boolean };
+  busy: { [path: string]: boolean };
   errors: IErrors;
   childErrors: IChildErrors;
   rendererOptions: IRendererOptions;
@@ -117,6 +118,7 @@ export function createStore(
 
   const state: IStoreState = {
     block: block || 'default',
+    busy: {},
     buttonOptions: parseButtonOptions(
       buttonOptions,
       optionDefaults.buttonOptions

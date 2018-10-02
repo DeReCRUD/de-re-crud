@@ -41,8 +41,10 @@ export interface IFormChangeNotificationParams {
   removedIndicies?: number[];
 }
 
+export type FormChangeNotificationCallback = (errors?: string[]) => void;
+
 export type FormChangeNotification = (
-  params: IFormChangeNotificationParams
+  params: IFormChangeNotificationParams, cb?: FormChangeNotificationCallback
 ) => void;
 
 export type FormChangeNotificationType = 'blur' | 'change';
