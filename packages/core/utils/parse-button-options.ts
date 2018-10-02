@@ -48,7 +48,7 @@ export default function parseButtonOptions(
     assignIfDefined(
       buttonOptions.cancelButton,
       'visible',
-      instanceOptions.backButton
+      instanceOptions.cancelButton
     );
   }
 

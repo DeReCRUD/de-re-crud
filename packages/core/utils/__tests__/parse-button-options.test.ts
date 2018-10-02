@@ -36,7 +36,7 @@ describe('parseButtonOptions', () => {
     const input: IButtonOptions = {
       backButton: {
         text: 'Return',
-        visible: false
+        visible: true
       },
       cancelButton: {
         text: 'Close',
@@ -54,7 +54,7 @@ describe('parseButtonOptions', () => {
         classNames: [],
         includeButtonClassNames: true,
         text: 'Return',
-        visible: false
+        visible: true
       },
       button: {
         classNames: []
