@@ -128,11 +128,8 @@ export default class FieldHostRenderer extends BaseComponent<
     this.changeValue(field, fieldPath, value);
   };
 
-  private onAdd = (index: number, count: number = null) => {
+  private onAdd = (index: number, count: number, navigate: boolean = true) => {
     const { changeArrayValue, push, fieldReference, fieldPath } = this.props;
-
-    const itemPath = fieldPath + '.' + index;
-
     const linkedStructField = fieldReference.field as ILinkedStructField;
 
     const {
@@ -141,12 +138,12 @@ export default class FieldHostRenderer extends BaseComponent<
 
     const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
 
-    changeArrayValue(linkedStructField, fieldPath, itemPath, 'add', count);
+    changeArrayValue(linkedStructField, fieldPath, 'add', index, count);
 
-    if (count == null && linkedStructFieldReference.hints.layout === 'table') {
+    if (navigate && linkedStructFieldReference.hints.layout === 'table') {
       push({
         block: block.name,
-        path: itemPath,
+        path: `${fieldPath}.${index}`,
         struct: struct.name
       });
     }
@@ -209,8 +206,9 @@ export default class FieldHostRenderer extends BaseComponent<
     changeArrayValue(
       linkedStructField,
       fieldPath,
-      `${fieldPath}.${index}`,
-      'remove'
+      'remove',
+      index,
+      1
     );
   };
 
@@ -334,7 +332,7 @@ export default class FieldHostRenderer extends BaseComponent<
           const startingIndex = values.length - 1;
           const itemsToCreate = minInstances - values.length;
 
-          this.onAdd(startingIndex, itemsToCreate);
+          this.onAdd(startingIndex, itemsToCreate, false);
         }
 
         if (isTable) {
@@ -347,7 +345,7 @@ export default class FieldHostRenderer extends BaseComponent<
             canAdd: this.canAdd,
             canRemove: this.canRemove,
             headers: block.fields.map((x) => x.field.label.short),
-            onAdd: () => this.onAdd((mappedValue && mappedValue.length) || 0),
+            onAdd: () => this.onAdd((mappedValue && mappedValue.length) || 0, 1),
             onEdit: this.onEdit,
             onRemove: this.onRemove,
             value: mappedValue,
@@ -373,7 +371,7 @@ export default class FieldHostRenderer extends BaseComponent<
             ...fieldProps,
             canAdd: this.canAdd,
             canRemove: this.canRemove,
-            onAdd: () => this.onAdd((values && values.length) || 0),
+            onAdd: () => this.onAdd((values && values.length) || 0, 1),
             onRemove: this.onRemove,
             renderedItems: items
           };

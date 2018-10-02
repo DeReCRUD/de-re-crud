@@ -1,7 +1,8 @@
 import Form from '@de-re-crud/core/form';
 import {
   FormSubmissionCallback,
-  ICollectionReferences
+  ICollectionReferences,
+  IFormChangeNotificationParams
 } from '@de-re-crud/core/form/form.props';
 import { IRendererOptions } from '@de-re-crud/core/models/renderer-options';
 import {
@@ -65,8 +66,6 @@ export default class App extends Component<{}, IState> {
 
   public componentDidUpdate() {
     this.updateCss();
-    // const renderer = this.renderer;
-    // document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
   }
 
   public render() {
@@ -101,6 +100,7 @@ export default class App extends Component<{}, IState> {
               struct="struct"
               collectionReferences={this.collectionReferences}
               rendererOptions={renderer.options}
+              onChange={this.onChange}
               onChangeType="change"
               onSubmit={this.onSubmit}
             />
@@ -115,6 +115,11 @@ export default class App extends Component<{}, IState> {
       renderer: (e.target as GenericEventTarget).value as string
     });
   };
+
+  private onChange = (params: IFormChangeNotificationParams) => {
+    // tslint:disable-next-line:no-console
+    console.log('form changed', params);
+  }
 
   private onSubmit = (_: object, cb: FormSubmissionCallback) => {
     cb();

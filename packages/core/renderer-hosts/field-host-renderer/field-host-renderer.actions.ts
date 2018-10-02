@@ -1,3 +1,4 @@
+import { IFormChangeNotificationParams } from '../../form/form.props';
 import {
   ComplexFieldValue,
   IField,
@@ -14,6 +15,12 @@ import {
 } from '../../utils/validation-helper';
 
 export type ChangeArrayActionType = 'add' | 'remove';
+
+function onChange(state: IStoreState, params: IFormChangeNotificationParams) {
+  state.onChange(params);
+
+  return {};
+}
 
 export default function fieldHostRendererActions({ setState }) {
   return {
@@ -78,7 +85,7 @@ export default function fieldHostRendererActions({ setState }) {
         state.onChange &&
         state.onChangeType === 'blur'
       ) {
-        state.onChange({
+        return onChange(state, {
           formValue: state.value,
           newValue,
           oldValue,
@@ -153,7 +160,7 @@ export default function fieldHostRendererActions({ setState }) {
         state.onChange &&
         state.onChangeType === 'change'
       ) {
-        state.onChange({
+        return onChange(state, {
           formValue: newFormValue,
           newValue: fieldValue,
           oldValue,
@@ -169,12 +176,12 @@ export default function fieldHostRendererActions({ setState }) {
       state: IStoreState,
       field: ILinkedStructField,
       fieldPath: string,
-      itemPath: string,
       type: ChangeArrayActionType,
-      count: number = null
+      startingIndex: number,
+      count: number = 1
     ): Partial<IStoreState> => {
-      const oldValue = formPathToValue(state.value, itemPath);
-      const pathArray = itemPath.split('.');
+      const oldValue = formPathToValue(state.value, fieldPath);
+      const pathArray = fieldPath.split('.');
       const itemsToCreate = count || 1;
 
       const newValues = [];
@@ -198,30 +205,34 @@ export default function fieldHostRendererActions({ setState }) {
         const path = pathArray[i];
 
         iterationValue = iterationValue[path];
+
         if (i === pathArray.length - 1) {
+          if (typeof iterationValue === 'undefined') {
+            parentValue[path] = [];
+          } else {
+            parentValue[path] = (parentValue[path] as object[]).concat();
+          }
+
+          const arrayValue = parentValue[path];
+          
           switch (type) {
             case 'add':
-              parentValue.push(...newValues);
+              arrayValue.push(...newValues);
               break;
             case 'remove':
-              parentValue.splice(path, 1);
+              arrayValue.splice(startingIndex, 1);
               break;
           }
         } else if (Array.isArray(iterationValue)) {
           parentValue[path] = iterationValue.concat();
         } else if (typeof iterationValue === 'object') {
           parentValue[path] = { ...iterationValue };
-        } else if (
-          typeof iterationValue === 'undefined' &&
-          i === pathArray.length - 2
-        ) {
-          parentValue[path] = [];
         }
 
         iterationValue = parentValue[path];
       }
 
-      const errors = validateLinkedStructField(field, parentValue);
+      const errors = validateLinkedStructField(field, iterationValue as object[]);
 
       const newErrors = {
         ...state.errors,
@@ -239,15 +250,26 @@ export default function fieldHostRendererActions({ setState }) {
       });
 
       if (state.onChange) {
-        for (const newValue of newValues) {
-          state.onChange({
-            formValue: newFormValue,
-            newValue: type === 'add' ? newValue : undefined,
-            oldValue: type === 'remove' ? oldValue : undefined,
-            parentValue,
-            path: itemPath
-          });
+        const params: IFormChangeNotificationParams = {
+          formValue: newFormValue,
+          newValue: formPathToValue(newFormValue, fieldPath),
+          oldValue,
+          parentValue,
+          path: fieldPath
+        };
+
+        const changedIndicies = [];
+        for (let i = startingIndex; i < startingIndex + count; i++) {
+          changedIndicies.push(i);
         }
+
+         if (type === 'add') {
+          params.addedIndicies = changedIndicies;
+        } else if (type === 'remove') {
+          params.removedIndicies = changedIndicies;
+        }
+
+        return onChange(state, params);
       }
 
       return {};

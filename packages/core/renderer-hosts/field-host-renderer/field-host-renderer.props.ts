@@ -40,9 +40,9 @@ export interface IFieldHostRendererProps
   changeArrayValue: (
     field: ILinkedStructField,
     fieldPath: string,
-    itemPath: string,
     type: ChangeArrayActionType,
-    count?: number
+    startingIndex: number,
+    count: number
   ) => void;
   push: (state: INavState) => void;
   pop: () => void;

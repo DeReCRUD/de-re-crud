@@ -37,6 +37,8 @@ export interface IFormChangeNotificationParams {
   newValue?: FieldValue;
   parentValue: object | object[];
   formValue: object;
+  addedIndicies?: number[];
+  removedIndicies?: number[];
 }
 
 export type FormChangeNotification = (
