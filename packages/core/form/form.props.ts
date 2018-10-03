@@ -43,17 +43,22 @@ export interface IFieldParentChangeNotificationParams {
   path: string;
   addedIndicies?: number[];
   removedIndicies?: number[];
-  oldValue: object[]
+  oldValue: object[];
   newValue: object[];
   parentValue: object;
   formValue: object;
 }
 
-export type FieldChangeNotification = (params: IFieldChangeNotificationParams) => void;
+export type FieldChangeNotification = (
+  params: IFieldChangeNotificationParams
+) => void;
 export type FieldChangeNotificationType = 'blur' | 'change';
 
 export type FieldParentChangeNotificationCallback = () => void;
-export type FieldParentChangeNotification = (params: IFieldParentChangeNotificationParams, cb?: FieldParentChangeNotificationCallback) => void;
+export type FieldParentChangeNotification = (
+  params: IFieldParentChangeNotificationParams,
+  cb?: FieldParentChangeNotificationCallback
+) => void;
 
 export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;

@@ -275,7 +275,7 @@ export default function fieldHostRendererActions({ getState, setState }) {
               ...newPaths.reduce((prev, curr) => {
                 prev[curr] = true;
                 return prev;
-              }, {}),
+              }, {})
             }
           });
 
@@ -290,7 +290,7 @@ export default function fieldHostRendererActions({ getState, setState }) {
                   ...newPaths.reduce((prev, curr) => {
                     prev[curr] = false;
                     return prev;
-                  }, {}),
+                  }, {})
                 }
               });
             });

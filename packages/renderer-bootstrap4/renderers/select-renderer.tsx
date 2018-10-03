@@ -21,7 +21,10 @@ const Bootstrap4SelectRenderer = ({
       {label}
     </Bootstrap4LabelRenderer>
     <select
-      className={combineCssClasses('custom-select', errors.length && 'is-invalid')}
+      className={combineCssClasses(
+        'custom-select',
+        errors.length && 'is-invalid'
+      )}
       onFocus={onFocus}
       onBlur={onBlur}
       onChange={onChange}
