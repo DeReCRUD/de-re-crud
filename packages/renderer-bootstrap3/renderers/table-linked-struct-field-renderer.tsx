@@ -1,10 +1,10 @@
 import { ITableLinkedStructRenderer } from '@de-re-crud/core/models/renderers';
+import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
 import createCssClass from '@de-re-crud/core/utils/create-css-class';
 import { h } from 'preact';
 import Bootstrap3ButtonRenderer from './button-renderer';
 import Bootstrap3LabelRenderer from './label-renderer';
 import './table-linked-struct-field-renderer.css';
-import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
 
 const cssName = 'bootstrap3-table-linked-struct-renderer';
 

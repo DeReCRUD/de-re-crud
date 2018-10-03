@@ -1,7 +1,7 @@
 import { ISelectListFieldRenderer } from '@de-re-crud/core/models/renderers';
+import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
 import { h } from 'preact';
 import Bootstrap4LabelRenderer from './label-renderer';
-import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
 
 export type Bootstrap4SelectRendererProps = ISelectListFieldRenderer & {};
 
