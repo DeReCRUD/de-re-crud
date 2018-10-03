@@ -31,23 +31,28 @@ interface IFormBaseProps {
 export type FormSubmissionCallback = (errors?: IErrors) => void;
 export type FormSubmission = (value: any, cb: FormSubmissionCallback) => void;
 
-export interface IFormChangeNotificationParams {
+export interface IFieldChangeNotificationParams {
   path: string;
   oldValue?: FieldValue;
   newValue?: FieldValue;
   parentValue: object | object[];
   formValue: object;
-  addedIndicies?: number[];
-  removedIndicies?: number[];
 }
 
-export type FormChangeNotificationCallback = (errors?: string[]) => void;
+export interface IFieldParentChangeNotificationParams {
+  path: string;
+  addedIndicies?: number[];
+  removedIndicies?: number[];
+  oldValue: object[]
+  newValue: object[];
+  parentValue: object;
+  formValue: object;
+}
 
-export type FormChangeNotification = (
-  params: IFormChangeNotificationParams, cb?: FormChangeNotificationCallback
-) => void;
+export type FieldChangeNotification = (params: IFieldChangeNotificationParams) => void;
+export type FieldChangeNotificationType = 'blur' | 'change';
 
-export type FormChangeNotificationType = 'blur' | 'change';
+export type FieldParentChangeNotification = (params: IFieldParentChangeNotificationParams) => void;
 
 export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;
@@ -56,8 +61,9 @@ export interface IFormConnectProps extends IFormBaseProps {
   errors?: IErrors;
   initialValue?: object;
   onSubmit: FormSubmission;
-  onChangeType?: FormChangeNotificationType;
-  onChange?: FormChangeNotification;
+  onFieldChange?: FieldChangeNotification;
+  onFieldChangeType?: FieldChangeNotificationType;
+  onFieldParentChange?: FieldParentChangeNotification;
 }
 
 export interface IFormProps extends IFormBaseProps {

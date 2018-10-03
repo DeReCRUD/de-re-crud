@@ -2,8 +2,9 @@ import { default as createReduxZeroStore } from 'redux-zero';
 import { connect } from 'redux-zero/devtools';
 import { applyMiddleware } from 'redux-zero/middleware';
 import {
-  FormChangeNotification,
-  FormChangeNotificationType,
+  FieldChangeNotification,
+  FieldChangeNotificationType,
+  FieldParentChangeNotification,
   FormSubmission,
   FormType,
   ICollectionReferences
@@ -55,8 +56,9 @@ export interface IStoreState {
   submitting?: boolean;
   onSubmit?: FormSubmission;
   onCancel?: () => void;
-  onChangeType: FormChangeNotificationType;
-  onChange?: FormChangeNotification;
+  onFieldChange?: FieldChangeNotification;
+  onFieldChangeType?: FieldChangeNotificationType;
+  onFieldParentChange?: FieldParentChangeNotification;
 }
 
 const logger = (store) => (next) => (action) => {
@@ -81,8 +83,9 @@ export function createStore(
     initialValue?: object;
     onSubmit?: FormSubmission;
     onCancel?: () => void;
-    onChange?: FormChangeNotification;
-    onChangeType?: FormChangeNotificationType;
+    onFieldChange?: FieldChangeNotification;
+    onFieldChangeType?: FieldChangeNotificationType;
+    onFieldParentChange?: FieldParentChangeNotification;
   }
 ): IStore {
   const structs = SchemaParser.parse(schema);
@@ -131,8 +134,9 @@ export function createStore(
     initialValue,
     navStack: [],
     onCancel: formState && formState.onCancel,
-    onChange: formState && formState.onChange,
-    onChangeType: (formState && formState.onChangeType) || 'blur',
+    onFieldChange: formState && formState.onFieldChange,
+    onFieldChangeType: (formState && formState.onFieldChangeType) || 'blur',
+    onFieldParentChange: formState && formState.onFieldParentChange,
     onSubmit: formState && formState.onSubmit,
     rendererOptions: rendererOptions || optionDefaults.rendererOptions,
     schema,

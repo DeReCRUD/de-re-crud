@@ -17,8 +17,9 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       collectionReferences,
       errors,
       onCancel,
-      onChange,
-      onChangeType,
+      onFieldChange,
+      onFieldChangeType,
+      onFieldParentChange,
       onSubmit,
       rendererOptions,
       buttonOptions,
@@ -40,8 +41,9 @@ export default class Form extends BaseComponent<IFormConnectProps> {
         errors,
         initialValue,
         onCancel,
-        onChange,
-        onChangeType,
+        onFieldChange,
+        onFieldChangeType,
+        onFieldParentChange,
         onSubmit
       }
     );
@@ -55,8 +57,10 @@ export default class Form extends BaseComponent<IFormConnectProps> {
     const allowedUpates = [
       'onSubmit',
       'onCancel',
-      'onChangeType',
-      'onChange',
+      'onFieldChange',
+      'onFieldChangeType',
+      'onFieldParentChildAdd',
+      'onFieldParentChildRemove',
       'rendererOptions'
     ];
 

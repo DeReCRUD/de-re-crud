@@ -1,4 +1,4 @@
-import { IFormChangeNotificationParams } from '../../form/form.props';
+import { IFieldParentChangeNotificationParams } from '../../form/form.props';
 import {
   ComplexFieldValue,
   IField,
@@ -15,67 +15,6 @@ import {
 } from '../../utils/validation-helper';
 
 export type ChangeArrayActionType = 'add' | 'remove';
-
-function onChange(
-  store: {
-    getState: () => IStoreState;
-    setState: (state: Partial<IStoreState>) => void;
-  },
-  params: IFormChangeNotificationParams
-) {
-  const state = store.getState();
-
-  if (!state.onChange) {
-    return;
-  }
-
-  const argumentsLength = state.onChange.length;
-
-  if (argumentsLength > 1) {
-    return new Promise((resolve) => {
-      const fieldPath = params.path;
-
-      store.setState({
-        ...state,
-        busy: {
-          ...state.busy,
-          [fieldPath]: true
-        }
-      });
-
-      state.onChange(params, (errors) => {
-        const oldState = store.getState();
-
-        let newErrors = oldState.errors[fieldPath];
-
-        if (!newErrors) {
-          newErrors = [];
-        } else {
-          newErrors = newErrors.concat();
-        }
-
-        newErrors.push(...errors);
-
-        store.setState({
-          ...oldState,
-          busy: {
-            ...oldState.busy,
-            [fieldPath]: false
-          },
-          errors: {
-            ...oldState.errors,
-            [fieldPath]: newErrors
-          }
-        });
-
-        resolve();
-      });
-    });
-  }
-
-  state.onChange(params);
-  return {};
-}
 
 export default function fieldHostRendererActions(store) {
   const { setState } = store;
@@ -137,8 +76,12 @@ export default function fieldHostRendererActions(store) {
         }
       });
 
-      if (oldValue !== newValue && state.onChangeType === 'blur') {
-        return onChange(store, {
+      if (
+        oldValue !== newValue &&
+        state.onFieldChange &&
+        state.onFieldChangeType === 'blur'
+      ) {
+        state.onFieldChange({
           formValue: state.value,
           newValue,
           oldValue,
@@ -208,8 +151,12 @@ export default function fieldHostRendererActions(store) {
 
       setState(updates);
 
-      if (oldValue !== fieldValue && state.onChangeType === 'change') {
-        return onChange(store, {
+      if (
+        oldValue !== fieldValue &&
+        state.onFieldChange &&
+        state.onFieldChangeType === 'change'
+      ) {
+        state.onFieldChange({
           formValue: newFormValue,
           newValue: fieldValue,
           oldValue,
@@ -301,13 +248,13 @@ export default function fieldHostRendererActions(store) {
         value: newFormValue
       });
 
-      if (state.onChange) {
-        const params: IFormChangeNotificationParams = {
+      if (state.onFieldParentChange) {
+        const params: IFieldParentChangeNotificationParams = {
           formValue: newFormValue,
           newValue: formPathToValue(newFormValue, fieldPath),
           oldValue,
           parentValue,
-          path: fieldPath
+          path: fieldPath,
         };
 
         const changedIndicies = [];
@@ -321,7 +268,7 @@ export default function fieldHostRendererActions(store) {
           params.removedIndicies = changedIndicies;
         }
 
-        return onChange(store, params);
+        state.onFieldParentChange(params);
       }
 
       return {};
