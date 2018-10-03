@@ -47,7 +47,7 @@ export interface IStoreState {
   navStack: INavState[];
   focused: { [path: string]: SimpleFieldValue };
   touched: { [path: string]: boolean };
-  busy: { [path: string]: boolean };
+  readOnly: { [path: string]: boolean };
   errors: IErrors;
   childErrors: IChildErrors;
   rendererOptions: IRendererOptions;
@@ -121,7 +121,6 @@ export function createStore(
 
   const state: IStoreState = {
     block: block || 'default',
-    busy: {},
     buttonOptions: parseButtonOptions(
       buttonOptions,
       optionDefaults.buttonOptions
@@ -138,6 +137,7 @@ export function createStore(
     onFieldChangeType: (formState && formState.onFieldChangeType) || 'blur',
     onFieldParentChange: formState && formState.onFieldParentChange,
     onSubmit: formState && formState.onSubmit,
+    readOnly: {},
     rendererOptions: rendererOptions || optionDefaults.rendererOptions,
     schema,
     struct,

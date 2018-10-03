@@ -12,7 +12,8 @@ const Bootstrap3InputFieldRenderer = ({
   onChange,
   minLength,
   maxLength,
-  required
+  required,
+  readOnly
 }: ITextFieldRenderer) => {
   let inputType;
 
@@ -46,6 +47,7 @@ const Bootstrap3InputFieldRenderer = ({
         maxLength={maxLength}
         required={required}
         value={value}
+        disabled={readOnly}
       />
     </div>
   );

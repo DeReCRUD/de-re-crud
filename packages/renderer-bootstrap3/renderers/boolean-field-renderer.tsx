@@ -9,7 +9,8 @@ const Bootstrap3BooleanFieldRenderer = ({
   onFocus,
   onBlur,
   onChange,
-  required
+  required,
+  readOnly
 }: IBooleanFieldRenderer) => {
   return (
     <div className="bootstrap3-boolean-field-renderer checkbox">
@@ -20,6 +21,7 @@ const Bootstrap3BooleanFieldRenderer = ({
           onBlur={onBlur}
           onChange={onChange}
           checked={value}
+          disabled={readOnly}
         />
         {label}
       </Bootstrap3LabelRenderer>

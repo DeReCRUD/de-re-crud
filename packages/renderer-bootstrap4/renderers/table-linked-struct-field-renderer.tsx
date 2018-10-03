@@ -10,9 +10,10 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
   label,
   required,
   headers,
-  busy,
+  readOnly,
   value,
   valueErrorIndicators,
+  readOnlyValues,
   canAdd,
   canRemove,
   onAdd,
@@ -35,6 +36,7 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
               classes="btn btn-link"
               text="Edit"
               onClick={() => onEdit(index)}
+              disabled={readOnlyValues[index]}
             />
             {removeButtonVisible && <span>|</span>}
             {removeButtonVisible && (
@@ -42,6 +44,7 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
                 classes="btn btn-link"
                 text="Remove"
                 onClick={() => onRemove(index)}
+                disabled={readOnly || readOnlyValues[index]}
               />
             )}
           </div>
@@ -61,7 +64,7 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
             classes="btn btn-sm btn-secondary"
             text="Add"
             onClick={onAdd}
-            disabled={busy}
+            disabled={readOnly}
           />
         )}
       </div>

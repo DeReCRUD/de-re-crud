@@ -15,7 +15,7 @@ const mapToProps = (
   {
     value,
     touched,
-    busy,
+    readOnly,
     errors,
     childErrors,
     rendererOptions,
@@ -24,7 +24,6 @@ const mapToProps = (
   { fieldPath, parentPath }: IFieldHostRendererConnectProps
 ): Partial<IFieldHostRendererProps> => {
   return {
-    busy: busy[fieldPath] || false,
     childErrors: childErrors[fieldPath] || {},
     collectionReferences,
     errors: errors[fieldPath] || [],
@@ -32,6 +31,7 @@ const mapToProps = (
     fieldValue: formPathToValue(value, fieldPath),
     formValue: value,
     parentValue: formPathToValue(value, parentPath),
+    readOnly,
     rendererOptions,
     touched: touched[fieldPath] || false
   };

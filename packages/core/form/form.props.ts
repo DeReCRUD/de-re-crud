@@ -52,7 +52,8 @@ export interface IFieldParentChangeNotificationParams {
 export type FieldChangeNotification = (params: IFieldChangeNotificationParams) => void;
 export type FieldChangeNotificationType = 'blur' | 'change';
 
-export type FieldParentChangeNotification = (params: IFieldParentChangeNotificationParams) => void;
+export type FieldParentChangeNotificationCallback = () => void;
+export type FieldParentChangeNotification = (params: IFieldParentChangeNotificationParams, cb?: FieldParentChangeNotificationCallback) => void;
 
 export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;

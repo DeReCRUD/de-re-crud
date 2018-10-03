@@ -102,11 +102,11 @@ function validateBlock(
   };
 }
 
-export default function formActions({ setState }) {
+export default function formActions({ getState, setState }) {
   return {
     submitForm: (
       state: IStoreState
-    ): Partial<IStoreState> | Promise<boolean> => {
+    ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const struct = state.structs.find((x) => x.name === state.struct);
       const block = struct.blocks.find((x) => x.name === state.block);
 
@@ -124,15 +124,22 @@ export default function formActions({ setState }) {
         return {};
       }
 
-      return new Promise((resolve) => {
+      return new Promise<Partial<IStoreState>>((resolve) => {
         state.onSubmit(outputValue, (submissionErrors) => {
           if (submissionErrors) {
-            setState({ submissionErrors, submitting: false });
+            const updatedState = getState();
+
+            resolve({
+              errors: {
+                ...updatedState.errors,
+                ...submissionErrors,
+                submitting: false
+              }
+            });
             return;
           }
 
-          setState({ submitting: false });
-          resolve();
+          resolve({ submitting: false });
         });
       });
     }

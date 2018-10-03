@@ -9,7 +9,8 @@ const Bootstrap4BooleanFieldRenderer = ({
   onFocus,
   onBlur,
   onChange,
-  required
+  required,
+  readOnly
 }: IBooleanFieldRenderer) => {
   return (
     <div className="bootstrap4-boolean-field-renderer custom-control custom-checkbox">
@@ -21,6 +22,7 @@ const Bootstrap4BooleanFieldRenderer = ({
         onBlur={onBlur}
         onChange={onChange}
         checked={value}
+        disabled={readOnly}
       />
       <Bootstrap4LabelRenderer
         htmlFor={rendererId}

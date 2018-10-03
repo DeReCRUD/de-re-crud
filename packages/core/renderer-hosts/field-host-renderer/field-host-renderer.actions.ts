@@ -16,9 +16,7 @@ import {
 
 export type ChangeArrayActionType = 'add' | 'remove';
 
-export default function fieldHostRendererActions(store) {
-  const { setState } = store;
-
+export default function fieldHostRendererActions({ getState, setState }) {
   return {
     focusField: (
       state: IStoreState,
@@ -175,12 +173,13 @@ export default function fieldHostRendererActions(store) {
       type: ChangeArrayActionType,
       startingIndex: number,
       count: number = 1
-    ): Partial<IStoreState> => {
+    ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const oldValue = formPathToValue(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
       const itemsToCreate = count || 1;
 
       const newValues = [];
+      const newPaths = [];
 
       if (type === 'add') {
         for (let i = 0; i < itemsToCreate; i++) {
@@ -188,6 +187,7 @@ export default function fieldHostRendererActions(store) {
             field.reference.block.fields.map((x) => x.field)
           );
 
+          newPaths.push(`${fieldPath}.${i}`);
           newValues.push(newValue);
         }
       }
@@ -239,7 +239,6 @@ export default function fieldHostRendererActions(store) {
       };
 
       setState({
-        childErrors: generateChildErrors(newErrors),
         errors: newErrors,
         touched: {
           ...state.touched,
@@ -254,7 +253,7 @@ export default function fieldHostRendererActions(store) {
           newValue: formPathToValue(newFormValue, fieldPath),
           oldValue,
           parentValue,
-          path: fieldPath,
+          path: fieldPath
         };
 
         const changedIndicies = [];
@@ -266,6 +265,36 @@ export default function fieldHostRendererActions(store) {
           params.addedIndicies = changedIndicies;
         } else if (type === 'remove') {
           params.removedIndicies = changedIndicies;
+        }
+
+        if (state.onFieldParentChange.length > 1) {
+          setState({
+            readOnly: {
+              ...state.readOnly,
+              [fieldPath]: true,
+              ...newPaths.reduce((prev, curr) => {
+                prev[curr] = true;
+                return prev;
+              }, {}),
+            }
+          });
+
+          return new Promise<Partial<IStoreState>>((resolve) => {
+            state.onFieldParentChange(params, () => {
+              const newState = getState();
+
+              resolve({
+                readOnly: {
+                  ...newState.readOnly,
+                  [fieldPath]: false,
+                  ...newPaths.reduce((prev, curr) => {
+                    prev[curr] = false;
+                    return prev;
+                  }, {}),
+                }
+              });
+            });
+          });
         }
 
         state.onFieldParentChange(params);
