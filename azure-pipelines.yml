@@ -1,0 +1,29 @@
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '8.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    yarn install
+    yarn bootstrap
+  displayName: 'Install Dependencies'
+
+- script: yarn lint
+  displayName: 'Lint Source'
+
+- script: yarn build
+  displayName: 'Run Build'
+
+- script: yarn cover
+  displayName: 'Run Tests and Coverage'
+
+- script: |
+  cp scripts/ $(Build.SourcesDirectory)/scripts/
+  cp dist/ $(Build.SourcesDirectory)/dist/
+  displayName: 'Copy Artifacts'
+
+
