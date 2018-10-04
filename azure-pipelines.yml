@@ -22,8 +22,8 @@ steps:
   displayName: 'Run Tests and Coverage'
 
 - script: |
-  cp scripts/ $(Build.SourcesDirectory)/scripts/
-  cp dist/ $(Build.SourcesDirectory)/dist/
+    cp scripts/ $(Build.SourcesDirectory)/scripts/
+    cp dist/ $(Build.SourcesDirectory)/dist/
   displayName: 'Copy Artifacts'
 
 
