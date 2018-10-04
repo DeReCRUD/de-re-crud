@@ -187,7 +187,7 @@ export default function fieldHostRendererActions({ getState, setState }) {
             field.reference.block.fields.map((x) => x.field)
           );
 
-          newPaths.push(`${fieldPath}.${i}`);
+          newPaths.push(`${fieldPath}.${startingIndex + i}`);
           newValues.push(newValue);
         }
       }
