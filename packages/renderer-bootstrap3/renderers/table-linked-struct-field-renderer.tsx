@@ -1,4 +1,5 @@
 import { ITableLinkedStructRenderer } from '@de-re-crud/core/models/renderers';
+import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
 import createCssClass from '@de-re-crud/core/utils/create-css-class';
 import { h } from 'preact';
 import Bootstrap3ButtonRenderer from './button-renderer';
@@ -11,8 +12,10 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   label,
   required,
   headers,
+  readOnly,
   value,
   valueErrorIndicators,
+  readOnlyValues,
   canAdd,
   canRemove,
   onAdd,
@@ -23,6 +26,8 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
 
   value.forEach((columns, index) => {
     const removeButtonVisible = canRemove(index);
+    const editIconDisabled = readOnlyValues[index];
+    const removeIconDisabled = editIconDisabled || readOnlyValues[index];
 
     rows.push(
       <tr className={valueErrorIndicators[index] && 'danger'}>
@@ -32,16 +37,22 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
         <td>
           <div className={createCssClass(cssName, 'row', 'actions')}>
             <i
-              class="glyphicon glyphicon-pencil"
+              class={combineCssClasses(
+                'glyphicon glyphicon-pencil',
+                editIconDisabled && 'disabled'
+              )}
               title="Edit Item"
-              onClick={() => onEdit(index)}
+              onClick={() => !editIconDisabled && onEdit(index)}
             />
             {removeButtonVisible && <span>&nbsp;</span>}
             {removeButtonVisible && (
               <i
-                class="glyphicon glyphicon-trash"
+                class={combineCssClasses(
+                  'glyphicon glyphicon-trash',
+                  removeIconDisabled && 'disabled'
+                )}
                 title="Remove Item"
-                onClick={() => onRemove(index)}
+                onClick={() => !removeIconDisabled && onRemove(index)}
               />
             )}
           </div>
@@ -61,6 +72,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
             classes="btn btn-sm btn-default"
             text="Add"
             onClick={onAdd}
+            disabled={readOnly}
           />
         )}
       </div>

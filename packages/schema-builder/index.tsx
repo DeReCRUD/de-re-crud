@@ -2,8 +2,9 @@ import Form from '@de-re-crud/core/form';
 import {
   FormSubmissionCallback,
   ICollectionReferences,
-  IFormChangeNotificationParams
+  IFieldChangeNotificationParams
 } from '@de-re-crud/core/form/form.props';
+import Logger from '@de-re-crud/core/logger';
 import { IRendererOptions } from '@de-re-crud/core/models/renderer-options';
 import {
   FieldChangeEvent,
@@ -100,8 +101,9 @@ export default class App extends Component<{}, IState> {
               struct="struct"
               collectionReferences={this.collectionReferences}
               rendererOptions={renderer.options}
-              onChange={this.onChange}
-              onChangeType="change"
+              onFieldChange={this.onFieldChange}
+              onFieldChangeType="change"
+              onFieldParentChange={this.onFieldParentChange}
               onSubmit={this.onSubmit}
             />
           </div>
@@ -116,10 +118,13 @@ export default class App extends Component<{}, IState> {
     });
   };
 
-  private onChange = (params: IFormChangeNotificationParams) => {
-    // tslint:disable-next-line:no-console
-    console.log('form changed', params);
-  }
+  private onFieldChange = (params: IFieldChangeNotificationParams) => {
+    Logger.debug('field changed', params);
+  };
+
+  private onFieldParentChange = (params: IFieldChangeNotificationParams) => {
+    Logger.debug('field parent changed', params);
+  };
 
   private onSubmit = (_: object, cb: FormSubmissionCallback) => {
     cb();

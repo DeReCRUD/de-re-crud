@@ -15,6 +15,7 @@ const mapToProps = (
   {
     value,
     touched,
+    readOnly,
     errors,
     childErrors,
     rendererOptions,
@@ -30,6 +31,7 @@ const mapToProps = (
     fieldValue: formPathToValue(value, fieldPath),
     formValue: value,
     parentValue: formPathToValue(value, parentPath),
+    readOnly,
     rendererOptions,
     touched: touched[fieldPath] || false
   };

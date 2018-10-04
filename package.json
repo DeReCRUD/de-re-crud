@@ -8,7 +8,7 @@
     "clean": "del-cli dist",
     "bootstrap": "lerna bootstrap",
     "lint": "yarn format:check && lerna run lint -- --format stylish",
-    "dev": "yarn workspace @de-re-crud/schema-builder dev",
+    "dev": "cross-env ENABLE_LOGGING=true yarn workspace @de-re-crud/schema-builder dev",
     "build": "yarn clean && lerna run build && node ./scripts/replace-dist-css-imports.js",
     "test": "jest",
     "cover": "jest --coverage",

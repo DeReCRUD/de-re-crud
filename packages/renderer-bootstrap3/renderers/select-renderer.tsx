@@ -11,7 +11,8 @@ const Bootstrap3SelectRenderer = ({
   onFocus,
   onBlur,
   onChange,
-  required
+  required,
+  readOnly
 }: Bootstrap3SelectRendererProps) => (
   <div className="bootstrap3-select-renderer">
     <Bootstrap3LabelRenderer fieldRequired={required}>
@@ -23,6 +24,7 @@ const Bootstrap3SelectRenderer = ({
       onBlur={onBlur}
       onChange={onChange}
       multiple={multiSelect}
+      disabled={readOnly}
     >
       {options.map((option) => (
         <option

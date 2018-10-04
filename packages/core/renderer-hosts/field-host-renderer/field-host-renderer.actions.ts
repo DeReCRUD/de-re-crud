@@ -1,4 +1,4 @@
-import { IFormChangeNotificationParams } from '../../form/form.props';
+import { IFieldParentChangeNotificationParams } from '../../form/form.props';
 import {
   ComplexFieldValue,
   IField,
@@ -16,13 +16,7 @@ import {
 
 export type ChangeArrayActionType = 'add' | 'remove';
 
-function onChange(state: IStoreState, params: IFormChangeNotificationParams) {
-  state.onChange(params);
-
-  return {};
-}
-
-export default function fieldHostRendererActions({ setState }) {
+export default function fieldHostRendererActions({ getState, setState }) {
   return {
     focusField: (
       state: IStoreState,
@@ -82,10 +76,10 @@ export default function fieldHostRendererActions({ setState }) {
 
       if (
         oldValue !== newValue &&
-        state.onChange &&
-        state.onChangeType === 'blur'
+        state.onFieldChange &&
+        state.onFieldChangeType === 'blur'
       ) {
-        return onChange(state, {
+        state.onFieldChange({
           formValue: state.value,
           newValue,
           oldValue,
@@ -157,10 +151,10 @@ export default function fieldHostRendererActions({ setState }) {
 
       if (
         oldValue !== fieldValue &&
-        state.onChange &&
-        state.onChangeType === 'change'
+        state.onFieldChange &&
+        state.onFieldChangeType === 'change'
       ) {
-        return onChange(state, {
+        state.onFieldChange({
           formValue: newFormValue,
           newValue: fieldValue,
           oldValue,
@@ -179,12 +173,13 @@ export default function fieldHostRendererActions({ setState }) {
       type: ChangeArrayActionType,
       startingIndex: number,
       count: number = 1
-    ): Partial<IStoreState> => {
+    ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const oldValue = formPathToValue(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
       const itemsToCreate = count || 1;
 
       const newValues = [];
+      const newPaths = [];
 
       if (type === 'add') {
         for (let i = 0; i < itemsToCreate; i++) {
@@ -192,6 +187,7 @@ export default function fieldHostRendererActions({ setState }) {
             field.reference.block.fields.map((x) => x.field)
           );
 
+          newPaths.push(`${fieldPath}.${i}`);
           newValues.push(newValue);
         }
       }
@@ -214,7 +210,7 @@ export default function fieldHostRendererActions({ setState }) {
           }
 
           const arrayValue = parentValue[path];
-          
+
           switch (type) {
             case 'add':
               arrayValue.push(...newValues);
@@ -232,7 +228,10 @@ export default function fieldHostRendererActions({ setState }) {
         iterationValue = parentValue[path];
       }
 
-      const errors = validateLinkedStructField(field, iterationValue as object[]);
+      const errors = validateLinkedStructField(
+        field,
+        iterationValue as object[]
+      );
 
       const newErrors = {
         ...state.errors,
@@ -240,7 +239,6 @@ export default function fieldHostRendererActions({ setState }) {
       };
 
       setState({
-        childErrors: generateChildErrors(newErrors),
         errors: newErrors,
         touched: {
           ...state.touched,
@@ -249,8 +247,8 @@ export default function fieldHostRendererActions({ setState }) {
         value: newFormValue
       });
 
-      if (state.onChange) {
-        const params: IFormChangeNotificationParams = {
+      if (state.onFieldParentChange) {
+        const params: IFieldParentChangeNotificationParams = {
           formValue: newFormValue,
           newValue: formPathToValue(newFormValue, fieldPath),
           oldValue,
@@ -263,13 +261,43 @@ export default function fieldHostRendererActions({ setState }) {
           changedIndicies.push(i);
         }
 
-         if (type === 'add') {
+        if (type === 'add') {
           params.addedIndicies = changedIndicies;
         } else if (type === 'remove') {
           params.removedIndicies = changedIndicies;
         }
 
-        return onChange(state, params);
+        if (state.onFieldParentChange.length > 1) {
+          setState({
+            readOnly: {
+              ...state.readOnly,
+              [fieldPath]: true,
+              ...newPaths.reduce((prev, curr) => {
+                prev[curr] = true;
+                return prev;
+              }, {})
+            }
+          });
+
+          return new Promise<Partial<IStoreState>>((resolve) => {
+            state.onFieldParentChange(params, () => {
+              const newState = getState();
+
+              resolve({
+                readOnly: {
+                  ...newState.readOnly,
+                  [fieldPath]: false,
+                  ...newPaths.reduce((prev, curr) => {
+                    prev[curr] = false;
+                    return prev;
+                  }, {})
+                }
+              });
+            });
+          });
+        }
+
+        state.onFieldParentChange(params);
       }
 
       return {};

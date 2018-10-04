@@ -10,9 +10,11 @@ export {
   IFormProps,
   FormSubmission,
   FormSubmissionCallback,
-  FormChangeNotification,
-  FormChangeNotificationType,
-  IFormChangeNotificationParams,
+  FieldChangeNotification,
+  FieldChangeNotificationType,
+  IFieldChangeNotificationParams,
+  FieldParentChangeNotification,
+  IFieldParentChangeNotificationParams,
   ICollectionReferences,
   CollectionReference
 } from './form/form.props';

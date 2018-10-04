@@ -30,9 +30,12 @@ export default class FieldHostRenderer extends BaseComponent<
 > {
   public render() {
     const {
+      readOnly,
       errors,
+      fieldPath,
       fieldReference,
       fieldValue,
+      parentPath,
       rendererId,
       rendererOptions,
       touched
@@ -50,6 +53,7 @@ export default class FieldHostRenderer extends BaseComponent<
       onChange: this.onChange,
       onFocus: this.onFocus,
       placeholder: field.placeholder,
+      readOnly: readOnly[parentPath] || readOnly[fieldPath] || false,
       rendererId,
       required: field.required,
       value: fieldValue
@@ -128,7 +132,11 @@ export default class FieldHostRenderer extends BaseComponent<
     this.changeValue(field, fieldPath, value);
   };
 
-  private onAdd = (index: number, count: number, navigate: boolean = true) => {
+  private onAdd = (
+    index: number,
+    count: number = 1,
+    navigate: boolean = true
+  ) => {
     const { changeArrayValue, push, fieldReference, fieldPath } = this.props;
     const linkedStructField = fieldReference.field as ILinkedStructField;
 
@@ -203,13 +211,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
     const linkedStructField = fieldReference.field as ILinkedStructField;
 
-    changeArrayValue(
-      linkedStructField,
-      fieldPath,
-      'remove',
-      index,
-      1
-    );
+    changeArrayValue(linkedStructField, fieldPath, 'remove', index, 1);
   };
 
   private renderField(
@@ -217,13 +219,16 @@ export default class FieldHostRenderer extends BaseComponent<
     fieldProps: IFieldRenderer
   ) {
     const {
-      fieldPath,
-      rendererOptions,
+      readOnly,
       childErrors,
       collectionReferences,
+      parentPath,
+      fieldPath,
+      formValue,
       parentValue,
-      formValue
+      rendererOptions
     } = this.props;
+
     const { field } = fieldReference;
 
     switch (field.type) {
@@ -324,6 +329,8 @@ export default class FieldHostRenderer extends BaseComponent<
 
         let values = [];
 
+        const readOnlyValues = {};
+
         if (Array.isArray(fieldProps.value)) {
           values = fieldProps.value as object[];
         }
@@ -336,18 +343,31 @@ export default class FieldHostRenderer extends BaseComponent<
         }
 
         if (isTable) {
-          const mappedValue = values.map((value) =>
-            block.fields.map(({ field: blockField }) => value[blockField.name])
-          );
+          const mappedValue: any[][] = [];
+
+          values.forEach((value, index) => {
+            mappedValue.push(
+              block.fields.map(
+                ({ field: blockField }) => value[blockField.name]
+              )
+            );
+
+            readOnlyValues[index] =
+              readOnly[parentPath] ||
+              readOnly[fieldPath] ||
+              readOnly[`${fieldPath}.${index}`] ||
+              false;
+          });
 
           const tableLinkedStructFieldProps: ITableLinkedStructRenderer = {
             ...fieldProps,
             canAdd: this.canAdd,
             canRemove: this.canRemove,
             headers: block.fields.map((x) => x.field.label.short),
-            onAdd: () => this.onAdd((mappedValue && mappedValue.length) || 0, 1),
+            onAdd: () => this.onAdd((mappedValue && mappedValue.length) || 0),
             onEdit: this.onEdit,
             onRemove: this.onRemove,
+            readOnlyValues,
             value: mappedValue,
             valueErrorIndicators: childErrors
           };
@@ -356,6 +376,12 @@ export default class FieldHostRenderer extends BaseComponent<
         } else {
           const items = values.map((_, index) => {
             const itemPath = `${fieldPath}.${index}`;
+
+            readOnlyValues[index] =
+              readOnly[parentPath] ||
+              readOnly[fieldPath] ||
+              readOnly[itemPath] ||
+              false;
 
             return (
               <BlockHostRenderer
@@ -371,8 +397,9 @@ export default class FieldHostRenderer extends BaseComponent<
             ...fieldProps,
             canAdd: this.canAdd,
             canRemove: this.canRemove,
-            onAdd: () => this.onAdd((values && values.length) || 0, 1),
+            onAdd: () => this.onAdd((values && values.length) || 0),
             onRemove: this.onRemove,
+            readOnlyRenderedItems: readOnlyValues,
             renderedItems: items
           };
 

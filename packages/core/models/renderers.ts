@@ -74,6 +74,7 @@ export interface IFieldRenderer extends IRenderer {
   errors: string[];
   value?: FieldValue;
   required: boolean;
+  readOnly: boolean;
   onFocus: (e: FieldFocusEvent) => void;
   onBlur: (e: FieldBlurEvent) => void;
   onChange: (e: FieldChangeEvent) => void;
@@ -106,6 +107,7 @@ export interface ITableLinkedStructRenderer extends IFieldRenderer {
   headers: string[];
   value: string[][];
   valueErrorIndicators: { [index: number]: boolean };
+  readOnlyValues: { [index: number]: boolean };
   canAdd: () => boolean;
   canRemove: (index: number) => boolean;
   onAdd: () => void;
@@ -115,6 +117,7 @@ export interface ITableLinkedStructRenderer extends IFieldRenderer {
 
 export interface IInlinedLinkedStructRenderer extends IFieldRenderer {
   renderedItems: JSX.Element[];
+  readOnlyRenderedItems: { [index: number]: boolean };
   canAdd: () => boolean;
   canRemove: (index: number) => boolean;
   onAdd: () => void;

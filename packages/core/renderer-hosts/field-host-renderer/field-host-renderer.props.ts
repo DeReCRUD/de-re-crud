@@ -28,6 +28,7 @@ export interface IFieldHostRendererProps
   parentValue: ComplexFieldValue;
   formValue: object;
   touched: boolean;
+  readOnly: { [path: string]: boolean };
   errors: string[];
   childErrors: { [index: number]: boolean };
   focusField: (field: IField, fieldPath: string) => void;
@@ -45,5 +46,4 @@ export interface IFieldHostRendererProps
     count: number
   ) => void;
   push: (state: INavState) => void;
-  pop: () => void;
 }

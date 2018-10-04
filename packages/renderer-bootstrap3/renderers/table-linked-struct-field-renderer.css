@@ -14,6 +14,11 @@
   cursor: pointer;
 }
 
+.bootstrap3-table-linked-struct-renderer-row-actions i.disabled {
+  cursor: not-allowed;
+  color: #ccc;
+}
+
 .bootstrap3-table-linked-struct-renderer .table {
   margin-bottom: 0;
 }
