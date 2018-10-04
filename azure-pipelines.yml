@@ -22,8 +22,7 @@ steps:
   displayName: 'Run Tests and Coverage'
 
 - script: |
-    cp -R scripts/ $(Build.ArtifactStagingDirectory)/scripts/
-    cp -R dist/ $(Build.ArtifactStagingDirectory)/dist/
+    cp -R dist/ $(Build.ArtifactStagingDirectory)
   displayName: 'Copy Artifacts'
 
 - task: PublishBuildArtifacts@1
