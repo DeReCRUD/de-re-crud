@@ -10,6 +10,7 @@ steps:
 - script: |
     yarn install
     yarn bootstrap
+    yarn add -D -W jest-junit
   displayName: 'Install Dependencies'
 
 - script: yarn lint
@@ -18,8 +19,21 @@ steps:
 - script: yarn build
   displayName: 'Run Build'
 
-- script: yarn cover
+- script: yarn cover --ci --reporters=default --reporters=jest-junit --coverageReporters=lcov --coverageReporters=cobertura
   displayName: 'Run Tests and Coverage'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit.xml'
+  displayName: 'Publish Test Results'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/coverage/lcov-report'
+  displayName: 'Publish Code Coverage Results'
 
 - script: |
     cp -R dist/ $(Build.ArtifactStagingDirectory)
