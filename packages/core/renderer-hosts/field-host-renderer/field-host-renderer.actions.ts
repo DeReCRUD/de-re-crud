@@ -1,7 +1,7 @@
 import {
+  FieldChangeNotificationType,
   IFieldChangeNotificationParams,
-  IFieldParentChangeNotificationParams,
-  FieldChangeNotificationType
+  IFieldParentChangeNotificationParams
 } from '../../form/form.props';
 import {
   ComplexFieldValue,
