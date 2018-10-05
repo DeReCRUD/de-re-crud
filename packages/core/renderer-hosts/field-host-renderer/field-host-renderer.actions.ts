@@ -280,10 +280,14 @@ export default function fieldHostRendererActions({ getState, setState }) {
           });
 
           return new Promise<Partial<IStoreState>>((resolve) => {
-            state.onFieldParentChange(params, () => {
+            state.onFieldParentChange(params, (externalErrors) => {
               const newState = getState();
 
               resolve({
+                externalErrors: {
+                  ...newState.externalErrors,
+                  [fieldPath]: externalErrors
+                },
                 readOnly: {
                   ...newState.readOnly,
                   [fieldPath]: false,

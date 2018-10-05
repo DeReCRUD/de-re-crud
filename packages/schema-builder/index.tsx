@@ -2,7 +2,8 @@ import Form from '@de-re-crud/core/form';
 import {
   FormSubmissionCallback,
   ICollectionReferences,
-  IFieldChangeNotificationParams
+  IFieldChangeNotificationParams,
+  IFieldParentChangeNotificationParams
 } from '@de-re-crud/core/form/form.props';
 import Logger from '@de-re-crud/core/logger';
 import { IRendererOptions } from '@de-re-crud/core/models/renderer-options';
@@ -122,7 +123,9 @@ export default class App extends Component<{}, IState> {
     Logger.debug('field changed', params);
   };
 
-  private onFieldParentChange = (params: IFieldChangeNotificationParams) => {
+  private onFieldParentChange = (
+    params: IFieldParentChangeNotificationParams
+  ) => {
     Logger.debug('field parent changed', params);
   };
 
