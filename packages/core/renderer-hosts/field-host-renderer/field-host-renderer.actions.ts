@@ -124,6 +124,10 @@ export default function fieldHostRendererActions({ getState, setState }) {
       }
 
       const updates: Partial<IStoreState> = {
+        externalErrors: {
+          ...state.externalErrors,
+          [fieldPath]: []
+        },
         value: newFormValue
       };
 
@@ -240,6 +244,10 @@ export default function fieldHostRendererActions({ getState, setState }) {
 
       setState({
         errors: newErrors,
+        externalErrors: {
+          ...state.externalErrors,
+          [fieldPath]: []
+        },
         touched: {
           ...state.touched,
           [fieldPath]: true
