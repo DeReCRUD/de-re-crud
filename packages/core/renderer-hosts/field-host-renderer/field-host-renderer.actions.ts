@@ -70,7 +70,7 @@ function onFieldChangeAsync(
   params: IFieldChangeNotificationParams
 ) {
   delete DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path];
-  
+
   const state = getState();
 
   setState({
