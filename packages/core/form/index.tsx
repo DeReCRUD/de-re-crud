@@ -15,7 +15,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
     const {
       block,
       collectionReferences,
-      errors,
+      initialErrors,
       onCancel,
       onFieldChange,
       onFieldChangeType,
@@ -38,7 +38,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       buttonOptions,
       collectionReferences,
       {
-        errors,
+        initialErrors,
         initialValue,
         onCancel,
         onFieldChange,

@@ -64,7 +64,7 @@ export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;
   rendererOptions?: IRendererOptions;
   buttonOptions?: IButtonOptions;
-  errors?: IErrors;
+  initialErrors?: IErrors;
   initialValue?: object;
   onSubmit: FormSubmission;
   onFieldChange?: FieldChangeNotification;

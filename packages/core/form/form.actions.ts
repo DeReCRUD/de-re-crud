@@ -102,7 +102,7 @@ function validateBlock(
   };
 }
 
-export default function formActions({ getState, setState }) {
+export default function formActions({ setState }) {
   return {
     submitForm: (
       state: IStoreState
@@ -127,19 +127,19 @@ export default function formActions({ getState, setState }) {
       return new Promise<Partial<IStoreState>>((resolve) => {
         state.onSubmit(outputValue, (submissionErrors) => {
           if (submissionErrors) {
-            const updatedState = getState();
-
             resolve({
-              errors: {
-                ...updatedState.errors,
-                ...submissionErrors,
-                submitting: false
-              }
+              externalChildErrors: generateChildErrors(submissionErrors),
+              externalErrors: submissionErrors,
+              submitting: false
             });
             return;
           }
 
-          resolve({ submitting: false });
+          resolve({
+            externalChildErrors: {},
+            externalErrors: {},
+            submitting: false
+          });
         });
       });
     }

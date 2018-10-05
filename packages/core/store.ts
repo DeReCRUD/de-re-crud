@@ -50,6 +50,8 @@ export interface IStoreState {
   readOnly: { [path: string]: boolean };
   errors: IErrors;
   childErrors: IChildErrors;
+  externalErrors: IErrors;
+  externalChildErrors: IChildErrors;
   rendererOptions: IRendererOptions;
   buttonOptions: IButtonOptions;
   collectionReferences?: ICollectionReferences;
@@ -79,7 +81,7 @@ export function createStore(
   buttonOptions?: IButtonOptions,
   collectionReferences?: ICollectionReferences,
   formState?: {
-    errors?: IErrors;
+    initialErrors?: IErrors;
     initialValue?: object;
     onSubmit?: FormSubmission;
     onCancel?: () => void;
@@ -125,9 +127,11 @@ export function createStore(
       buttonOptions,
       optionDefaults.buttonOptions
     ),
-    childErrors: generateChildErrors(formState.errors),
+    childErrors: {},
     collectionReferences,
-    errors: formState.errors || {},
+    errors: {},
+    externalChildErrors: generateChildErrors(formState.initialErrors),
+    externalErrors: formState.initialErrors || {},
     focused: {},
     formId: ++FORM_COUNTER,
     initialValue,

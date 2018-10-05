@@ -18,15 +18,33 @@ const mapToProps = (
     readOnly,
     errors,
     childErrors,
+    externalChildErrors,
+    externalErrors,
     rendererOptions,
     collectionReferences
   }: IStoreState,
   { fieldPath, parentPath }: IFieldHostRendererConnectProps
 ): Partial<IFieldHostRendererProps> => {
+  const combinedChildErrors = {
+    ...externalChildErrors[fieldPath]
+  };
+
+  if (childErrors[fieldPath]) {
+    Object.keys(childErrors[fieldPath]).forEach((key) => {
+      if (!combinedChildErrors[key]) {
+        combinedChildErrors[key] = childErrors[fieldPath][key] || false;
+      }
+    });
+  }
+
+  const combinedErrors = [];
+  combinedErrors.push(...externalErrors[fieldPath]);
+  combinedErrors.push(...errors[fieldPath]);
+
   return {
-    childErrors: childErrors[fieldPath] || {},
+    childErrors: combinedChildErrors,
     collectionReferences,
-    errors: errors[fieldPath] || [],
+    errors: combinedErrors,
     fieldPath,
     fieldValue: formPathToValue(value, fieldPath),
     formValue: value,

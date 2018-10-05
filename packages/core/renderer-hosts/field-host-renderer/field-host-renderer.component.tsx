@@ -37,14 +37,13 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldValue,
       parentPath,
       rendererId,
-      rendererOptions,
-      touched
+      rendererOptions
     } = this.props;
 
     const field = fieldReference.field;
 
     const fieldProps: IFieldRenderer = {
-      errors: touched ? errors : [],
+      errors,
       fieldDescription: field.help,
       fieldName: field.name,
       fieldType: field.type,

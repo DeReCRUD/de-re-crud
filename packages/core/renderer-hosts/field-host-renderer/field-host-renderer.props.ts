@@ -29,6 +29,7 @@ export interface IFieldHostRendererProps
   formValue: object;
   touched: boolean;
   readOnly: { [path: string]: boolean };
+  externalErrors: string[];
   errors: string[];
   childErrors: { [index: number]: boolean };
   focusField: (field: IField, fieldPath: string) => void;
