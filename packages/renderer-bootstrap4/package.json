@@ -18,7 +18,7 @@
     "bootstrap": "~4"
   },
   "peerDependencies": {
-    "@de-re-crud/core": "0.5.x"
+    "@de-re-crud/core": "0.6.x"
   },
   "dependencies": {
     "preact": "~8"
