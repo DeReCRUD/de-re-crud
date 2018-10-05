@@ -23,9 +23,9 @@ let FORM_COUNTER = 0;
 
 export interface IStore {
   middleware(): void;
-  setState(state: any): void;
+  setState(state: Partial<IStoreState>): void;
   subscribe(cb: () => any): any;
-  getState(): object;
+  getState(): IStoreState;
   reset(): void;
 }
 
@@ -48,6 +48,7 @@ export interface IStoreState {
   focused: { [path: string]: SimpleFieldValue };
   touched: { [path: string]: boolean };
   readOnly: { [path: string]: boolean };
+  busy: { [path: string]: boolean };
   errors: IErrors;
   childErrors: IChildErrors;
   externalErrors: IErrors;
@@ -59,6 +60,7 @@ export interface IStoreState {
   onSubmit?: FormSubmission;
   onCancel?: () => void;
   onFieldChange?: FieldChangeNotification;
+  onFieldChangeInputTimeout?: number;
   onFieldChangeType?: FieldChangeNotificationType;
   onFieldParentChange?: FieldParentChangeNotification;
 }
@@ -86,6 +88,7 @@ export function createStore(
     onSubmit?: FormSubmission;
     onCancel?: () => void;
     onFieldChange?: FieldChangeNotification;
+    onFieldChangeInputTimeout?: number;
     onFieldChangeType?: FieldChangeNotificationType;
     onFieldParentChange?: FieldParentChangeNotification;
   }
@@ -123,6 +126,7 @@ export function createStore(
 
   const state: IStoreState = {
     block: block || 'default',
+    busy: {},
     buttonOptions: parseButtonOptions(
       buttonOptions,
       optionDefaults.buttonOptions
@@ -138,6 +142,7 @@ export function createStore(
     navStack: [],
     onCancel: formState && formState.onCancel,
     onFieldChange: formState && formState.onFieldChange,
+    onFieldChangeInputTimeout: formState.onFieldChangeInputTimeout,
     onFieldChangeType: (formState && formState.onFieldChangeType) || 'blur',
     onFieldParentChange: formState && formState.onFieldParentChange,
     onSubmit: formState && formState.onSubmit,

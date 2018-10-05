@@ -18,6 +18,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       initialErrors,
       onCancel,
       onFieldChange,
+      onFieldChangeInputTimeout,
       onFieldChangeType,
       onFieldParentChange,
       onSubmit,
@@ -42,6 +43,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
         initialValue,
         onCancel,
         onFieldChange,
+        onFieldChangeInputTimeout,
         onFieldChangeType,
         onFieldParentChange,
         onSubmit
@@ -55,12 +57,14 @@ export default class Form extends BaseComponent<IFormConnectProps> {
 
   public componentWillReceiveProps(nextProps: IFormConnectProps) {
     const allowedUpates = [
+      'type',
       'onSubmit',
       'onCancel',
       'onFieldChange',
+      'onFieldChangeInputTimeout',
       'onFieldChangeType',
-      'onFieldParentChildAdd',
-      'onFieldParentChildRemove',
+      'onFieldParentChange',
+      'buttonOptions',
       'rendererOptions'
     ];
 

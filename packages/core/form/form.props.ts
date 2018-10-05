@@ -49,12 +49,16 @@ export interface IFieldParentChangeNotificationParams {
   formValue: object;
 }
 
+export type FieldChangeNotificationCallback = (errors?: string[]) => void;
+
 export type FieldChangeNotification = (
-  params: IFieldChangeNotificationParams
+  params: IFieldChangeNotificationParams,
+  cb?: FieldChangeNotificationCallback
 ) => void;
-export type FieldChangeNotificationType = 'blur' | 'change';
+export type FieldChangeNotificationType = 'blur' | 'input';
 
 export type FieldParentChangeNotificationCallback = (errors?: string[]) => void;
+
 export type FieldParentChangeNotification = (
   params: IFieldParentChangeNotificationParams,
   cb?: FieldParentChangeNotificationCallback
@@ -68,6 +72,7 @@ export interface IFormConnectProps extends IFormBaseProps {
   initialValue?: object;
   onSubmit: FormSubmission;
   onFieldChange?: FieldChangeNotification;
+  onFieldChangeInputTimeout?: number;
   onFieldChangeType?: FieldChangeNotificationType;
   onFieldParentChange?: FieldParentChangeNotification;
 }

@@ -103,7 +103,7 @@ export default class App extends Component<{}, IState> {
               collectionReferences={this.collectionReferences}
               rendererOptions={renderer.options}
               onFieldChange={this.onFieldChange}
-              onFieldChangeType="change"
+              onFieldChangeType="input"
               onFieldParentChange={this.onFieldParentChange}
               onSubmit={this.onSubmit}
             />

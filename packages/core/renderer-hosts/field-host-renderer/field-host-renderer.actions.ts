@@ -1,11 +1,15 @@
-import { IFieldParentChangeNotificationParams } from '../../form/form.props';
+import {
+  IFieldChangeNotificationParams,
+  IFieldParentChangeNotificationParams,
+  FieldChangeNotificationType
+} from '../../form/form.props';
 import {
   ComplexFieldValue,
   IField,
   ILinkedStructField,
   SimpleFieldValue
 } from '../../models/schema';
-import { IStoreState } from '../../store';
+import { IStore, IStoreState } from '../../store';
 import createFieldParent from '../../utils/create-field-parent';
 import formPathToValue from '../../utils/form-path-to-value';
 import generateChildErrors from '../../utils/generate-child-errors';
@@ -16,7 +20,95 @@ import {
 
 export type ChangeArrayActionType = 'add' | 'remove';
 
-export default function fieldHostRendererActions({ getState, setState }) {
+const PENDING_FIELD_CHANGE_REQUESTS = {};
+const DEBOUNCED_FIELD_CHANGE_REQUESTS: {} = {};
+
+const generateId = () =>
+  Math.random()
+    .toString(36)
+    .substr(2, 9);
+
+function onFieldChange(
+  store: IStore,
+  type: FieldChangeNotificationType,
+  params: IFieldChangeNotificationParams
+) {
+  clearTimeout(DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path]);
+  delete DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path];
+  delete PENDING_FIELD_CHANGE_REQUESTS[params.path];
+
+  const { getState } = store;
+  const state = getState();
+
+  const id = generateId();
+
+  if (state.onFieldChange.length > 1) {
+    const { onFieldChangeInputTimeout } = state;
+
+    if (onFieldChangeInputTimeout && type === 'input') {
+      const timeoutId = setTimeout(
+        () => onFieldChangeAsync(id, store, params),
+        onFieldChangeInputTimeout
+      );
+
+      DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path] = timeoutId;
+      return;
+    }
+
+    onFieldChangeAsync(id, store, params);
+    return;
+  }
+
+  state.onFieldChange(params);
+
+  return {};
+}
+
+function onFieldChangeAsync(
+  id: string,
+  { getState, setState }: IStore,
+  params: IFieldChangeNotificationParams
+) {
+  delete DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path];
+  
+  const state = getState();
+
+  setState({
+    busy: {
+      ...state.busy,
+      [params.path]: true
+    }
+  });
+
+  return new Promise<Partial<IStoreState>>((resolve) => {
+    PENDING_FIELD_CHANGE_REQUESTS[params.path] = id;
+
+    state.onFieldChange(params, (externalErrors) => {
+      if (PENDING_FIELD_CHANGE_REQUESTS[params.path] !== id) {
+        return;
+      }
+
+      delete PENDING_FIELD_CHANGE_REQUESTS[params.path];
+
+      const newState = getState();
+
+      resolve({
+        busy: {
+          ...newState.busy,
+          [params.path]: false
+        },
+        externalErrors: {
+          ...newState.externalErrors,
+          [params.path]: externalErrors
+        }
+      });
+    });
+  });
+}
+
+export default function fieldHostRendererActions(store: IStore) {
+  const { getState, setState } = store;
+
   return {
     focusField: (
       state: IStoreState,
@@ -75,11 +167,11 @@ export default function fieldHostRendererActions({ getState, setState }) {
       });
 
       if (
-        oldValue !== newValue &&
         state.onFieldChange &&
-        state.onFieldChangeType === 'blur'
+        ((oldValue !== newValue && state.onFieldChangeType === 'blur') ||
+          DEBOUNCED_FIELD_CHANGE_REQUESTS[fieldPath])
       ) {
-        state.onFieldChange({
+        return onFieldChange(store, 'blur', {
           formValue: state.value,
           newValue,
           oldValue,
@@ -96,7 +188,7 @@ export default function fieldHostRendererActions({ getState, setState }) {
       field: IField,
       fieldPath: string,
       fieldValue: SimpleFieldValue
-    ): Partial<IStoreState> => {
+    ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const struct = state.structs.find((x) => x.name === field.struct);
       const oldValue = formPathToValue(state.value, fieldPath);
       const initialValue = formPathToValue(state.initialValue, fieldPath);
@@ -156,15 +248,17 @@ export default function fieldHostRendererActions({ getState, setState }) {
       if (
         oldValue !== fieldValue &&
         state.onFieldChange &&
-        state.onFieldChangeType === 'change'
+        state.onFieldChangeType === 'input'
       ) {
-        state.onFieldChange({
+        const params = {
           formValue: newFormValue,
           newValue: fieldValue,
           oldValue,
           parentValue,
           path: fieldPath
-        });
+        };
+
+        return onFieldChange(store, 'input', params);
       }
 
       return {};
