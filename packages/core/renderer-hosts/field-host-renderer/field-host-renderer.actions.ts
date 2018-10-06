@@ -44,18 +44,21 @@ function onFieldChange(
 
   if (state.onFieldChange.length > 1) {
     const { onFieldChangeInputTimeout } = state;
+    let timeoutId;
 
     if (onFieldChangeInputTimeout && type === 'input') {
-      const timeoutId = setTimeout(
+      timeoutId = setTimeout(
         () => onFieldChangeAsync(id, store, params),
         onFieldChangeInputTimeout
       );
-
-      DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path] = timeoutId;
-      return;
+    } else {
+      timeoutId = setTimeout(() => {
+        onFieldChangeAsync(id, store, params);
+      }, 0);
     }
 
-    onFieldChangeAsync(id, store, params);
+    DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path] = timeoutId;
+
     return;
   }
 
@@ -80,28 +83,26 @@ function onFieldChangeAsync(
     }
   });
 
-  return new Promise<Partial<IStoreState>>((resolve) => {
-    PENDING_FIELD_CHANGE_REQUESTS[params.path] = id;
+  PENDING_FIELD_CHANGE_REQUESTS[params.path] = id;
 
-    state.onFieldChange(params, (externalErrors) => {
-      if (PENDING_FIELD_CHANGE_REQUESTS[params.path] !== id) {
-        return;
+  state.onFieldChange(params, (externalErrors) => {
+    if (PENDING_FIELD_CHANGE_REQUESTS[params.path] !== id) {
+      return;
+    }
+
+    delete PENDING_FIELD_CHANGE_REQUESTS[params.path];
+
+    const newState = getState();
+
+    setState({
+      busy: {
+        ...newState.busy,
+        [params.path]: false
+      },
+      externalErrors: {
+        ...newState.externalErrors,
+        [params.path]: externalErrors
       }
-
-      delete PENDING_FIELD_CHANGE_REQUESTS[params.path];
-
-      const newState = getState();
-
-      resolve({
-        busy: {
-          ...newState.busy,
-          [params.path]: false
-        },
-        externalErrors: {
-          ...newState.externalErrors,
-          [params.path]: externalErrors
-        }
-      });
     });
   });
 }
