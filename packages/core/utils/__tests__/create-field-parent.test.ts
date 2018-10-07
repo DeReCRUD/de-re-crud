@@ -1,5 +1,15 @@
-import { IField } from '../../models/schema';
+import { Formatters } from '../../form/form.props';
+import { IField, ILinkedStructField } from '../../models/schema';
 import createFieldParent from '../create-field-parent';
+
+const formatters: Formatters = {
+  text: {
+    input: (value) => `${value}Formatted`,
+    output: () => {
+      throw new Error();
+    }
+  }
+};
 
 const fields: IField[] = [
   {
@@ -11,6 +21,7 @@ const fields: IField[] = [
     label: { short: 'short', medium: 'medium', long: 'long' },
     name: 'test1',
     required: false,
+    struct: 'struct',
     type: 'text',
     unique: false
   }
@@ -40,5 +51,40 @@ describe('createFieldParent', () => {
     delete fieldsWithoutInitialValues[0].initialValue;
 
     expect(createFieldParent(fieldsWithoutInitialValues, {})).toEqual({});
+  });
+
+  it('should return field parent with formatted values', () => {
+    expect(
+      createFieldParent(fields, { test1: 'Existing' }, formatters)
+    ).toEqual({
+      test1: 'ExistingFormatted'
+    });
+  });
+
+  it('should return field parent with nested initial values when field is linked struct', () => {
+    const fieldsWithLinkedStruct = fields.concat();
+    fieldsWithLinkedStruct[0] = {
+      ...fields[0],
+      reference: {
+        block: {},
+        struct: {
+          fields: [
+            {
+              initialValue: 'Test2',
+              name: 'test2'
+            }
+          ]
+        }
+      },
+      type: 'linkedStruct'
+    } as ILinkedStructField;
+
+    expect(createFieldParent(fieldsWithLinkedStruct, { test1: [{}] })).toEqual({
+      test1: [
+        {
+          test2: 'Test2'
+        }
+      ]
+    });
   });
 });

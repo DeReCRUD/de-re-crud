@@ -5,6 +5,7 @@ import {
   FieldChangeNotification,
   FieldChangeNotificationType,
   FieldParentChangeNotification,
+  Formatters,
   FormSubmission,
   FormType,
   ICollectionReferences
@@ -53,6 +54,7 @@ export interface IStoreState {
   childErrors: IChildErrors;
   externalErrors: IErrors;
   externalChildErrors: IChildErrors;
+  formatters: Formatters;
   rendererOptions: IRendererOptions;
   buttonOptions: IButtonOptions;
   collectionReferences?: ICollectionReferences;
@@ -79,49 +81,40 @@ export function createStore(
   struct: string,
   type?: FormType,
   block?: string,
+  formatters?: Formatters,
   rendererOptions?: IRendererOptions,
   buttonOptions?: IButtonOptions,
   collectionReferences?: ICollectionReferences,
-  formState?: {
-    initialErrors?: IErrors;
-    initialValue?: object;
-    onSubmit?: FormSubmission;
-    onCancel?: () => void;
-    onFieldChange?: FieldChangeNotification;
-    onFieldChangeInputTimeout?: number;
-    onFieldChangeType?: FieldChangeNotificationType;
-    onFieldParentChange?: FieldParentChangeNotification;
-  }
+  initialErrors?: IErrors,
+  initialValue?: object,
+  onSubmit?: FormSubmission,
+  onCancel?: () => void,
+  onFieldChange?: FieldChangeNotification,
+  onFieldChangeInputTimeout?: number,
+  onFieldChangeType?: FieldChangeNotificationType,
+  onFieldParentChange?: FieldParentChangeNotification
 ): IStore {
   const structs = SchemaParser.parse(schema);
 
   const optionDefaults = DeReCrudOptions.getDefaults();
 
-  let initialValue;
-  let inferredType: FormType;
+  const structReference = structs.find((x) => x.name === struct);
+  initialValue = createFieldParent(
+    structReference.fields,
+    initialValue,
+    formatters
+  );
 
   if (!type) {
-    const structReference = structs.find((x) => x.name === struct);
+    const keyFields = structReference.fields.filter((x) => x.keyField);
 
-    if (structReference) {
-      initialValue = createFieldParent(
-        structReference.fields,
-        formState && formState.initialValue
+    const allKeyFieldsSet =
+      keyFields.length > 0 &&
+      keyFields.every(
+        (keyField) => typeof initialValue[keyField.name] !== 'undefined'
       );
 
-      const keyFields = structReference.fields.filter((x) => x.keyField);
-
-      const allKeyFieldsSet =
-        keyFields.length > 0 &&
-        keyFields.every(
-          (keyField) => typeof initialValue[keyField.name] !== 'undefined'
-        );
-
-      inferredType = allKeyFieldsSet ? 'update' : 'create';
-    } else {
-      initialValue = {};
-      inferredType = 'create';
-    }
+    type = allKeyFieldsSet ? 'update' : 'create';
   }
 
   const state: IStoreState = {
@@ -134,25 +127,26 @@ export function createStore(
     childErrors: {},
     collectionReferences,
     errors: {},
-    externalChildErrors: generateChildErrors(formState.initialErrors),
-    externalErrors: formState.initialErrors || {},
+    externalChildErrors: generateChildErrors(initialErrors),
+    externalErrors: initialErrors || {},
     focused: {},
     formId: ++FORM_COUNTER,
+    formatters: formatters || {},
     initialValue,
     navStack: [],
-    onCancel: formState && formState.onCancel,
-    onFieldChange: formState && formState.onFieldChange,
-    onFieldChangeInputTimeout: formState.onFieldChangeInputTimeout,
-    onFieldChangeType: (formState && formState.onFieldChangeType) || 'blur',
-    onFieldParentChange: formState && formState.onFieldParentChange,
-    onSubmit: formState && formState.onSubmit,
+    onCancel,
+    onFieldChange,
+    onFieldChangeInputTimeout,
+    onFieldChangeType: onFieldChangeType || 'blur',
+    onFieldParentChange,
+    onSubmit,
     readOnly: {},
     rendererOptions: rendererOptions || optionDefaults.rendererOptions,
     schema,
     struct,
     structs,
     touched: {},
-    type: inferredType,
+    type,
     value: initialValue
   };
 

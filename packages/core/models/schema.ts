@@ -4,7 +4,7 @@ export type StampSize = 1 | 2 | 3 | 4 | 5 | 6;
 export type FieldConditionFunc = (fieldParent: object, form: object) => boolean;
 export type BlockConditionFunc = (form: object) => boolean;
 
-export type FieldType =
+export type SimpleFieldType =
   | 'text'
   | 'keyword'
   | 'integer'
@@ -12,7 +12,10 @@ export type FieldType =
   | 'date'
   | 'boolean'
   | 'percent'
-  | 'money'
+  | 'money';
+
+export type FieldType =
+  | SimpleFieldType
   | 'foreignKey'
   | 'linkedStruct'
   | 'list'

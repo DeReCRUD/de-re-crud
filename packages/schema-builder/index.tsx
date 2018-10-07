@@ -129,7 +129,9 @@ export default class App extends Component<{}, IState> {
     Logger.debug('field parent changed', params);
   };
 
-  private onSubmit = (_: object, cb: FormSubmissionCallback) => {
+  private onSubmit = (value: any, cb: FormSubmissionCallback) => {
+    Logger.debug('submitted values', value);
+
     cb();
   };
 
