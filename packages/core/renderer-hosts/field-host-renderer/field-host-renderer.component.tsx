@@ -134,7 +134,7 @@ export default class FieldHostRenderer extends BaseComponent<
     } = this.props;
 
     this.changeValue(field, fieldPath, value);
-  }
+  };
 
   private onAdd = (
     index: number,
