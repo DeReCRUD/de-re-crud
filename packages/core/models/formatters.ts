@@ -1,4 +1,4 @@
-import { SimpleFieldValue } from './schema';
+import { SimpleFieldType, SimpleFieldValue } from './schema';
 
 export type FormatterCallback = (value: SimpleFieldValue) => SimpleFieldValue;
 

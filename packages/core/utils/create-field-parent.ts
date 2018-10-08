@@ -1,4 +1,4 @@
-import { Formatters } from '../form/form.props';
+import { Formatters } from '../models/formatters';
 import { IField, ILinkedStructField, SimpleFieldType } from '../models/schema';
 
 export default function createFieldParent(
