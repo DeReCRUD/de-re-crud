@@ -15,7 +15,6 @@ export default class Form extends BaseComponent<IFormConnectProps> {
     const {
       block,
       collectionReferences,
-      formatters,
       initialErrors,
       onCancel,
       onFieldChange,
@@ -36,7 +35,6 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       struct,
       type,
       block,
-      formatters,
       rendererOptions,
       buttonOptions,
       collectionReferences,
@@ -66,8 +64,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       'onFieldParentChange',
       'buttonOptions',
       'rendererOptions',
-      'collectionReferences',
-      'formatters'
+      'collectionReferences'
     ];
 
     if (

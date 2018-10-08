@@ -1,32 +1,22 @@
-import { Formatters } from '../models/formatters';
-import { IField, ILinkedStructField, SimpleFieldType } from '../models/schema';
+import { IField, ILinkedStructField } from '../models/schema';
 
 export default function createFieldParent(
   fields: IField[],
-  parentValue: object = {},
-  formatters: Formatters = {}
+  parentValue: object = {}
 ) {
   const value = { ...parentValue };
 
-  assignDefaultValues(fields, value, formatters);
+  assignDefaultValues(fields, value);
 
   return value;
 }
 
-function assignDefaultValues(
-  fields: IField[],
-  value: object = {},
-  formatters: Formatters = {}
-) {
+function assignDefaultValues(fields: IField[], value: object = {}) {
   fields.forEach((field) => {
     const valueDefined = typeof value[field.name] !== 'undefined';
 
     if (field.hasOwnProperty('initialValue') && !valueDefined) {
       value[field.name] = field.initialValue;
-    } else if (valueDefined && formatters[field.type]) {
-      value[field.name] = formatters[field.type as SimpleFieldType].input(
-        value[field.name]
-      );
     }
 
     if (
@@ -40,7 +30,7 @@ function assignDefaultValues(
       } = linkedStructField.reference.struct;
 
       value[field.name].forEach((item) => {
-        assignDefaultValues(linkedStructChildFields, item, formatters);
+        assignDefaultValues(linkedStructChildFields, item);
       });
     }
   });

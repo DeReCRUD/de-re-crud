@@ -1,10 +1,5 @@
 import { IErrors } from '../models/errors';
-import {
-  IBlock,
-  ILinkedStructField,
-  IStruct,
-  SimpleFieldType
-} from '../models/schema';
+import { IBlock, ILinkedStructField, IStruct } from '../models/schema';
 import { IStoreState } from '../store';
 import formPathToValue from '../utils/form-path-to-value';
 import generateChildErrors from '../utils/generate-child-errors';
@@ -94,10 +89,6 @@ function validateBlock(
       typeof outputValue[field.name] === 'undefined'
     ) {
       outputValue[field.name] = field.missingValue;
-    } else if (state.formatters[field.type]) {
-      outputValue[field.name] = state.formatters[
-        field.type as SimpleFieldType
-      ].output(outputValue[field.name]);
     }
 
     touched[fieldPath] = true;

@@ -1,6 +1,5 @@
 import { IButtonOptions } from '../models/button-options';
 import { IErrors } from '../models/errors';
-import { Formatters } from '../models/formatters';
 import { IRendererOptions } from '../models/renderer-options';
 import { FieldValue, IStruct } from '../models/schema';
 import { INavState } from '../store';
@@ -67,7 +66,6 @@ export type FieldParentChangeNotification = (
 
 export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;
-  formatters?: Formatters;
   rendererOptions?: IRendererOptions;
   buttonOptions?: IButtonOptions;
   initialErrors?: IErrors;

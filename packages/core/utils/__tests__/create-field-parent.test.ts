@@ -1,15 +1,5 @@
-import { Formatters } from '../../form/form.props';
 import { IField, ILinkedStructField } from '../../models/schema';
 import createFieldParent from '../create-field-parent';
-
-const formatters: Formatters = {
-  text: {
-    input: (value) => `${value}Formatted`,
-    output: () => {
-      throw new Error();
-    }
-  }
-};
 
 const fields: IField[] = [
   {
@@ -51,14 +41,6 @@ describe('createFieldParent', () => {
     delete fieldsWithoutInitialValues[0].initialValue;
 
     expect(createFieldParent(fieldsWithoutInitialValues, {})).toEqual({});
-  });
-
-  it('should return field parent with formatted values', () => {
-    expect(
-      createFieldParent(fields, { test1: 'Existing' }, formatters)
-    ).toEqual({
-      test1: 'ExistingFormatted'
-    });
   });
 
   it('should return field parent with nested initial values when field is linked struct', () => {
