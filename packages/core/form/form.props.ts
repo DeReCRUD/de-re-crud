@@ -1,12 +1,8 @@
 import { IButtonOptions } from '../models/button-options';
 import { IErrors } from '../models/errors';
+import { Formatters } from '../models/formatters';
 import { IRendererOptions } from '../models/renderer-options';
-import {
-  FieldValue,
-  IStruct,
-  SimpleFieldType,
-  SimpleFieldValue
-} from '../models/schema';
+import { FieldValue, IStruct } from '../models/schema';
 import { INavState } from '../store';
 
 export interface ICollectionReferenceParams {
@@ -68,15 +64,6 @@ export type FieldParentChangeNotification = (
   params: IFieldParentChangeNotificationParams,
   cb?: FieldParentChangeNotificationCallback
 ) => void;
-
-export type FormatterCallback = (value: SimpleFieldValue) => SimpleFieldValue;
-
-export interface IFormatter {
-  input: FormatterCallback;
-  output: FormatterCallback;
-}
-
-export type Formatters = { [key in SimpleFieldType]?: IFormatter };
 
 export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;

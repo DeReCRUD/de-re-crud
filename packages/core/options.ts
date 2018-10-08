@@ -1,4 +1,5 @@
 import { IButtonOptions } from './models/button-options';
+import { Formatters } from './models/formatters';
 import { IRendererOptions } from './models/renderer-options';
 
 let optionDefaultsInitialized = false;
@@ -42,4 +43,5 @@ export class DeReCrudOptions {
 
   public rendererOptions?: IRendererOptions;
   public buttonOptions?: IButtonOptions;
+  public formatters?: Formatters;
 }
