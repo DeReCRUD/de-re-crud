@@ -188,7 +188,7 @@ export default function fieldHostRendererActions(store: IStore) {
       state: IStoreState,
       field: IField,
       fieldPath: string,
-      fieldValue: SimpleFieldValue
+      fieldValue: SimpleFieldValue | SimpleFieldValue[]
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const struct = state.structs.find((x) => x.name === field.struct);
       const oldValue = formPathToValue(state.value, fieldPath);

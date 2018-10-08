@@ -51,6 +51,7 @@ export default class FieldHostRenderer extends BaseComponent<
       onBlur: this.onBlur,
       onChange: this.onChange,
       onFocus: this.onFocus,
+      onValueChange: this.onValueChange,
       placeholder: field.placeholder,
       readOnly: readOnly[parentPath] || readOnly[fieldPath] || false,
       rendererId,
@@ -75,7 +76,7 @@ export default class FieldHostRenderer extends BaseComponent<
   private changeValue = (
     field: IField,
     fieldPath: string,
-    value: SimpleFieldValue
+    value: SimpleFieldValue | SimpleFieldValue[]
   ) => {
     this.props.changeValue(field, fieldPath, value);
   };
@@ -102,7 +103,7 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private onChange = (e: FieldChangeEvent) => {
-    let value;
+    let value: SimpleFieldValue | SimpleFieldValue[];
 
     switch (e.target.type) {
       case 'checkbox':
@@ -123,13 +124,17 @@ export default class FieldHostRenderer extends BaseComponent<
         break;
     }
 
+    this.onValueChange(value);
+  };
+
+  private onValueChange(value: SimpleFieldValue | SimpleFieldValue[]) {
     const {
       fieldReference: { field },
       fieldPath
     } = this.props;
 
     this.changeValue(field, fieldPath, value);
-  };
+  }
 
   private onAdd = (
     index: number,

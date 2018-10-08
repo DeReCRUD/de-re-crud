@@ -37,7 +37,7 @@ export interface IFieldHostRendererProps
   changeValue: (
     field: IField,
     fieldPath: string,
-    value: SimpleFieldValue
+    value: SimpleFieldValue | SimpleFieldValue[]
   ) => void;
   changeArrayValue: (
     field: ILinkedStructField,
