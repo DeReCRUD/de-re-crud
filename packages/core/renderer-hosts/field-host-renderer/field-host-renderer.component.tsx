@@ -127,7 +127,7 @@ export default class FieldHostRenderer extends BaseComponent<
     this.onValueChange(value);
   };
 
-  private onValueChange(value: SimpleFieldValue | SimpleFieldValue[]) {
+  private onValueChange = (value: SimpleFieldValue | SimpleFieldValue[]) => {
     const {
       fieldReference: { field },
       fieldPath
