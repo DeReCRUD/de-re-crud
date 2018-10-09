@@ -361,7 +361,7 @@ export default class FieldHostRenderer extends BaseComponent<
         }
 
         if (values.length < minInstances) {
-          const startingIndex = values.length - 1;
+          const startingIndex = values.length;
           const itemsToCreate = minInstances - values.length;
 
           this.onAdd(startingIndex, itemsToCreate, false);
