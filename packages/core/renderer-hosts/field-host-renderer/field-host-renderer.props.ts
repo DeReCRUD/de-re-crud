@@ -26,6 +26,7 @@ export interface IFieldHostRendererProps
   fieldPath: string;
   fieldValue: FieldValue;
   parentValue: ComplexFieldValue;
+  formLocked: boolean;
   formValue: object;
   touched: boolean;
   readOnly: { [path: string]: boolean };
@@ -44,7 +45,8 @@ export interface IFieldHostRendererProps
     fieldPath: string,
     type: ChangeArrayActionType,
     startingIndex: number,
-    count: number
+    count: number,
+    navigateFunc?: (index: number) => void
   ) => void;
   push: (state: INavState) => void;
 }

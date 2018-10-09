@@ -116,7 +116,7 @@ export default function formActions({ setState }) {
       setState({
         childErrors: generateChildErrors(errors),
         errors,
-        submitting: !hasErrors,
+        formSubmitting: !hasErrors,
         touched
       });
 
@@ -130,7 +130,7 @@ export default function formActions({ setState }) {
             resolve({
               externalChildErrors: generateChildErrors(submissionErrors),
               externalErrors: submissionErrors,
-              submitting: false
+              formSubmitting: false
             });
             return;
           }
@@ -138,7 +138,7 @@ export default function formActions({ setState }) {
           resolve({
             externalChildErrors: {},
             externalErrors: {},
-            submitting: false
+            formSubmitting: false
           });
         });
       });

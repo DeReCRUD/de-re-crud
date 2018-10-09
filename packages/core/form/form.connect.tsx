@@ -16,18 +16,18 @@ const mapToProps = ({
   schema,
   struct,
   structs,
-  submitting,
+  formSubmitting,
   type
 }: IStoreState): Partial<IFormProps> => ({
   block,
   buttonOptions,
+  formSubmitting,
   navStack,
   onCancel,
   rendererOptions,
   schema,
   struct,
   structs,
-  submitting,
   type
 });
 

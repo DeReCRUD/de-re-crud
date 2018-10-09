@@ -82,7 +82,7 @@ export interface IFormProps extends IFormBaseProps {
   rendererOptions: IRendererOptions;
   buttonOptions: IButtonOptions;
   structs: IStruct[];
-  submitting: boolean;
+  formSubmitting: boolean;
   navStack: INavState[];
   submitForm: () => void;
   pop: () => void;

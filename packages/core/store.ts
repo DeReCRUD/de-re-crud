@@ -56,7 +56,8 @@ export interface IStoreState {
   rendererOptions: IRendererOptions;
   buttonOptions: IButtonOptions;
   collectionReferences?: ICollectionReferences;
-  submitting?: boolean;
+  formLocked: boolean;
+  formSubmitting: boolean;
   onSubmit?: FormSubmission;
   onCancel?: () => void;
   onFieldChange?: FieldChangeNotification;
@@ -124,6 +125,8 @@ export function createStore(
     externalErrors: initialErrors || {},
     focused: {},
     formId: ++FORM_COUNTER,
+    formLocked: false,
+    formSubmitting: false,
     initialValue,
     navStack: [],
     onCancel,

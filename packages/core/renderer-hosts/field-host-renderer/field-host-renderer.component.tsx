@@ -19,7 +19,6 @@ import {
   ILinkedStructField,
   ILinkedStructFieldReference,
   IListField,
-  IReferenceField,
   SimpleFieldValue
 } from '../../models/schema';
 import BlockHostRenderer from '../block-host-renderer';
@@ -30,12 +29,10 @@ export default class FieldHostRenderer extends BaseComponent<
 > {
   public render() {
     const {
-      readOnly,
       errors,
       fieldPath,
       fieldReference,
       fieldValue,
-      parentPath,
       rendererId,
       rendererOptions
     } = this.props;
@@ -53,7 +50,7 @@ export default class FieldHostRenderer extends BaseComponent<
       onFocus: this.onFocus,
       onValueChange: this.onValueChange,
       placeholder: field.placeholder,
-      readOnly: readOnly[parentPath] || readOnly[fieldPath] || false,
+      readOnly: this.isReadOnly(fieldPath),
       rendererId,
       required: field.required,
       value: fieldValue
@@ -72,6 +69,30 @@ export default class FieldHostRenderer extends BaseComponent<
       />
     );
   }
+
+  private isReadOnly = (path: string) => {
+    const { formLocked, readOnly } = this.props;
+
+    if (formLocked) {
+      return true;
+    }
+
+    while (path.length) {
+      const index = path.indexOf('.');
+
+      if (readOnly[path] === true) {
+        return true;
+      }
+
+      if (index === -1) {
+        break;
+      }
+
+      path = path.substring(index + 1);
+    }
+
+    return false;
+  };
 
   private changeValue = (
     field: IField,
@@ -141,24 +162,36 @@ export default class FieldHostRenderer extends BaseComponent<
     count: number = 1,
     navigate: boolean = true
   ) => {
-    const { changeArrayValue, push, fieldReference, fieldPath } = this.props;
+    const { changeArrayValue, fieldReference, fieldPath } = this.props;
+    const linkedStructField = fieldReference.field as ILinkedStructField;
+
+    const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
+    const shouldNavigate =
+      navigate && linkedStructFieldReference.hints.layout === 'table';
+
+    changeArrayValue(
+      linkedStructField,
+      fieldPath,
+      'add',
+      index,
+      count,
+      shouldNavigate ? this.navigate : null
+    );
+  };
+
+  private navigate = (index: number) => {
+    const { push, fieldReference, fieldPath } = this.props;
     const linkedStructField = fieldReference.field as ILinkedStructField;
 
     const {
       reference: { struct, block }
     } = linkedStructField;
 
-    const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
-
-    changeArrayValue(linkedStructField, fieldPath, 'add', index, count);
-
-    if (navigate && linkedStructFieldReference.hints.layout === 'table') {
-      push({
-        block: block.name,
-        path: `${fieldPath}.${index}`,
-        struct: struct.name
-      });
-    }
+    push({
+      block: block.name,
+      path: `${fieldPath}.${index}`,
+      struct: struct.name
+    });
   };
 
   private canAdd = () => {
@@ -197,17 +230,7 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private onEdit = (index: number) => {
-    const { push, fieldReference, fieldPath } = this.props;
-
-    const {
-      reference: { struct, block }
-    } = fieldReference.field as IReferenceField;
-
-    push({
-      block: block.name,
-      path: `${fieldPath}.${index}`,
-      struct: struct.name
-    });
+    this.navigate(index);
   };
 
   private onRemove = (index: number) => {
@@ -223,10 +246,8 @@ export default class FieldHostRenderer extends BaseComponent<
     fieldProps: IFieldRenderer
   ) {
     const {
-      readOnly,
       childErrors,
       collectionReferences,
-      parentPath,
       fieldPath,
       formValue,
       parentValue,
@@ -356,11 +377,7 @@ export default class FieldHostRenderer extends BaseComponent<
               )
             );
 
-            readOnlyValues[index] =
-              readOnly[parentPath] ||
-              readOnly[fieldPath] ||
-              readOnly[`${fieldPath}.${index}`] ||
-              false;
+            readOnlyValues[index] = this.isReadOnly(`${fieldPath}.${index}`);
           });
 
           const tableLinkedStructFieldProps: ITableLinkedStructRenderer = {
@@ -381,11 +398,7 @@ export default class FieldHostRenderer extends BaseComponent<
           const items = values.map((_, index) => {
             const itemPath = `${fieldPath}.${index}`;
 
-            readOnlyValues[index] =
-              readOnly[parentPath] ||
-              readOnly[fieldPath] ||
-              readOnly[itemPath] ||
-              false;
+            readOnlyValues[index] = this.isReadOnly(itemPath);
 
             return (
               <BlockHostRenderer

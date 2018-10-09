@@ -27,7 +27,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       rendererOptions,
       buttonOptions: { backButton, cancelButton, submitButton },
       navStack,
-      submitting,
+      formSubmitting,
       submitForm,
       pop,
       onCancel
@@ -119,7 +119,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
                     classes={submitButton.classNames}
                     text={submitButtonText}
                     onClick={submitForm}
-                    disabled={submitting}
+                    disabled={formSubmitting}
                   />
                 )}
                 {submitButton.visible && cancelButton.visible && ' '}
@@ -129,7 +129,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
                       classes={cancelButton.classNames}
                       text={cancelButton.text}
                       onClick={onCancel}
-                      disabled={submitting}
+                      disabled={formSubmitting}
                     />
                   )}
               </div>

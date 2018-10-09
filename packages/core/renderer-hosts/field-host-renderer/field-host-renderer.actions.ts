@@ -271,7 +271,8 @@ export default function fieldHostRendererActions(store: IStore) {
       fieldPath: string,
       type: ChangeArrayActionType,
       startingIndex: number,
-      count: number = 1
+      count: number = 1,
+      navigateFunc?: (index: number) => void
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const oldValue = formPathToValue(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
@@ -372,14 +373,7 @@ export default function fieldHostRendererActions(store: IStore) {
 
         if (state.onFieldParentChange.length > 1) {
           setState({
-            readOnly: {
-              ...state.readOnly,
-              [fieldPath]: true,
-              ...newPaths.reduce((prev, curr) => {
-                prev[curr] = true;
-                return prev;
-              }, {})
-            }
+            formLocked: true
           });
 
           return new Promise<Partial<IStoreState>>((resolve) => {
@@ -391,20 +385,16 @@ export default function fieldHostRendererActions(store: IStore) {
                   ...newState.externalErrors,
                   [fieldPath]: externalErrors
                 },
-                readOnly: {
-                  ...newState.readOnly,
-                  [fieldPath]: false,
-                  ...newPaths.reduce((prev, curr) => {
-                    prev[curr] = false;
-                    return prev;
-                  }, {})
-                }
+                formLocked: false
               });
+
+              navigateFunc(startingIndex);
             });
           });
         }
 
         state.onFieldParentChange(params);
+        navigateFunc(startingIndex);
       }
 
       return {};
