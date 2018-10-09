@@ -388,13 +388,18 @@ export default function fieldHostRendererActions(store: IStore) {
                 formLocked: false
               });
 
-              navigateFunc(startingIndex);
+              if (navigateFunc) {
+                navigateFunc(startingIndex);
+              }
             });
           });
         }
 
         state.onFieldParentChange(params);
-        navigateFunc(startingIndex);
+
+        if (navigateFunc) {
+          navigateFunc(startingIndex);
+        }
       }
 
       return {};
