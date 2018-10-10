@@ -16,11 +16,13 @@ const mapToProps = ({
   schema,
   struct,
   structs,
+  formLocked,
   formSubmitting,
   type
 }: IStoreState): Partial<IFormProps> => ({
   block,
   buttonOptions,
+  formLocked,
   formSubmitting,
   navStack,
   onCancel,
