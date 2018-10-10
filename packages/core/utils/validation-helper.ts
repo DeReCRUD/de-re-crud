@@ -20,7 +20,12 @@ export function validateField(
   const errors = [];
 
   if (field.type !== 'linkedStruct') {
-    if (!fieldValue && field.required) {
+    if (
+      (typeof fieldValue === 'undefined' ||
+        fieldValue === null ||
+        fieldValue === '') &&
+      field.required
+    ) {
       errors.unshift('This field is required.');
     }
 

@@ -284,7 +284,7 @@ export default function fieldHostRendererActions(store: IStore) {
       if (type === 'add') {
         for (let i = 0; i < itemsToCreate; i++) {
           const newValue = createFieldParent(
-            field.reference.block.fields.map((x) => x.field)
+            field.reference.struct.fields.map((x) => x)
           );
 
           newPaths.push(`${fieldPath}.${startingIndex + i}`);
