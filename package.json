@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "del-cli dist",
     "bootstrap": "lerna bootstrap",
-    "lint": "yarn format:check && lerna run lint -- --format stylish",
+    "lint": "yarn format:check && tslint --project ./tsconfig.json && tslint --project ./tsconfig.test.json",
     "dev": "cross-env ENABLE_LOGGING=true yarn workspace @de-re-crud/schema-builder dev",
     "build": "yarn clean && lerna run build && node ./scripts/replace-dist-css-imports.js",
     "test": "jest",

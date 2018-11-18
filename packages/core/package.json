@@ -8,7 +8,6 @@
   "module": "dist/de-re-crud-core.es.js",
   "types": "index.d.ts",
   "scripts": {
-    "lint": "tslint --project ./tsconfig.json && tslint --project ./tsconfig.test.json",
     "compile": "tsc",
     "bundle": "rollup --config",
     "build": "yarn compile && yarn bundle"
