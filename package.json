@@ -57,7 +57,7 @@
       "prettier --write",
       "git add"
     ],
-    "*{ts,tsx,js}": [
+    "*.{ts,tsx,js}": [
       "yarn lint",
       "git add"
     ]
