@@ -25,8 +25,10 @@
     "babel-jest": "^23.4.2",
     "cross-env": "^5.2.0",
     "del-cli": "^1.1.0",
+    "husky": "^1.1.4",
     "jest": "^23.4.2",
     "lerna": "^2.11.0",
+    "lint-staged": "^8.0.5",
     "prettier": "^1.14.0",
     "replace-in-file": "^3.4.0",
     "rollup": "^0.63.5",
@@ -44,6 +46,21 @@
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.14.0",
     "typescript": "^2.9.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,json}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*{ts,tsx,js}": [
+      "yarn lint",
+      "git add"
+    ]
   },
   "jest": {
     "projects": [
