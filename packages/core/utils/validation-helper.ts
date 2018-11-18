@@ -156,8 +156,8 @@ export function validateLinkedStructField(
   const errors = [];
 
   if (
-    (!value || !value.length) &&
-    (field.required || value.length < field.minInstances)
+    (field.required || field.minInstances) &&
+    (!value || !value.length || value.length < field.minInstances)
   ) {
     errors.push(
       `This field must have at least ${field.minInstances || 1} item(s).`
