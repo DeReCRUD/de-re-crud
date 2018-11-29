@@ -3,11 +3,14 @@ import SchemaParser from '../../schema-parser';
 
 describe('SchemaParser', () => {
   it('should return empty list of structs for empty value', () => {
-    expect(SchemaParser.parse([])).toEqual({ structs: [] });
+    expect(SchemaParser.parse([])).toEqual({ raw: [], structs: [] });
   });
 
   it('should return empty list of structs for invalid value', () => {
-    expect(SchemaParser.parse('schema')).toEqual({ structs: [] });
+    expect(SchemaParser.parse('schema')).toEqual({
+      raw: 'schema',
+      structs: []
+    });
   });
 
   it(`should return parsed result with defaults`, () => {
@@ -23,17 +26,18 @@ describe('SchemaParser', () => {
       unique: false
     };
 
-    expect(
-      SchemaParser.parse([
-        {
-          blocks: [{ name: 'block1', fields: [field.name] }],
-          fields: [
-            { type: field.type, name: field.name, label: field.label.short }
-          ],
-          name: 'struct1'
-        }
-      ])
-    ).toEqual({
+    const raw = [
+      {
+        blocks: [{ name: 'block1', fields: [field.name] }],
+        fields: [
+          { type: field.type, name: field.name, label: field.label.short }
+        ],
+        name: 'struct1'
+      }
+    ];
+
+    expect(SchemaParser.parse(raw)).toEqual({
+      raw,
       structs: [
         {
           blocks: [
