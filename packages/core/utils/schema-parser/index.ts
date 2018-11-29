@@ -1,3 +1,4 @@
+import Logger from '../../logger';
 import {
   BlockConditionFunc,
   DEFAULT_FIELD_WIDTH,
@@ -9,6 +10,7 @@ import {
   ILinkedStructField,
   ILinkedStructFieldReference,
   IReferenceField,
+  ISchema,
   IStamp,
   IStruct
 } from '../../models/schema';
@@ -22,9 +24,18 @@ interface ISchemaMap<T> {
 export default class SchemaParser {
   public static readonly DEFAULT_CONDITION = () => true;
 
-  public static parse(schemaJson: any): IStruct[] {
-    if (!Array.isArray(schemaJson)) {
-      return [];
+  public static parse(schemaJson: any): ISchema {
+    let structsJson: any;
+
+    if (Array.isArray(schemaJson)) {
+      Logger.warning(
+        'WARNING: Structs should live under the `structs` key in the schema instead of at the root. Support for this will be removed in the future'
+      );
+      structsJson = schemaJson;
+    } else if (Array.isArray(schemaJson.structs)) {
+      structsJson = schemaJson.structs;
+    } else {
+      return { raw: schemaJson, structs: [] };
     }
 
     const structMap: ISchemaMap<IStruct> = {};
@@ -32,7 +43,7 @@ export default class SchemaParser {
     const structFieldMap: { [structName: string]: ISchemaMap<IField> } = {};
     const structBlockMap: { [structName: string]: ISchemaMap<IBlock> } = {};
 
-    for (const structJson of schemaJson) {
+    for (const structJson of structsJson) {
       const fieldMap: ISchemaMap<IField> = {};
       const blockMap: ISchemaMap<IBlock> = {};
 
@@ -166,7 +177,7 @@ export default class SchemaParser {
       });
     });
 
-    return Object.keys(structMap).map((structName) => {
+    const structs = Object.keys(structMap).map((structName) => {
       const struct = structMap[structName].parsed;
       const json = structMap[structName].json;
 
@@ -184,6 +195,11 @@ export default class SchemaParser {
 
       return struct;
     });
+
+    return {
+      raw: schemaJson,
+      structs
+    };
   }
 
   private static parseStruct(structJson: any): IStruct {

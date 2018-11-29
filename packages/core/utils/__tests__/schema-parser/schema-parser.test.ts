@@ -3,11 +3,11 @@ import SchemaParser from '../../schema-parser';
 
 describe('SchemaParser', () => {
   it('should return empty list of structs for empty value', () => {
-    expect(SchemaParser.parse([])).toEqual([]);
+    expect(SchemaParser.parse([])).toEqual({ structs: [] });
   });
 
   it('should return empty list of structs for invalid value', () => {
-    expect(SchemaParser.parse('schema')).toEqual([]);
+    expect(SchemaParser.parse('schema')).toEqual({ structs: [] });
   });
 
   it(`should return parsed result with defaults`, () => {
@@ -33,35 +33,37 @@ describe('SchemaParser', () => {
           name: 'struct1'
         }
       ])
-    ).toEqual([
-      {
-        blocks: [
-          {
-            condition: SchemaParser.DEFAULT_CONDITION,
-            fields: [
-              {
-                condition: SchemaParser.DEFAULT_CONDITION,
-                field,
-                hints: {}
-              }
-            ],
-            hints: {
-              layout: 'vertical'
-            },
-            items: [
-              {
-                condition: SchemaParser.DEFAULT_CONDITION,
-                field,
-                hints: {}
-              }
-            ],
-            name: 'block1',
-            struct: 'struct1'
-          }
-        ],
-        fields: [field],
-        name: 'struct1'
-      }
-    ]);
+    ).toEqual({
+      structs: [
+        {
+          blocks: [
+            {
+              condition: SchemaParser.DEFAULT_CONDITION,
+              fields: [
+                {
+                  condition: SchemaParser.DEFAULT_CONDITION,
+                  field,
+                  hints: {}
+                }
+              ],
+              hints: {
+                layout: 'vertical'
+              },
+              items: [
+                {
+                  condition: SchemaParser.DEFAULT_CONDITION,
+                  field,
+                  hints: {}
+                }
+              ],
+              name: 'block1',
+              struct: 'struct1'
+            }
+          ],
+          fields: [field],
+          name: 'struct1'
+        }
+      ]
+    });
   });
 });

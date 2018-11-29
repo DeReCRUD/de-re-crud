@@ -4,7 +4,6 @@
   "jsRules": {},
   "rules": {
     "object-literal-sort-keys": false,
-    "no-unused-variable": true,
     "trailing-comma": false
   },
   "rulesDirectory": []

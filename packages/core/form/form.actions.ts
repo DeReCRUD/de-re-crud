@@ -107,7 +107,7 @@ export default function formActions({ setState }) {
     submitForm: (
       state: IStoreState
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
-      const struct = state.structs.find((x) => x.name === state.struct);
+      const struct = state.schema.structs.find((x) => x.name === state.struct);
       const block = struct.blocks.find((x) => x.name === state.block);
 
       const result = validateBlock(state, struct, block, state.value);

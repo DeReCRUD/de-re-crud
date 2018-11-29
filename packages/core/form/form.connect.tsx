@@ -15,7 +15,6 @@ const mapToProps = ({
   onCancel,
   schema,
   struct,
-  structs,
   formLocked,
   formSubmitting,
   type
@@ -29,7 +28,6 @@ const mapToProps = ({
   rendererOptions,
   schema,
   struct,
-  structs,
   type
 });
 

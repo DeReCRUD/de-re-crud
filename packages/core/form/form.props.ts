@@ -1,7 +1,7 @@
 import { IButtonOptions } from '../models/button-options';
 import { IErrors } from '../models/errors';
 import { IRendererOptions } from '../models/renderer-options';
-import { FieldValue, IStruct } from '../models/schema';
+import { FieldValue, ISchema } from '../models/schema';
 import { INavState } from '../store';
 
 export interface ICollectionReferenceParams {
@@ -81,7 +81,7 @@ export interface IFormProps extends IFormBaseProps {
   type: FormType;
   rendererOptions: IRendererOptions;
   buttonOptions: IButtonOptions;
-  structs: IStruct[];
+  schema: ISchema;
   formLocked: boolean;
   formSubmitting: boolean;
   navStack: INavState[];

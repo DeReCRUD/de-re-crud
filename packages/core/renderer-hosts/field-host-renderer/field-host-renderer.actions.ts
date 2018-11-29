@@ -136,7 +136,7 @@ export default function fieldHostRendererActions(store: IStore) {
       fieldPath: string,
       parentPath?: string
     ): Partial<IStoreState> => {
-      const struct = state.structs.find((x) => x.name === field.struct);
+      const struct = state.schema.structs.find((x) => x.name === field.struct);
       const oldValue = state.focused[fieldPath];
       const newValue = formPathToValue(state.value, fieldPath);
       const parentValue = formPathToValue(state.value, parentPath);
@@ -190,7 +190,7 @@ export default function fieldHostRendererActions(store: IStore) {
       fieldPath: string,
       fieldValue: SimpleFieldValue | SimpleFieldValue[]
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
-      const struct = state.structs.find((x) => x.name === field.struct);
+      const struct = state.schema.structs.find((x) => x.name === field.struct);
       const oldValue = formPathToValue(state.value, fieldPath);
       const initialValue = formPathToValue(state.initialValue, fieldPath);
       const pathArray = fieldPath.split('.');

@@ -12,7 +12,7 @@ import {
 import { IButtonOptions } from './models/button-options';
 import { IChildErrors, IErrors } from './models/errors';
 import { IRendererOptions } from './models/renderer-options';
-import { IStruct, SimpleFieldValue } from './models/schema';
+import { ISchema, SimpleFieldValue } from './models/schema';
 import { DeReCrudOptions } from './options';
 import createFieldParent from './utils/create-field-parent';
 import generateChildErrors from './utils/generate-child-errors';
@@ -37,9 +37,8 @@ export interface INavState {
 
 export interface IStoreState {
   formId: number;
-  schema: any;
+  schema: ISchema;
   type: FormType;
-  structs: IStruct[];
   struct: string;
   block: string;
   initialValue: object;
@@ -76,7 +75,7 @@ const logger = (store) => (next) => (action) => {
 };
 
 export function createStore(
-  schema: any,
+  schemaJson: any,
   struct: string,
   type?: FormType,
   block?: string,
@@ -92,11 +91,11 @@ export function createStore(
   onFieldChangeType?: FieldChangeNotificationType,
   onFieldParentChange?: FieldParentChangeNotification
 ): IStore {
-  const structs = SchemaParser.parse(schema);
+  const schema = SchemaParser.parse(schemaJson);
 
   const optionDefaults = DeReCrudOptions.getDefaults();
 
-  const structReference = structs.find((x) => x.name === struct);
+  const structReference = schema.structs.find((x) => x.name === struct);
   initialValue = createFieldParent(structReference.fields, initialValue);
 
   if (!type) {
@@ -139,7 +138,6 @@ export function createStore(
     rendererOptions: rendererOptions || optionDefaults.rendererOptions,
     schema,
     struct,
-    structs,
     touched: {},
     type,
     value: initialValue

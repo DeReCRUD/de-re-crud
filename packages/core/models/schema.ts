@@ -164,3 +164,8 @@ export interface ILinkedStructFieldReference extends IFieldReference {
     block?: IBlock;
   };
 }
+
+export interface ISchema {
+  raw: any;
+  structs: IStruct[];
+}

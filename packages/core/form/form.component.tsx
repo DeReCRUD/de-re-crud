@@ -21,7 +21,6 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       schema,
       className,
       type,
-      structs,
       struct,
       block,
       rendererOptions,
@@ -34,12 +33,12 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       onCancel
     } = this.props;
 
-    if (!schema) {
+    if (!schema.raw) {
       Logger.error('No schema defined.');
     }
 
-    if (!Array.isArray(schema)) {
-      Logger.error('Invalid schema defined.', schema);
+    if (!Array.isArray(schema.structs)) {
+      Logger.error('Invalid schema defined.', schema.raw);
       return null;
     }
 
@@ -62,7 +61,9 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       visibleBlock = block;
     }
 
-    const structReference = structs.find((x) => x.name === visibleStruct);
+    const structReference = schema.structs.find(
+      (x) => x.name === visibleStruct
+    );
 
     const classNames = [
       'de-re-crud-form',
@@ -71,7 +72,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     ];
 
     if (!structReference) {
-      Logger.error(`Struct '${struct}' is not defined.`, structs);
+      Logger.error(`Struct '${struct}' is not defined.`, schema.structs);
       return null;
     }
 
