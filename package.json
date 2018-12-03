@@ -15,7 +15,7 @@
     "test": "jest",
     "cover": "jest --coverage",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
-    "format:write": "prettier \"**/*.{ts,tsx,js,json}\" --write",
+    "format": "prettier \"**/*.{ts,tsx,js,json}\" --write",
     "bump": "lerna publish --skip-npm --force-publish=*"
   },
   "devDependencies": {
@@ -57,14 +57,6 @@
   "lint-staged": {
     "*.{ts,tsx,js,json}": [
       "prettier --write",
-      "git add"
-    ],
-    "**/!(__tests__|__mocks__)/**/*.{ts,tsx,js}": [
-      "yarn lint:src",
-      "git add"
-    ],
-    "**/(__tests__|__mocks__)/**/*.{ts,tsx,js}": [
-      "yarn lint:test",
       "git add"
     ]
   },
