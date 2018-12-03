@@ -10,7 +10,7 @@
     "lint": "yarn format:check && yarn lint:src && yarn lint:test",
     "lint:src": "tslint --project ./tsconfig.json",
     "lint:test": "tslint --project ./tsconfig.test.json",
-    "dev": "cross-env ENABLE_LOGGING=true yarn workspace @de-re-crud/schema-builder dev",
+    "start": "cross-env ENABLE_LOGGING=true yarn workspace @de-re-crud/schema-builder dev",
     "build": "yarn clean && lerna run build && node ./scripts/replace-dist-css-imports.js",
     "test": "jest",
     "cover": "jest --coverage",
