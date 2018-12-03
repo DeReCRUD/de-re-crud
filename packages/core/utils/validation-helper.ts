@@ -7,6 +7,7 @@ import {
   IStruct,
   ITextField
 } from '../models/schema';
+import { Validator } from '../models/validator';
 
 export function validateField(
   struct: IStruct,
@@ -15,20 +16,19 @@ export function validateField(
   initialFieldValue: FieldValue,
   formValue: object,
   parentValue: object,
+  validators: Validator[],
+  validatorMessages: { [validator: string]: string },
   collectionReferences: ICollectionReferences = {}
 ): string[] {
   const errors = [];
 
-  if (field.type !== 'linkedStruct') {
-    if (
-      (typeof fieldValue === 'undefined' ||
-        fieldValue === null ||
-        fieldValue === '') &&
-      field.required
-    ) {
-      errors.unshift('This field is required.');
+  validators.forEach((validator) => {
+    if (!validator.validate(field, fieldValue)) {
+      errors.push(validatorMessages[validator.name]);
     }
+  });
 
+  if (field.type !== 'linkedStruct') {
     if (
       (field.unique || field.keyField) &&
       fieldValue !== initialFieldValue &&

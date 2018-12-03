@@ -3,13 +3,20 @@ import SchemaParser from '../../schema-parser';
 
 describe('SchemaParser', () => {
   it('should return empty list of structs for empty value', () => {
-    expect(SchemaParser.parse([])).toEqual({ raw: [], structs: [] });
+    expect(SchemaParser.parse([])).toEqual({
+      raw: [],
+      structs: [],
+      validators: SchemaParser.DEFAULT_VALIDATORS,
+      validatorMessages: SchemaParser.DEFAULT_VALIDATOR_MESSAGES
+    });
   });
 
   it('should return empty list of structs for invalid value', () => {
     expect(SchemaParser.parse('schema')).toEqual({
       raw: 'schema',
-      structs: []
+      structs: [],
+      validators: [],
+      validatorMessages: {}
     });
   });
 
@@ -67,7 +74,9 @@ describe('SchemaParser', () => {
           fields: [field],
           name: 'struct1'
         }
-      ]
+      ],
+      validators: SchemaParser.DEFAULT_VALIDATORS,
+      validatorMessages: SchemaParser.DEFAULT_VALIDATOR_MESSAGES
     });
   });
 });

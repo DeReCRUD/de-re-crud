@@ -1,3 +1,5 @@
+import { Validator } from './validator';
+
 export const DEFAULT_FIELD_WIDTH = 12;
 export type StampSize = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -168,4 +170,6 @@ export interface ILinkedStructFieldReference extends IFieldReference {
 export interface ISchema {
   raw: any;
   structs: IStruct[];
+  validators: Validator[];
+  validatorMessages: { [validator: string]: string };
 }

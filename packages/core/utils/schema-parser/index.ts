@@ -14,6 +14,9 @@ import {
   IStamp,
   IStruct
 } from '../../models/schema';
+import { Validator } from '../../models/validator';
+import RequiredValidator from '../../validators/required-validator';
+import validatorMessages from '../../validators/validator-messages';
 import parseField from './parse-field';
 import parseLabel from './parse-label';
 
@@ -22,6 +25,12 @@ interface ISchemaMap<T> {
 }
 
 export default class SchemaParser {
+  public static readonly DEFAULT_VALIDATORS: Validator[] = [
+    new RequiredValidator()
+  ];
+
+  public static readonly DEFAULT_VALIDATOR_MESSAGES = validatorMessages;
+
   public static readonly DEFAULT_CONDITION = () => true;
 
   public static parse(schemaJson: any): ISchema {
@@ -35,7 +44,12 @@ export default class SchemaParser {
     } else if (Array.isArray(schemaJson.structs)) {
       structsJson = schemaJson.structs;
     } else {
-      return { raw: schemaJson, structs: [] };
+      return {
+        raw: schemaJson,
+        structs: [],
+        validators: [],
+        validatorMessages: {}
+      };
     }
 
     const structMap: ISchemaMap<IStruct> = {};
@@ -198,7 +212,9 @@ export default class SchemaParser {
 
     return {
       raw: schemaJson,
-      structs
+      structs,
+      validators: this.DEFAULT_VALIDATORS,
+      validatorMessages: this.DEFAULT_VALIDATOR_MESSAGES
     };
   }
 
