@@ -6,8 +6,6 @@ describe('SchemaParser', () => {
     expect(SchemaParser.parse([])).toEqual({
       raw: [],
       structs: [],
-      validators: SchemaParser.DEFAULT_VALIDATORS,
-      validatorMessages: SchemaParser.DEFAULT_VALIDATOR_MESSAGES
     });
   });
 
@@ -16,11 +14,11 @@ describe('SchemaParser', () => {
       raw: 'schema',
       structs: [],
       validators: [],
-      validatorMessages: {}
+      validatorMessages: {},
     });
   });
 
-  it(`should return parsed result with defaults`, () => {
+  it('should return parsed result with defaults', () => {
     const field: IField = {
       hints: { width: DEFAULT_FIELD_WIDTH },
       keyField: false,
@@ -30,17 +28,17 @@ describe('SchemaParser', () => {
       required: false,
       struct: 'struct1',
       type: 'text',
-      unique: false
+      unique: false,
     };
 
     const raw = [
       {
         blocks: [{ name: 'block1', fields: [field.name] }],
         fields: [
-          { type: field.type, name: field.name, label: field.label.short }
+          { type: field.type, name: field.name, label: field.label.short },
         ],
-        name: 'struct1'
-      }
+        name: 'struct1',
+      },
     ];
 
     expect(SchemaParser.parse(raw)).toEqual({
@@ -54,29 +52,27 @@ describe('SchemaParser', () => {
                 {
                   condition: SchemaParser.DEFAULT_CONDITION,
                   field,
-                  hints: {}
-                }
+                  hints: {},
+                },
               ],
               hints: {
-                layout: 'vertical'
+                layout: 'vertical',
               },
               items: [
                 {
                   condition: SchemaParser.DEFAULT_CONDITION,
                   field,
-                  hints: {}
-                }
+                  hints: {},
+                },
               ],
               name: 'block1',
-              struct: 'struct1'
-            }
+              struct: 'struct1',
+            },
           ],
           fields: [field],
-          name: 'struct1'
-        }
+          name: 'struct1',
+        },
       ],
-      validators: SchemaParser.DEFAULT_VALIDATORS,
-      validatorMessages: SchemaParser.DEFAULT_VALIDATOR_MESSAGES
     });
   });
 });
