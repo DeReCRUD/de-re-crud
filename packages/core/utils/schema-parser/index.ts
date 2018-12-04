@@ -12,11 +12,8 @@ import {
   IReferenceField,
   ISchema,
   IStamp,
-  IStruct
+  IStruct,
 } from '../../models/schema';
-import { Validator } from '../../models/validator';
-import RequiredValidator from '../../validators/required-validator';
-import validatorMessages from '../../validators/validator-messages';
 import parseField from './parse-field';
 import parseLabel from './parse-label';
 
@@ -25,12 +22,6 @@ interface ISchemaMap<T> {
 }
 
 export default class SchemaParser {
-  public static readonly DEFAULT_VALIDATORS: Validator[] = [
-    new RequiredValidator()
-  ];
-
-  public static readonly DEFAULT_VALIDATOR_MESSAGES = validatorMessages;
-
   public static readonly DEFAULT_CONDITION = () => true;
 
   public static parse(schemaJson: any): ISchema {
@@ -38,7 +29,8 @@ export default class SchemaParser {
 
     if (Array.isArray(schemaJson)) {
       Logger.warning(
-        'WARNING: Structs should live under the `structs` key in the schema instead of at the root. Support for this will be removed in the future'
+        // tslint:disable-next-line:max-line-length
+        'WARNING: Structs should live under the `structs` key in the schema instead of at the root. Support for this will be removed in the future',
       );
       structsJson = schemaJson;
     } else if (Array.isArray(schemaJson.structs)) {
@@ -48,7 +40,7 @@ export default class SchemaParser {
         raw: schemaJson,
         structs: [],
         validators: [],
-        validatorMessages: {}
+        validatorMessages: {},
       };
     }
 
@@ -63,14 +55,14 @@ export default class SchemaParser {
 
       structMap[structJson.name] = {
         json: structJson,
-        parsed: this.parseStruct(structJson)
+        parsed: this.parseStruct(structJson),
       };
 
       if (Array.isArray(structJson.fields)) {
         for (const fieldJson of structJson.fields) {
           fieldMap[fieldJson.name] = {
             json: fieldJson,
-            parsed: parseField(structJson.name, fieldJson)
+            parsed: parseField(structJson.name, fieldJson),
           };
         }
       }
@@ -81,7 +73,7 @@ export default class SchemaParser {
         for (const blockJson of structJson.blocks) {
           blockMap[blockJson.name] = {
             json: blockJson,
-            parsed: this.parseBlock(structJson.name, blockJson)
+            parsed: this.parseBlock(structJson.name, blockJson),
           };
         }
       }
@@ -105,7 +97,7 @@ export default class SchemaParser {
               block:
                 structBlockMap[reference.struct][reference.block || 'default']
                   .parsed,
-              struct: structMap[reference.struct].parsed
+              struct: structMap[reference.struct].parsed,
             };
 
             if (field.type === 'foreignKey') {
@@ -133,7 +125,7 @@ export default class SchemaParser {
               blockInstance: blockInstance++,
               condition: this.parseCondition(blockField.condition),
               size: blockField.size || 3,
-              text: blockField.stamp
+              text: blockField.stamp,
             };
 
             block.items.push(stamp);
@@ -151,7 +143,7 @@ export default class SchemaParser {
             const fieldReference: IFieldReference = {
               condition: this.parseCondition(blockField.condition),
               field,
-              hints: {}
+              hints: {},
             };
 
             if (blockField.hints) {
@@ -172,7 +164,7 @@ export default class SchemaParser {
                 const { hints } = blockField;
 
                 linkedStructFieldReference.hints = {
-                  layout: (hints && hints.layout) || 'inline'
+                  layout: (hints && hints.layout) || 'inline',
                 };
 
                 linkedStructFieldReference.hints.block =
@@ -213,8 +205,6 @@ export default class SchemaParser {
     return {
       raw: schemaJson,
       structs,
-      validators: this.DEFAULT_VALIDATORS,
-      validatorMessages: this.DEFAULT_VALIDATOR_MESSAGES
     };
   }
 
@@ -222,7 +212,7 @@ export default class SchemaParser {
     const result: IStruct = {
       blocks: [],
       fields: [],
-      name: structJson.name
+      name: structJson.name,
     };
 
     if (structJson.label) {
@@ -240,15 +230,15 @@ export default class SchemaParser {
     const result: IBlock = {
       condition: this.parseCondition(
         blockJson.condition,
-        true
+        true,
       ) as BlockConditionFunc,
       fields: [],
       hints: {
-        layout: 'vertical'
+        layout: 'vertical',
       },
       items: [],
       name: blockJson.name,
-      struct: structName
+      struct: structName,
     };
 
     if (blockJson.label) {
@@ -266,7 +256,7 @@ export default class SchemaParser {
 
   private static parseCondition(
     conditionJson: string,
-    blockCondition: boolean = false
+    blockCondition: boolean = false,
   ): BlockConditionFunc | FieldConditionFunc {
     let condition;
 

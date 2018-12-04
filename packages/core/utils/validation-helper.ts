@@ -5,9 +5,13 @@ import {
   IIntegerField,
   ILinkedStructField,
   IStruct,
-  ITextField
+  ITextField,
 } from '../models/schema';
-import { Validator } from '../models/validator';
+import {
+  defaultValidators,
+  defaultValidatorFuncs,
+  defaultValidatorMessages,
+} from '../validators';
 
 export function validateField(
   struct: IStruct,
@@ -16,15 +20,14 @@ export function validateField(
   initialFieldValue: FieldValue,
   formValue: object,
   parentValue: object,
-  validators: Validator[],
-  validatorMessages: { [validator: string]: string },
-  collectionReferences: ICollectionReferences = {}
+  collectionReferences: ICollectionReferences = {},
 ): string[] {
   const errors = [];
 
-  validators.forEach((validator) => {
-    if (!validator.validate(field, fieldValue)) {
-      errors.push(validatorMessages[validator.name]);
+  defaultValidators.forEach((validator) => {
+    const valid = defaultValidatorFuncs[validator](field, fieldValue);
+    if (!valid) {
+      errors.push(defaultValidatorMessages[validator]);
     }
   });
 
@@ -36,7 +39,7 @@ export function validateField(
     ) {
       const references = collectionReferences[field.struct]({
         formValue,
-        parentValue
+        parentValue,
       });
 
       if (Array.isArray(references)) {
@@ -81,19 +84,19 @@ export function validateField(
     case 'integer':
       fieldTypeErrors = validateIntegerField(
         field as IIntegerField,
-        fieldValue as number
+        fieldValue as number,
       );
       break;
     case 'text':
       fieldTypeErrors = validateTextField(
         field as ITextField,
-        fieldValue as string
+        fieldValue as string,
       );
       break;
     case 'linkedStruct':
       fieldTypeErrors = validateLinkedStructField(
         field as ILinkedStructField,
-        fieldValue as object[]
+        fieldValue as object[],
       );
       break;
     default:
@@ -123,11 +126,11 @@ function validateTextField(field: ITextField, value: string): string[] {
   if (value) {
     if (field.minLength && value.length < field.minLength) {
       errors.push(
-        `This field must have at least ${field.minLength} character(s).`
+        `This field must have at least ${field.minLength} character(s).`,
       );
     } else if (field.maxLength && value.length > field.maxLength) {
       errors.push(
-        `This field can not have more than ${field.maxLength} character(s).`
+        `This field can not have more than ${field.maxLength} character(s).`,
       );
     }
   }
@@ -151,7 +154,7 @@ function validateIntegerField(field: IIntegerField, value: number): string[] {
 
 export function validateLinkedStructField(
   field: ILinkedStructField,
-  value: object[]
+  value: object[],
 ) {
   const errors = [];
 
@@ -160,11 +163,11 @@ export function validateLinkedStructField(
     (!value || !value.length || value.length < field.minInstances)
   ) {
     errors.push(
-      `This field must have at least ${field.minInstances || 1} item(s).`
+      `This field must have at least ${field.minInstances || 1} item(s).`,
     );
   } else if (field.maxInstances && value.length > field.maxInstances) {
     errors.push(
-      `This field can not have more than ${field.maxInstances} item(s).`
+      `This field can not have more than ${field.maxInstances} item(s).`,
     );
   }
 
