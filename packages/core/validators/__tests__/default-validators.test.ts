@@ -1,5 +1,5 @@
-import { IField } from '../models/schema';
-import { defaultValidatorFuncs } from '../validators';
+import { IField } from '../../models/schema';
+import { defaultValidatorFuncs } from '../default-validators';
 
 describe('validators', () => {
   let field: IField = null;

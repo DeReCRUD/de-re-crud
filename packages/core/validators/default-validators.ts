@@ -1,6 +1,5 @@
-import { FieldValue, IField } from './models/schema';
-
-type ValidatorFunc = (field: IField, value: FieldValue) => boolean;
+import { FieldValue, IField } from '../models/schema';
+import { ValidatorFunc } from './validator';
 
 export interface IDefaultValidatorFuncs {
   [key: string]: ValidatorFunc;

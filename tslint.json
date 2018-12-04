@@ -20,6 +20,7 @@
       "avoid-escape",
       "avoid-template"
     ],
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
     "trailing-comma": [
       true,
       {

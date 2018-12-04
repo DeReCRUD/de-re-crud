@@ -11,7 +11,7 @@ import {
   defaultValidators,
   defaultValidatorFuncs,
   defaultValidatorMessages,
-} from '../validators';
+} from '../validators/default-validators';
 
 export function validateField(
   struct: IStruct,
