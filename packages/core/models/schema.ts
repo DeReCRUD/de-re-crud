@@ -99,7 +99,7 @@ export interface IOption {
   value: ListValue;
 }
 
-type ReferenceValue = ListValue | object;
+export type ReferenceValue = ListValue | object;
 
 export interface IStructReference {
   struct: IStruct;

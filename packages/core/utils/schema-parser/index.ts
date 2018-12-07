@@ -39,8 +39,6 @@ export default class SchemaParser {
       return {
         raw: schemaJson,
         structs: [],
-        validators: [],
-        validatorMessages: {},
       };
     }
 

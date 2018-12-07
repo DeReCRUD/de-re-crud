@@ -13,8 +13,6 @@ describe('SchemaParser', () => {
     expect(SchemaParser.parse('schema')).toEqual({
       raw: 'schema',
       structs: [],
-      validators: [],
-      validatorMessages: {},
     });
   });
 
