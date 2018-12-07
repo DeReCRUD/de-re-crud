@@ -6,7 +6,7 @@ describe('parseLabel', () => {
     expect(parseLabel()).toEqual({
       long: '',
       medium: '',
-      short: ''
+      short: '',
     } as ILabel);
   });
 
@@ -14,17 +14,17 @@ describe('parseLabel', () => {
     expect(parseLabel('Label')).toEqual({
       long: 'Label',
       medium: 'Label',
-      short: 'Label'
+      short: 'Label',
     } as ILabel);
   });
 
   it('should return label for short, medium, and long value', () => {
     expect(
-      parseLabel({ long: 'Long', medium: 'Medium', short: 'Short' })
+      parseLabel({ long: 'Long', medium: 'Medium', short: 'Short' }),
     ).toEqual({
       long: 'Long',
       medium: 'Medium',
-      short: 'Short'
+      short: 'Short',
     } as ILabel);
   });
 

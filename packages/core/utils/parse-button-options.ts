@@ -2,7 +2,7 @@ import { IButtonOptions } from '../models/button-options';
 
 export default function parseButtonOptions(
   instanceOptions: IButtonOptions = {},
-  defaultOptions: IButtonOptions = {}
+  defaultOptions: IButtonOptions = {},
 ): IButtonOptions {
   const buttonOptions: IButtonOptions = defaultOptions;
 
@@ -30,25 +30,25 @@ export default function parseButtonOptions(
     assignIfDefined(
       buttonOptions.cancelButton,
       'classNames',
-      instanceOptions.cancelButton
+      instanceOptions.cancelButton,
     );
 
     assignIfDefined(
       buttonOptions.cancelButton,
       'includeButtonClassNames',
-      instanceOptions.cancelButton
+      instanceOptions.cancelButton,
     );
 
     assignIfDefined(
       buttonOptions.cancelButton,
       'text',
-      instanceOptions.cancelButton
+      instanceOptions.cancelButton,
     );
 
     assignIfDefined(
       buttonOptions.cancelButton,
       'visible',
-      instanceOptions.cancelButton
+      instanceOptions.cancelButton,
     );
   }
 
@@ -56,37 +56,37 @@ export default function parseButtonOptions(
     assignIfDefined(
       buttonOptions.submitButton,
       'classNames',
-      instanceOptions.submitButton
+      instanceOptions.submitButton,
     );
 
     assignIfDefined(
       buttonOptions.submitButton,
       'includeButtonClassNames',
-      instanceOptions.submitButton
+      instanceOptions.submitButton,
     );
 
     assignIfDefined(
       buttonOptions.submitButton,
       'appendStructLabel',
-      instanceOptions.submitButton
+      instanceOptions.submitButton,
     );
 
     assignIfDefined(
       buttonOptions.submitButton,
       'createText',
-      instanceOptions.submitButton
+      instanceOptions.submitButton,
     );
 
     assignIfDefined(
       buttonOptions.submitButton,
       'updateText',
-      instanceOptions.submitButton
+      instanceOptions.submitButton,
     );
 
     assignIfDefined(
       buttonOptions.submitButton,
       'visible',
-      instanceOptions.submitButton
+      instanceOptions.submitButton,
     );
   }
 
@@ -94,25 +94,25 @@ export default function parseButtonOptions(
     assignIfDefined(
       buttonOptions.backButton,
       'classNames',
-      instanceOptions.backButton
+      instanceOptions.backButton,
     );
 
     assignIfDefined(
       buttonOptions.backButton,
       'includeButtonClassNames',
-      instanceOptions.backButton
+      instanceOptions.backButton,
     );
 
     assignIfDefined(
       buttonOptions.backButton,
       'text',
-      instanceOptions.backButton
+      instanceOptions.backButton,
     );
 
     assignIfDefined(
       buttonOptions.backButton,
       'visible',
-      instanceOptions.backButton
+      instanceOptions.backButton,
     );
   }
 
@@ -138,19 +138,19 @@ export default function parseButtonOptions(
   if (buttonOptions.button.classNames.length) {
     if (buttonOptions.submitButton.includeButtonClassNames) {
       buttonOptions.submitButton.classNames = buttonOptions.submitButton.classNames.concat(
-        buttonOptions.button.classNames
+        buttonOptions.button.classNames,
       );
     }
 
     if (buttonOptions.backButton.includeButtonClassNames) {
       buttonOptions.backButton.classNames = buttonOptions.backButton.classNames.concat(
-        buttonOptions.button.classNames
+        buttonOptions.button.classNames,
       );
     }
 
     if (buttonOptions.cancelButton.includeButtonClassNames) {
       buttonOptions.cancelButton.classNames = buttonOptions.cancelButton.classNames.concat(
-        buttonOptions.button.classNames
+        buttonOptions.button.classNames,
       );
     }
   }

@@ -10,7 +10,7 @@ import {
   IInlinedLinkedStructRenderer,
   ISelectableOption,
   ISelectListFieldRenderer,
-  ITableLinkedStructRenderer
+  ITableLinkedStructRenderer,
 } from '../../models/renderers';
 import {
   IField,
@@ -19,7 +19,7 @@ import {
   ILinkedStructField,
   ILinkedStructFieldReference,
   IListField,
-  SimpleFieldValue
+  SimpleFieldValue,
 } from '../../models/schema';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
@@ -34,7 +34,7 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldReference,
       fieldValue,
       rendererId,
-      rendererOptions
+      rendererOptions,
     } = this.props;
 
     const field = fieldReference.field;
@@ -53,7 +53,7 @@ export default class FieldHostRenderer extends BaseComponent<
       readOnly: this.isReadOnly(fieldPath),
       rendererId,
       required: field.required,
-      value: fieldValue
+      value: fieldValue,
     };
 
     const renderedField = this.renderField(fieldReference, fieldProps);
@@ -97,7 +97,7 @@ export default class FieldHostRenderer extends BaseComponent<
   private changeValue = (
     field: IField,
     fieldPath: string,
-    value: SimpleFieldValue | SimpleFieldValue[]
+    value: SimpleFieldValue | SimpleFieldValue[],
   ) => {
     this.props.changeValue(field, fieldPath, value);
   };
@@ -106,7 +106,7 @@ export default class FieldHostRenderer extends BaseComponent<
     const {
       focusField,
       fieldReference: { field },
-      fieldPath
+      fieldPath,
     } = this.props;
 
     focusField(field, fieldPath);
@@ -117,7 +117,7 @@ export default class FieldHostRenderer extends BaseComponent<
       blurField,
       fieldReference: { field },
       fieldPath,
-      parentPath
+      parentPath,
     } = this.props;
 
     blurField(field, fieldPath, parentPath);
@@ -151,7 +151,7 @@ export default class FieldHostRenderer extends BaseComponent<
   private onValueChange = (value: SimpleFieldValue | SimpleFieldValue[]) => {
     const {
       fieldReference: { field },
-      fieldPath
+      fieldPath,
     } = this.props;
 
     this.changeValue(field, fieldPath, value);
@@ -160,7 +160,7 @@ export default class FieldHostRenderer extends BaseComponent<
   private onAdd = (
     index: number,
     count: number = 1,
-    navigate: boolean = true
+    navigate: boolean = true,
   ) => {
     const { changeArrayValue, fieldReference, fieldPath } = this.props;
     const linkedStructField = fieldReference.field as ILinkedStructField;
@@ -175,7 +175,7 @@ export default class FieldHostRenderer extends BaseComponent<
       'add',
       index,
       count,
-      shouldNavigate ? this.navigate : null
+      shouldNavigate ? this.navigate : null,
     );
   };
 
@@ -184,20 +184,20 @@ export default class FieldHostRenderer extends BaseComponent<
     const linkedStructField = fieldReference.field as ILinkedStructField;
 
     const {
-      reference: { struct, block }
+      reference: { struct, block },
     } = linkedStructField;
 
     push({
       block: block.name,
       path: `${fieldPath}.${index}`,
-      struct: struct.name
+      struct: struct.name,
     });
   };
 
   private canAdd = () => {
     const {
       fieldReference: { field },
-      fieldValue
+      fieldValue,
     } = this.props;
 
     const linkedStructField = field as ILinkedStructField;
@@ -220,7 +220,7 @@ export default class FieldHostRenderer extends BaseComponent<
   private canRemove = (_: number) => {
     const {
       fieldReference: { field },
-      fieldValue
+      fieldValue,
     } = this.props;
 
     const linkedStructField = field as ILinkedStructField;
@@ -243,7 +243,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
   private renderField(
     fieldReference: IFieldReference,
-    fieldProps: IFieldRenderer
+    fieldProps: IFieldRenderer,
   ) {
     const {
       childErrors,
@@ -251,7 +251,7 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldPath,
       formValue,
       parentValue,
-      rendererOptions
+      rendererOptions,
     } = this.props;
 
     const { field } = fieldReference;
@@ -310,19 +310,19 @@ export default class FieldHostRenderer extends BaseComponent<
 
         if (!collectionReferences || !collectionReferences[struct.name]) {
           Logger.error(
-            `A collection reference must be defined for key: ${struct.name}.`
+            `A collection reference must be defined for key: ${struct.name}.`,
           );
         } else {
           const collectionReference = collectionReferences[struct.name]({
             formValue,
-            parentValue
+            parentValue,
           });
 
           if (Array.isArray(collectionReference)) {
             options = collectionReference.map((x) => ({
               label: x[labelField.name],
               selected: x[keyField.name] === fieldProps.value,
-              value: x[keyField.name]
+              value: x[keyField.name],
             }));
           }
         }
@@ -337,7 +337,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
         const foreignKeyFieldProps: IForeignKeyFieldRenderer = {
           ...fieldProps,
-          options
+          options,
         };
 
         return <ForeignKeyFieldRenderer {...foreignKeyFieldProps} />;
@@ -373,8 +373,8 @@ export default class FieldHostRenderer extends BaseComponent<
           values.forEach((value, index) => {
             mappedValue.push(
               block.fields.map(
-                ({ field: blockField }) => value[blockField.name]
-              )
+                ({ field: blockField }) => value[blockField.name],
+              ),
             );
 
             readOnlyValues[index] = this.isReadOnly(`${fieldPath}.${index}`);
@@ -390,7 +390,7 @@ export default class FieldHostRenderer extends BaseComponent<
             onRemove: this.onRemove,
             readOnlyValues,
             value: mappedValue,
-            valueErrorIndicators: childErrors
+            valueErrorIndicators: childErrors,
           };
 
           return <LinkedStructFieldRenderer {...tableLinkedStructFieldProps} />;
@@ -417,7 +417,7 @@ export default class FieldHostRenderer extends BaseComponent<
             onAdd: () => this.onAdd((values && values.length) || 0),
             onRemove: this.onRemove,
             readOnlyRenderedItems: readOnlyValues,
-            renderedItems: items
+            renderedItems: items,
           };
 
           return (
@@ -429,7 +429,7 @@ export default class FieldHostRenderer extends BaseComponent<
         const {
           multiSelect,
           options: listOptions,
-          hints: { layout }
+          hints: { layout },
         } = field as IListField;
 
         const ListFieldRenderer =
@@ -448,7 +448,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
         const options = listOptions.map((option) => ({
           ...option,
-          selected: value.findIndex((x) => x === option.value) >= 0
+          selected: value.findIndex((x) => x === option.value) >= 0,
         }));
 
         if (
@@ -462,7 +462,7 @@ export default class FieldHostRenderer extends BaseComponent<
         const listFieldProps: ISelectListFieldRenderer = {
           ...fieldProps,
           multiSelect,
-          options
+          options,
         };
 
         return <ListFieldRenderer {...listFieldProps} />;

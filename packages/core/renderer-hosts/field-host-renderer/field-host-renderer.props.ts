@@ -6,7 +6,7 @@ import {
   IField,
   IFieldReference,
   ILinkedStructField,
-  SimpleFieldValue
+  SimpleFieldValue,
 } from '../../models/schema';
 import { ChangeArrayActionType } from '../../renderer-hosts/field-host-renderer/field-host-renderer.actions';
 import { INavState } from '../../store';
@@ -38,7 +38,7 @@ export interface IFieldHostRendererProps
   changeValue: (
     field: IField,
     fieldPath: string,
-    value: SimpleFieldValue | SimpleFieldValue[]
+    value: SimpleFieldValue | SimpleFieldValue[],
   ) => void;
   changeArrayValue: (
     field: ILinkedStructField,
@@ -46,7 +46,7 @@ export interface IFieldHostRendererProps
     type: ChangeArrayActionType,
     startingIndex: number,
     count: number,
-    navigateFunc?: (index: number) => void
+    navigateFunc?: (index: number) => void,
   ) => void;
   push: (state: INavState) => void;
 }

@@ -1,13 +1,13 @@
 import {
   FieldChangeNotificationType,
   IFieldChangeNotificationParams,
-  IFieldParentChangeNotificationParams
+  IFieldParentChangeNotificationParams,
 } from '../../form/form.props';
 import {
   ComplexFieldValue,
   IField,
   ILinkedStructField,
-  SimpleFieldValue
+  SimpleFieldValue,
 } from '../../models/schema';
 import { IStore, IStoreState } from '../../store';
 import createFieldParent from '../../utils/create-field-parent';
@@ -15,7 +15,7 @@ import formPathToValue from '../../utils/form-path-to-value';
 import generateChildErrors from '../../utils/generate-child-errors';
 import {
   validateField,
-  validateLinkedStructField
+  validateLinkedStructField,
 } from '../../utils/validation-helper';
 
 export type ChangeArrayActionType = 'add' | 'remove';
@@ -31,7 +31,7 @@ const generateId = () =>
 function onFieldChange(
   store: IStore,
   type: FieldChangeNotificationType,
-  params: IFieldChangeNotificationParams
+  params: IFieldChangeNotificationParams,
 ) {
   clearTimeout(DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path]);
   delete DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path];
@@ -49,7 +49,7 @@ function onFieldChange(
     if (onFieldChangeInputTimeout && type === 'input') {
       timeoutId = setTimeout(
         () => onFieldChangeAsync(id, store, params),
-        onFieldChangeInputTimeout
+        onFieldChangeInputTimeout,
       );
     } else {
       timeoutId = setTimeout(() => {
@@ -70,7 +70,7 @@ function onFieldChange(
 function onFieldChangeAsync(
   id: string,
   { getState, setState }: IStore,
-  params: IFieldChangeNotificationParams
+  params: IFieldChangeNotificationParams,
 ) {
   delete DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path];
 
@@ -79,8 +79,8 @@ function onFieldChangeAsync(
   setState({
     busy: {
       ...state.busy,
-      [params.path]: true
-    }
+      [params.path]: true,
+    },
   });
 
   PENDING_FIELD_CHANGE_REQUESTS[params.path] = id;
@@ -97,12 +97,12 @@ function onFieldChangeAsync(
     setState({
       busy: {
         ...newState.busy,
-        [params.path]: false
+        [params.path]: false,
       },
       externalErrors: {
         ...newState.externalErrors,
-        [params.path]: externalErrors
-      }
+        [params.path]: externalErrors,
+      },
     });
   });
 }
@@ -114,19 +114,19 @@ export default function fieldHostRendererActions(store: IStore) {
     focusField: (
       state: IStoreState,
       _: IField,
-      fieldPath: string
+      fieldPath: string,
     ): Partial<IStoreState> => {
       const value = formPathToValue(state.value, fieldPath);
 
       return {
         focused: {
           ...state.focused,
-          [fieldPath]: value
+          [fieldPath]: value,
         },
         touched: {
           ...state.touched,
-          [fieldPath]: true
-        }
+          [fieldPath]: true,
+        },
       };
     },
 
@@ -134,7 +134,7 @@ export default function fieldHostRendererActions(store: IStore) {
       state: IStoreState,
       field: IField,
       fieldPath: string,
-      parentPath?: string
+      parentPath?: string,
     ): Partial<IStoreState> => {
       const struct = state.schema.structs.find((x) => x.name === field.struct);
       const oldValue = state.focused[fieldPath];
@@ -151,7 +151,7 @@ export default function fieldHostRendererActions(store: IStore) {
         parentValue,
         state.schema.validators,
         state.schema.validatorMessages,
-        state.collectionReferences
+        state.collectionReferences,
       );
 
       const focused = { ...state.focused };
@@ -160,13 +160,13 @@ export default function fieldHostRendererActions(store: IStore) {
       setState({
         errors: {
           ...state.errors,
-          [fieldPath]: errors
+          [fieldPath]: errors,
         },
         focused,
         touched: {
           ...state.touched,
-          [fieldPath]: true
-        }
+          [fieldPath]: true,
+        },
       });
 
       if (
@@ -179,7 +179,7 @@ export default function fieldHostRendererActions(store: IStore) {
           newValue,
           oldValue,
           parentValue: parentValue || state.value,
-          path: fieldPath
+          path: fieldPath,
         });
       }
 
@@ -190,7 +190,7 @@ export default function fieldHostRendererActions(store: IStore) {
       state: IStoreState,
       field: IField,
       fieldPath: string,
-      fieldValue: SimpleFieldValue | SimpleFieldValue[]
+      fieldValue: SimpleFieldValue | SimpleFieldValue[],
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const struct = state.schema.structs.find((x) => x.name === field.struct);
       const oldValue = formPathToValue(state.value, fieldPath);
@@ -221,9 +221,9 @@ export default function fieldHostRendererActions(store: IStore) {
       const updates: Partial<IStoreState> = {
         externalErrors: {
           ...state.externalErrors,
-          [fieldPath]: []
+          [fieldPath]: [],
         },
-        value: newFormValue
+        value: newFormValue,
       };
 
       if (state.touched[fieldPath]) {
@@ -236,12 +236,12 @@ export default function fieldHostRendererActions(store: IStore) {
           parentValue,
           state.schema.validators,
           state.schema.validatorMessages,
-          state.collectionReferences
+          state.collectionReferences,
         );
 
         const newErrors = {
           ...state.errors,
-          [fieldPath]: errors
+          [fieldPath]: errors,
         };
 
         updates.errors = newErrors;
@@ -260,7 +260,7 @@ export default function fieldHostRendererActions(store: IStore) {
           newValue: fieldValue,
           oldValue,
           parentValue,
-          path: fieldPath
+          path: fieldPath,
         };
 
         return onFieldChange(store, 'input', params);
@@ -276,7 +276,7 @@ export default function fieldHostRendererActions(store: IStore) {
       type: ChangeArrayActionType,
       startingIndex: number,
       count: number = 1,
-      navigateFunc?: (index: number) => void
+      navigateFunc?: (index: number) => void,
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const oldValue = formPathToValue(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
@@ -288,7 +288,7 @@ export default function fieldHostRendererActions(store: IStore) {
       if (type === 'add') {
         for (let i = 0; i < itemsToCreate; i++) {
           const newValue = createFieldParent(
-            field.reference.struct.fields.map((x) => x)
+            field.reference.struct.fields.map((x) => x),
           );
 
           newPaths.push(`${fieldPath}.${startingIndex + i}`);
@@ -334,25 +334,25 @@ export default function fieldHostRendererActions(store: IStore) {
 
       const errors = validateLinkedStructField(
         field,
-        iterationValue as object[]
+        iterationValue as object[],
       );
 
       const newErrors = {
         ...state.errors,
-        [fieldPath]: errors
+        [fieldPath]: errors,
       };
 
       setState({
         errors: newErrors,
         externalErrors: {
           ...state.externalErrors,
-          [fieldPath]: []
+          [fieldPath]: [],
         },
         touched: {
           ...state.touched,
-          [fieldPath]: true
+          [fieldPath]: true,
         },
-        value: newFormValue
+        value: newFormValue,
       });
 
       if (state.onFieldParentChange) {
@@ -361,7 +361,7 @@ export default function fieldHostRendererActions(store: IStore) {
           newValue: formPathToValue(newFormValue, fieldPath),
           oldValue,
           parentValue,
-          path: fieldPath
+          path: fieldPath,
         };
 
         const changedIndicies = [];
@@ -377,7 +377,7 @@ export default function fieldHostRendererActions(store: IStore) {
 
         if (state.onFieldParentChange.length > 1) {
           setState({
-            formLocked: true
+            formLocked: true,
           });
 
           return new Promise<Partial<IStoreState>>((resolve) => {
@@ -387,9 +387,9 @@ export default function fieldHostRendererActions(store: IStore) {
               resolve({
                 externalErrors: {
                   ...newState.externalErrors,
-                  [fieldPath]: externalErrors
+                  [fieldPath]: externalErrors,
                 },
-                formLocked: false
+                formLocked: false,
               });
 
               if (navigateFunc) {
@@ -407,6 +407,6 @@ export default function fieldHostRendererActions(store: IStore) {
       }
 
       return {};
-    }
+    },
   };
 }

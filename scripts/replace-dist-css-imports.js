@@ -4,7 +4,7 @@ const options = {
   files: 'dist/**/*.js',
   from: /import \'(.*).css\';/g,
   to: '',
-  verbose: true
+  verbose: true,
 };
 
 const changes = replace.sync(options);

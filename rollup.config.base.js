@@ -41,15 +41,15 @@ function generateDefaultConfig(pkg, external, minify) {
       file: path.join(outDir, mainFile),
       format: 'umd',
       sourcemap: true,
-      globals: { preact: 'preact' }
-    }
+      globals: { preact: 'preact' },
+    },
   ];
 
   if (!minify) {
     output.push({
       file: path.join(outDir, pkg.module),
       format: 'es',
-      sourcemap: true
+      sourcemap: true,
     });
   }
 
@@ -59,25 +59,25 @@ function generateDefaultConfig(pkg, external, minify) {
     external,
     plugins: [
       replace({
-        'process.env.ENABLE_LOGGING': false
+        'process.env.ENABLE_LOGGING': false,
       }),
       postcss({
         extract: styleFile,
-        minimize: minify
+        minimize: minify,
       }),
       typescript({
         typescript: require('typescript'),
         tsconfigOverride: {
           compilerOptions: {
-            declaration: false
-          }
+            declaration: false,
+          },
         },
-        cacheRoot
+        cacheRoot,
       }),
       commonjs(),
       resolve(),
-      sourceMaps()
-    ]
+      sourceMaps(),
+    ],
   };
 
   config.plugins.push(filesize());
@@ -93,7 +93,7 @@ function generateMainConfig(pkg, external, minify) {
   const config = generateDefaultConfig(pkg, external, minify);
 
   const newPkg = {
-    ...pkg
+    ...pkg,
   };
 
   delete newPkg.scripts;
@@ -107,8 +107,8 @@ function generateMainConfig(pkg, external, minify) {
     config.plugins.push(
       generatePackageJson({
         baseContents: newPkg,
-        outputFolder: outDir
-      })
+        outputFolder: outDir,
+      }),
     );
   }
 
@@ -120,6 +120,6 @@ export function generateConfig(external) {
 
   return [
     generateMainConfig(pkg, external),
-    generateMainConfig(pkg, external, true)
+    generateMainConfig(pkg, external, true),
   ];
 }

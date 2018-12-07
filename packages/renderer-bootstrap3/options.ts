@@ -29,9 +29,9 @@ const Bootstrap3RendererOptions: IRendererOptions = {
     selectListField: Bootstrap3ListFieldRenderer,
     stamp: Bootstrap3StampRenderer,
     tableLinkedStructField: Bootstrap3TableLinkedStructFieldRenderer,
-    textField: Bootstrap3InputFieldRenderer
+    textField: Bootstrap3InputFieldRenderer,
   },
-  formClassName: 'de-re-crud-form-bootstrap3'
+  formClassName: 'de-re-crud-form-bootstrap3',
 };
 
 export default Bootstrap3RendererOptions;

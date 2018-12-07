@@ -1,7 +1,7 @@
 import { ILabel } from '../../models/schema';
 
 export default function parseLabel(
-  labelJson?: string | { short?: string; medium?: string; long?: string }
+  labelJson?: string | { short?: string; medium?: string; long?: string },
 ): ILabel {
   let label: ILabel;
 
@@ -13,13 +13,13 @@ export default function parseLabel(
     label = {
       long: labelJson,
       medium: labelJson,
-      short: labelJson
+      short: labelJson,
     };
   } else {
     label = {
       long: labelJson.long || labelJson.medium || labelJson.short || '',
       medium: labelJson.medium || labelJson.short || labelJson.long || '',
-      short: labelJson.short || labelJson.medium || labelJson.long || ''
+      short: labelJson.short || labelJson.medium || labelJson.long || '',
     };
   }
 

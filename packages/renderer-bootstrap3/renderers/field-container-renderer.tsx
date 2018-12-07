@@ -5,13 +5,13 @@ import { h } from 'preact';
 const Bootstrap3FieldContainerRenderer = ({
   fieldDescription,
   errors,
-  renderedField
+  renderedField,
 }: IFieldContainerRenderer) => (
   <div
     className={combineCssClasses(
       'form-group',
       'bootstrap3-field-container-renderer',
-      errors.length && 'has-error'
+      errors.length && 'has-error',
     )}
   >
     {renderedField}

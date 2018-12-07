@@ -4,14 +4,14 @@ import {
   IIntegerField,
   ILinkedStructField,
   IListField,
-  ITextField
+  ITextField,
 } from '../../models/schema';
 import parseLabel from './parse-label';
 
 export default function parseField(structName: string, fieldJson: any): IField {
   const result: IField = {
     hints: {
-      width: DEFAULT_FIELD_WIDTH
+      width: DEFAULT_FIELD_WIDTH,
     },
     keyField: fieldJson.keyField || false,
     label: parseLabel(fieldJson.label),
@@ -19,7 +19,7 @@ export default function parseField(structName: string, fieldJson: any): IField {
     required: fieldJson.required || false,
     struct: structName,
     type: fieldJson.type,
-    unique: fieldJson.unique || false
+    unique: fieldJson.unique || false,
   };
 
   if (typeof fieldJson.help !== 'undefined') {
@@ -86,7 +86,7 @@ export default function parseField(structName: string, fieldJson: any): IField {
         fieldJson.options.forEach((option) => {
           listField.options.push({
             label: option.label,
-            value: option.value
+            value: option.value,
           });
         });
       }

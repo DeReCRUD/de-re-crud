@@ -2,7 +2,7 @@ import { IBlockContainerRenderer } from '@de-re-crud/core/models/renderers';
 import { h } from 'preact';
 
 const Bootstrap4BlockContainerRenderer = ({
-  rows
+  rows,
 }: IBlockContainerRenderer) => (
   <div className="bootstrap4-block-container-renderer">
     {rows.map((row) => (

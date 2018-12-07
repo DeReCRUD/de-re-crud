@@ -14,7 +14,7 @@ const Bootstrap4SelectRenderer = ({
   onBlur,
   onChange,
   required,
-  readOnly
+  readOnly,
 }: Bootstrap4SelectRendererProps) => (
   <div className="bootstrap4-select-renderer">
     <Bootstrap4LabelRenderer fieldRequired={required}>
@@ -23,7 +23,7 @@ const Bootstrap4SelectRenderer = ({
     <select
       className={combineCssClasses(
         'custom-select',
-        errors.length && 'is-invalid'
+        errors.length && 'is-invalid',
       )}
       onFocus={onFocus}
       onBlur={onBlur}

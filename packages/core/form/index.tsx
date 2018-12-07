@@ -27,7 +27,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       struct,
       schema,
       type,
-      initialValue
+      initialValue,
     } = props;
 
     this.store = createStore(
@@ -45,7 +45,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       onFieldChange,
       onFieldChangeInputTimeout,
       onFieldChangeType,
-      onFieldParentChange
+      onFieldParentChange,
     );
   }
 
@@ -64,7 +64,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       'onFieldParentChange',
       'buttonOptions',
       'rendererOptions',
-      'collectionReferences'
+      'collectionReferences',
     ];
 
     if (

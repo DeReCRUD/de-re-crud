@@ -10,7 +10,7 @@ const Bootstrap3BooleanFieldRenderer = ({
   onBlur,
   onChange,
   required,
-  readOnly
+  readOnly,
 }: IBooleanFieldRenderer) => {
   return (
     <div className="bootstrap3-boolean-field-renderer checkbox">

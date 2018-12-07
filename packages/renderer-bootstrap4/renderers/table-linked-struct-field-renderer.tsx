@@ -18,7 +18,7 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
   canRemove,
   onAdd,
   onEdit,
-  onRemove
+  onRemove,
 }: ITableLinkedStructRenderer) => {
   const rows = [];
 
@@ -49,7 +49,7 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
             )}
           </div>
         </td>
-      </tr>
+      </tr>,
     );
   });
 

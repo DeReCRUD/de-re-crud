@@ -8,7 +8,7 @@ export default abstract class BaseComponent<
   public shouldComponentUpdate(
     nextProps: Readonly<P>,
     nextState: Readonly<S>,
-    _: any
+    _: any,
   ) {
     return shallowCompare(this, nextProps, nextState);
   }

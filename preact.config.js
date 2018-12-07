@@ -9,21 +9,21 @@ module.exports = function(config) {
   delete config.module.loaders;
 
   const jsonLoaderIndex = config.module.rules.findIndex(
-    (x) => x.loader === 'json-loader'
+    (x) => x.loader === 'json-loader',
   );
 
   config.module.rules.splice(jsonLoaderIndex, 1);
 
   config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env.ENABLE_LOGGING': process.env.ENABLE_LOGGING || false
-    })
+      'process.env.ENABLE_LOGGING': process.env.ENABLE_LOGGING || false,
+    }),
   );
 
   config.resolve.alias['preact-cli-entrypoint'] = resolve(
     __dirname,
     'packages',
     'schema-builder',
-    'index'
+    'index',
   );
 };

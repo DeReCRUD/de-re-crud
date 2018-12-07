@@ -5,9 +5,9 @@ describe('formPathToValue', () => {
     const value = {
       parent: {
         child: {
-          value: 1
-        }
-      }
+          value: 1,
+        },
+      },
     };
 
     expect(formPathToValue(value)).toBe(value);
@@ -17,9 +17,9 @@ describe('formPathToValue', () => {
     const value = {
       parent: {
         child: {
-          value: 1
-        }
-      }
+          value: 1,
+        },
+      },
     };
 
     expect(formPathToValue(value, 'parent.child.value')).toBe(1);
@@ -29,9 +29,9 @@ describe('formPathToValue', () => {
     const value = {
       parent: {
         child: {
-          array: [{ value: 1 }]
-        }
-      }
+          array: [{ value: 1 }],
+        },
+      },
     };
 
     expect(formPathToValue(value, 'parent.child.array.0.value')).toBe(1);

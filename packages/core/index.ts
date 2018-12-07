@@ -16,7 +16,7 @@ export {
   FieldParentChangeNotification,
   IFieldParentChangeNotificationParams,
   ICollectionReferences,
-  CollectionReference
+  CollectionReference,
 } from './form/form.props';
 
 export { DeReCrudOptions } from './options';
@@ -24,7 +24,7 @@ export { DeReCrudOptions } from './options';
 export function renderForm(
   formComponent: ComponentConstructor<IFormProps>,
   props: IFormProps,
-  nativeElement: Element
+  nativeElement: Element,
 ) {
   const preactElement = h(formComponent, props);
 
@@ -35,11 +35,11 @@ export type DestroyFunc = () => void;
 
 export type ComponentRenderer<IProps> = (
   props: Readonly<IProps>,
-  nativeElement: Element
+  nativeElement: Element,
 ) => DestroyFunc;
 
 export function wrapComponent<IProps>(
-  renderer: ComponentRenderer<IProps>
+  renderer: ComponentRenderer<IProps>,
 ): ComponentConstructor<IProps> {
   return class WrappedComponent extends BaseComponent<IProps> {
     private destroyFunc: DestroyFunc;

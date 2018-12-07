@@ -3,7 +3,7 @@ import {
   FieldValue,
   IOption,
   SimpleFieldValue,
-  StampSize
+  StampSize,
 } from './schema';
 
 export interface ISelectableOption extends IOption {

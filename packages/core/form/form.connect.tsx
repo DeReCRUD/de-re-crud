@@ -17,7 +17,7 @@ const mapToProps = ({
   struct,
   formLocked,
   formSubmitting,
-  type
+  type,
 }: IStoreState): Partial<IFormProps> => ({
   block,
   buttonOptions,
@@ -28,10 +28,10 @@ const mapToProps = ({
   rendererOptions,
   schema,
   struct,
-  type
+  type,
 });
 
 export default connect(
   mapToProps,
-  combineActions(navigationActions, formActions)
+  combineActions(navigationActions, formActions),
 )(Form) as ComponentConstructor<{}>;

@@ -9,7 +9,7 @@ export interface IBootstrap3LabelRenderer {
 
 const Bootstrap3LabelRenderer = ({
   children,
-  fieldRequired
+  fieldRequired,
 }: IBootstrap3LabelRenderer) => (
   <label class="bootstrap3-label-renderer">
     {children}

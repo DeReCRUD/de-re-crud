@@ -29,9 +29,9 @@ const Bootstrap4RendererOptions: IRendererOptions = {
     selectListField: Bootstrap4ListFieldRenderer,
     stamp: Bootstrap4StampRenderer,
     tableLinkedStructField: Bootstrap4TableLinkedStructFieldRenderer,
-    textField: Bootstrap4InputFieldRenderer
+    textField: Bootstrap4InputFieldRenderer,
   },
-  formClassName: 'de-re-crud-form-bootstrap4'
+  formClassName: 'de-re-crud-form-bootstrap4',
 };
 
 export default Bootstrap4RendererOptions;

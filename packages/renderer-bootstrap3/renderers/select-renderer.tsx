@@ -12,7 +12,7 @@ const Bootstrap3SelectRenderer = ({
   onBlur,
   onChange,
   required,
-  readOnly
+  readOnly,
 }: Bootstrap3SelectRendererProps) => (
   <div className="bootstrap3-select-renderer">
     <Bootstrap3LabelRenderer fieldRequired={required}>

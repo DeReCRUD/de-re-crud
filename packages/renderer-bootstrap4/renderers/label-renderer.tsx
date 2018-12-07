@@ -14,7 +14,7 @@ const Bootstrap4LabelRenderer = ({
   htmlFor,
   className,
   children,
-  fieldRequired
+  fieldRequired,
 }: IBootstrap4LabelRenderer) => (
   <label
     for={htmlFor}

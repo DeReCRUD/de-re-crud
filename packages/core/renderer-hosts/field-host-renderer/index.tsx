@@ -8,7 +8,7 @@ import fieldHostRendererActions from './field-host-renderer.actions';
 import FieldHostRenderer from './field-host-renderer.component';
 import {
   IFieldHostRendererConnectProps,
-  IFieldHostRendererProps
+  IFieldHostRendererProps,
 } from './field-host-renderer.props';
 
 const mapToProps = (
@@ -22,12 +22,12 @@ const mapToProps = (
     externalChildErrors,
     externalErrors,
     rendererOptions,
-    collectionReferences
+    collectionReferences,
   }: IStoreState,
-  { fieldPath, parentPath }: IFieldHostRendererConnectProps
+  { fieldPath, parentPath }: IFieldHostRendererConnectProps,
 ): Partial<IFieldHostRendererProps> => {
   const combinedChildErrors = {
-    ...externalChildErrors[fieldPath]
+    ...externalChildErrors[fieldPath],
   };
 
   if (childErrors[fieldPath]) {
@@ -53,11 +53,11 @@ const mapToProps = (
     parentValue: formPathToValue(value, parentPath),
     readOnly,
     rendererOptions,
-    touched: touched[fieldPath] || false
+    touched: touched[fieldPath] || false,
   };
 };
 
 export default connect(
   mapToProps,
-  combineActions(fieldHostRendererActions, navigationActions)
+  combineActions(fieldHostRendererActions, navigationActions),
 )(FieldHostRenderer) as ComponentConstructor<IFieldHostRendererConnectProps>;

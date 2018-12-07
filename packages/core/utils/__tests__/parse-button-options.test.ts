@@ -8,16 +8,16 @@ describe('parseButtonOptions', () => {
         classNames: [],
         includeButtonClassNames: true,
         text: 'Back',
-        visible: true
+        visible: true,
       },
       button: {
-        classNames: []
+        classNames: [],
       },
       cancelButton: {
         classNames: [],
         includeButtonClassNames: true,
         text: 'Cancel',
-        visible: true
+        visible: true,
       },
       submitButton: {
         appendStructLabel: true,
@@ -25,8 +25,8 @@ describe('parseButtonOptions', () => {
         createText: 'Create',
         includeButtonClassNames: true,
         updateText: 'Update',
-        visible: true
-      }
+        visible: true,
+      },
     };
 
     expect(parseButtonOptions()).toEqual(expected);
@@ -36,17 +36,17 @@ describe('parseButtonOptions', () => {
     const input: IButtonOptions = {
       backButton: {
         text: 'Return',
-        visible: true
+        visible: true,
       },
       cancelButton: {
         text: 'Close',
-        visible: false
+        visible: false,
       },
       submitButton: {
         classNames: ['.action-button'],
         createText: 'Add',
-        includeButtonClassNames: false
-      }
+        includeButtonClassNames: false,
+      },
     };
 
     const expected: IButtonOptions = {
@@ -54,16 +54,16 @@ describe('parseButtonOptions', () => {
         classNames: [],
         includeButtonClassNames: true,
         text: 'Return',
-        visible: true
+        visible: true,
       },
       button: {
-        classNames: []
+        classNames: [],
       },
       cancelButton: {
         classNames: [],
         includeButtonClassNames: true,
         text: 'Close',
-        visible: false
+        visible: false,
       },
       submitButton: {
         appendStructLabel: true,
@@ -71,8 +71,8 @@ describe('parseButtonOptions', () => {
         createText: 'Add',
         includeButtonClassNames: false,
         updateText: 'Update',
-        visible: true
-      }
+        visible: true,
+      },
     };
 
     expect(parseButtonOptions(input)).toEqual(expected);
@@ -81,17 +81,17 @@ describe('parseButtonOptions', () => {
   it('should assign altered defaults', () => {
     const defaultOptions: IButtonOptions = {
       backButton: {
-        includeButtonClassNames: false
+        includeButtonClassNames: false,
       },
       button: {
-        classNames: ['.button']
+        classNames: ['.button'],
       },
       cancelButton: {
-        includeButtonClassNames: false
+        includeButtonClassNames: false,
       },
       submitButton: {
-        updateText: 'Save'
-      }
+        updateText: 'Save',
+      },
     };
 
     const expected: IButtonOptions = {
@@ -99,16 +99,16 @@ describe('parseButtonOptions', () => {
         classNames: [],
         includeButtonClassNames: false,
         text: 'Back',
-        visible: true
+        visible: true,
       },
       button: {
-        classNames: ['.button']
+        classNames: ['.button'],
       },
       cancelButton: {
         classNames: [],
         includeButtonClassNames: false,
         text: 'Cancel',
-        visible: true
+        visible: true,
       },
       submitButton: {
         appendStructLabel: true,
@@ -116,8 +116,8 @@ describe('parseButtonOptions', () => {
         createText: 'Create',
         includeButtonClassNames: true,
         updateText: 'Save',
-        visible: true
-      }
+        visible: true,
+      },
     };
 
     expect(parseButtonOptions(null, defaultOptions)).toEqual(expected);

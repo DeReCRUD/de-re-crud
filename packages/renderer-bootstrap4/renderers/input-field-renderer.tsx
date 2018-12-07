@@ -15,7 +15,7 @@ const Bootstrap4InputFieldRenderer = ({
   maxLength,
   required,
   readOnly,
-  errors
+  errors,
 }: ITextFieldRenderer) => {
   let inputType;
 

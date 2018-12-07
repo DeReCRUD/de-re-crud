@@ -21,7 +21,7 @@ export default function generateChildErrors(errors: IErrors): IChildErrors {
 
       childErrors[parentPath] = {
         ...childErrors[parentPath],
-        [index]: true
+        [index]: true,
       };
 
       pathArray.pop();

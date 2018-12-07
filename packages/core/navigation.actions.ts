@@ -9,7 +9,7 @@ export default function navigationActions() {
       newStack.push(navState);
 
       return {
-        navStack: newStack
+        navStack: newStack,
       };
     },
 
@@ -20,8 +20,8 @@ export default function navigationActions() {
       newStack.pop();
 
       return {
-        navStack: newStack
+        navStack: newStack,
       };
-    }
+    },
   };
 }

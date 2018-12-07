@@ -11,7 +11,7 @@ export default class StampHostRenderer extends BaseComponent<
       stamp,
       formValue,
       parentValue,
-      rendererOptions
+      rendererOptions,
     } = this.props;
 
     if (!stamp.condition(parentValue, formValue)) {

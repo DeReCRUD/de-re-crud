@@ -4,7 +4,7 @@ import createFieldParent from '../create-field-parent';
 const fields: IField[] = [
   {
     hints: {
-      width: 1
+      width: 1,
     },
     initialValue: 'Test',
     keyField: false,
@@ -13,8 +13,8 @@ const fields: IField[] = [
     required: false,
     struct: 'struct',
     type: 'text',
-    unique: false
-  }
+    unique: false,
+  },
 ];
 
 describe('createFieldParent', () => {
@@ -25,13 +25,13 @@ describe('createFieldParent', () => {
   it('should return field parent with initial values', () => {
     expect(createFieldParent(fields, { test2: 'Test2' })).toEqual({
       test1: 'Test',
-      test2: 'Test2'
+      test2: 'Test2',
     });
   });
 
   it('should return field parent without initial values if already set in field parent', () => {
     expect(createFieldParent(fields, { test1: 'Existing' })).toEqual({
-      test1: 'Existing'
+      test1: 'Existing',
     });
   });
 
@@ -53,20 +53,20 @@ describe('createFieldParent', () => {
           fields: [
             {
               initialValue: 'Test2',
-              name: 'test2'
-            }
-          ]
-        }
+              name: 'test2',
+            },
+          ],
+        },
       },
-      type: 'linkedStruct'
+      type: 'linkedStruct',
     } as ILinkedStructField;
 
     expect(createFieldParent(fieldsWithLinkedStruct, { test1: [{}] })).toEqual({
       test1: [
         {
-          test2: 'Test2'
-        }
-      ]
+          test2: 'Test2',
+        },
+      ],
     });
   });
 });

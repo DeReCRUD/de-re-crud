@@ -7,7 +7,7 @@ import {
   FieldParentChangeNotification,
   FormSubmission,
   FormType,
-  ICollectionReferences
+  ICollectionReferences,
 } from './form/form.props';
 import { IButtonOptions } from './models/button-options';
 import { IChildErrors, IErrors } from './models/errors';
@@ -89,7 +89,7 @@ export function createStore(
   onFieldChange?: FieldChangeNotification,
   onFieldChangeInputTimeout?: number,
   onFieldChangeType?: FieldChangeNotificationType,
-  onFieldParentChange?: FieldParentChangeNotification
+  onFieldParentChange?: FieldParentChangeNotification,
 ): IStore {
   const schema = SchemaParser.parse(schemaJson);
 
@@ -104,7 +104,7 @@ export function createStore(
     const allKeyFieldsSet =
       keyFields.length > 0 &&
       keyFields.every(
-        (keyField) => typeof initialValue[keyField.name] !== 'undefined'
+        (keyField) => typeof initialValue[keyField.name] !== 'undefined',
       );
 
     type = allKeyFieldsSet ? 'update' : 'create';
@@ -115,7 +115,7 @@ export function createStore(
     busy: {},
     buttonOptions: parseButtonOptions(
       buttonOptions,
-      optionDefaults.buttonOptions
+      optionDefaults.buttonOptions,
     ),
     childErrors: {},
     collectionReferences,
@@ -140,11 +140,11 @@ export function createStore(
     struct,
     touched: {},
     type,
-    value: initialValue
+    value: initialValue,
   };
 
   const middlewares = [logger, connect ? connect(state) : null].filter(
-    (x) => x
+    (x) => x,
   );
 
   return createReduxZeroStore(state, applyMiddleware(...middlewares)) as IStore;

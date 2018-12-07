@@ -30,7 +30,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       formSubmitting,
       submitForm,
       pop,
-      onCancel
+      onCancel,
     } = this.props;
 
     if (!schema.raw) {
@@ -44,7 +44,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
 
     if (!rendererOptions || !rendererOptions.components) {
       Logger.error(
-        'No rendererOptions have been set. Use DeReCrudOptions.setDefaults or rendererOptions on the form instance.'
+        'No rendererOptions have been set. Use DeReCrudOptions.setDefaults or rendererOptions on the form instance.',
       );
       return null;
     }
@@ -62,13 +62,13 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     }
 
     const structReference = schema.structs.find(
-      (x) => x.name === visibleStruct
+      (x) => x.name === visibleStruct,
     );
 
     const classNames = [
       'de-re-crud-form',
       className,
-      rendererOptions.formClassName
+      rendererOptions.formClassName,
     ];
 
     if (!structReference) {
@@ -79,18 +79,18 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     if (!structReference.blocks.length) {
       Logger.error(
         `No blocks defined for struct '${visibleStruct}'.`,
-        structReference
+        structReference,
       );
       return null;
     }
 
     let blockReference = structReference.blocks.find(
-      (x) => x.name === visibleBlock
+      (x) => x.name === visibleBlock,
     );
 
     if (!blockReference) {
       Logger.warning(
-        `No block specified and the 'default' block is not defined. Defalting to first defined block.`
+        `No block specified and the 'default' block is not defined. Defalting to first defined block.`,
       );
 
       blockReference = structReference.blocks[0];

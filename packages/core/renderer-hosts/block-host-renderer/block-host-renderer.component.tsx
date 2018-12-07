@@ -6,7 +6,7 @@ import {
   IBlock,
   IBlockReference,
   IFieldReference,
-  IStamp
+  IStamp,
 } from '../../models/schema';
 import formPathToValue from '../../utils/form-path-to-value';
 import FieldHostRenderer from '../field-host-renderer';
@@ -22,7 +22,7 @@ export default class BlockHostRenderer extends BaseComponent<
       block,
       path: parentPath,
       formValue,
-      rendererOptions
+      rendererOptions,
     } = this.props;
 
     if (!block.condition(formValue)) {
@@ -80,7 +80,7 @@ export default class BlockHostRenderer extends BaseComponent<
 
       if (!nextRow) {
         nextRow = {
-          cells: []
+          cells: [],
         };
 
         rows.push(nextRow);
@@ -88,7 +88,7 @@ export default class BlockHostRenderer extends BaseComponent<
 
       nextRow.cells.push({
         renderedItem: this.renderItem(item as IFieldReference | IStamp),
-        width
+        width,
       });
     });
 

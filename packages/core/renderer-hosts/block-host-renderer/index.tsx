@@ -4,17 +4,17 @@ import { IStoreState } from '../../store';
 import BlockHostRenderer from './block-host-renderer.component';
 import {
   IBlockHostRendererConnectProps,
-  IBlockHostRendererProps
+  IBlockHostRendererProps,
 } from './block-host-renderer.props';
 
 const mapToProps = ({
   formId,
   value,
-  rendererOptions
+  rendererOptions,
 }: IStoreState): Partial<IBlockHostRendererProps> => ({
   formId,
   formValue: value,
-  rendererOptions
+  rendererOptions,
 });
 
 export default connect(mapToProps)(BlockHostRenderer) as ComponentConstructor<

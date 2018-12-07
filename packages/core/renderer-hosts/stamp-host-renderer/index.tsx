@@ -5,16 +5,16 @@ import formPathToValue from '../../utils/form-path-to-value';
 import StampHostRenderer from './stamp-host-renderer.component';
 import {
   IStampHostRendererConnectProps,
-  IStampHostRendererProps
+  IStampHostRendererProps,
 } from './stamp-host-renderer.props';
 
 const mapToProps = (
   { value, rendererOptions }: IStoreState,
-  { parentPath }: IStampHostRendererConnectProps
+  { parentPath }: IStampHostRendererConnectProps,
 ): Partial<IStampHostRendererProps> => ({
   formValue: value,
   parentValue: formPathToValue(value, parentPath),
-  rendererOptions
+  rendererOptions,
 });
 
 export default connect(mapToProps)(StampHostRenderer) as ComponentConstructor<

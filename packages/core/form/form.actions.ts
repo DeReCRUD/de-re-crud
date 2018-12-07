@@ -17,7 +17,7 @@ function validateBlock(
   struct: IStruct,
   block: IBlock,
   parentValue: object,
-  parentPath?: string
+  parentPath?: string,
 ): IValidationResult {
   const outputValue = {};
   const errors: IErrors = {};
@@ -46,7 +46,7 @@ function validateBlock(
         parentValue,
         state.schema.validators,
         state.schema.validatorMessages,
-        state.collectionReferences
+        state.collectionReferences,
       );
 
       if (fieldErrors.length) {
@@ -69,7 +69,7 @@ function validateBlock(
                 linkedStructField.reference.struct,
                 linkedStructField.reference.block,
                 value,
-                itemPath
+                itemPath,
               );
 
               Object.assign(errors, result.errors);
@@ -100,14 +100,14 @@ function validateBlock(
     errors,
     hasErrors,
     outputValue,
-    touched
+    touched,
   };
 }
 
 export default function formActions({ setState }) {
   return {
     submitForm: (
-      state: IStoreState
+      state: IStoreState,
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const struct = state.schema.structs.find((x) => x.name === state.struct);
       const block = struct.blocks.find((x) => x.name === state.block);
@@ -119,7 +119,7 @@ export default function formActions({ setState }) {
         childErrors: generateChildErrors(errors),
         errors,
         formSubmitting: !hasErrors,
-        touched
+        touched,
       });
 
       if (hasErrors) {
@@ -132,7 +132,7 @@ export default function formActions({ setState }) {
             resolve({
               externalChildErrors: generateChildErrors(submissionErrors),
               externalErrors: submissionErrors,
-              formSubmitting: false
+              formSubmitting: false,
             });
             return;
           }
@@ -140,10 +140,10 @@ export default function formActions({ setState }) {
           resolve({
             externalChildErrors: {},
             externalErrors: {},
-            formSubmitting: false
+            formSubmitting: false,
           });
         });
       });
-    }
+    },
   };
 }

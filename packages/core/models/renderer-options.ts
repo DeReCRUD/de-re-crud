@@ -1,6 +1,6 @@
 import {
   ComponentConstructor,
-  FunctionalComponent
+  FunctionalComponent,
 } from '../models/constructors';
 import {
   IBlockContainerRenderer,
@@ -14,7 +14,7 @@ import {
   ISelectListFieldRenderer,
   IStampRenderer,
   ITableLinkedStructRenderer,
-  ITextFieldRenderer
+  ITextFieldRenderer,
 } from '../models/renderers';
 
 export interface IRendererOptions {

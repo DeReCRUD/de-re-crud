@@ -3,13 +3,13 @@ import {
   FormSubmissionCallback,
   ICollectionReferences,
   IFieldChangeNotificationParams,
-  IFieldParentChangeNotificationParams
+  IFieldParentChangeNotificationParams,
 } from '@de-re-crud/core/form/form.props';
 import Logger from '@de-re-crud/core/logger';
 import { IRendererOptions } from '@de-re-crud/core/models/renderer-options';
 import {
   FieldChangeEvent,
-  GenericEventTarget
+  GenericEventTarget,
 } from '@de-re-crud/core/models/renderers';
 import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
 import Bootstrap3RendererOptions from '@de-re-crud/renderer-bootstrap3/options';
@@ -32,15 +32,15 @@ const renderers: IRenderer[] = [
     name: 'bootstrap4',
     options: Bootstrap4RendererOptions,
     selectClassName: 'custom-select',
-    title: 'Bootstrap 4'
+    title: 'Bootstrap 4',
   },
   {
     cssFile: 'node_modules/bootstrap3/dist/css/bootstrap.css',
     name: 'bootstrap3',
     options: Bootstrap3RendererOptions,
     selectClassName: 'form-control',
-    title: 'Bootstrap 3'
-  }
+    title: 'Bootstrap 3',
+  },
 ];
 
 interface IState {
@@ -49,7 +49,7 @@ interface IState {
 
 export default class App extends Component<{}, IState> {
   public state: IState = {
-    renderer: renderers[0].name
+    renderer: renderers[0].name,
   };
 
   private cssLinkEl?: Element;
@@ -59,7 +59,7 @@ export default class App extends Component<{}, IState> {
   }
 
   private collectionReferences: ICollectionReferences = {
-    field: ({ formValue: { fields } }) => fields
+    field: ({ formValue: { fields } }) => fields,
   };
 
   public componentDidMount() {
@@ -115,7 +115,7 @@ export default class App extends Component<{}, IState> {
 
   private onRendererChange = (e: FieldChangeEvent) => {
     this.setState({
-      renderer: (e.target as GenericEventTarget).value as string
+      renderer: (e.target as GenericEventTarget).value as string,
     });
   };
 
@@ -124,7 +124,7 @@ export default class App extends Component<{}, IState> {
   };
 
   private onFieldParentChange = (
-    params: IFieldParentChangeNotificationParams
+    params: IFieldParentChangeNotificationParams,
   ) => {
     Logger.debug('field parent changed', params);
   };

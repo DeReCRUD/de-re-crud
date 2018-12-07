@@ -6,7 +6,7 @@ const Bootstrap3ButtonRenderer = ({
   classes,
   text,
   disabled,
-  onClick
+  onClick,
 }: IButtonRenderer) => {
   const classNames = [];
 

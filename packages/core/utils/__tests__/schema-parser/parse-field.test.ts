@@ -5,7 +5,7 @@ import {
   IIntegerField,
   ILinkedStructField,
   IListField,
-  ITextField
+  ITextField,
 } from '../../../models/schema';
 import parseField from '../../schema-parser/parse-field';
 
@@ -19,7 +19,7 @@ function createField(type: FieldType) {
 function createFieldTests(
   type: FieldType,
   extraDefaultData = {},
-  extraTests: (fieldJson: any) => void = () => {}
+  extraTests: (fieldJson: any) => void = () => {},
 ) {
   describe(`when type is ${type}`, () => {
     const field = createField(type);
@@ -28,64 +28,64 @@ function createFieldTests(
       expect(parseField(structName, field)).toEqual({
         ...field,
         hints: {
-          width: DEFAULT_FIELD_WIDTH
+          width: DEFAULT_FIELD_WIDTH,
         },
         keyField: false,
         label: {
           long: field.label,
           medium: field.label,
-          short: field.label
+          short: field.label,
         },
         placeholder: field.label,
         required: false,
         type,
         unique: false,
-        ...extraDefaultData
+        ...extraDefaultData,
       } as IField);
     });
 
     it('should include help when specified', () => {
       expect(
-        parseField(structName, { ...field, help: 'Field1Help' }).help
+        parseField(structName, { ...field, help: 'Field1Help' }).help,
       ).toBe('Field1Help');
     });
 
     it('should include initial value when specified', () => {
       expect(
         parseField(structName, { ...field, initialValue: 'Field1Value' })
-          .initialValue
+          .initialValue,
       ).toBe('Field1Value');
     });
 
     it('should include missing value when specified', () => {
       expect(
         parseField(structName, { ...field, missingValue: 'Field1MissingValue' })
-          .missingValue
+          .missingValue,
       ).toBe('Field1MissingValue');
     });
 
     it('should use placeholder instead of label when specified', () => {
       expect(
         parseField(structName, { ...field, placeholder: 'Field1Placeholder' })
-          .placeholder
+          .placeholder,
       ).toBe('Field1Placeholder');
     });
 
     it('should override width hint when within threshold', () => {
       expect(
-        parseField(structName, { ...field, hints: { width: 6 } }).hints.width
+        parseField(structName, { ...field, hints: { width: 6 } }).hints.width,
       ).toBe(6);
     });
 
     it('should use default width hint when under minumum threshold', () => {
       expect(
-        parseField(structName, { ...field, hints: { width: -6 } }).hints.width
+        parseField(structName, { ...field, hints: { width: -6 } }).hints.width,
       ).toBe(DEFAULT_FIELD_WIDTH);
     });
 
     it('should use default width hint when above maximum threshold', () => {
       expect(
-        parseField(structName, { ...field, hints: { width: 100 } }).hints.width
+        parseField(structName, { ...field, hints: { width: 100 } }).hints.width,
       ).toBe(DEFAULT_FIELD_WIDTH);
     });
 
@@ -104,7 +104,7 @@ describe('parseField', () => {
     it('should include min when specified', () => {
       const integerField = parseField(structName, {
         ...field,
-        min: 5
+        min: 5,
       }) as IIntegerField;
 
       expect(integerField.min).toBe(5);
@@ -113,7 +113,7 @@ describe('parseField', () => {
     it('should include max when specified', () => {
       const integerField = parseField(structName, {
         ...field,
-        max: 100
+        max: 100,
       }) as IIntegerField;
 
       expect(integerField.max).toBe(100);
@@ -126,7 +126,7 @@ describe('parseField', () => {
     it('should include min instances when specified', () => {
       const linkedStructField = parseField(structName, {
         ...field,
-        minInstances: 2
+        minInstances: 2,
       }) as ILinkedStructField;
 
       expect(linkedStructField.minInstances).toBe(2);
@@ -135,7 +135,7 @@ describe('parseField', () => {
     it('should include max instances when specified', () => {
       const linkedStructField = parseField(structName, {
         ...field,
-        maxInstances: 10
+        maxInstances: 10,
       }) as ILinkedStructField;
 
       expect(linkedStructField.maxInstances).toBe(10);
@@ -147,13 +147,13 @@ describe('parseField', () => {
     {
       hints: { width: DEFAULT_FIELD_WIDTH, layout: 'select' },
       multiSelect: false,
-      options: []
+      options: [],
     },
     (field) => {
       it('should enable multi select when specified', () => {
         const listField = parseField(structName, {
           ...field,
-          multiSelect: true
+          multiSelect: true,
         }) as IListField;
 
         expect(listField.multiSelect).toBe(true);
@@ -162,26 +162,26 @@ describe('parseField', () => {
       it('should include options when specified', () => {
         const listField = parseField(structName, {
           ...field,
-          options: [{ label: 'Label', value: 'Value' }]
+          options: [{ label: 'Label', value: 'Value' }],
         }) as IListField;
 
         expect(listField.options).toEqual([
           {
             label: 'Label',
-            value: 'Value'
-          }
+            value: 'Value',
+          },
         ]);
       });
 
       it('should layout as radio when specified', () => {
         const listField = parseField(structName, {
           ...field,
-          hints: { layout: 'radio' }
+          hints: { layout: 'radio' },
         }) as IListField;
 
         expect(listField.hints.layout).toEqual('radio');
       });
-    }
+    },
   );
 
   createFieldTests('money');
@@ -191,7 +191,7 @@ describe('parseField', () => {
     it('should include min length when specified', () => {
       const textField = parseField(structName, {
         ...field,
-        minLength: 5
+        minLength: 5,
       }) as ITextField;
 
       expect(textField.minLength).toBe(5);
@@ -200,7 +200,7 @@ describe('parseField', () => {
     it('should include max length when specified', () => {
       const textField = parseField(structName, {
         ...field,
-        maxLength: 100
+        maxLength: 100,
       }) as ITextField;
 
       expect(textField.maxLength).toBe(100);

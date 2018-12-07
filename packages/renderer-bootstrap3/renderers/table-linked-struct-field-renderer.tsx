@@ -20,7 +20,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   canRemove,
   onAdd,
   onEdit,
-  onRemove
+  onRemove,
 }: ITableLinkedStructRenderer) => {
   const rows = [];
 
@@ -39,7 +39,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
             <i
               class={combineCssClasses(
                 'glyphicon glyphicon-pencil',
-                editIconDisabled && 'disabled'
+                editIconDisabled && 'disabled',
               )}
               title="Edit Item"
               onClick={() => !editIconDisabled && onEdit(index)}
@@ -49,7 +49,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
               <i
                 class={combineCssClasses(
                   'glyphicon glyphicon-trash',
-                  removeIconDisabled && 'disabled'
+                  removeIconDisabled && 'disabled',
                 )}
                 title="Remove Item"
                 onClick={() => !removeIconDisabled && onRemove(index)}
@@ -57,7 +57,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
             )}
           </div>
         </td>
-      </tr>
+      </tr>,
     );
   });
 

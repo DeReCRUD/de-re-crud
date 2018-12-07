@@ -37,7 +37,7 @@ export class DeReCrudOptions {
   }
 
   private static options: DeReCrudOptions = Object.freeze(
-    new DeReCrudOptions()
+    new DeReCrudOptions(),
   );
 
   public rendererOptions?: IRendererOptions;

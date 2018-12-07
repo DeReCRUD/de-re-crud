@@ -10,7 +10,7 @@ export interface ICollectionReferenceParams {
 }
 
 export type CollectionReference = (
-  params: ICollectionReferenceParams
+  params: ICollectionReferenceParams,
 ) => object[];
 
 export interface ICollectionReferences {
@@ -53,7 +53,7 @@ export type FieldChangeNotificationCallback = (errors?: string[]) => void;
 
 export type FieldChangeNotification = (
   params: IFieldChangeNotificationParams,
-  cb?: FieldChangeNotificationCallback
+  cb?: FieldChangeNotificationCallback,
 ) => void;
 export type FieldChangeNotificationType = 'blur' | 'input';
 
@@ -61,7 +61,7 @@ export type FieldParentChangeNotificationCallback = (errors?: string[]) => void;
 
 export type FieldParentChangeNotification = (
   params: IFieldParentChangeNotificationParams,
-  cb?: FieldParentChangeNotificationCallback
+  cb?: FieldParentChangeNotificationCallback,
 ) => void;
 
 export interface IFormConnectProps extends IFormBaseProps {

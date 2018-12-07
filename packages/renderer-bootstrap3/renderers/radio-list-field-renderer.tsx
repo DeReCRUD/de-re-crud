@@ -9,7 +9,7 @@ const Bootstrap3RadioListFieldRenderer = ({
   onChange,
   required,
   readOnly,
-  options
+  options,
 }: IRadioListFieldRenderer) => (
   <div className="bootstrap3-radio-list-field-renderer">
     <Bootstrap3LabelRenderer fieldRequired={required}>

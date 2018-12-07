@@ -2,7 +2,7 @@ import { IField, ILinkedStructField } from '../models/schema';
 
 export default function createFieldParent(
   fields: IField[],
-  parentValue: object = {}
+  parentValue: object = {},
 ) {
   const value = { ...parentValue };
 
@@ -26,7 +26,7 @@ function assignDefaultValues(fields: IField[], value: object = {}) {
     ) {
       const linkedStructField = field as ILinkedStructField;
       const {
-        fields: linkedStructChildFields
+        fields: linkedStructChildFields,
       } = linkedStructField.reference.struct;
 
       value[field.name].forEach((item) => {

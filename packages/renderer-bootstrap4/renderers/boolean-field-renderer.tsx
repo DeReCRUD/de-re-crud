@@ -10,7 +10,7 @@ const Bootstrap4BooleanFieldRenderer = ({
   onBlur,
   onChange,
   required,
-  readOnly
+  readOnly,
 }: IBooleanFieldRenderer) => {
   return (
     <div className="bootstrap4-boolean-field-renderer custom-control custom-checkbox">

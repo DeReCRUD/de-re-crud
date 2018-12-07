@@ -16,7 +16,7 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
   canAdd,
   canRemove,
   onAdd,
-  onRemove
+  onRemove,
 }: IInlinedLinkedStructRenderer) => {
   const rows = renderedItems.map((item, index) => {
     const removeButtonVisible = canRemove(index);
