@@ -14,6 +14,7 @@ const fields: IField[] = [
     struct: 'struct',
     type: 'text',
     unique: false,
+    customValidators: [],
   },
 ];
 
