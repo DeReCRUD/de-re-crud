@@ -12,7 +12,13 @@ import parseField from '../../schema-parser/parse-field';
 const structName = 'TestStruct';
 
 function createField(type: FieldType) {
-  return { struct: structName, name: 'field1', type, label: 'Field1' };
+  return {
+    struct: structName,
+    name: 'field1',
+    type,
+    label: 'Field1',
+    customValidators: [],
+  };
 }
 
 // tslint:disable:no-empty

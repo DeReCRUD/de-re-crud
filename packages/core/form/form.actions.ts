@@ -44,6 +44,7 @@ function validateBlock(
         initialFieldValue,
         state.value,
         parentValue,
+        state.schema.customValidators,
         state.collectionReferences,
       );
 

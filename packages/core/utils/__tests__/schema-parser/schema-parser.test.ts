@@ -5,6 +5,7 @@ describe('SchemaParser', () => {
   it('should return empty list of structs for empty value', () => {
     expect(SchemaParser.parse([])).toEqual({
       raw: [],
+      customValidators: [],
       structs: [],
     });
   });
@@ -12,6 +13,7 @@ describe('SchemaParser', () => {
   it('should return empty list of structs for invalid value', () => {
     expect(SchemaParser.parse('schema')).toEqual({
       raw: 'schema',
+      customValidators: [],
       structs: [],
     });
   });
@@ -27,6 +29,7 @@ describe('SchemaParser', () => {
       struct: 'struct1',
       type: 'text',
       unique: false,
+      customValidators: [],
     };
 
     const raw = [
@@ -41,6 +44,7 @@ describe('SchemaParser', () => {
 
     expect(SchemaParser.parse(raw)).toEqual({
       raw,
+      customValidators: [],
       structs: [
         {
           blocks: [

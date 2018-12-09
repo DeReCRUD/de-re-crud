@@ -20,6 +20,7 @@ export default function parseField(structName: string, fieldJson: any): IField {
     struct: structName,
     type: fieldJson.type,
     unique: fieldJson.unique || false,
+    customValidators: [],
   };
 
   if (typeof fieldJson.help !== 'undefined') {
@@ -48,6 +49,14 @@ export default function parseField(structName: string, fieldJson: any): IField {
     ) {
       result.hints.width = fieldJson.hints.width;
     }
+  }
+
+  if (Array.isArray(fieldJson.customValidators)) {
+    fieldJson.customValidators.forEach((validator) => {
+      if (typeof validator === 'string') {
+        result.customValidators.push(validator);
+      }
+    });
   }
 
   switch (result.type) {

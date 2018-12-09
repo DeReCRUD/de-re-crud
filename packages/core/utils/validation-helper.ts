@@ -6,12 +6,14 @@ import {
   ILinkedStructField,
   IStruct,
   ITextField,
+  ICustomValidator,
 } from '../models/schema';
 import {
   defaultValidators,
   defaultValidatorFuncs,
   defaultValidatorMessages,
 } from '../validators/default-validators';
+import PatternValidator from '../validators/pattern-validator';
 
 export function validateField(
   struct: IStruct,
@@ -20,6 +22,7 @@ export function validateField(
   initialFieldValue: FieldValue,
   formValue: object,
   parentValue: object,
+  customValidators: ICustomValidator[],
   collectionReferences: ICollectionReferences = {},
 ): string[] {
   const errors = [];
@@ -104,6 +107,17 @@ export function validateField(
   }
 
   errors.push(...fieldTypeErrors);
+
+  customValidators.forEach((validator) => {
+    const patternValidator = new PatternValidator(
+      validator.name,
+      validator.pattern,
+    );
+
+    if (!patternValidator.validate(field, fieldValue)) {
+      errors.push(validator.message);
+    }
+  });
 
   return errors;
 }

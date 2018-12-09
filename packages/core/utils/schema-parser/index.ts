@@ -13,6 +13,7 @@ import {
   ISchema,
   IStamp,
   IStruct,
+  ICustomValidator,
 } from '../../models/schema';
 import parseField from './parse-field';
 import parseLabel from './parse-label';
@@ -39,6 +40,7 @@ export default class SchemaParser {
       return {
         raw: schemaJson,
         structs: [],
+        customValidators: [],
       };
     }
 
@@ -200,9 +202,28 @@ export default class SchemaParser {
       return struct;
     });
 
+    const customValidators: ICustomValidator[] = [];
+
+    if (Array.isArray(schemaJson.customValidators)) {
+      schemaJson.customValidators.forEach((validator) => {
+        if (
+          typeof validator.name === 'string' &&
+          typeof validator.message === 'string' &&
+          typeof validator.pattern === 'string'
+        ) {
+          customValidators.push({
+            name: validator.name,
+            message: validator.message,
+            pattern: new RegExp(validator.pattern),
+          });
+        }
+      });
+    }
+
     return {
       raw: schemaJson,
       structs,
+      customValidators,
     };
   }
 

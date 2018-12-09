@@ -41,11 +41,6 @@ export type ComplexFieldValue = object | object[];
 
 export type FieldValue = SimpleFieldValue | ComplexFieldValue;
 
-export interface IFieldValidator {
-  name: string;
-  message?: string;
-}
-
 export interface IField {
   struct: string;
   name: string;
@@ -61,7 +56,7 @@ export interface IField {
   hints: {
     width: number;
   };
-  validators?: IFieldValidator[];
+  customValidators: string[];
 }
 
 export interface ITextField extends IField {
@@ -174,4 +169,11 @@ export interface ILinkedStructFieldReference extends IFieldReference {
 export interface ISchema {
   raw: any;
   structs: IStruct[];
+  customValidators: ICustomValidator[];
+}
+
+export interface ICustomValidator {
+  name: string;
+  pattern: RegExp;
+  message: string;
 }

@@ -20,7 +20,7 @@ describe('PattemValidator', () => {
       hints: {
         width: 1,
       },
-      validators: [{ name: 'testPattern' }],
+      customValidators: ['testPattern'],
     };
   });
 
@@ -45,6 +45,15 @@ describe('PattemValidator', () => {
   it('should return true if value matches pattern', () => {
     expect(
       new PatternValidator('testPattern', /[a-z]/).validate(field, 'a'),
+    ).toBe(true);
+  });
+
+  it('should return true if value matches string pattern', () => {
+    expect(
+      new PatternValidator('testPattern', new RegExp('[a-z]')).validate(
+        field,
+        'a',
+      ),
     ).toBe(true);
   });
 

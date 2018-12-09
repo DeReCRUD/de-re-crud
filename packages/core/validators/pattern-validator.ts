@@ -10,9 +10,9 @@ export default class PatternValidator implements IValidator {
     }
 
     if (
-      !field.validators ||
-      !field.validators.length ||
-      !field.validators.find((x) => x.name === this.name)
+      !field.customValidators ||
+      !field.customValidators.length ||
+      !field.customValidators.find((x) => x === this.name)
     ) {
       return true;
     }
