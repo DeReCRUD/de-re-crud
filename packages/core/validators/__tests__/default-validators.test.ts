@@ -20,6 +20,7 @@ describe('validators', () => {
       hints: {
         width: 1,
       },
+      customValidators: [],
     };
   });
 
