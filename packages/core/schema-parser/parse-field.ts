@@ -109,6 +109,11 @@ export default function parseField(
     case 'linkedStruct': {
       const linkedStructField = result as IInternalLinkedStructField;
 
+      linkedStructField.reference = {
+        block: fieldJson.reference.block || 'default',
+        struct: fieldJson.reference.struct,
+      };
+
       if (fieldJson.minInstances) {
         linkedStructField.minInstances = fieldJson.minInstances;
       } else {

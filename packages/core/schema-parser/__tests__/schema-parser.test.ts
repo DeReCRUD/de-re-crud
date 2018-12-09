@@ -2,8 +2,8 @@ import SchemaParser from '../';
 import {
   IInternalStruct,
   IInternalSchema,
-  IInternalField,
-  IInternalBlock,
+  FieldMap,
+  BlockMap,
 } from '../../internal-schema';
 
 const mockStruct: IInternalStruct = {
@@ -25,10 +25,9 @@ describe('SchemaParser', () => {
 
   it('should parse schema', () => {
     expect(SchemaParser.parse(schemaJson)).toEqual({
-      raw: schemaJson,
       structs: [mockStruct],
-      fields: new Map<string, IInternalField>(),
-      blocks: new Map<string, IInternalBlock>(),
+      fields: new Map<string, FieldMap>(),
+      blocks: new Map<string, BlockMap>(),
     } as IInternalSchema);
   });
 });

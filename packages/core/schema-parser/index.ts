@@ -3,22 +3,19 @@ import {
   IInternalStruct,
   IInternalField,
   IInternalBlock,
+  FieldMap,
+  BlockMap,
 } from '../internal-schema';
-import parseStruct from './parse-struct';
 import Logger from '../logger';
+import parseBlock from './parse-block';
+import parseField from './parse-field';
+import parseStruct from './parse-struct';
 
 export default class SchemaParser {
   public static parse(schemaJson: any): IInternalSchema {
     const structs: IInternalStruct[] = [];
-    const fields: Map<string, IInternalField> = new Map<
-      string,
-      IInternalField
-    >();
-
-    const blocks: Map<string, IInternalBlock> = new Map<
-      string,
-      IInternalBlock
-    >();
+    const fields: Map<string, FieldMap> = new Map<string, FieldMap>();
+    const blocks: Map<string, BlockMap> = new Map<string, BlockMap>();
 
     if (schemaJson) {
       if (Array.isArray(schemaJson)) {
@@ -39,19 +36,31 @@ export default class SchemaParser {
 
           if (Array.isArray(structJson.fields)) {
             structJson.fields.forEach((fieldJson) => {
-              fields.set(struct.name, fieldJson);
+              const field = parseField(struct.name, fieldJson);
+
+              if (!fields.has(struct.name)) {
+                fields.set(struct.name, new Map<string, IInternalField>());
+              }
+
+              fields.get(struct.name).set(field.name, field);
             });
           }
 
           if (Array.isArray(structJson.blocks)) {
             structJson.blocks.forEach((blockJson) => {
-              blocks.set(struct.name, blockJson);
+              const block = parseBlock(struct.name, blockJson);
+
+              if (!blocks.has(struct.name)) {
+                blocks.set(struct.name, new Map<string, IInternalBlock>());
+              }
+
+              blocks.get(struct.name).set(block.name, block);
             });
           }
         });
       }
     }
 
-    return { raw: schemaJson, structs, fields, blocks };
+    return { structs, fields, blocks };
   }
 }

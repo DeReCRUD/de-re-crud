@@ -137,9 +137,11 @@ export interface IInternalLinkedStructFieldReference
   };
 }
 
+export type FieldMap = Map<string, IInternalField>;
+export type BlockMap = Map<string, IInternalBlock>;
+
 export interface IInternalSchema {
-  raw: any;
-  structs: IInternalStruct[];
-  fields: ReadonlyMap<string, IInternalField>;
-  blocks: ReadonlyMap<string, IInternalBlock>;
+  structs: ReadonlyArray<IInternalStruct>;
+  fields: ReadonlyMap<string, FieldMap>;
+  blocks: ReadonlyMap<string, BlockMap>;
 }

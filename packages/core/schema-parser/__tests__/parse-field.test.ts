@@ -13,83 +13,92 @@ const structName = 'TestStruct';
 // tslint:disable:no-empty
 function createFieldTests(
   type: FieldType,
-  extraDefaultData = {},
+  extraInitailData = {},
+  extraExpectedData = {},
   extraTests: (fieldJson: any) => void = () => {},
 ) {
   describe(`when type is ${type}`, () => {
-    const field = {
+    const fieldJson = {
       struct: structName,
       name: 'field1',
       type,
       label: 'Field1',
+      ...extraInitailData,
     };
 
     it('should return defaults when no overrides specified', () => {
-      expect(parseField(structName, field)).toEqual({
-        ...field,
+      expect(parseField(structName, fieldJson)).toEqual({
+        ...fieldJson,
         hints: {
           width: DEFAULT_FIELD_WIDTH,
         },
         keyField: false,
         label: {
-          long: field.label,
-          medium: field.label,
-          short: field.label,
+          long: fieldJson.label,
+          medium: fieldJson.label,
+          short: fieldJson.label,
         },
-        placeholder: field.label,
+        placeholder: fieldJson.label,
         required: false,
         type,
         unique: false,
-        ...extraDefaultData,
+        ...extraExpectedData,
       } as IInternalField);
     });
 
     it('should include help when specified', () => {
       expect(
-        parseField(structName, { ...field, help: 'Field1Help' }).help,
+        parseField(structName, { ...fieldJson, help: 'Field1Help' }).help,
       ).toBe('Field1Help');
     });
 
     it('should include initial value when specified', () => {
       expect(
-        parseField(structName, { ...field, initialValue: 'Field1Value' })
+        parseField(structName, { ...fieldJson, initialValue: 'Field1Value' })
           .initialValue,
       ).toBe('Field1Value');
     });
 
     it('should include missing value when specified', () => {
       expect(
-        parseField(structName, { ...field, missingValue: 'Field1MissingValue' })
-          .missingValue,
+        parseField(structName, {
+          ...fieldJson,
+          missingValue: 'Field1MissingValue',
+        }).missingValue,
       ).toBe('Field1MissingValue');
     });
 
     it('should use placeholder instead of label when specified', () => {
       expect(
-        parseField(structName, { ...field, placeholder: 'Field1Placeholder' })
-          .placeholder,
+        parseField(structName, {
+          ...fieldJson,
+          placeholder: 'Field1Placeholder',
+        }).placeholder,
       ).toBe('Field1Placeholder');
     });
 
     it('should override width hint when within threshold', () => {
       expect(
-        parseField(structName, { ...field, hints: { width: 6 } }).hints.width,
+        parseField(structName, { ...fieldJson, hints: { width: 6 } }).hints
+          .width,
       ).toBe(6);
     });
 
     it('should use default width hint when under minumum threshold', () => {
       expect(
-        parseField(structName, { ...field, hints: { width: -6 } }).hints.width,
+        parseField(structName, { ...fieldJson, hints: { width: -6 } }).hints
+          .width,
       ).toBe(DEFAULT_FIELD_WIDTH);
     });
 
     it('should use default width hint when above maximum threshold', () => {
       expect(
-        parseField(structName, { ...field, hints: { width: 100 } }).hints.width,
+        parseField(structName, { ...fieldJson, hints: { width: 100 } }).hints
+          .width,
       ).toBe(DEFAULT_FIELD_WIDTH);
     });
 
-    extraTests(field);
+    extraTests(fieldJson);
   });
 }
 
@@ -100,7 +109,7 @@ describe('parseField', () => {
   createFieldTests('estimate');
   createFieldTests('foreignKey');
 
-  createFieldTests('integer', null, (field) => {
+  createFieldTests('integer', null, null, (field) => {
     it('should include min when specified', () => {
       const integerField = parseField(structName, {
         ...field,
@@ -122,37 +131,43 @@ describe('parseField', () => {
 
   createFieldTests('keyword');
 
-  createFieldTests('linkedStruct', { minInstances: 0 }, (field) => {
-    it('should include min instances when specified', () => {
-      const linkedStructField = parseField(structName, {
-        ...field,
-        minInstances: 2,
-      }) as IInternalLinkedStructField;
+  createFieldTests(
+    'linkedStruct',
+    { reference: { struct: structName } },
+    { minInstances: 0, reference: { struct: structName, block: 'default' } },
+    (fieldJson) => {
+      it('should include min instances when specified', () => {
+        const linkedStructField = parseField(structName, {
+          ...fieldJson,
+          minInstances: 2,
+        }) as IInternalLinkedStructField;
 
-      expect(linkedStructField.minInstances).toBe(2);
-    });
+        expect(linkedStructField.minInstances).toBe(2);
+      });
 
-    it('should include max instances when specified', () => {
-      const linkedStructField = parseField(structName, {
-        ...field,
-        maxInstances: 10,
-      }) as IInternalLinkedStructField;
+      it('should include max instances when specified', () => {
+        const linkedStructField = parseField(structName, {
+          ...fieldJson,
+          maxInstances: 10,
+        }) as IInternalLinkedStructField;
 
-      expect(linkedStructField.maxInstances).toBe(10);
-    });
-  });
+        expect(linkedStructField.maxInstances).toBe(10);
+      });
+    },
+  );
 
   createFieldTests(
     'list',
+    null,
     {
       hints: { width: DEFAULT_FIELD_WIDTH, layout: 'select' },
       multiSelect: false,
       options: [],
     },
-    (field) => {
+    (fieldJson) => {
       it('should enable multi select when specified', () => {
         const listField = parseField(structName, {
-          ...field,
+          ...fieldJson,
           multiSelect: true,
         }) as IInternalListField;
 
@@ -161,7 +176,7 @@ describe('parseField', () => {
 
       it('should include options when specified', () => {
         const listField = parseField(structName, {
-          ...field,
+          ...fieldJson,
           options: [{ label: 'Label', value: 'Value' }],
         }) as IInternalListField;
 
@@ -175,7 +190,7 @@ describe('parseField', () => {
 
       it('should layout as radio when specified', () => {
         const listField = parseField(structName, {
-          ...field,
+          ...fieldJson,
           hints: { layout: 'radio' },
         }) as IInternalListField;
 
@@ -187,10 +202,10 @@ describe('parseField', () => {
   createFieldTests('money');
   createFieldTests('percent');
 
-  createFieldTests('text', null, (field) => {
+  createFieldTests('text', null, null, (fieldJson) => {
     it('should include min length when specified', () => {
       const textField = parseField(structName, {
-        ...field,
+        ...fieldJson,
         minLength: 5,
       }) as IInternalTextField;
 
@@ -199,7 +214,7 @@ describe('parseField', () => {
 
     it('should include max length when specified', () => {
       const textField = parseField(structName, {
-        ...field,
+        ...fieldJson,
         maxLength: 100,
       }) as IInternalTextField;
 

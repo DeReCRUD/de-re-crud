@@ -51,7 +51,10 @@ export default function parseBlock(
         result.items.push({
           block: blockFieldJson.block,
         } as IInternalBlockReference);
-      } else if (typeof blockFieldJson.field !== 'undefined') {
+      } else if (
+        typeof blockFieldJson === 'string' ||
+        typeof blockFieldJson.field !== 'undefined'
+      ) {
         const isComplexObject = typeof blockFieldJson !== 'string';
         const fieldName = isComplexObject
           ? blockFieldJson.field
