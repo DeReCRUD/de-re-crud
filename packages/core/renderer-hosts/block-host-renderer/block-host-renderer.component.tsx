@@ -29,13 +29,13 @@ export default class BlockHostRenderer extends BaseComponent<
       return null;
     }
 
-    let path = `block.${block.name}`;
+    let path = `${block.name}`;
 
     if (parentPath) {
-      path = `${parentPath}.{render`;
+      path = `${parentPath}.${path}`;
     }
 
-    const rendererId = `${formId}.${path}`;
+    const rendererId = `${formId}.block.${path}`;
     const BlockContainerRenderer = rendererOptions.components.blockContainer;
 
     const rows = this.createRows(block, true);
