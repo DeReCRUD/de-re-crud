@@ -7,7 +7,7 @@ import {
   FieldFocusEvent,
   IFieldRenderer,
   IForeignKeyFieldRenderer,
-  IInlinedLinkedStructRenderer,
+  IInlineLinkedStructRenderer,
   ISelectableOption,
   ISelectListFieldRenderer,
   ITableLinkedStructRenderer,
@@ -410,7 +410,7 @@ export default class FieldHostRenderer extends BaseComponent<
             );
           });
 
-          const inlineLinkedStructFieldProps: IInlinedLinkedStructRenderer = {
+          const inlineLinkedStructFieldProps: IInlineLinkedStructRenderer = {
             ...fieldProps,
             canAdd: this.canAdd,
             canRemove: this.canRemove,

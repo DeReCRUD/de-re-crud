@@ -122,7 +122,7 @@ export interface ITableLinkedStructRenderer extends IFieldRenderer {
   onRemove: (index: number) => void;
 }
 
-export interface IInlinedLinkedStructRenderer extends IFieldRenderer {
+export interface IInlineLinkedStructRenderer extends IFieldRenderer {
   renderedItems: JSX.Element[];
   readOnlyRenderedItems: { [index: number]: boolean };
   canAdd: () => boolean;
