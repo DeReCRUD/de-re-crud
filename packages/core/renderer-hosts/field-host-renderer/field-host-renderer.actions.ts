@@ -149,8 +149,6 @@ export default function fieldHostRendererActions(store: IStore) {
         initialValue,
         state.value,
         parentValue,
-        state.schema.validators,
-        state.schema.validatorMessages,
         state.collectionReferences,
       );
 
@@ -234,8 +232,6 @@ export default function fieldHostRendererActions(store: IStore) {
           initialValue,
           newFormValue,
           parentValue,
-          state.schema.validators,
-          state.schema.validatorMessages,
           state.collectionReferences,
         );
 

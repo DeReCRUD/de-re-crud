@@ -149,3 +149,41 @@ export function createStore(
 
   return createReduxZeroStore(state, applyMiddleware(...middlewares)) as IStore;
 }
+
+export function updateStore(
+  store: IStore,
+  rendererOptions?: IRendererOptions,
+  buttonOptions?: IButtonOptions,
+  collectionReferences?: ICollectionReferences,
+  onSubmit?: FormSubmission,
+  onCancel?: () => void,
+  onFieldChange?: FieldChangeNotification,
+  onFieldChangeInputTimeout?: number,
+  onFieldChangeType?: FieldChangeNotificationType,
+  onFieldParentChange?: FieldParentChangeNotification,
+) {
+  const optionDefaults = DeReCrudOptions.getDefaults();
+
+  const oldButtonOptions = store.getState().buttonOptions;
+
+  if (oldButtonOptions === buttonOptions) {
+    buttonOptions = oldButtonOptions;
+  } else {
+    buttonOptions = parseButtonOptions(
+      buttonOptions,
+      optionDefaults.buttonOptions,
+    );
+  }
+
+  store.setState({
+    collectionReferences,
+    onCancel,
+    onFieldChange,
+    onFieldChangeInputTimeout,
+    onFieldChangeType: onFieldChangeType || 'blur',
+    onFieldParentChange,
+    onSubmit,
+    rendererOptions: rendererOptions || optionDefaults.rendererOptions,
+    buttonOptions,
+  });
+}
