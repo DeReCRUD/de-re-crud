@@ -90,7 +90,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
 
     if (!blockReference) {
       Logger.warning(
-        `No block specified and the 'default' block is not defined. Defalting to first defined block.`,
+        "No block specified and the 'default' block is not defined. Defalting to first defined block.",
       );
 
       blockReference = structReference.blocks[0];
