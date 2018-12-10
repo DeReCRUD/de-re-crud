@@ -1,7 +1,7 @@
 {
   "name": "@de-re-crud/renderer-bootstrap4",
   "description": "Bootstrap 4 renderers for De Re CRUD interfaces",
-  "version": "0.7.6",
+  "version": "0.8.0",
   "repository": "https://github.com/DeReCRUD/core.git",
   "license": "Apache-2.0",
   "style": "dist/de-re-crud-renderer-bootstrap4.css",
@@ -17,7 +17,7 @@
     "bootstrap": "~4"
   },
   "peerDependencies": {
-    "@de-re-crud/core": "0.7.x"
+    "@de-re-crud/core": "0.8.x"
   },
   "dependencies": {
     "preact": "~8"
