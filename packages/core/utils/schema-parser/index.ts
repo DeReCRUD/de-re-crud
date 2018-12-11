@@ -215,6 +215,7 @@ export default class SchemaParser {
             name: validator.name,
             message: validator.message,
             pattern: new RegExp(validator.pattern),
+            negate: validator.negate === true,
           });
         }
       });

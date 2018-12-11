@@ -176,4 +176,5 @@ export interface ICustomValidator {
   name: string;
   pattern: RegExp;
   message: string;
+  negate: boolean;
 }

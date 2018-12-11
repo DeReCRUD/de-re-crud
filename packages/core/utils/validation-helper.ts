@@ -112,6 +112,7 @@ export function validateField(
     const patternValidator = new PatternValidator(
       validator.name,
       validator.pattern,
+      validator.negate,
     );
 
     if (!patternValidator.validate(field, fieldValue)) {
