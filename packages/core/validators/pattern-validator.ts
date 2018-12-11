@@ -2,11 +2,15 @@ import { FieldValue, IField } from '../models/schema';
 import { IValidator } from './validator';
 
 export default class PatternValidator implements IValidator {
-  constructor(private name: string, private pattern: RegExp) {}
+  constructor(
+    private name: string,
+    private pattern: RegExp,
+    private negate: boolean = false,
+  ) {}
 
   public validate = (field: IField, value: FieldValue) => {
     if (value === null || typeof value === 'undefined') {
-      return true;
+      return this.negate ? false : true;
     }
 
     if (
@@ -14,9 +18,10 @@ export default class PatternValidator implements IValidator {
       !field.customValidators.length ||
       !field.customValidators.find((x) => x === this.name)
     ) {
-      return true;
+      return this.negate ? false : true;
     }
 
-    return value.toString().match(this.pattern) !== null;
+    const result = value.toString().match(this.pattern) !== null;
+    return this.negate ? !result : result;
   };
 }

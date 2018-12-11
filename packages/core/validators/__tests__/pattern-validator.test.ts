@@ -57,9 +57,15 @@ describe('PattemValidator', () => {
     ).toBe(true);
   });
 
-  it('should return false if field does not have validator', () => {
+  it('should return true if field does not have validator', () => {
     expect(
       new PatternValidator('testPattern2', /[a-z]/).validate(field, 'a'),
     ).toBe(true);
+  });
+
+  it('should return false if value matches pattern and negate is true', () => {
+    expect(
+      new PatternValidator('testPattern', /[a-z]/, true).validate(field, 'a'),
+    ).toBe(false);
   });
 });
