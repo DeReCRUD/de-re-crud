@@ -10,7 +10,7 @@ export default class PatternValidator implements IValidator {
 
   public validate = (field: IField, value: FieldValue) => {
     if (value === null || typeof value === 'undefined') {
-      return this.negate ? false : true;
+      return true;
     }
 
     if (
@@ -18,7 +18,7 @@ export default class PatternValidator implements IValidator {
       !field.customValidators.length ||
       !field.customValidators.find((x) => x === this.name)
     ) {
-      return this.negate ? false : true;
+      return true;
     }
 
     const result = value.toString().match(this.pattern) !== null;

@@ -68,4 +68,10 @@ describe('PattemValidator', () => {
       new PatternValidator('testPattern', /[a-z]/, true).validate(field, 'a'),
     ).toBe(false);
   });
+
+  it('should return true if value does not pattern and negate is true', () => {
+    expect(
+      new PatternValidator('testPattern', /[a-z]/, true).validate(field, '0'),
+    ).toBe(true);
+  });
 });
