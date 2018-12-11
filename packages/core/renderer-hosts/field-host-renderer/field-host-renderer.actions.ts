@@ -123,10 +123,6 @@ export default function fieldHostRendererActions(store: IStore) {
           ...state.focused,
           [fieldPath]: value,
         },
-        touched: {
-          ...state.touched,
-          [fieldPath]: true,
-        },
       };
     },
 
