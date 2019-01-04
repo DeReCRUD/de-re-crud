@@ -19,6 +19,10 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
   onAdd,
   onEdit,
   onRemove,
+  addLabel,
+  editLabel,
+  removeLabel,
+  showActionSeparator,
 }: ITableLinkedStructRenderer) => {
   const rows = [];
 
@@ -31,18 +35,18 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
           <td>{x || ' '}</td>
         ))}
         <td>
-          <div className={createCssClass(cssName, 'row', 'actions')}>
+          <div className="text-nowrap " + {createCssClass(cssName, 'row', 'actions')}>
             <Bootstrap4ButtonRenderer
               classes="btn btn-link"
-              text="Edit"
+              text=editLabel
               onClick={() => onEdit(index)}
               disabled={readOnlyValues[index]}
             />
-            {removeButtonVisible && <span>|</span>}
+            {showActionSeparator && <span>|</span>}
             {removeButtonVisible && (
               <Bootstrap4ButtonRenderer
                 classes="btn btn-link"
-                text="Remove"
+                text=removeLabel
                 onClick={() => onRemove(index)}
                 disabled={readOnly || readOnlyValues[index]}
               />
@@ -55,20 +59,10 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
 
   return (
     <div className={createCssClass(cssName)}>
-      <div className={createCssClass(cssName, 'controls')}>
-        <Bootstrap4LabelRenderer fieldRequired={required}>
-          {label}
-        </Bootstrap4LabelRenderer>{' '}
-        {canAdd() && (
-          <Bootstrap4ButtonRenderer
-            classes="btn btn-sm btn-secondary"
-            text="Add"
-            onClick={onAdd}
-            disabled={readOnly}
-          />
-        )}
-      </div>
-      <table className="table table-bordered table-sm">
+      <Bootstrap4LabelRenderer fieldRequired={required}>
+	    {label}
+	  </Bootstrap4LabelRenderer>{' '}
+      <table className="table table-bordered table-sm mb-1">
         <thead>
           <tr>
             {headers.map((header) => (
@@ -87,6 +81,16 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
           )}
         </tbody>
       </table>
+      <div className={createCssClass(cssName, 'controls')}>
+        {canAdd() && (
+          <Bootstrap4ButtonRenderer
+            classes="btn btn-link"
+            text=addLabel
+            onClick={onAdd}
+            disabled={readOnly}
+          />
+        )}
+      </div>
     </div>
   );
 };
