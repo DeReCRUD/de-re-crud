@@ -5,7 +5,7 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "clean": "del-cli dist",
+    "clean": "node ./scripts/clean-dist-dir.js",
     "bootstrap": "lerna bootstrap",
     "lint": "yarn format:check && yarn lint:src && yarn lint:test",
     "lint:src": "tslint --project ./tsconfig.json",
@@ -27,7 +27,6 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.4.2",
     "cross-env": "^5.2.0",
-    "del-cli": "^1.1.0",
     "husky": "^1.1.4",
     "jest": "^23.4.2",
     "lerna": "^2.11.0",
