@@ -83,6 +83,7 @@ export default function parseField(
     case 'list': {
       const listField = result as IInternalListField;
       listField.multiSelect = fieldJson.multiSelect || false;
+      listField.dynamicOptions = fieldJson.dynamicOptions || false;
       listField.options = [];
 
       if (Array.isArray(fieldJson.options)) {

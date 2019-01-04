@@ -89,6 +89,7 @@ export default function parseField(structName: string, fieldJson: any): IField {
     case 'list': {
       const listField = result as IListField;
       listField.multiSelect = fieldJson.multiSelect || false;
+      listField.dynamicOptions = fieldJson.dynamicOptions || false;
       listField.options = [];
 
       if (Array.isArray(fieldJson.options)) {

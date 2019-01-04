@@ -429,6 +429,7 @@ export default class FieldHostRenderer extends BaseComponent<
         const {
           multiSelect,
           options: listOptions,
+          dynamicOptions,
           hints: { layout },
         } = field as IListField;
 
@@ -467,6 +468,7 @@ export default class FieldHostRenderer extends BaseComponent<
         const selectListFieldProps: ISelectListFieldRenderer = {
           ...fieldProps,
           options,
+          dynamicOptions,
         };
 
         return <ListFieldRenderer {...selectListFieldProps} />;

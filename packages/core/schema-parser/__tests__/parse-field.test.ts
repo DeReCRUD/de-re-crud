@@ -162,6 +162,7 @@ describe('parseField', () => {
     {
       hints: { width: DEFAULT_FIELD_WIDTH, layout: 'select' },
       multiSelect: false,
+      dynamicOptions: false,
       options: [],
     },
     (fieldJson) => {
@@ -172,6 +173,15 @@ describe('parseField', () => {
         }) as IInternalListField;
 
         expect(listField.multiSelect).toBe(true);
+      });
+
+      it('should enable dynamic options when specified', () => {
+        const listField = parseField(structName, {
+          ...fieldJson,
+          dynamicOptions: true,
+        }) as IInternalListField;
+
+        expect(listField.dynamicOptions).toBe(true);
       });
 
       it('should include options when specified', () => {

@@ -45,10 +45,11 @@ The property level portions of a [Struct](#struct)
 
 #### <a name="field-list"></a> Additional properties for fields of [type](#type) list
 
-| Field       | Type                | Required | Missing Val | Notes                                        |
-| ----------- | ------------------- | -------- | ----------- | -------------------------------------------- |
-| multiSelect | boolean             | false    | false       | Indicates if multiple values can be selected |
-| options     | [option](#option)[] | true     |             | An array of values [options](#option)        |
+| Field          | Type                | Required | Missing Val | Notes                                        |
+| -------------- | ------------------- | -------- | ----------- | -------------------------------------------- |
+| multiSelect    | boolean             | false    | false       | Indicates if multiple values can be selected |
+| options        | [option](#option)[] | true     |             | An array of values [options](#option)        |
+| dynamicOptions | boolean             | false    | false       | Indicates whether new options can added      |
 
 #### <a name="field-foreign-key"></a> Additional properties for fields of [type](#type) foreignKey
 

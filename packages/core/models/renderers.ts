@@ -98,6 +98,7 @@ export interface IBooleanFieldRenderer extends IFieldRenderer {
 }
 
 export interface ISelectListFieldRenderer extends IFieldRenderer {
+  dynamicOptions: boolean;
   options: ISelectableOption[];
 }
 

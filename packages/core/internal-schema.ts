@@ -57,6 +57,7 @@ export interface IInternalListField extends IInternalField {
   missingValue?: ListValue | ListValue[];
   multiSelect: boolean;
   options: IOption[];
+  dynamicOptions: boolean;
   hints: {
     width: number;
     layout: 'select' | 'radio';
