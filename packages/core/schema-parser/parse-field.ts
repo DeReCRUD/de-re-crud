@@ -88,7 +88,7 @@ export default function parseField(
       if (Array.isArray(fieldJson.options)) {
         fieldJson.options.forEach((option) => {
           listField.options.push({
-            label: option.label,
+            label: parseLabel(option.label).short,
             value: option.value,
           });
         });

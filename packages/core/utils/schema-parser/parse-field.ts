@@ -94,7 +94,7 @@ export default function parseField(structName: string, fieldJson: any): IField {
       if (Array.isArray(fieldJson.options)) {
         fieldJson.options.forEach((option) => {
           listField.options.push({
-            label: option.label,
+            label: parseLabel(option.label).short,
             value: option.value,
           });
         });
