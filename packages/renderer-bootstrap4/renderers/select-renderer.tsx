@@ -3,7 +3,9 @@ import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
 import { h } from 'preact';
 import Bootstrap4LabelRenderer from './label-renderer';
 
-export type Bootstrap4SelectRendererProps = ISelectListFieldRenderer & {};
+export type Bootstrap4SelectRendererProps = ISelectListFieldRenderer & {
+  multiSelect?: boolean;
+};
 
 const Bootstrap4SelectRenderer = ({
   label,

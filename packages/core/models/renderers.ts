@@ -98,9 +98,12 @@ export interface IBooleanFieldRenderer extends IFieldRenderer {
 }
 
 export interface ISelectListFieldRenderer extends IFieldRenderer {
-  multiSelect: boolean;
   options: ISelectableOption[];
 }
+
+// tslint:disable-next-line:no-empty-interface
+export interface IMultiSelectListFieldRenderer
+  extends ISelectListFieldRenderer {}
 
 export interface IRadioListFieldRenderer extends IFieldRenderer {
   options: ISelectableOption[];

@@ -10,6 +10,7 @@ import {
   IFieldRenderer,
   IForeignKeyFieldRenderer,
   IInlineLinkedStructRenderer,
+  IMultiSelectListFieldRenderer,
   IRadioListFieldRenderer,
   ISelectListFieldRenderer,
   IStampRenderer,
@@ -68,6 +69,9 @@ export interface IRendererOptions {
     selectListField:
       | FunctionalComponent<ISelectListFieldRenderer>
       | ComponentConstructor<ISelectListFieldRenderer>;
+    multiSelectListField:
+      | FunctionalComponent<IMultiSelectListFieldRenderer>
+      | ComponentConstructor<IMultiSelectListFieldRenderer>;
     radioListField:
       | FunctionalComponent<IRadioListFieldRenderer>
       | ComponentConstructor<IRadioListFieldRenderer>;
