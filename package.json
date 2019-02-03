@@ -64,6 +64,7 @@
     "projects": [
       "<rootDir>/packages"
     ],
+    "resetMocks": true,
     "testURL": "http://localhost",
     "moduleFileExtensions": [
       "ts",
