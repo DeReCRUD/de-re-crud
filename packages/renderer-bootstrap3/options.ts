@@ -12,7 +12,8 @@ import Bootstrap3StampRenderer from './renderers/stamp-renderer';
 import Bootstrap3TableLinkedStructFieldRenderer from './renderers/table-linked-struct-field-renderer';
 
 const Bootstrap3RendererOptions: IRendererOptions = {
-  components: {
+  formClassName: 'de-re-crud-form-bootstrap3',
+  renderers: {
     blockContainer: Bootstrap3BlockContainerRenderer,
     booleanField: Bootstrap3BooleanFieldRenderer,
     button: Bootstrap3ButtonRenderer,
@@ -33,7 +34,6 @@ const Bootstrap3RendererOptions: IRendererOptions = {
     tableLinkedStructField: Bootstrap3TableLinkedStructFieldRenderer,
     textField: Bootstrap3InputFieldRenderer,
   },
-  formClassName: 'de-re-crud-form-bootstrap3',
 };
 
 export default Bootstrap3RendererOptions;

@@ -6,19 +6,13 @@ export default class StampHostRenderer extends BaseComponent<
   IStampHostRendererProps
 > {
   public render() {
-    const {
-      rendererId,
-      stamp,
-      formValue,
-      parentValue,
-      rendererOptions,
-    } = this.props;
+    const { rendererId, stamp, formValue, parentValue, renderers } = this.props;
 
     if (!stamp.condition(parentValue, formValue)) {
       return null;
     }
 
-    const StampRenderer = rendererOptions.components.stamp;
+    const StampRenderer = renderers.stamp;
 
     return (
       <StampRenderer

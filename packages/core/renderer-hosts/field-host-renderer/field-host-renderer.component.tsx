@@ -34,7 +34,7 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldReference,
       fieldValue,
       rendererId,
-      rendererOptions,
+      renderers,
     } = this.props;
 
     const field = fieldReference.field;
@@ -57,7 +57,7 @@ export default class FieldHostRenderer extends BaseComponent<
     };
 
     const renderedField = this.renderField(fieldReference, fieldProps);
-    const FieldContainerRenderer = rendererOptions.components.fieldContainer;
+    const FieldContainerRenderer = renderers.fieldContainer;
 
     return (
       <FieldContainerRenderer
@@ -251,14 +251,14 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldPath,
       formValue,
       parentValue,
-      rendererOptions,
+      renderers,
     } = this.props;
 
     const { field } = fieldReference;
 
     switch (field.type) {
       case 'text': {
-        const TextFieldRenderer = rendererOptions.components.textField;
+        const TextFieldRenderer = renderers.textField;
         return (
           <TextFieldRenderer
             {...fieldProps}
@@ -267,23 +267,23 @@ export default class FieldHostRenderer extends BaseComponent<
         );
       }
       case 'keyword': {
-        const KeywordFieldRenderer = rendererOptions.components.keywordField;
+        const KeywordFieldRenderer = renderers.keywordField;
         return <KeywordFieldRenderer {...fieldProps} />;
       }
       case 'integer': {
-        const IntegerFieldRenderer = rendererOptions.components.integerField;
+        const IntegerFieldRenderer = renderers.integerField;
         return <IntegerFieldRenderer {...fieldProps} />;
       }
       case 'estimate': {
-        const EsimateFieldRenderer = rendererOptions.components.estimateField;
+        const EsimateFieldRenderer = renderers.estimateField;
         return <EsimateFieldRenderer {...fieldProps} />;
       }
       case 'date': {
-        const DateFieldRenderer = rendererOptions.components.dateField;
+        const DateFieldRenderer = renderers.dateField;
         return <DateFieldRenderer {...fieldProps} />;
       }
       case 'boolean': {
-        const BooleanFieldRenderer = rendererOptions.components.booleanField;
+        const BooleanFieldRenderer = renderers.booleanField;
         return (
           <BooleanFieldRenderer
             {...fieldProps}
@@ -292,16 +292,15 @@ export default class FieldHostRenderer extends BaseComponent<
         );
       }
       case 'percent': {
-        const PercentFieldRenderer = rendererOptions.components.percentField;
+        const PercentFieldRenderer = renderers.percentField;
         return <PercentFieldRenderer {...fieldProps} />;
       }
       case 'money': {
-        const MoneyFieldRenderer = rendererOptions.components.moneyField;
+        const MoneyFieldRenderer = renderers.moneyField;
         return <MoneyFieldRenderer {...fieldProps} />;
       }
       case 'foreignKey': {
-        const ForeignKeyFieldRenderer =
-          rendererOptions.components.foreignKeyField;
+        const ForeignKeyFieldRenderer = renderers.foreignKeyField;
         let options: ISelectableOption[];
 
         const foreignKeyField = field as IForeignKeyField;
@@ -349,8 +348,8 @@ export default class FieldHostRenderer extends BaseComponent<
         const block = hints.block || reference.block;
 
         const LinkedStructFieldRenderer = isTable
-          ? rendererOptions.components.tableLinkedStructField
-          : rendererOptions.components.inlineLinkedStructField;
+          ? renderers.tableLinkedStructField
+          : renderers.inlineLinkedStructField;
 
         let values = [];
 
@@ -436,11 +435,11 @@ export default class FieldHostRenderer extends BaseComponent<
         let ListFieldRenderer;
 
         if (layout === 'radio') {
-          ListFieldRenderer = rendererOptions.components.radioListField;
+          ListFieldRenderer = renderers.radioListField;
         } else if (multiSelect) {
-          ListFieldRenderer = rendererOptions.components.multiSelectListField;
+          ListFieldRenderer = renderers.multiSelectListField;
         } else {
-          ListFieldRenderer = rendererOptions.components.selectListField;
+          ListFieldRenderer = renderers.selectListField;
         }
 
         let value;
@@ -474,7 +473,7 @@ export default class FieldHostRenderer extends BaseComponent<
         return <ListFieldRenderer {...selectListFieldProps} />;
       }
       case 'derived': {
-        const DerivedFieldRenderer = rendererOptions.components.derivedField;
+        const DerivedFieldRenderer = renderers.derivedField;
         return <DerivedFieldRenderer {...fieldProps} />;
       }
       default: {

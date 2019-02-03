@@ -22,6 +22,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       onFieldChangeType,
       onFieldParentChange,
       onSubmit,
+      renderers,
       rendererOptions,
       buttonOptions,
       struct,
@@ -36,6 +37,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       type,
       block,
       rendererOptions,
+      renderers,
       buttonOptions,
       collectionReferences,
       initialErrors,
@@ -57,6 +59,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
     updateStore(
       this.store,
       nextProps.rendererOptions,
+      nextProps.renderers,
       nextProps.buttonOptions,
       nextProps.collectionReferences,
       nextProps.onSubmit,

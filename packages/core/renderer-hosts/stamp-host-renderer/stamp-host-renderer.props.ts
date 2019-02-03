@@ -1,4 +1,4 @@
-import { IRendererOptions } from '../../models/renderer-options';
+import { IRendererDefinitions } from '../../models/renderer-definitions';
 import { IStamp } from '../../models/schema';
 
 export interface IStampHostRendererConnectProps {
@@ -12,5 +12,5 @@ export interface IStampHostRendererProps {
   stamp: IStamp;
   formValue: object;
   parentValue: object;
-  rendererOptions: IRendererOptions;
+  renderers: IRendererDefinitions;
 }
