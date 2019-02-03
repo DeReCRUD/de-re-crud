@@ -11,12 +11,14 @@ import {
 } from './form/form.props';
 import { IButtonOptions } from './models/button-options';
 import { IChildErrors, IErrors } from './models/errors';
+import { IRendererDefinitions } from './models/renderer-definitions';
 import { IRendererOptions } from './models/renderer-options';
 import { ISchema, SimpleFieldValue } from './models/schema';
 import { DeReCrudOptions } from './options';
 import createFieldParent from './utils/create-field-parent';
 import generateChildErrors from './utils/generate-child-errors';
 import parseButtonOptions from './utils/parse-button-options';
+import parseRendererOptions from './utils/parse-renderer-options';
 import SchemaParser from './utils/schema-parser';
 
 let FORM_COUNTER = 0;
@@ -37,6 +39,7 @@ export interface INavState {
 
 export interface IStoreState {
   formId: number;
+  formClassName?: string;
   schema: ISchema;
   type: FormType;
   struct: string;
@@ -52,7 +55,7 @@ export interface IStoreState {
   childErrors: IChildErrors;
   externalErrors: IErrors;
   externalChildErrors: IChildErrors;
-  rendererOptions: IRendererOptions;
+  renderers: IRendererDefinitions;
   buttonOptions: IButtonOptions;
   collectionReferences?: ICollectionReferences;
   formLocked: boolean;
@@ -80,6 +83,7 @@ export function createStore(
   type?: FormType,
   block?: string,
   rendererOptions?: IRendererOptions,
+  renderers?: Partial<IRendererDefinitions>,
   buttonOptions?: IButtonOptions,
   collectionReferences?: ICollectionReferences,
   initialErrors?: IErrors,
@@ -94,6 +98,9 @@ export function createStore(
   const schema = SchemaParser.parse(schemaJson);
 
   const optionDefaults = DeReCrudOptions.getDefaults();
+
+  const rendererOptionDefaults =
+    rendererOptions || optionDefaults.rendererOptions;
 
   const structReference = schema.structs.find((x) => x.name === struct);
   initialValue = createFieldParent(structReference.fields, initialValue);
@@ -124,6 +131,9 @@ export function createStore(
     externalErrors: initialErrors || {},
     focused: {},
     formId: ++FORM_COUNTER,
+    formClassName: rendererOptionDefaults
+      ? rendererOptionDefaults.formClassName
+      : undefined,
     formLocked: false,
     formSubmitting: false,
     initialValue,
@@ -135,7 +145,11 @@ export function createStore(
     onFieldParentChange,
     onSubmit,
     readOnly: {},
-    rendererOptions: rendererOptions || optionDefaults.rendererOptions,
+    renderers: parseRendererOptions(
+      rendererOptions || optionDefaults.rendererOptions,
+      renderers,
+      optionDefaults.renderers,
+    ),
     schema,
     struct,
     touched: {},
@@ -153,6 +167,7 @@ export function createStore(
 export function updateStore(
   store: IStore,
   rendererOptions?: IRendererOptions,
+  renderers?: Partial<IRendererDefinitions>,
   buttonOptions?: IButtonOptions,
   collectionReferences?: ICollectionReferences,
   onSubmit?: FormSubmission,
@@ -164,18 +179,13 @@ export function updateStore(
 ) {
   const optionDefaults = DeReCrudOptions.getDefaults();
 
-  const oldButtonOptions = store.getState().buttonOptions;
-
-  if (oldButtonOptions === buttonOptions) {
-    buttonOptions = oldButtonOptions;
-  } else {
-    buttonOptions = parseButtonOptions(
-      buttonOptions,
-      optionDefaults.buttonOptions,
-    );
-  }
+  const rendererOptionDefaults =
+    rendererOptions || optionDefaults.rendererOptions;
 
   store.setState({
+    formClassName: rendererOptionDefaults
+      ? rendererOptionDefaults.formClassName
+      : undefined,
     collectionReferences,
     onCancel,
     onFieldChange,
@@ -183,7 +193,14 @@ export function updateStore(
     onFieldChangeType: onFieldChangeType || 'blur',
     onFieldParentChange,
     onSubmit,
-    rendererOptions: rendererOptions || optionDefaults.rendererOptions,
-    buttonOptions,
+    renderers: parseRendererOptions(
+      rendererOptionDefaults,
+      renderers,
+      optionDefaults.renderers,
+    ),
+    buttonOptions: parseButtonOptions(
+      buttonOptions,
+      optionDefaults.buttonOptions,
+    ),
   });
 }

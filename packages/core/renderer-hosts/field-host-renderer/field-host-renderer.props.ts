@@ -1,5 +1,5 @@
 import { ICollectionReferences } from '../../form/form.props';
-import { IRendererOptions } from '../../models/renderer-options';
+import { IRendererDefinitions } from '../../models/renderer-definitions';
 import {
   ComplexFieldValue,
   FieldValue,
@@ -21,7 +21,7 @@ export interface IFieldHostRendererConnectProps {
 export interface IFieldHostRendererProps
   extends IFieldHostRendererConnectProps {
   rendererId: string;
-  rendererOptions: IRendererOptions;
+  renderers: IRendererDefinitions;
   collectionReferences?: ICollectionReferences;
   fieldPath: string;
   fieldValue: FieldValue;

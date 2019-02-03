@@ -21,7 +21,7 @@ const mapToProps = (
     childErrors,
     externalChildErrors,
     externalErrors,
-    rendererOptions,
+    renderers,
     collectionReferences,
   }: IStoreState,
   { fieldPath, parentPath }: IFieldHostRendererConnectProps,
@@ -52,7 +52,7 @@ const mapToProps = (
     formValue: value,
     parentValue: formPathToValue(value, parentPath),
     readOnly,
-    rendererOptions,
+    renderers,
     touched: touched[fieldPath] || false,
   };
 };

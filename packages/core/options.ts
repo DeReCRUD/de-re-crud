@@ -1,4 +1,5 @@
 import { IButtonOptions } from './models/button-options';
+import { IRendererDefinitions } from './models/renderer-definitions';
 import { IRendererOptions } from './models/renderer-options';
 
 let optionDefaultsInitialized = false;
@@ -40,6 +41,7 @@ export class DeReCrudOptions {
     new DeReCrudOptions(),
   );
 
+  public renderers?: Partial<IRendererDefinitions>;
   public rendererOptions?: IRendererOptions;
   public buttonOptions?: IButtonOptions;
 }

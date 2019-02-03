@@ -9,12 +9,12 @@ import {
 } from './stamp-host-renderer.props';
 
 const mapToProps = (
-  { value, rendererOptions }: IStoreState,
+  { value, renderers }: IStoreState,
   { parentPath }: IStampHostRendererConnectProps,
 ): Partial<IStampHostRendererProps> => ({
   formValue: value,
   parentValue: formPathToValue(value, parentPath),
-  rendererOptions,
+  renderers,
 });
 
 export default connect(mapToProps)(StampHostRenderer) as ComponentConstructor<

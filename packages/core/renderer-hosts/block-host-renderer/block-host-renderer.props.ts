@@ -1,4 +1,4 @@
-import { IRendererOptions } from '../../models/renderer-options';
+import { IRendererDefinitions } from '../../models/renderer-definitions';
 import { IBlock } from '../../models/schema';
 
 export interface IBlockHostRendererConnectProps {
@@ -11,5 +11,5 @@ export interface IBlockHostRendererProps
   extends IBlockHostRendererConnectProps {
   formId: number;
   formValue: object;
-  rendererOptions: IRendererOptions;
+  renderers: IRendererDefinitions;
 }

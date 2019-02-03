@@ -22,7 +22,7 @@ export default class BlockHostRenderer extends BaseComponent<
       block,
       path: parentPath,
       formValue,
-      rendererOptions,
+      renderers,
     } = this.props;
 
     if (!block.condition(formValue)) {
@@ -36,7 +36,7 @@ export default class BlockHostRenderer extends BaseComponent<
     }
 
     const rendererId = `${formId}.block.${path}`;
-    const BlockContainerRenderer = rendererOptions.components.blockContainer;
+    const BlockContainerRenderer = renderers.blockContainer;
 
     const rows = this.createRows(block, true);
 

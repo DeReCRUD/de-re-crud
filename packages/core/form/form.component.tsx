@@ -20,10 +20,11 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     const {
       schema,
       className,
+      formClassName,
       type,
       struct,
       block,
-      rendererOptions,
+      renderers,
       buttonOptions: { backButton, cancelButton, submitButton },
       navStack,
       formLocked,
@@ -39,13 +40,6 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
 
     if (!Array.isArray(schema.structs)) {
       Logger.error('Invalid schema defined.', schema.raw);
-      return null;
-    }
-
-    if (!rendererOptions || !rendererOptions.components) {
-      Logger.error(
-        'No rendererOptions have been set. Use DeReCrudOptions.setDefaults or rendererOptions on the form instance.',
-      );
       return null;
     }
 
@@ -65,11 +59,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       (x) => x.name === visibleStruct,
     );
 
-    const classNames = [
-      'de-re-crud-form',
-      className,
-      rendererOptions.formClassName,
-    ];
+    const classNames = ['de-re-crud-form', className, formClassName];
 
     if (!structReference) {
       Logger.error(`Struct '${struct}' is not defined.`, schema.structs);
@@ -96,7 +86,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       blockReference = structReference.blocks[0];
     }
 
-    const ButtonRenderer = rendererOptions.components.button;
+    const ButtonRenderer = renderers.button;
     const path = navStack.length ? navStack[navStack.length - 1].path : null;
 
     let submitButtonText =

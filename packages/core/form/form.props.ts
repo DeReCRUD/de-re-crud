@@ -1,5 +1,6 @@
 import { IButtonOptions } from '../models/button-options';
 import { IErrors } from '../models/errors';
+import { IRendererDefinitions } from '../models/renderer-definitions';
 import { IRendererOptions } from '../models/renderer-options';
 import { FieldValue, ISchema } from '../models/schema';
 import { INavState } from '../store';
@@ -67,6 +68,7 @@ export type FieldParentChangeNotification = (
 export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;
   rendererOptions?: IRendererOptions;
+  renderers?: Partial<IRendererDefinitions>;
   buttonOptions?: IButtonOptions;
   initialErrors?: IErrors;
   initialValue?: object;
@@ -79,9 +81,10 @@ export interface IFormConnectProps extends IFormBaseProps {
 
 export interface IFormProps extends IFormBaseProps {
   type: FormType;
-  rendererOptions: IRendererOptions;
+  renderers: IRendererDefinitions;
   buttonOptions: IButtonOptions;
   schema: ISchema;
+  formClassName?: string;
   formLocked: boolean;
   formSubmitting: boolean;
   navStack: INavState[];

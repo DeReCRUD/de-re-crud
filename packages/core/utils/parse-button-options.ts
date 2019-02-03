@@ -1,139 +1,73 @@
-import { IButtonOptions } from '../models/button-options';
+import {
+  IButtonOptions,
+  IBaseButtonOptions,
+  ISubmitButtionOptions,
+  IBackButtonOptions,
+  ICancelButtonOptions,
+} from '../models/button-options';
+import defaults from './defaults';
 
 export default function parseButtonOptions(
-  instanceOptions: IButtonOptions = {},
-  defaultOptions: IButtonOptions = {},
+  instanceOptions: Partial<IButtonOptions> = {},
+  defaultOptions: Partial<IButtonOptions> = {},
 ): IButtonOptions {
-  const buttonOptions: IButtonOptions = defaultOptions;
+  const defaultBaseButtonOptions: IBaseButtonOptions = {
+    classNames: [],
+  };
 
-  if (!buttonOptions.button) {
-    buttonOptions.button = {};
-  }
+  const defaultSubmitButtonOptions: ISubmitButtionOptions = {
+    classNames: [],
+    includeButtonClassNames: true,
+    appendStructLabel: true,
+    createText: 'Create',
+    updateText: 'Update',
+    visible: true,
+  };
 
-  if (!buttonOptions.backButton) {
-    buttonOptions.backButton = {};
-  }
+  const defaultBackButtonOptions: IBackButtonOptions = {
+    classNames: [],
+    includeButtonClassNames: true,
+    text: 'Back',
+    visible: true,
+  };
 
-  if (!buttonOptions.cancelButton) {
-    buttonOptions.cancelButton = {};
-  }
+  const defaultCancelButtonOptions: ICancelButtonOptions = {
+    classNames: [],
+    includeButtonClassNames: true,
+    text: 'Cancel',
+    visible: true,
+  };
 
-  if (!buttonOptions.submitButton) {
-    buttonOptions.submitButton = {};
-  }
+  const baseButtonOptions = defaults<IBaseButtonOptions>(
+    instanceOptions.button,
+    defaultOptions.button,
+    defaultBaseButtonOptions,
+  );
 
-  if (instanceOptions && instanceOptions.button) {
-    assignIfDefined(buttonOptions.button, 'classNames', instanceOptions.button);
-  }
+  const submitButtonOptions = defaults<ISubmitButtionOptions>(
+    instanceOptions.submitButton,
+    defaultOptions.submitButton,
+    defaultSubmitButtonOptions,
+  );
 
-  if (instanceOptions && instanceOptions.cancelButton) {
-    assignIfDefined(
-      buttonOptions.cancelButton,
-      'classNames',
-      instanceOptions.cancelButton,
-    );
+  const backButtonOptions = defaults<IBackButtonOptions>(
+    instanceOptions.backButton,
+    defaultOptions.backButton,
+    defaultBackButtonOptions,
+  );
 
-    assignIfDefined(
-      buttonOptions.cancelButton,
-      'includeButtonClassNames',
-      instanceOptions.cancelButton,
-    );
+  const cancelButtonOptions = defaults<ICancelButtonOptions>(
+    instanceOptions.cancelButton,
+    defaultOptions.cancelButton,
+    defaultCancelButtonOptions,
+  );
 
-    assignIfDefined(
-      buttonOptions.cancelButton,
-      'text',
-      instanceOptions.cancelButton,
-    );
-
-    assignIfDefined(
-      buttonOptions.cancelButton,
-      'visible',
-      instanceOptions.cancelButton,
-    );
-  }
-
-  if (instanceOptions && instanceOptions.submitButton) {
-    assignIfDefined(
-      buttonOptions.submitButton,
-      'classNames',
-      instanceOptions.submitButton,
-    );
-
-    assignIfDefined(
-      buttonOptions.submitButton,
-      'includeButtonClassNames',
-      instanceOptions.submitButton,
-    );
-
-    assignIfDefined(
-      buttonOptions.submitButton,
-      'appendStructLabel',
-      instanceOptions.submitButton,
-    );
-
-    assignIfDefined(
-      buttonOptions.submitButton,
-      'createText',
-      instanceOptions.submitButton,
-    );
-
-    assignIfDefined(
-      buttonOptions.submitButton,
-      'updateText',
-      instanceOptions.submitButton,
-    );
-
-    assignIfDefined(
-      buttonOptions.submitButton,
-      'visible',
-      instanceOptions.submitButton,
-    );
-  }
-
-  if (instanceOptions && instanceOptions.backButton) {
-    assignIfDefined(
-      buttonOptions.backButton,
-      'classNames',
-      instanceOptions.backButton,
-    );
-
-    assignIfDefined(
-      buttonOptions.backButton,
-      'includeButtonClassNames',
-      instanceOptions.backButton,
-    );
-
-    assignIfDefined(
-      buttonOptions.backButton,
-      'text',
-      instanceOptions.backButton,
-    );
-
-    assignIfDefined(
-      buttonOptions.backButton,
-      'visible',
-      instanceOptions.backButton,
-    );
-  }
-
-  assignDefault(buttonOptions.button, 'classNames', []);
-
-  assignDefault(buttonOptions.submitButton, 'classNames', []);
-  assignDefault(buttonOptions.submitButton, 'includeButtonClassNames', true);
-  assignDefault(buttonOptions.submitButton, 'appendStructLabel', true);
-  assignDefault(buttonOptions.submitButton, 'createText', 'Create');
-  assignDefault(buttonOptions.submitButton, 'updateText', 'Update');
-  assignDefault(buttonOptions.submitButton, 'visible', true);
-
-  assignDefault(buttonOptions.backButton, 'classNames', []);
-  assignDefault(buttonOptions.backButton, 'includeButtonClassNames', true);
-  assignDefault(buttonOptions.backButton, 'text', 'Back');
-  assignDefault(buttonOptions.backButton, 'visible', true);
-
-  assignDefault(buttonOptions.cancelButton, 'classNames', []);
-  assignDefault(buttonOptions.cancelButton, 'includeButtonClassNames', true);
-  assignDefault(buttonOptions.cancelButton, 'text', 'Cancel');
-  assignDefault(buttonOptions.cancelButton, 'visible', true);
+  const buttonOptions: IButtonOptions = {
+    button: baseButtonOptions,
+    submitButton: submitButtonOptions,
+    backButton: backButtonOptions,
+    cancelButton: cancelButtonOptions,
+  };
 
   if (buttonOptions.button.classNames.length) {
     if (buttonOptions.submitButton.includeButtonClassNames) {
@@ -156,20 +90,4 @@ export default function parseButtonOptions(
   }
 
   return buttonOptions;
-}
-
-function assignIfDefined(obj: object, key: string, source: object) {
-  if (!isUndefined(source, key)) {
-    obj[key] = source[key];
-  }
-}
-
-function assignDefault<T>(obj: object, key: string, defaultValue: T) {
-  if (isUndefined(obj, key)) {
-    obj[key] = defaultValue;
-  }
-}
-
-function isUndefined(obj: object, key: string) {
-  return typeof obj[key] === 'undefined';
 }
