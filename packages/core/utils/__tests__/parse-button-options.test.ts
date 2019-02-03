@@ -120,6 +120,6 @@ describe('parseButtonOptions', () => {
       },
     };
 
-    expect(parseButtonOptions(null, defaultOptions)).toEqual(expected);
+    expect(parseButtonOptions(undefined, defaultOptions)).toEqual(expected);
   });
 });

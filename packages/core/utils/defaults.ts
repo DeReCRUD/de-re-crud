@@ -1,9 +1,11 @@
 function assignDefaults<T>(dest: Partial<T>, src: Partial<T>) {
-  Object.keys(src).forEach((key) => {
-    if (!(key in dest)) {
-      dest[key] = src[key];
-    }
-  });
+  if (typeof src !== 'undefined') {
+    Object.keys(src).forEach((key) => {
+      if (!(key in dest)) {
+        dest[key] = src[key];
+      }
+    });
+  }
 }
 
 export default function defaults<T>(
