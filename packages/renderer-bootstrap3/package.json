@@ -1,7 +1,7 @@
 {
   "name": "@de-re-crud/renderer-bootstrap3",
   "description": "Bootstrap 3 renderers for De Re CRUD interfaces",
-  "version": "0.8.5",
+  "version": "0.9.0",
   "repository": "https://github.com/DeReCRUD/core.git",
   "license": "Apache-2.0",
   "style": "dist/de-re-crud-renderer-bootstrap3.css",
@@ -17,7 +17,7 @@
     "bootstrap": ">= 3 < 4"
   },
   "peerDependencies": {
-    "@de-re-crud/core": "0.8.x"
+    "@de-re-crud/core": "0.9.x"
   },
   "dependencies": {
     "preact": "~8"
