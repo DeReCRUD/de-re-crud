@@ -1,5 +1,6 @@
 import { DEFAULT_FIELD_WIDTH, IField } from '../../../models/schema';
 import SchemaParser from '../../schema-parser';
+import { DEFAULT_CONDITION } from '../../../schema-parser/parse-condition';
 
 describe('SchemaParser', () => {
   it('should return empty list of structs for empty value', () => {
@@ -49,10 +50,10 @@ describe('SchemaParser', () => {
         {
           blocks: [
             {
-              condition: SchemaParser.DEFAULT_CONDITION,
+              condition: DEFAULT_CONDITION,
               fields: [
                 {
-                  condition: SchemaParser.DEFAULT_CONDITION,
+                  condition: DEFAULT_CONDITION,
                   field,
                   hints: {},
                 },
@@ -62,7 +63,7 @@ describe('SchemaParser', () => {
               },
               items: [
                 {
-                  condition: SchemaParser.DEFAULT_CONDITION,
+                  condition: DEFAULT_CONDITION,
                   field,
                   hints: {},
                 },

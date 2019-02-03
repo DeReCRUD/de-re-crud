@@ -2,7 +2,6 @@ import Logger from '../../logger';
 import {
   BlockConditionFunc,
   DEFAULT_FIELD_WIDTH,
-  FieldConditionFunc,
   IBlock,
   IField,
   IFieldReference,
@@ -15,6 +14,7 @@ import {
   IStruct,
   ICustomValidator,
 } from '../../models/schema';
+import parseCondition from '../../schema-parser/parse-condition';
 import parseField from './parse-field';
 import parseLabel from './parse-label';
 
@@ -23,8 +23,6 @@ interface ISchemaMap<T> {
 }
 
 export default class SchemaParser {
-  public static readonly DEFAULT_CONDITION = () => true;
-
   public static parse(schemaJson: any): ISchema {
     let structsJson: any;
 
@@ -123,7 +121,7 @@ export default class SchemaParser {
           if (blockField.stamp) {
             const stamp: IStamp = {
               blockInstance: blockInstance++,
-              condition: this.parseCondition(blockField.condition),
+              condition: parseCondition(blockField.condition),
               size: blockField.size || 3,
               text: blockField.stamp,
             };
@@ -141,7 +139,7 @@ export default class SchemaParser {
             const field = fieldValue.parsed;
 
             const fieldReference: IFieldReference = {
-              condition: this.parseCondition(blockField.condition),
+              condition: parseCondition(blockField.condition),
               field,
               hints: {},
             };
@@ -248,7 +246,7 @@ export default class SchemaParser {
 
   private static parseBlock(structName: string, blockJson: any): IBlock {
     const result: IBlock = {
-      condition: this.parseCondition(
+      condition: parseCondition(
         blockJson.condition,
         true,
       ) as BlockConditionFunc,
@@ -272,29 +270,5 @@ export default class SchemaParser {
     }
 
     return result;
-  }
-
-  private static parseCondition(
-    conditionJson: string,
-    blockCondition: boolean = false,
-  ): BlockConditionFunc | FieldConditionFunc {
-    let condition;
-
-    if (conditionJson) {
-      const conditionBody =
-        conditionJson[0] === '{' ? conditionJson : `return ${conditionJson}`;
-
-      const args = ['form', conditionBody];
-      if (!blockCondition) {
-        args.unshift('fieldParent');
-      }
-
-      condition = new Function(...args);
-    } else {
-      // tslint:disable-next-line:no-function-constructor-with-string-args
-      condition = this.DEFAULT_CONDITION;
-    }
-
-    return condition;
   }
 }
