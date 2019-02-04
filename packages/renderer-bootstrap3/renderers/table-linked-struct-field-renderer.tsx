@@ -80,7 +80,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
         <thead>
           <tr>
             {headers.map((header) => (
-              <th key={header}>{header}</th>
+              <th>{header}</th>
             ))}
             <th>&nbsp;</th>
           </tr>
