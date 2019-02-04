@@ -35,7 +35,7 @@ export type DestroyFunc = () => void;
 
 export type ComponentRenderer<IProps> = (
   props: Readonly<IProps>,
-  nativeElement: Element,
+  nativeElement: HTMLElement,
 ) => DestroyFunc;
 
 export function wrapComponent<IProps>(
