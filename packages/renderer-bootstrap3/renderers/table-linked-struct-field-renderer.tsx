@@ -12,10 +12,10 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
   label,
   required,
   headers,
-  readOnly,
+  busy,
   value,
   valueErrorIndicators,
-  readOnlyValues,
+  busyValues,
   canAdd,
   canRemove,
   onAdd,
@@ -26,8 +26,8 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
 
   value.forEach((columns, index) => {
     const removeButtonVisible = canRemove(index);
-    const editIconDisabled = readOnlyValues[index];
-    const removeIconDisabled = editIconDisabled || readOnlyValues[index];
+    const editIconDisabled = busyValues[index];
+    const removeIconDisabled = editIconDisabled || busyValues[index];
 
     rows.push(
       <tr className={valueErrorIndicators[index] && 'danger'}>
@@ -72,7 +72,7 @@ const Bootstrap3TableLinkedStructFieldRenderer = ({
             classes="btn btn-sm btn-default"
             text="Add"
             onClick={onAdd}
-            disabled={readOnly}
+            disabled={busy}
           />
         )}
       </div>

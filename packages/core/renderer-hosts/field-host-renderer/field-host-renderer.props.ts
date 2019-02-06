@@ -29,7 +29,7 @@ export interface IFieldHostRendererProps
   formLocked: boolean;
   formValue: object;
   touched: boolean;
-  readOnly: { [path: string]: boolean };
+  busy: { [path: string]: boolean };
   externalErrors: string[];
   errors: string[];
   childErrors: { [index: number]: boolean };

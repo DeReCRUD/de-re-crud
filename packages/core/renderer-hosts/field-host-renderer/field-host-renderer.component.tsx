@@ -50,7 +50,7 @@ export default class FieldHostRenderer extends BaseComponent<
       onFocus: this.onFocus,
       onValueChange: this.onValueChange,
       placeholder: field.placeholder,
-      readOnly: this.isReadOnly(fieldPath),
+      busy: this.isBusy(fieldPath),
       rendererId,
       required: field.required,
       value: fieldValue,
@@ -70,8 +70,8 @@ export default class FieldHostRenderer extends BaseComponent<
     );
   }
 
-  private isReadOnly = (path: string) => {
-    const { formLocked, readOnly } = this.props;
+  private isBusy = (path: string) => {
+    const { formLocked, busy } = this.props;
 
     if (formLocked) {
       return true;
@@ -80,7 +80,7 @@ export default class FieldHostRenderer extends BaseComponent<
     while (path.length) {
       const index = path.indexOf('.');
 
-      if (readOnly[path] === true) {
+      if (busy[path] === true) {
         return true;
       }
 
@@ -353,7 +353,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
         let values = [];
 
-        const readOnlyValues = {};
+        const busyValues = {};
 
         if (Array.isArray(fieldProps.value)) {
           values = fieldProps.value as object[];
@@ -376,7 +376,7 @@ export default class FieldHostRenderer extends BaseComponent<
               ),
             );
 
-            readOnlyValues[index] = this.isReadOnly(`${fieldPath}.${index}`);
+            busyValues[index] = this.isBusy(`${fieldPath}.${index}`);
           });
 
           const tableLinkedStructFieldProps: ITableLinkedStructRenderer = {
@@ -387,7 +387,7 @@ export default class FieldHostRenderer extends BaseComponent<
             onAdd: () => this.onAdd((mappedValue && mappedValue.length) || 0),
             onEdit: this.onEdit,
             onRemove: this.onRemove,
-            readOnlyValues,
+            busyValues,
             value: mappedValue,
             valueErrorIndicators: childErrors,
           };
@@ -397,7 +397,7 @@ export default class FieldHostRenderer extends BaseComponent<
           const items = values.map((_, index) => {
             const itemPath = `${fieldPath}.${index}`;
 
-            readOnlyValues[index] = this.isReadOnly(itemPath);
+            busyValues[index] = this.isBusy(itemPath);
 
             return (
               <BlockHostRenderer
@@ -415,7 +415,7 @@ export default class FieldHostRenderer extends BaseComponent<
             canRemove: this.canRemove,
             onAdd: () => this.onAdd((values && values.length) || 0),
             onRemove: this.onRemove,
-            readOnlyRenderedItems: readOnlyValues,
+            busyRenderedItems: busyValues,
             renderedItems: items,
           };
 

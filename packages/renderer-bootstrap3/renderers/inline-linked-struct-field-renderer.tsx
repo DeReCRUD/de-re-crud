@@ -10,9 +10,9 @@ const cssName = 'bootstrap3-inline-linked-struct-renderer';
 const Bootstrap3InlineLinkedStructFieldRenderer = ({
   label,
   required,
-  readOnly,
+  busy,
   renderedItems,
-  readOnlyRenderedItems,
+  busyRenderedItems,
   canAdd,
   canRemove,
   onAdd,
@@ -29,7 +29,7 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
             classes="btn btn-sm btn-danger"
             text="Remove"
             onClick={() => onRemove(index)}
-            disabled={readOnly || readOnlyRenderedItems[index]}
+            disabled={busy || busyRenderedItems[index]}
           />
         )}
         {removeButtonVisible && <hr />}
@@ -48,7 +48,7 @@ const Bootstrap3InlineLinkedStructFieldRenderer = ({
             classes="btn btn-sm btn-default"
             text="Add"
             onClick={onAdd}
-            disabled={readOnly}
+            disabled={busy}
           />
         )}
       </div>

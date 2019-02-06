@@ -13,7 +13,6 @@ const Bootstrap4BooleanFieldRenderer = ({
   onBlur,
   onChange,
   required,
-  readOnly,
 }: IBooleanFieldRenderer) => {
   const onManagedChange = (e: FieldChangeEvent) => {
     e.preventDefault();
@@ -31,7 +30,6 @@ const Bootstrap4BooleanFieldRenderer = ({
         onBlur={onBlur}
         onChange={onManagedChange}
         checked={value}
-        disabled={readOnly}
       />
       <Bootstrap4LabelRenderer
         htmlFor={rendererId}

@@ -12,7 +12,6 @@ const Bootstrap3RadioListFieldRenderer = ({
   onBlur,
   onChange,
   required,
-  readOnly,
   options,
 }: IRadioListFieldRenderer) => {
   const onManagedChange = (e: FieldChangeEvent) => {
@@ -37,7 +36,6 @@ const Bootstrap3RadioListFieldRenderer = ({
               onChange={onManagedChange}
               value={option.value}
               checked={option.selected}
-              disabled={readOnly}
             />
             {option.label}
           </Bootstrap3LabelRenderer>
