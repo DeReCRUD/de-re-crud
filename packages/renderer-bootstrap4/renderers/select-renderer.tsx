@@ -16,6 +16,7 @@ const Bootstrap4SelectRenderer = ({
   onBlur,
   onChange,
   required,
+  disabled,
 }: Bootstrap4SelectRendererProps) => (
   <div className="bootstrap4-select-renderer">
     <Bootstrap4LabelRenderer fieldRequired={required}>
@@ -30,6 +31,8 @@ const Bootstrap4SelectRenderer = ({
       onBlur={onBlur}
       onChange={onChange}
       multiple={multiSelect}
+      required={required}
+      disabled={disabled}
     >
       {options.map((option) => (
         <option

@@ -51,6 +51,8 @@ export default class FieldHostRenderer extends BaseComponent<
       onValueChange: this.onValueChange,
       placeholder: field.placeholder,
       busy: this.isBusy(fieldPath),
+      disabled: this.isDisabled(),
+      readOnly: this.isReadOnly(),
       rendererId,
       required: field.required,
       value: fieldValue,
@@ -70,12 +72,16 @@ export default class FieldHostRenderer extends BaseComponent<
     );
   }
 
-  private isBusy = (path: string) => {
-    const { formLocked, busy } = this.props;
+  private isReadOnly = () => {
+    return false;
+  };
 
-    if (formLocked) {
-      return true;
-    }
+  private isDisabled = () => {
+    return this.props.formLocked;
+  };
+
+  private isBusy = (path: string) => {
+    const { busy } = this.props;
 
     while (path.length) {
       const index = path.indexOf('.');
@@ -354,6 +360,7 @@ export default class FieldHostRenderer extends BaseComponent<
         let values = [];
 
         const busyValues = {};
+        const disabledValues = {};
 
         if (Array.isArray(fieldProps.value)) {
           values = fieldProps.value as object[];
@@ -377,6 +384,7 @@ export default class FieldHostRenderer extends BaseComponent<
             );
 
             busyValues[index] = this.isBusy(`${fieldPath}.${index}`);
+            disabledValues[index] = this.isDisabled();
           });
 
           const tableLinkedStructFieldProps: ITableLinkedStructRenderer = {
@@ -388,6 +396,7 @@ export default class FieldHostRenderer extends BaseComponent<
             onEdit: this.onEdit,
             onRemove: this.onRemove,
             busyValues,
+            disabledValues,
             value: mappedValue,
             valueErrorIndicators: childErrors,
           };
@@ -398,6 +407,7 @@ export default class FieldHostRenderer extends BaseComponent<
             const itemPath = `${fieldPath}.${index}`;
 
             busyValues[index] = this.isBusy(itemPath);
+            disabledValues[index] = this.isDisabled();
 
             return (
               <BlockHostRenderer
@@ -416,6 +426,7 @@ export default class FieldHostRenderer extends BaseComponent<
             onAdd: () => this.onAdd((values && values.length) || 0),
             onRemove: this.onRemove,
             busyRenderedItems: busyValues,
+            disabledRenderedItems: disabledValues,
             renderedItems: items,
           };
 

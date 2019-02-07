@@ -81,6 +81,8 @@ export interface IFieldRenderer extends IRenderer {
   value?: FieldValue;
   required: boolean;
   busy: boolean;
+  readOnly: boolean;
+  disabled: boolean;
   onFocus: (e: FieldFocusEvent) => void;
   onBlur: (e: FieldBlurEvent) => void;
   onChange: (e: FieldChangeEvent) => void;
@@ -119,6 +121,7 @@ export interface ITableLinkedStructRenderer extends IFieldRenderer {
   value: string[][];
   valueErrorIndicators: { [index: number]: boolean };
   busyValues: { [index: number]: boolean };
+  disabledValues: { [index: number]: boolean };
   canAdd: () => boolean;
   canRemove: (index: number) => boolean;
   onAdd: () => void;
@@ -129,6 +132,7 @@ export interface ITableLinkedStructRenderer extends IFieldRenderer {
 export interface IInlineLinkedStructRenderer extends IFieldRenderer {
   renderedItems: JSX.Element[];
   busyRenderedItems: { [index: number]: boolean };
+  disabledRenderedItems: { [index: number]: boolean };
   canAdd: () => boolean;
   canRemove: (index: number) => boolean;
   onAdd: () => void;
