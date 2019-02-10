@@ -4,9 +4,9 @@ import { IInternalStruct } from '../internal-schema';
 import Logger from '../logger';
 import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
 import combineCssClasses from '../utils/combine-css-classes';
+import { getStruct, getBlock } from '../utils/schema-helper';
 import shallowCompare from '../utils/shallow-compare';
 import { IFormProps } from './form.props';
-import { getStruct, getBlock } from '../utils/schema-helper';
 
 export interface IFormState {
   structs: IInternalStruct[];
