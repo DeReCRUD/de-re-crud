@@ -1,4 +1,5 @@
-import { FieldValue, IField } from '../models/schema';
+import { IInternalField } from '../internal-schema';
+import { FieldValue } from '../models/schema';
 import { IValidator } from './validator';
 
 export default class PatternValidator implements IValidator {
@@ -8,7 +9,7 @@ export default class PatternValidator implements IValidator {
     private negate: boolean = false,
   ) {}
 
-  public validate = (field: IField, value: FieldValue) => {
+  public validate = (field: IInternalField, value: FieldValue) => {
     if (value === null || typeof value === 'undefined') {
       return true;
     }

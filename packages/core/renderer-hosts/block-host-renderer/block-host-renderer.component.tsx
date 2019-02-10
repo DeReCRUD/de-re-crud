@@ -1,13 +1,14 @@
 import { h } from 'preact';
 import BaseComponent from '../../base-component';
-import { IBlockRow } from '../../models/renderers';
 import {
-  DEFAULT_FIELD_WIDTH,
-  IBlock,
-  IBlockReference,
-  IFieldReference,
-  IStamp,
-} from '../../models/schema';
+  IInternalBlock,
+  IInternalBlockReference,
+  IInternalFieldReference,
+  IInternalStamp,
+  IInternalSchema,
+} from '../../internal-schema';
+import { IBlockRow } from '../../models/renderers';
+import { DEFAULT_FIELD_WIDTH } from '../../models/schema';
 import formPathToValue from '../../utils/form-path-to-value';
 import FieldHostRenderer from '../field-host-renderer';
 import StampHostRenderer from '../stamp-host-renderer';
@@ -18,12 +19,16 @@ export default class BlockHostRenderer extends BaseComponent<
 > {
   public render() {
     const {
+      schema,
       formId,
-      block,
+      struct,
+      block: blockName,
       path: parentPath,
       formValue,
       renderers,
     } = this.props;
+
+    const block = schema.blocks.get(struct).get(blockName);
 
     if (!block.condition(formValue)) {
       return null;
@@ -38,12 +43,16 @@ export default class BlockHostRenderer extends BaseComponent<
     const rendererId = `${formId}.block.${path}`;
     const BlockContainerRenderer = renderers.blockContainer;
 
-    const rows = this.createRows(block, true);
+    const rows = this.createRows(schema, block, true);
 
     return <BlockContainerRenderer rendererId={rendererId} rows={rows} />;
   }
 
-  private createRows(block: IBlock, root: boolean = false) {
+  private createRows(
+    schema: IInternalSchema,
+    block: IInternalBlock,
+    root: boolean = false,
+  ) {
     const { formValue, path: parentPath } = this.props;
 
     const rows = [];
@@ -57,21 +66,30 @@ export default class BlockHostRenderer extends BaseComponent<
     block.items.forEach((item) => {
       let width = DEFAULT_FIELD_WIDTH;
 
-      const blockReference = item as IBlockReference;
+      const blockReference = item as IInternalBlockReference;
       if (blockReference.block) {
-        rows.push(...this.createRows(blockReference.block));
+        const itemBlock = schema.blocks
+          .get(block.struct)
+          .get(blockReference.block);
+
+        rows.push(...this.createRows(schema, itemBlock));
         return;
       }
 
-      const fieldReference = item as IFieldReference;
+      const fieldReference = item as IInternalFieldReference;
       if (fieldReference.field) {
         const parentValue = formPathToValue(formValue, parentPath);
+        const field = schema.fields.get(block.struct).get(fieldReference.field);
 
         if (!fieldReference.condition(parentValue, formValue)) {
           return;
         }
 
-        width = fieldReference.hints.width || fieldReference.field.hints.width;
+        if (fieldReference.hints.width) {
+          width = fieldReference.hints.width;
+        }
+
+        width = fieldReference.hints.width || field.hints.width;
       }
 
       if (block.hints.layout !== 'horizontal') {
@@ -87,7 +105,9 @@ export default class BlockHostRenderer extends BaseComponent<
       }
 
       nextRow.cells.push({
-        renderedItem: this.renderItem(item as IFieldReference | IStamp),
+        renderedItem: this.renderItem(item as
+          | IInternalFieldReference
+          | IInternalStamp),
         width,
       });
     });
@@ -95,10 +115,10 @@ export default class BlockHostRenderer extends BaseComponent<
     return rows;
   }
 
-  private renderItem(item: IFieldReference | IStamp) {
+  private renderItem(item: IInternalFieldReference | IInternalStamp) {
     const { formId, struct, path: parentPath } = this.props;
 
-    const stamp = item as IStamp;
+    const stamp = item as IInternalStamp;
 
     if (stamp.text) {
       let path = `stamp.${stamp.blockInstance}`;
@@ -118,9 +138,9 @@ export default class BlockHostRenderer extends BaseComponent<
       );
     }
 
-    const fieldReference = item as IFieldReference;
+    const fieldReference = item as IInternalFieldReference;
     if (fieldReference.field) {
-      const { name: fieldName } = fieldReference.field;
+      const fieldName = fieldReference.field;
       const fieldPath = parentPath ? `${parentPath}.${fieldName}` : fieldName;
       const rendererId = `${formId}.${fieldPath}`;
 
@@ -128,6 +148,7 @@ export default class BlockHostRenderer extends BaseComponent<
         <FieldHostRenderer
           key={`${struct}-${rendererId}`}
           rendererId={rendererId}
+          struct={struct}
           fieldPath={fieldPath}
           fieldReference={fieldReference}
           parentPath={parentPath}

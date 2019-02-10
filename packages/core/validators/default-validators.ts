@@ -1,4 +1,5 @@
-import { FieldValue, IField } from '../models/schema';
+import { IInternalField } from '../internal-schema';
+import { FieldValue } from '../models/schema';
 import { ValidatorFunc } from './validator';
 
 export interface IDefaultValidatorFuncs {
@@ -12,7 +13,7 @@ export const defaultValidatorMessages = {
 };
 
 export const defaultValidatorFuncs: IDefaultValidatorFuncs = {
-  required: (field: IField, value: FieldValue) => {
+  required: (field: IInternalField, value: FieldValue) => {
     if (field.type === 'linkedStruct' || !field.required) {
       return true;
     }

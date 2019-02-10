@@ -1,8 +1,9 @@
+import { IInternalSchema } from '../internal-schema';
 import { IButtonOptions } from '../models/button-options';
 import { IErrors } from '../models/errors';
 import { IRendererDefinitions } from '../models/renderer-definitions';
 import { IRendererOptions } from '../models/renderer-options';
-import { FieldValue, ISchema } from '../models/schema';
+import { FieldValue } from '../models/schema';
 import { INavState } from '../store';
 
 export interface ICollectionReferenceParams {
@@ -83,7 +84,7 @@ export interface IFormProps extends IFormBaseProps {
   type: FormType;
   renderers: IRendererDefinitions;
   buttonOptions: IButtonOptions;
-  schema: ISchema;
+  schema: IInternalSchema;
   formClassName?: string;
   formLocked: boolean;
   formSubmitting: boolean;

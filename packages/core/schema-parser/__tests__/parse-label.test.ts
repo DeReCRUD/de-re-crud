@@ -1,4 +1,4 @@
-import { ILabel } from '../../../models/schema';
+import { ILabel } from '../../models/schema';
 import parseLabel from '../../schema-parser/parse-label';
 
 describe('parseLabel', () => {

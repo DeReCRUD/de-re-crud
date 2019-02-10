@@ -9,17 +9,19 @@ import {
   FormType,
   ICollectionReferences,
 } from './form/form.props';
+import { IInternalSchema } from './internal-schema';
 import { IButtonOptions } from './models/button-options';
 import { IChildErrors, IErrors } from './models/errors';
 import { IRendererDefinitions } from './models/renderer-definitions';
 import { IRendererOptions } from './models/renderer-options';
-import { ISchema, SimpleFieldValue } from './models/schema';
+import { SimpleFieldValue } from './models/schema';
 import { DeReCrudOptions } from './options';
+import SchemaParser from './schema-parser';
 import createFieldParent from './utils/create-field-parent';
 import generateChildErrors from './utils/generate-child-errors';
 import parseButtonOptions from './utils/parse-button-options';
 import parseRendererOptions from './utils/parse-renderer-options';
-import SchemaParser from './utils/schema-parser';
+import { getKeyFields } from './utils/schema-helper';
 
 let FORM_COUNTER = 0;
 
@@ -40,7 +42,7 @@ export interface INavState {
 export interface IStoreState {
   formId: number;
   formClassName?: string;
-  schema: ISchema;
+  schema: IInternalSchema;
   type: FormType;
   struct: string;
   block: string;
@@ -78,9 +80,9 @@ const logger = (store) => (next) => (action) => {
 
 export function createStore(
   schemaJson: any,
-  struct: string,
+  structName: string,
   type?: FormType,
-  block?: string,
+  blockName?: string,
   rendererOptions?: IRendererOptions,
   renderers?: Partial<IRendererDefinitions>,
   buttonOptions?: IButtonOptions,
@@ -101,23 +103,22 @@ export function createStore(
   const rendererOptionDefaults =
     rendererOptions || optionDefaults.rendererOptions;
 
-  const structReference = schema.structs.find((x) => x.name === struct);
-  initialValue = createFieldParent(structReference.fields, initialValue);
+  initialValue = createFieldParent(schema, structName, initialValue);
 
   if (!type) {
-    const keyFields = structReference.fields.filter((x) => x.keyField);
+    const keyFields = getKeyFields(schema, structName);
 
     const allKeyFieldsSet =
       keyFields.length > 0 &&
       keyFields.every(
-        (keyField) => typeof initialValue[keyField.name] !== 'undefined',
+        (keyField) => typeof initialValue[keyField] !== 'undefined',
       );
 
     type = allKeyFieldsSet ? 'update' : 'create';
   }
 
   const state: IStoreState = {
-    block: block || 'default',
+    block: blockName || 'default',
     busy: {},
     buttonOptions: parseButtonOptions(
       buttonOptions,
@@ -149,7 +150,7 @@ export function createStore(
       optionDefaults.renderers,
     ),
     schema,
-    struct,
+    struct: structName,
     touched: {},
     type,
     value: initialValue,

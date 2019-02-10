@@ -23,6 +23,10 @@ function createFieldTests(
       name: 'field1',
       type,
       label: 'Field1',
+      customValidators: [],
+      hints: {
+        custom: {},
+      },
       ...extraInitailData,
     };
 
@@ -30,6 +34,7 @@ function createFieldTests(
       expect(parseField(structName, fieldJson)).toEqual({
         ...fieldJson,
         hints: {
+          ...fieldJson.hints,
           width: DEFAULT_FIELD_WIDTH,
         },
         keyField: false,
@@ -79,22 +84,28 @@ function createFieldTests(
 
     it('should override width hint when within threshold', () => {
       expect(
-        parseField(structName, { ...fieldJson, hints: { width: 6 } }).hints
-          .width,
+        parseField(structName, {
+          ...fieldJson,
+          hints: { ...fieldJson.hints, width: 6 },
+        }).hints.width,
       ).toBe(6);
     });
 
     it('should use default width hint when under minumum threshold', () => {
       expect(
-        parseField(structName, { ...fieldJson, hints: { width: -6 } }).hints
-          .width,
+        parseField(structName, {
+          ...fieldJson,
+          hints: { ...fieldJson.hints, width: -6 },
+        }).hints.width,
       ).toBe(DEFAULT_FIELD_WIDTH);
     });
 
     it('should use default width hint when above maximum threshold', () => {
       expect(
-        parseField(structName, { ...fieldJson, hints: { width: 100 } }).hints
-          .width,
+        parseField(structName, {
+          ...fieldJson,
+          hints: { ...fieldJson.hints, width: 100 },
+        }).hints.width,
       ).toBe(DEFAULT_FIELD_WIDTH);
     });
 
@@ -107,7 +118,9 @@ describe('parseField', () => {
   createFieldTests('date');
   createFieldTests('derived');
   createFieldTests('estimate');
-  createFieldTests('foreignKey');
+  createFieldTests('foreignKey', {
+    reference: { struct: structName, labelField: 'field1' },
+  });
 
   createFieldTests('integer', null, null, (field) => {
     it('should include min when specified', () => {
@@ -160,7 +173,7 @@ describe('parseField', () => {
     'list',
     null,
     {
-      hints: { width: DEFAULT_FIELD_WIDTH, layout: 'select' },
+      hints: { custom: {}, width: DEFAULT_FIELD_WIDTH, layout: 'select' },
       multiSelect: false,
       dynamicOptions: false,
       options: [],
@@ -201,7 +214,7 @@ describe('parseField', () => {
       it('should layout as radio when specified', () => {
         const listField = parseField(structName, {
           ...fieldJson,
-          hints: { layout: 'radio' },
+          hints: { ...fieldJson.hints, layout: 'radio' },
         }) as IInternalListField;
 
         expect(listField.hints.layout).toEqual('radio');

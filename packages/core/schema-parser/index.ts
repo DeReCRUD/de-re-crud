@@ -7,6 +7,7 @@ import {
   BlockMap,
 } from '../internal-schema';
 import Logger from '../logger';
+import { ICustomValidator } from '../models/schema';
 import parseBlock from './parse-block';
 import parseField from './parse-field';
 import parseStruct from './parse-struct';
@@ -16,6 +17,7 @@ export default class SchemaParser {
     const structs: IInternalStruct[] = [];
     const fields: Map<string, FieldMap> = new Map<string, FieldMap>();
     const blocks: Map<string, BlockMap> = new Map<string, BlockMap>();
+    const customValidators: ICustomValidator[] = [];
 
     if (schemaJson) {
       if (Array.isArray(schemaJson)) {
@@ -59,8 +61,25 @@ export default class SchemaParser {
           }
         });
       }
+
+      if (Array.isArray(schemaJson.customValidators)) {
+        schemaJson.customValidators.forEach((validator) => {
+          if (
+            typeof validator.name === 'string' &&
+            typeof validator.message === 'string' &&
+            typeof validator.pattern === 'string'
+          ) {
+            customValidators.push({
+              name: validator.name,
+              message: validator.message,
+              pattern: new RegExp(validator.pattern),
+              negate: validator.negate === true,
+            });
+          }
+        });
+      }
     }
 
-    return { structs, fields, blocks };
+    return { structs, fields, blocks, customValidators, json: schemaJson };
   }
 }

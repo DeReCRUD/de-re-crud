@@ -1,15 +1,15 @@
+import { IInternalStamp } from '../../internal-schema';
 import { IRendererDefinitions } from '../../models/renderer-definitions';
-import { IStamp } from '../../models/schema';
 
 export interface IStampHostRendererConnectProps {
   rendererId: string;
-  stamp: IStamp;
+  stamp: IInternalStamp;
   parentPath?: string;
 }
 
 export interface IStampHostRendererProps {
   rendererId: string;
-  stamp: IStamp;
+  stamp: IInternalStamp;
   formValue: object;
   parentValue: object;
   renderers: IRendererDefinitions;

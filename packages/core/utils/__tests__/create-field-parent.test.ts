@@ -1,68 +1,119 @@
-import { IField, ILinkedStructField } from '../../models/schema';
+import {
+  IInternalField,
+  IInternalSchema,
+  IInternalStruct,
+  IInternalBlock,
+  IInternalLinkedStructField,
+} from '../../internal-schema';
 import createFieldParent from '../create-field-parent';
 
-const fields: IField[] = [
-  {
-    hints: {
-      width: 1,
-    },
-    initialValue: 'Test',
-    keyField: false,
-    label: { short: 'short', medium: 'medium', long: 'long' },
-    name: 'test1',
-    required: false,
-    struct: 'struct',
-    type: 'text',
-    unique: false,
-    customValidators: [],
+const structName = 'struct';
+const defaultFieldName = 'test1';
+
+const defaultField: IInternalField = {
+  hints: {
+    custom: {},
+    width: 1,
   },
-];
+  initialValue: 'Test',
+  keyField: false,
+  label: { short: 'short', medium: 'medium', long: 'long' },
+  name: defaultFieldName,
+  required: false,
+  struct: structName,
+  type: 'text',
+  unique: false,
+  customValidators: [],
+};
+
+const createSchema = (...fields: IInternalField[]) => {
+  const structs: IInternalStruct[] = [];
+
+  const fieldMap = new Map<string, Map<string, IInternalField>>();
+
+  fields.forEach((x) => {
+    let struct = structs.find((s) => s.name === x.struct);
+
+    if (!struct) {
+      struct = { name: x.struct, fields: [], blocks: [] };
+      structs.push(struct);
+    }
+
+    if (!fieldMap.has(x.struct)) {
+      fieldMap.set(x.struct, new Map<string, IInternalField>());
+    }
+
+    fieldMap.get(x.struct).set(x.name, x);
+    struct.fields.push(x.name);
+  });
+
+  const schema: IInternalSchema = {
+    structs,
+    fields: fieldMap,
+    blocks: new Map<string, Map<string, IInternalBlock>>(),
+    customValidators: [],
+    json: {},
+  };
+
+  return schema;
+};
 
 describe('createFieldParent', () => {
   it('should create new field parent with initial values', () => {
-    expect(createFieldParent(fields)).toEqual({ test1: 'Test' });
+    expect(createFieldParent(createSchema(defaultField), structName)).toEqual({
+      [defaultFieldName]: 'Test',
+    });
   });
 
   it('should return field parent with initial values', () => {
-    expect(createFieldParent(fields, { test2: 'Test2' })).toEqual({
-      test1: 'Test',
+    expect(
+      createFieldParent(createSchema(defaultField), structName, {
+        test2: 'Test2',
+      }),
+    ).toEqual({
+      [defaultFieldName]: 'Test',
       test2: 'Test2',
     });
   });
 
   it('should return field parent without initial values if already set in field parent', () => {
-    expect(createFieldParent(fields, { test1: 'Existing' })).toEqual({
-      test1: 'Existing',
+    expect(
+      createFieldParent(createSchema(defaultField), structName, {
+        [defaultFieldName]: 'Existing',
+      }),
+    ).toEqual({
+      [defaultFieldName]: 'Existing',
     });
   });
 
   it('should return field parent without initial values if none are defined on fields', () => {
-    const fieldsWithoutInitialValues = fields.concat();
-    fieldsWithoutInitialValues[0] = { ...fields[0] };
-    delete fieldsWithoutInitialValues[0].initialValue;
+    const field = { ...defaultField };
+    delete field.initialValue;
 
-    expect(createFieldParent(fieldsWithoutInitialValues, {})).toEqual({});
+    expect(createFieldParent(createSchema(field), structName, {})).toEqual({});
   });
 
   it('should return field parent with nested initial values when field is linked struct', () => {
-    const fieldsWithLinkedStruct = fields.concat();
-    fieldsWithLinkedStruct[0] = {
-      ...fields[0],
-      reference: {
-        block: {},
-        struct: {
-          fields: [
-            {
-              initialValue: 'Test2',
-              name: 'test2',
-            },
-          ],
-        },
+    const fields: IInternalField[] = [
+      { ...defaultField },
+      {
+        ...defaultField,
+        name: 'test2',
+        struct: 'struct2',
+        initialValue: 'Test2',
       },
-      type: 'linkedStruct',
-    } as ILinkedStructField;
+    ];
 
-    expect(createFieldParent(fieldsWithLinkedStruct, { test1: [{}] })).toEqual({
+    const linkedStructField = fields[0] as IInternalLinkedStructField;
+    linkedStructField.type = 'linkedStruct';
+    linkedStructField.reference = {
+      block: 'block',
+      struct: 'struct2',
+    };
+
+    expect(
+      createFieldParent(createSchema(...fields), structName, { test1: [{}] }),
+    ).toEqual({
       test1: [
         {
           test2: 'Test2',

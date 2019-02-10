@@ -3,12 +3,8 @@ import {
   IFieldChangeNotificationParams,
   IFieldParentChangeNotificationParams,
 } from '../../form/form.props';
-import {
-  ComplexFieldValue,
-  IField,
-  ILinkedStructField,
-  SimpleFieldValue,
-} from '../../models/schema';
+import { IInternalLinkedStructField } from '../../internal-schema';
+import { ComplexFieldValue, SimpleFieldValue } from '../../models/schema';
 import { IStore, IStoreState } from '../../store';
 import createFieldParent from '../../utils/create-field-parent';
 import formPathToValue from '../../utils/form-path-to-value';
@@ -113,7 +109,8 @@ export default function fieldHostRendererActions(store: IStore) {
   return {
     focusField: (
       state: IStoreState,
-      _: IField,
+      _: string,
+      __: string,
       fieldPath: string,
     ): Partial<IStoreState> => {
       const value = formPathToValue(state.value, fieldPath);
@@ -128,19 +125,20 @@ export default function fieldHostRendererActions(store: IStore) {
 
     blurField: (
       state: IStoreState,
-      field: IField,
+      structName: string,
+      fieldName: string,
       fieldPath: string,
       parentPath?: string,
     ): Partial<IStoreState> => {
-      const struct = state.schema.structs.find((x) => x.name === field.struct);
       const oldValue = state.focused[fieldPath];
       const newValue = formPathToValue(state.value, fieldPath);
       const parentValue = formPathToValue(state.value, parentPath);
       const initialValue = formPathToValue(state.initialValue, fieldPath);
 
       const errors = validateField(
-        struct,
-        field,
+        state.schema,
+        structName,
+        fieldName,
         newValue,
         initialValue,
         state.value,
@@ -183,11 +181,11 @@ export default function fieldHostRendererActions(store: IStore) {
 
     changeValue: (
       state: IStoreState,
-      field: IField,
+      structName: string,
+      fieldName: string,
       fieldPath: string,
       fieldValue: SimpleFieldValue | SimpleFieldValue[],
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
-      const struct = state.schema.structs.find((x) => x.name === field.struct);
       const oldValue = formPathToValue(state.value, fieldPath);
       const initialValue = formPathToValue(state.initialValue, fieldPath);
       const pathArray = fieldPath.split('.');
@@ -223,8 +221,9 @@ export default function fieldHostRendererActions(store: IStore) {
 
       if (state.touched[fieldPath]) {
         const errors = validateField(
-          struct,
-          field,
+          state.schema,
+          structName,
+          fieldName,
           fieldValue,
           initialValue,
           newFormValue,
@@ -265,13 +264,18 @@ export default function fieldHostRendererActions(store: IStore) {
 
     changeArrayValue: (
       state: IStoreState,
-      field: ILinkedStructField,
+      structName: string,
+      fieldName: string,
       fieldPath: string,
       type: ChangeArrayActionType,
       startingIndex: number,
       count: number = 1,
       navigateFunc?: (index: number) => void,
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
+      const linkedStructField = state.schema.fields
+        .get(structName)
+        .get(fieldName) as IInternalLinkedStructField;
+
       const oldValue = formPathToValue(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
       const itemsToCreate = count || 1;
@@ -281,9 +285,7 @@ export default function fieldHostRendererActions(store: IStore) {
 
       if (type === 'add') {
         for (let i = 0; i < itemsToCreate; i++) {
-          const newValue = createFieldParent(
-            field.reference.struct.fields.map((x) => x),
-          );
+          const newValue = createFieldParent(state.schema, structName);
 
           newPaths.push(`${fieldPath}.${startingIndex + i}`);
           newValues.push(newValue);
@@ -327,7 +329,7 @@ export default function fieldHostRendererActions(store: IStore) {
       }
 
       const errors = validateLinkedStructField(
-        field,
+        linkedStructField,
         iterationValue as object[],
       );
 

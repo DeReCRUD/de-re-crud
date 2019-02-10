@@ -1,5 +1,5 @@
+import { IInternalLinkedStructField } from '../internal-schema';
 import { IErrors } from '../models/errors';
-import { IBlock, ILinkedStructField, IStruct } from '../models/schema';
 import { IStoreState } from '../store';
 import formPathToValue from '../utils/form-path-to-value';
 import generateChildErrors from '../utils/generate-child-errors';
@@ -14,8 +14,8 @@ interface IValidationResult {
 
 function validateBlock(
   state: IStoreState,
-  struct: IStruct,
-  block: IBlock,
+  structName: string,
+  blockName: string,
   parentValue: object,
   parentPath?: string,
 ): IValidationResult {
@@ -24,10 +24,14 @@ function validateBlock(
   const touched: { [path: string]: boolean } = {};
   let hasErrors = false;
 
-  block.fields.forEach((fieldReference) => {
-    const { field, condition } = fieldReference;
+  const blockReference = state.schema.blocks.get(structName).get(blockName);
+
+  blockReference.fields.forEach((fieldReference) => {
+    const { condition } = fieldReference;
+    const field = state.schema.fields.get(structName).get(fieldReference.field);
 
     let fieldPath = field.name;
+
     if (parentPath) {
       fieldPath = parentPath + '.' + fieldPath;
     }
@@ -38,8 +42,9 @@ function validateBlock(
 
       const initialFieldValue = formPathToValue(state.initialValue, fieldPath);
       const fieldErrors = validateField(
-        struct,
-        field,
+        state.schema,
+        structName,
+        field.name,
         fieldValue,
         initialFieldValue,
         state.value,
@@ -56,7 +61,7 @@ function validateBlock(
 
       switch (field.type) {
         case 'linkedStruct':
-          const linkedStructField = field as ILinkedStructField;
+          const linkedStructField = field as IInternalLinkedStructField;
           const linkedStructValue = parentValue[field.name] as object[];
 
           if (linkedStructValue) {
@@ -109,9 +114,9 @@ export default function formActions({ setState }) {
       state: IStoreState,
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const struct = state.schema.structs.find((x) => x.name === state.struct);
-      const block = struct.blocks.find((x) => x.name === state.block);
+      const block = state.schema.blocks.get(state.struct).get(state.block);
 
-      const result = validateBlock(state, struct, block, state.value);
+      const result = validateBlock(state, struct.name, block.name, state.value);
       const { outputValue, errors, touched, hasErrors } = result;
 
       setState({

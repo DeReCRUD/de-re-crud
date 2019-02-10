@@ -6,8 +6,8 @@ import {
   IInternalLinkedStructFieldReference,
 } from '../internal-schema';
 import { BlockConditionFunc, DEFAULT_FIELD_WIDTH } from '../models/schema';
-import parseLabel from '../utils/schema-parser/parse-label';
 import parseCondition from './parse-condition';
+import parseLabel from './parse-label';
 
 export default function parseBlock(
   structName: string,
@@ -21,6 +21,7 @@ export default function parseBlock(
     items: [],
     hints: {
       layout: 'vertical',
+      custom: {},
     },
   };
 
@@ -31,6 +32,10 @@ export default function parseBlock(
   if (typeof blockJson.hints !== 'undefined') {
     if (typeof blockJson.hints.layout !== 'undefined') {
       result.hints.layout = blockJson.hints.layout;
+    }
+
+    if (typeof blockJson.hints.custom !== 'undefined') {
+      result.hints.custom = blockJson.hints.custom;
     }
   }
 
@@ -63,7 +68,9 @@ export default function parseBlock(
         const fieldReference: IInternalFieldReference = {
           condition: parseCondition(blockFieldJson.condition),
           field: fieldName,
-          hints: {},
+          hints: {
+            custom: {},
+          },
         };
 
         if (typeof blockFieldJson.hints !== 'undefined') {
@@ -85,6 +92,10 @@ export default function parseBlock(
           if (typeof blockFieldJson.hints.block !== 'undefined') {
             const linkedStructFieldReference = fieldReference as IInternalLinkedStructFieldReference;
             linkedStructFieldReference.hints.block = blockFieldJson.hints.block;
+          }
+
+          if (typeof blockFieldJson.hints.custom !== 'undefined') {
+            fieldReference.hints.custom = blockFieldJson.hints.custom;
           }
         }
 

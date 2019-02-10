@@ -1,5 +1,12 @@
 import { h } from 'preact';
 import BaseComponent from '../../base-component';
+import {
+  IInternalLinkedStructFieldReference,
+  IInternalLinkedStructField,
+  IInternalFieldReference,
+  IInternalForeignKeyField,
+  IInternalListField,
+} from '../../internal-schema';
 import Logger from '../../logger';
 import {
   FieldBlurEvent,
@@ -12,15 +19,8 @@ import {
   ISelectListFieldRenderer,
   ITableLinkedStructRenderer,
 } from '../../models/renderers';
-import {
-  IField,
-  IFieldReference,
-  IForeignKeyField,
-  ILinkedStructField,
-  ILinkedStructFieldReference,
-  IListField,
-  SimpleFieldValue,
-} from '../../models/schema';
+import { SimpleFieldValue } from '../../models/schema';
+import { getField, getKeyFields, getBlock } from '../../utils/schema-helper';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
 
@@ -30,6 +30,8 @@ export default class FieldHostRenderer extends BaseComponent<
   public render() {
     const {
       errors,
+      schema,
+      struct,
       fieldPath,
       fieldReference,
       fieldValue,
@@ -37,7 +39,7 @@ export default class FieldHostRenderer extends BaseComponent<
       renderers,
     } = this.props;
 
-    const field = fieldReference.field;
+    const field = getField(schema, struct, fieldReference.field);
 
     const fieldProps: IFieldRenderer = {
       errors,
@@ -101,32 +103,34 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private changeValue = (
-    field: IField,
+    fieldName: string,
     fieldPath: string,
     value: SimpleFieldValue | SimpleFieldValue[],
   ) => {
-    this.props.changeValue(field, fieldPath, value);
+    this.props.changeValue(this.props.struct, fieldName, fieldPath, value);
   };
 
   private onFocus = (_: FieldFocusEvent) => {
     const {
+      struct,
       focusField,
       fieldReference: { field },
       fieldPath,
     } = this.props;
 
-    focusField(field, fieldPath);
+    focusField(struct, field, fieldPath);
   };
 
   private onBlur = (_: FieldBlurEvent) => {
     const {
+      struct,
       blurField,
       fieldReference: { field },
       fieldPath,
       parentPath,
     } = this.props;
 
-    blurField(field, fieldPath, parentPath);
+    blurField(struct, field, fieldPath, parentPath);
   };
 
   private onChange = (e: FieldChangeEvent) => {
@@ -168,15 +172,14 @@ export default class FieldHostRenderer extends BaseComponent<
     count: number = 1,
     navigate: boolean = true,
   ) => {
-    const { changeArrayValue, fieldReference, fieldPath } = this.props;
-    const linkedStructField = fieldReference.field as ILinkedStructField;
-
-    const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
+    const { struct, changeArrayValue, fieldReference, fieldPath } = this.props;
+    const linkedStructFieldReference = fieldReference as IInternalLinkedStructFieldReference;
     const shouldNavigate =
       navigate && linkedStructFieldReference.hints.layout === 'table';
 
     changeArrayValue(
-      linkedStructField,
+      struct,
+      fieldReference.field,
       fieldPath,
       'add',
       index,
@@ -186,27 +189,32 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private navigate = (index: number) => {
-    const { push, fieldReference, fieldPath } = this.props;
-    const linkedStructField = fieldReference.field as ILinkedStructField;
+    const { push, schema, struct, fieldReference, fieldPath } = this.props;
+    const linkedStructFieldReference = getField(
+      schema,
+      struct,
+      fieldReference.field,
+    ) as IInternalLinkedStructField;
 
     const {
-      reference: { struct, block },
-    } = linkedStructField;
+      reference: { struct: referenceStruct, block },
+    } = linkedStructFieldReference;
 
     push({
-      block: block.name,
+      block,
       path: `${fieldPath}.${index}`,
-      struct: struct.name,
+      struct: referenceStruct,
     });
   };
 
   private canAdd = () => {
-    const {
-      fieldReference: { field },
-      fieldValue,
-    } = this.props;
+    const { schema, struct, fieldReference, fieldValue } = this.props;
 
-    const linkedStructField = field as ILinkedStructField;
+    const linkedStructField = getField(
+      schema,
+      struct,
+      fieldReference.field,
+    ) as IInternalLinkedStructField;
     const value = (fieldValue as object[]) || [];
 
     if (
@@ -224,12 +232,13 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private canRemove = (_: number) => {
-    const {
-      fieldReference: { field },
-      fieldValue,
-    } = this.props;
+    const { schema, struct, fieldReference, fieldValue } = this.props;
 
-    const linkedStructField = field as ILinkedStructField;
+    const linkedStructField = getField(
+      schema,
+      struct,
+      fieldReference.field,
+    ) as IInternalLinkedStructField;
     const value = (fieldValue as object[]) || [];
 
     return value.length > linkedStructField.minInstances;
@@ -240,18 +249,25 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private onRemove = (index: number) => {
-    const { changeArrayValue, fieldReference, fieldPath } = this.props;
+    const { struct, changeArrayValue, fieldReference, fieldPath } = this.props;
 
-    const linkedStructField = fieldReference.field as ILinkedStructField;
-
-    changeArrayValue(linkedStructField, fieldPath, 'remove', index, 1);
+    changeArrayValue(
+      struct,
+      fieldReference.field,
+      fieldPath,
+      'remove',
+      index,
+      1,
+    );
   };
 
   private renderField(
-    fieldReference: IFieldReference,
+    fieldReference: IInternalFieldReference,
     fieldProps: IFieldRenderer,
   ) {
     const {
+      schema,
+      struct,
       childErrors,
       collectionReferences,
       fieldPath,
@@ -260,7 +276,7 @@ export default class FieldHostRenderer extends BaseComponent<
       renderers,
     } = this.props;
 
-    const { field } = fieldReference;
+    const field = getField(schema, struct, fieldReference.field);
 
     switch (field.type) {
       case 'text': {
@@ -309,25 +325,30 @@ export default class FieldHostRenderer extends BaseComponent<
         const ForeignKeyFieldRenderer = renderers.foreignKeyField;
         let options: ISelectableOption[];
 
-        const foreignKeyField = field as IForeignKeyField;
-        const { struct, labelField } = foreignKeyField.reference;
-        const keyField = struct.fields.find((x) => x.keyField);
+        const foreignKeyField = field as IInternalForeignKeyField;
 
-        if (!collectionReferences || !collectionReferences[struct.name]) {
+        const {
+          struct: referenceStruct,
+          labelField,
+        } = foreignKeyField.reference;
+
+        const keyField = getKeyFields(schema, referenceStruct)[0];
+
+        if (!collectionReferences || !collectionReferences[referenceStruct]) {
           Logger.error(
-            `A collection reference must be defined for key: ${struct.name}.`,
+            `A collection reference must be defined for key: ${referenceStruct}.`,
           );
         } else {
-          const collectionReference = collectionReferences[struct.name]({
+          const collectionReference = collectionReferences[referenceStruct]({
             formValue,
             parentValue,
           });
 
           if (Array.isArray(collectionReference)) {
             options = collectionReference.map((x) => ({
-              label: x[labelField.name],
-              selected: x[keyField.name] === fieldProps.value,
-              value: x[keyField.name],
+              label: x[labelField],
+              selected: x[keyField] === fieldProps.value,
+              value: x[keyField],
             }));
           }
         }
@@ -348,10 +369,11 @@ export default class FieldHostRenderer extends BaseComponent<
         return <ForeignKeyFieldRenderer {...foreignKeyFieldProps} />;
       }
       case 'linkedStruct': {
-        const { reference, minInstances } = field as ILinkedStructField;
-        const { hints } = fieldReference as ILinkedStructFieldReference;
+        const { reference, minInstances } = field as IInternalLinkedStructField;
+        const { hints } = fieldReference as IInternalLinkedStructFieldReference;
         const isTable = hints.layout === 'table';
-        const block = hints.block || reference.block;
+        const blockName = hints.block || reference.block;
+        const block = getBlock(schema, reference.struct, blockName);
 
         const LinkedStructFieldRenderer = isTable
           ? renderers.tableLinkedStructField
@@ -378,9 +400,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
           values.forEach((value, index) => {
             mappedValue.push(
-              block.fields.map(
-                ({ field: blockField }) => value[blockField.name],
-              ),
+              block.fields.map(({ field: blockField }) => value[blockField]),
             );
 
             busyValues[index] = this.isBusy(`${fieldPath}.${index}`);
@@ -391,7 +411,10 @@ export default class FieldHostRenderer extends BaseComponent<
             ...fieldProps,
             canAdd: this.canAdd,
             canRemove: this.canRemove,
-            headers: block.fields.map((x) => x.field.label.short),
+            headers: block.fields.map((x) => {
+              const blockField = getField(schema, reference.struct, x.field);
+              return blockField.label.short;
+            }),
             onAdd: () => this.onAdd((mappedValue && mappedValue.length) || 0),
             onEdit: this.onEdit,
             onRemove: this.onRemove,
@@ -412,8 +435,8 @@ export default class FieldHostRenderer extends BaseComponent<
             return (
               <BlockHostRenderer
                 key={itemPath}
-                struct={reference.struct.name}
-                block={block}
+                struct={reference.struct}
+                block={block.name}
                 path={itemPath}
               />
             );
@@ -441,7 +464,7 @@ export default class FieldHostRenderer extends BaseComponent<
           options: listOptions,
           dynamicOptions,
           hints: { layout },
-        } = field as IListField;
+        } = field as IInternalListField;
 
         let ListFieldRenderer;
 

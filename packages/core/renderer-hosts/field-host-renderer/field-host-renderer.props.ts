@@ -1,25 +1,27 @@
 import { ICollectionReferences } from '../../form/form.props';
+import {
+  IInternalFieldReference,
+  IInternalSchema,
+} from '../../internal-schema';
 import { IRendererDefinitions } from '../../models/renderer-definitions';
 import {
   ComplexFieldValue,
   FieldValue,
-  IField,
-  IFieldReference,
-  ILinkedStructField,
   SimpleFieldValue,
 } from '../../models/schema';
 import { ChangeArrayActionType } from '../../renderer-hosts/field-host-renderer/field-host-renderer.actions';
 import { INavState } from '../../store';
-
 export interface IFieldHostRendererConnectProps {
   rendererId: string;
   fieldPath: string;
   parentPath?: string;
-  fieldReference: IFieldReference;
+  struct: string;
+  fieldReference: IInternalFieldReference;
 }
 
 export interface IFieldHostRendererProps
   extends IFieldHostRendererConnectProps {
+  schema: IInternalSchema;
   rendererId: string;
   renderers: IRendererDefinitions;
   collectionReferences?: ICollectionReferences;
@@ -33,15 +35,26 @@ export interface IFieldHostRendererProps
   externalErrors: string[];
   errors: string[];
   childErrors: { [index: number]: boolean };
-  focusField: (field: IField, fieldPath: string) => void;
-  blurField: (field: IField, fieldPath: string, parentPath?: string) => void;
+  focusField: (
+    structName: string,
+    fieldName: string,
+    fieldPath: string,
+  ) => void;
+  blurField: (
+    structName: string,
+    fieldName: string,
+    fieldPath: string,
+    parentPath?: string,
+  ) => void;
   changeValue: (
-    field: IField,
+    structName: string,
+    fieldName: string,
     fieldPath: string,
     value: SimpleFieldValue | SimpleFieldValue[],
   ) => void;
   changeArrayValue: (
-    field: ILinkedStructField,
+    structName: string,
+    fieldName: string,
     fieldPath: string,
     type: ChangeArrayActionType,
     startingIndex: number,

@@ -1,4 +1,4 @@
-import { ILabel } from '../../models/schema';
+import { ILabel } from '../models/schema';
 
 export default function parseLabel(
   labelJson?: string | { short?: string; medium?: string; long?: string },

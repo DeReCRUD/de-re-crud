@@ -1,23 +1,24 @@
 import { ICollectionReferences } from '../form/form.props';
 import {
-  FieldValue,
-  IField,
-  IIntegerField,
-  ILinkedStructField,
-  IStruct,
-  ITextField,
-  ICustomValidator,
-} from '../models/schema';
+  IInternalSchema,
+  IInternalIntegerField,
+  IInternalTextField,
+  IInternalLinkedStructField,
+  IInternalField,
+} from '../internal-schema';
+import { FieldValue, ICustomValidator } from '../models/schema';
 import {
   defaultValidators,
   defaultValidatorFuncs,
   defaultValidatorMessages,
 } from '../validators/default-validators';
 import PatternValidator from '../validators/pattern-validator';
+import { getKeyFields } from './schema-helper';
 
 export function validateField(
-  struct: IStruct,
-  field: IField,
+  schema: IInternalSchema,
+  structName: string,
+  fieldName: string,
   fieldValue: FieldValue,
   initialFieldValue: FieldValue,
   formValue: object,
@@ -26,6 +27,7 @@ export function validateField(
   collectionReferences: ICollectionReferences = {},
 ): string[] {
   const errors = [];
+  const field = schema.fields.get(structName).get(fieldName);
 
   defaultValidators.forEach((validator) => {
     const valid = defaultValidatorFuncs[validator](field, fieldValue);
@@ -46,13 +48,13 @@ export function validateField(
       });
 
       if (Array.isArray(references)) {
-        const keyFields = struct.fields.filter((x) => x.keyField);
+        const keyFields = getKeyFields(schema, structName);
         let sameInstanceFound = false;
 
         const uniqueError = references.find((reference) => {
           if (!sameInstanceFound) {
             const sameInstances = keyFields.filter((keyField) => {
-              return reference[keyField.name] === parentValue[keyField.name];
+              return reference[keyField] === parentValue[keyField];
             });
 
             if (sameInstances.length) {
@@ -86,19 +88,19 @@ export function validateField(
       break;
     case 'integer':
       fieldTypeErrors = validateIntegerField(
-        field as IIntegerField,
+        field as IInternalIntegerField,
         fieldValue as number,
       );
       break;
     case 'text':
       fieldTypeErrors = validateTextField(
-        field as ITextField,
+        field as IInternalTextField,
         fieldValue as string,
       );
       break;
     case 'linkedStruct':
       fieldTypeErrors = validateLinkedStructField(
-        field as ILinkedStructField,
+        field as IInternalLinkedStructField,
         fieldValue as object[],
       );
       break;
@@ -123,7 +125,7 @@ export function validateField(
   return errors;
 }
 
-function validateKeywordField(_: IField, value: string): string[] {
+function validateKeywordField(_: IInternalField, value: string): string[] {
   const errors = [];
 
   if (value) {
@@ -135,7 +137,7 @@ function validateKeywordField(_: IField, value: string): string[] {
   return errors;
 }
 
-function validateTextField(field: ITextField, value: string): string[] {
+function validateTextField(field: IInternalTextField, value: string): string[] {
   const errors = [];
 
   if (value) {
@@ -153,7 +155,10 @@ function validateTextField(field: ITextField, value: string): string[] {
   return errors;
 }
 
-function validateIntegerField(field: IIntegerField, value: number): string[] {
+function validateIntegerField(
+  field: IInternalIntegerField,
+  value: number,
+): string[] {
   const errors = [];
 
   if (value) {
@@ -168,7 +173,7 @@ function validateIntegerField(field: IIntegerField, value: number): string[] {
 }
 
 export function validateLinkedStructField(
-  field: ILinkedStructField,
+  field: IInternalLinkedStructField,
   value: object[],
 ) {
   const errors = [];

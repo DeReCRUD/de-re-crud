@@ -4,18 +4,16 @@ import {
   IInternalListField,
   IInternalIntegerField,
   IInternalTextField,
+  IInternalForeignKeyField,
 } from '../internal-schema';
 import { DEFAULT_FIELD_WIDTH } from '../models/schema';
-import parseLabel from '../utils/schema-parser/parse-label';
+import parseLabel from './parse-label';
 
 export default function parseField(
   structName: string,
   fieldJson: any,
 ): IInternalField {
   const result: IInternalField = {
-    hints: {
-      width: DEFAULT_FIELD_WIDTH,
-    },
     keyField: fieldJson.keyField || false,
     label: parseLabel(fieldJson.label),
     name: fieldJson.name,
@@ -23,6 +21,11 @@ export default function parseField(
     struct: structName,
     type: fieldJson.type,
     unique: fieldJson.unique || false,
+    hints: {
+      width: DEFAULT_FIELD_WIDTH,
+      custom: {},
+    },
+    customValidators: [],
   };
 
   if (typeof fieldJson.help !== 'undefined') {
@@ -51,6 +54,18 @@ export default function parseField(
     ) {
       result.hints.width = fieldJson.hints.width;
     }
+
+    if (typeof fieldJson.hints.custom !== 'undefined') {
+      result.hints.custom = fieldJson.hints.custom;
+    }
+  }
+
+  if (Array.isArray(fieldJson.customValidators)) {
+    fieldJson.customValidators.forEach((validator) => {
+      if (typeof validator === 'string') {
+        result.customValidators.push(validator);
+      }
+    });
   }
 
   switch (result.type) {
@@ -125,6 +140,14 @@ export default function parseField(
         linkedStructField.maxInstances = fieldJson.maxInstances;
       }
       break;
+    }
+    case 'foreignKey': {
+      const foreignKeyField = result as IInternalForeignKeyField;
+
+      foreignKeyField.reference = {
+        struct: fieldJson.reference.struct,
+        labelField: fieldJson.reference.labelField,
+      };
     }
   }
 

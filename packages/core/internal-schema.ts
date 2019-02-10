@@ -8,6 +8,8 @@ import {
   ReferenceValue,
   IOption,
   ListValue,
+  ICustomHints,
+  ICustomValidator,
 } from './models/schema';
 
 export interface IInternalStruct {
@@ -32,7 +34,9 @@ export interface IInternalField {
   placeholder?: string;
   hints: {
     width: number;
+    custom: ICustomHints;
   };
+  customValidators: string[];
 }
 
 export interface IInternalTextField extends IInternalField {
@@ -61,12 +65,12 @@ export interface IInternalListField extends IInternalField {
   hints: {
     width: number;
     layout: 'select' | 'radio';
+    custom: ICustomHints;
   };
 }
 
 export interface IInternalStructReference {
   struct: string;
-  block: string;
 }
 
 export interface IInternalReferenceField extends IInternalField {
@@ -82,6 +86,9 @@ export interface IInternalLinkedStructField extends IInternalReferenceField {
   missingValue?: object[];
   minInstances: number;
   maxInstances?: number;
+  reference: IInternalStructReference & {
+    block: string;
+  };
 }
 
 export interface IInternalForeignKeyField extends IInternalReferenceField {
@@ -107,6 +114,7 @@ export interface IInternalBlock {
   fields: Array<IInternalFieldReference | IInternalLinkedStructFieldReference>;
   hints: {
     layout: 'vertical' | 'horizontal';
+    custom: ICustomHints;
   };
 }
 
@@ -119,6 +127,7 @@ export interface IInternalFieldReference {
   condition: FieldConditionFunc;
   hints: {
     width?: number;
+    custom: ICustomHints;
   };
 }
 
@@ -135,6 +144,7 @@ export interface IInternalLinkedStructFieldReference
     width?: number;
     layout?: 'inline' | 'table';
     block?: string;
+    custom: ICustomHints;
   };
 }
 
@@ -142,7 +152,9 @@ export type FieldMap = Map<string, IInternalField>;
 export type BlockMap = Map<string, IInternalBlock>;
 
 export interface IInternalSchema {
-  structs: ReadonlyArray<IInternalStruct>;
+  structs: IInternalStruct[];
   fields: ReadonlyMap<string, FieldMap>;
   blocks: ReadonlyMap<string, BlockMap>;
+  customValidators: ICustomValidator[];
+  json: any;
 }

@@ -20,6 +20,7 @@ describe('parseBlock', () => {
       fields: [],
       items: [],
       hints: {
+        custom: {},
         layout: 'vertical',
       },
       condition: DEFAULT_CONDITION,

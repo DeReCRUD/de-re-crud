@@ -1,5 +1,5 @@
 import { IInternalStruct } from '../internal-schema';
-import parseLabel from '../utils/schema-parser/parse-label';
+import parseLabel from './parse-label';
 
 export default function parseStruct(structJson: any): IInternalStruct {
   const result: IInternalStruct = {

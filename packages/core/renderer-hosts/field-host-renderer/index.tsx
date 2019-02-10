@@ -13,6 +13,7 @@ import {
 
 const mapToProps = (
   {
+    schema,
     value,
     touched,
     busy,
@@ -43,6 +44,7 @@ const mapToProps = (
   combinedErrors.push(...errors[fieldPath]);
 
   return {
+    schema,
     childErrors: combinedChildErrors,
     collectionReferences,
     errors: combinedErrors,

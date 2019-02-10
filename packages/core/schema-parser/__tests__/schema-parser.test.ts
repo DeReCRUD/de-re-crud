@@ -28,6 +28,8 @@ describe('SchemaParser', () => {
       structs: [mockStruct],
       fields: new Map<string, FieldMap>(),
       blocks: new Map<string, BlockMap>(),
+      customValidators: [],
+      json: schemaJson,
     } as IInternalSchema);
   });
 });

@@ -1,18 +1,30 @@
-import { IField, ILinkedStructField } from '../models/schema';
+import {
+  IInternalSchema,
+  IInternalLinkedStructField,
+} from '../internal-schema';
+import { getStruct, getField } from './schema-helper';
 
 export default function createFieldParent(
-  fields: IField[],
+  schema: IInternalSchema,
+  struct: string,
   parentValue: object = {},
 ) {
   const value = { ...parentValue };
+  const fields = getStruct(schema, struct).fields;
 
-  assignDefaultValues(fields, value);
+  assignDefaultValues(schema, struct, fields, value);
 
   return value;
 }
 
-function assignDefaultValues(fields: IField[], value: object = {}) {
-  fields.forEach((field) => {
+function assignDefaultValues(
+  schema: IInternalSchema,
+  struct: string,
+  fields: string[],
+  value: object = {},
+) {
+  fields.forEach((fieldName) => {
+    const field = getField(schema, struct, fieldName);
     const valueDefined = typeof value[field.name] !== 'undefined';
 
     if (field.hasOwnProperty('initialValue') && !valueDefined) {
@@ -24,13 +36,15 @@ function assignDefaultValues(fields: IField[], value: object = {}) {
       Array.isArray(value[field.name]) &&
       value[field.name].length > 0
     ) {
-      const linkedStructField = field as ILinkedStructField;
-      const {
-        fields: linkedStructChildFields,
-      } = linkedStructField.reference.struct;
+      const linkedStructField = field as IInternalLinkedStructField;
+      const { struct: referenceStruct } = linkedStructField.reference;
+
+      const { fields: referenceFields } = schema.structs.find(
+        (x) => x.name === referenceStruct,
+      );
 
       value[field.name].forEach((item) => {
-        assignDefaultValues(linkedStructChildFields, item);
+        assignDefaultValues(schema, referenceStruct, referenceFields, item);
       });
     }
   });
