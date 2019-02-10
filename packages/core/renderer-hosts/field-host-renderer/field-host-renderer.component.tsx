@@ -40,6 +40,10 @@ export default class FieldHostRenderer extends BaseComponent<
     } = this.props;
 
     const field = getField(schema, struct, fieldReference.field);
+    const customHints = {
+      ...field.hints.custom,
+      ...fieldReference.hints.custom,
+    };
 
     const fieldProps: IFieldRenderer = {
       errors,
@@ -58,6 +62,7 @@ export default class FieldHostRenderer extends BaseComponent<
       rendererId,
       required: field.required,
       value: fieldValue,
+      hints: customHints,
     };
 
     const renderedField = this.renderField(fieldReference, fieldProps);
@@ -70,6 +75,7 @@ export default class FieldHostRenderer extends BaseComponent<
         fieldDescription={fieldProps.fieldDescription}
         errors={fieldProps.errors}
         renderedField={renderedField}
+        hints={customHints}
       />
     );
   }

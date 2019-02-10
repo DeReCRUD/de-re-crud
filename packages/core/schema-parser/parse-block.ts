@@ -48,8 +48,17 @@ export default function parseBlock(
           blockInstance: blockInstance++,
           condition: parseCondition(blockFieldJson.condition),
           size: blockFieldJson.size || 3,
-          text: blockJson.stamp,
+          text: blockFieldJson.stamp,
+          hints: {
+            custom: {},
+          },
         };
+
+        if (typeof blockFieldJson.hints !== 'undefined') {
+          if (typeof blockFieldJson.hints.custom !== 'undefined') {
+            stamp.hints.custom = blockFieldJson.hints.custom;
+          }
+        }
 
         result.items.push(stamp);
       } else if (typeof blockFieldJson.block !== 'undefined') {

@@ -7,6 +7,7 @@ export default class StampHostRenderer extends BaseComponent<
 > {
   public render() {
     const { rendererId, stamp, formValue, parentValue, renderers } = this.props;
+    const customHints = stamp.hints.custom;
 
     if (!stamp.condition(parentValue, formValue)) {
       return null;
@@ -19,6 +20,7 @@ export default class StampHostRenderer extends BaseComponent<
         rendererId={rendererId}
         text={stamp.text}
         size={stamp.size}
+        hints={customHints}
       />
     );
   }

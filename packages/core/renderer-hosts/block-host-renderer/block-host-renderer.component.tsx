@@ -10,6 +10,7 @@ import {
 import { IBlockRow } from '../../models/renderers';
 import { DEFAULT_FIELD_WIDTH } from '../../models/schema';
 import formPathToValue from '../../utils/form-path-to-value';
+import { getBlock } from '../../utils/schema-helper';
 import FieldHostRenderer from '../field-host-renderer';
 import StampHostRenderer from '../stamp-host-renderer';
 import { IBlockHostRendererProps } from './block-host-renderer.props';
@@ -28,7 +29,8 @@ export default class BlockHostRenderer extends BaseComponent<
       renderers,
     } = this.props;
 
-    const block = schema.blocks.get(struct).get(blockName);
+    const block = getBlock(schema, struct, blockName);
+    const customHints = block.hints.custom;
 
     if (!block.condition(formValue)) {
       return null;
@@ -45,7 +47,13 @@ export default class BlockHostRenderer extends BaseComponent<
 
     const rows = this.createRows(schema, block, true);
 
-    return <BlockContainerRenderer rendererId={rendererId} rows={rows} />;
+    return (
+      <BlockContainerRenderer
+        rendererId={rendererId}
+        rows={rows}
+        hints={customHints}
+      />
+    );
   }
 
   private createRows(

@@ -4,6 +4,7 @@ import {
   IOption,
   SimpleFieldValue,
   StampSize,
+  ICustomHints,
 } from './schema';
 
 export interface ISelectableOption extends IOption {
@@ -12,6 +13,7 @@ export interface ISelectableOption extends IOption {
 
 export interface IRenderer {
   rendererId: string;
+  hints: ICustomHints;
 }
 
 export interface IBlockCell {

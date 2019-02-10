@@ -136,6 +136,9 @@ export interface IInternalStamp {
   size: StampSize;
   blockInstance: number;
   condition: FieldConditionFunc;
+  hints: {
+    custom: ICustomHints;
+  };
 }
 
 export interface IInternalLinkedStructFieldReference
