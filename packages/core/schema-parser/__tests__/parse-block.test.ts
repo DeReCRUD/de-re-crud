@@ -1,4 +1,9 @@
-import { IInternalBlock, IInternalStamp } from '../../internal-schema';
+import {
+  IInternalBlock,
+  IInternalStamp,
+  IInternalBlockReference,
+  IInternalFieldReference,
+} from '../../internal-schema';
 import parseBlock from '../parse-block';
 import { DEFAULT_CONDITION } from '../parse-condition';
 
@@ -31,13 +36,45 @@ describe('parseBlock', () => {
     expect(parseBlock(structName, blockJson)).toEqual(block);
   });
 
+  it('should parse label override', () => {
+    expect(
+      parseBlock(structName, {
+        ...blockJson,
+        label: 'Block',
+      }),
+    ).toEqual({
+      ...block,
+      label: {
+        short: 'Block',
+        medium: 'Block',
+        long: 'Block',
+      },
+    } as IInternalBlock);
+  });
+
+  it('should parse layout override', () => {
+    expect(
+      parseBlock(structName, {
+        ...blockJson,
+        hints: {
+          layout: 'horizontal',
+        },
+      }),
+    ).toEqual({
+      ...block,
+      hints: {
+        ...block.hints,
+        layout: 'horizontal',
+      },
+    } as IInternalBlock);
+  });
+
   it('should parse stamp with default size', () => {
     blockJson = {
       ...blockJson,
       fields: [
         {
           stamp: 'Stamp',
-          size: 3,
           condition: DEFAULT_CONDITION,
         },
       ],
@@ -121,7 +158,7 @@ describe('parseBlock', () => {
       ],
     };
 
-    const fields = [
+    const fields: IInternalFieldReference[] = [
       {
         field: 'field1',
         condition: DEFAULT_CONDITION,
@@ -135,6 +172,93 @@ describe('parseBlock', () => {
       ...block,
       fields,
       items: fields,
+    } as IInternalBlock);
+  });
+
+  it('should parse block references', () => {
+    blockJson = {
+      ...blockJson,
+      fields: [
+        {
+          block: 'Block',
+        },
+      ],
+    };
+
+    expect(parseBlock(structName, blockJson)).toEqual({
+      ...block,
+      items: [
+        {
+          block: 'Block',
+        } as IInternalBlockReference,
+      ],
+    } as IInternalBlock);
+  });
+
+  it('should pass through custom hints', () => {
+    blockJson = {
+      ...blockJson,
+      hints: {
+        custom: {
+          block: true,
+        },
+      },
+      fields: [
+        {
+          field: 'field1',
+          condition: DEFAULT_CONDITION,
+          hints: {
+            custom: {
+              field: true,
+            },
+          },
+        },
+        {
+          stamp: 'Stamp',
+          size: 1,
+          condition: DEFAULT_CONDITION,
+          hints: {
+            custom: {
+              stamp: true,
+            },
+          },
+        },
+      ],
+    };
+
+    const field: IInternalFieldReference = {
+      field: 'field1',
+      condition: DEFAULT_CONDITION,
+      hints: {
+        custom: {
+          field: true,
+        },
+      },
+    };
+
+    expect(parseBlock(structName, blockJson)).toEqual({
+      ...block,
+      hints: {
+        ...block.hints,
+        custom: {
+          block: true,
+        },
+      },
+      fields: [field],
+      items: [
+        field,
+        {
+          text: 'Stamp',
+          size: 1,
+          blockInstance: 1,
+          condition: DEFAULT_CONDITION,
+          hints: {
+            custom: {
+              stamp: true,
+            },
+          },
+        } as IInternalStamp,
+      ],
     } as IInternalBlock);
   });
 });
