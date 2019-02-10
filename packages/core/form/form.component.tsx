@@ -6,6 +6,7 @@ import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
 import combineCssClasses from '../utils/combine-css-classes';
 import shallowCompare from '../utils/shallow-compare';
 import { IFormProps } from './form.props';
+import { getStruct, getBlock } from '../utils/schema-helper';
 
 export interface IFormState {
   structs: IInternalStruct[];
@@ -23,7 +24,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       formClassName,
       type,
       struct: structName,
-      block,
+      block: blockName,
       renderers,
       buttonOptions: { backButton, cancelButton, submitButton },
       navStack,
@@ -53,31 +54,31 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       visibleBlock = navState.block;
     } else {
       visibleStruct = structName;
-      visibleBlock = block;
+      visibleBlock = blockName;
     }
 
-    const struct = schema.structs.find((x) => x.name === visibleStruct);
+    const struct = getStruct(schema, visibleStruct);
 
     const classNames = ['de-re-crud-form', className, formClassName];
 
     if (!struct) {
-      Logger.error(`Struct '${struct}' is not defined.`);
+      Logger.error(`Struct '${struct.name}' is not defined.`);
       return null;
     }
 
     if (!struct.blocks.length) {
-      Logger.error(`No blocks defined for struct '${visibleStruct}'.`);
+      Logger.error(`No blocks defined for struct '${struct.name}'.`);
       return null;
     }
 
-    let blockReference = struct.blocks.find((x) => x === visibleBlock);
+    let block = getBlock(schema, struct.name, visibleBlock);
 
-    if (!blockReference) {
+    if (!block) {
       Logger.warning(
         "No block specified and the 'default' block is not defined. Defalting to first defined block.",
       );
 
-      blockReference = struct.blocks[0];
+      block = getBlock(schema, struct.name, struct.blocks[0]);
     }
 
     const ButtonRenderer = renderers.button;
@@ -93,8 +94,8 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     return (
       <form className={combineCssClasses(...classNames)}>
         <BlockHostRenderer
-          struct={visibleStruct}
-          block={blockReference}
+          struct={struct.name}
+          block={block.name}
           path={path}
         />
         {!navStack.length
