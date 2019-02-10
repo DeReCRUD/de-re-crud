@@ -1,8 +1,8 @@
-import { IField } from '../../models/schema';
+import { IInternalField } from '../../internal-schema';
 import { defaultValidatorFuncs } from '../default-validators';
 
 describe('validators', () => {
-  let field: IField = null;
+  let field: IInternalField = null;
 
   beforeEach(() => {
     field = {
@@ -19,6 +19,7 @@ describe('validators', () => {
       unique: false,
       hints: {
         width: 1,
+        custom: {},
       },
       customValidators: [],
     };

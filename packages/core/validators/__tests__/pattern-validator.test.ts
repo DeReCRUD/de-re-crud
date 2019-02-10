@@ -1,8 +1,8 @@
-import { IField } from '../../models/schema';
+import { IInternalField } from '../../internal-schema';
 import PatternValidator from '../pattern-validator';
 
 describe('PattemValidator', () => {
-  let field: IField = null;
+  let field: IInternalField = null;
 
   beforeEach(() => {
     field = {
@@ -19,6 +19,7 @@ describe('PattemValidator', () => {
       unique: false,
       hints: {
         width: 1,
+        custom: {},
       },
       customValidators: ['testPattern'],
     };
