@@ -13,4 +13,5 @@ export interface IBlockHostRendererProps
   formId: number;
   formValue: object;
   renderers: IRendererDefinitions;
+  busy: { [path: string]: boolean };
 }

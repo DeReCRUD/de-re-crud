@@ -12,12 +12,14 @@ const mapToProps = ({
   formId,
   value,
   renderers,
+  busy,
 }: IStoreState): Partial<IBlockHostRendererProps> => {
   return {
     schema,
     formId,
     formValue: value,
     renderers,
+    busy,
   };
 };
 
