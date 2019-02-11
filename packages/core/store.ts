@@ -18,6 +18,7 @@ import { SimpleFieldValue } from './models/schema';
 import { DeReCrudOptions } from './options';
 import SchemaParser from './schema-parser';
 import createFieldParent from './utils/create-field-parent';
+import generateCacheKey from './utils/generate-cache-key';
 import generateChildErrors from './utils/generate-child-errors';
 import parseButtonOptions from './utils/parse-button-options';
 import parseRendererOptions from './utils/parse-renderer-options';
@@ -40,6 +41,7 @@ export interface INavState {
 }
 
 export interface IStoreState {
+  conditionCacheKey: number;
   formId: number;
   formClassName?: string;
   schema: IInternalSchema;
@@ -118,6 +120,7 @@ export function createStore(
   }
 
   const state: IStoreState = {
+    conditionCacheKey: generateCacheKey(),
     block: blockName || 'default',
     busy: {},
     buttonOptions: parseButtonOptions(

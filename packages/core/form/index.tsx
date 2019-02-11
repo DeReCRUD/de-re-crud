@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { Provider } from 'redux-zero/preact';
 import BaseComponent from '../base-component';
 import { createStore, IStore, updateStore } from '../store';
+import generateCacheKey from '../utils/generate-cache-key';
 import shallowCompare from '../utils/shallow-compare';
 import FormConnect from './form.connect';
 import { IFormConnectProps } from './form.props';
@@ -70,6 +71,12 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       nextProps.onFieldParentChange,
     );
   }
+
+  public reEvaluateConditions = () => {
+    this.store.setState({
+      conditionCacheKey: generateCacheKey(),
+    });
+  };
 
   public render() {
     return (

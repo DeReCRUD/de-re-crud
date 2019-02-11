@@ -8,18 +8,18 @@ import {
 } from './block-host-renderer.props';
 
 const mapToProps = ({
+  conditionCacheKey,
   schema,
   formId,
   value,
   renderers,
-  busy,
 }: IStoreState): Partial<IBlockHostRendererProps> => {
   return {
+    conditionCacheKey,
     schema,
     formId,
     formValue: value,
     renderers,
-    busy,
   };
 };
 

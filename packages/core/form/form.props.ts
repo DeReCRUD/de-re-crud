@@ -51,7 +51,14 @@ export interface IFieldParentChangeNotificationParams {
   formValue: object;
 }
 
-export type FieldChangeNotificationCallback = (errors?: string[]) => void;
+export interface IFieldChangeNotificationCallbackParams {
+  errors?: string[];
+  reEvaluateConditions?: boolean;
+}
+
+export type FieldChangeNotificationCallback = (
+  params?: IFieldChangeNotificationCallbackParams,
+) => void;
 
 export type FieldChangeNotification = (
   params: IFieldChangeNotificationParams,
@@ -59,7 +66,9 @@ export type FieldChangeNotification = (
 ) => void;
 export type FieldChangeNotificationType = 'blur' | 'input';
 
-export type FieldParentChangeNotificationCallback = (errors?: string[]) => void;
+export type FieldParentChangeNotificationCallback = (
+  params: IFieldChangeNotificationCallbackParams,
+) => void;
 
 export type FieldParentChangeNotification = (
   params: IFieldParentChangeNotificationParams,

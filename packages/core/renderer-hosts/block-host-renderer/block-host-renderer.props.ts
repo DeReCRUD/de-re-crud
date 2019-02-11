@@ -9,6 +9,7 @@ export interface IBlockHostRendererConnectProps {
 
 export interface IBlockHostRendererProps
   extends IBlockHostRendererConnectProps {
+  conditionCacheKey: number;
   schema: IInternalSchema;
   formId: number;
   formValue: object;

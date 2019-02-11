@@ -5,7 +5,6 @@ import Logger from '../logger';
 import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
 import combineCssClasses from '../utils/combine-css-classes';
 import { getStruct, getBlock } from '../utils/schema-helper';
-import shallowCompare from '../utils/shallow-compare';
 import { IFormProps } from './form.props';
 
 export interface IFormState {
@@ -13,10 +12,6 @@ export interface IFormState {
 }
 
 export default class Form extends BaseComponent<IFormProps, IFormState> {
-  public shouldComponentUpdate(nextProps: IFormProps, nextState: IFormState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
   public render() {
     const {
       schema,

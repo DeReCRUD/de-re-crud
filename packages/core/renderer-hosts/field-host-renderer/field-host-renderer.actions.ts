@@ -8,6 +8,7 @@ import { ComplexFieldValue, SimpleFieldValue } from '../../models/schema';
 import { IStore, IStoreState } from '../../store';
 import createFieldParent from '../../utils/create-field-parent';
 import formPathToValue from '../../utils/form-path-to-value';
+import generateCacheKey from '../../utils/generate-cache-key';
 import generateChildErrors from '../../utils/generate-child-errors';
 import {
   validateField,
@@ -54,7 +55,6 @@ function onFieldChange(
     }
 
     DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path] = timeoutId;
-
     return;
   }
 
@@ -81,25 +81,31 @@ function onFieldChangeAsync(
 
   PENDING_FIELD_CHANGE_REQUESTS[params.path] = id;
 
-  state.onFieldChange(params, (externalErrors) => {
+  state.onFieldChange(params, (callbackParams = {}) => {
     if (PENDING_FIELD_CHANGE_REQUESTS[params.path] !== id) {
       return;
     }
 
     delete PENDING_FIELD_CHANGE_REQUESTS[params.path];
 
-    const newState = getState();
+    const prevState = getState();
 
-    setState({
+    const newState: Partial<IStoreState> = {
       busy: {
-        ...newState.busy,
+        ...prevState.busy,
         [params.path]: false,
       },
       externalErrors: {
-        ...newState.externalErrors,
-        [params.path]: externalErrors,
+        ...prevState.externalErrors,
+        [params.path]: callbackParams.errors,
       },
-    });
+    };
+
+    if (callbackParams.reEvaluateConditions) {
+      newState.conditionCacheKey = generateCacheKey();
+    }
+
+    setState(newState);
   });
 }
 
@@ -377,16 +383,22 @@ export default function fieldHostRendererActions(store: IStore) {
           });
 
           return new Promise<Partial<IStoreState>>((resolve) => {
-            state.onFieldParentChange(params, (externalErrors) => {
-              const newState = getState();
+            state.onFieldParentChange(params, (callbackParams = {}) => {
+              const prevState = getState();
 
-              resolve({
+              const newState: Partial<IStoreState> = {
                 externalErrors: {
-                  ...newState.externalErrors,
-                  [fieldPath]: externalErrors,
+                  ...prevState.externalErrors,
+                  [fieldPath]: callbackParams.errors,
                 },
                 formLocked: false,
-              });
+              };
+
+              if (callbackParams.reEvaluateConditions) {
+                newState.conditionCacheKey = generateCacheKey();
+              }
+
+              resolve(newState);
 
               if (navigateFunc) {
                 navigateFunc(startingIndex);

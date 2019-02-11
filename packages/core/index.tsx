@@ -21,14 +21,20 @@ export {
 
 export { DeReCrudOptions } from './options';
 
-export function renderForm(
-  formComponent: ComponentConstructor<IFormProps>,
-  props: IFormProps,
-  nativeElement: Element,
-) {
-  const preactElement = h(formComponent, props);
+export interface IForm {
+  reEvaluateConditions: () => void;
+}
 
-  render(preactElement, null, nativeElement);
+export function renderForm(props: IFormProps, nativeElement: Element): IForm {
+  let form: Form;
+
+  render(<Form ref={(c) => (form = c)} {...props} />, null, nativeElement);
+
+  return {
+    reEvaluateConditions: () => {
+      form.reEvaluateConditions();
+    },
+  };
 }
 
 export type DestroyFunc = () => void;
