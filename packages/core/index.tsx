@@ -12,11 +12,16 @@ export {
   FormSubmissionCallback,
   FieldChangeNotification,
   FieldChangeNotificationType,
+  FieldChangeNotificationCallback,
   IFieldChangeNotificationParams,
   FieldParentChangeNotification,
+  FieldParentChangeNotificationCallback,
   IFieldParentChangeNotificationParams,
+  IFieldChangeNotificationCallbackParams,
   ICollectionReferences,
+  ICollectionReferenceParams,
   CollectionReference,
+  FormType,
 } from './form/form.props';
 
 export { DeReCrudOptions } from './options';

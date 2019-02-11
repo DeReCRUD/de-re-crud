@@ -64,6 +64,7 @@ export type FieldChangeNotification = (
   params: IFieldChangeNotificationParams,
   cb?: FieldChangeNotificationCallback,
 ) => void;
+
 export type FieldChangeNotificationType = 'blur' | 'input';
 
 export type FieldParentChangeNotificationCallback = (

@@ -15,7 +15,7 @@ const { outDir } = tsConfig.compilerOptions;
 
 fs.ensureDirSync(outDir);
 
-function generateDefaultConfig(pkg, external, minify) {
+function generateDefaultConfig(pkg, input, external, minify) {
   let mainFile = pkg.main;
   if (minify) {
     mainFile = mainFile.replace('.js', '.min.js');
@@ -54,7 +54,7 @@ function generateDefaultConfig(pkg, external, minify) {
   }
 
   const config = {
-    input: 'index.ts',
+    input,
     output: output,
     external,
     plugins: [
@@ -89,8 +89,8 @@ function generateDefaultConfig(pkg, external, minify) {
   return config;
 }
 
-function generateMainConfig(pkg, external, minify) {
-  const config = generateDefaultConfig(pkg, external, minify);
+function generateMainConfig(pkg, input, external, minify) {
+  const config = generateDefaultConfig(pkg, input, external, minify);
 
   const newPkg = {
     ...pkg,
@@ -115,11 +115,11 @@ function generateMainConfig(pkg, external, minify) {
   return config;
 }
 
-export function generateConfig(external) {
+export function generateConfig(input, external) {
   const pkg = require('./package.json');
 
   return [
-    generateMainConfig(pkg, external),
-    generateMainConfig(pkg, external, true),
+    generateMainConfig(pkg, input, external),
+    generateMainConfig(pkg, input, external, true),
   ];
 }
