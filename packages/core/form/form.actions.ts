@@ -36,7 +36,7 @@ function validateBlock(
       fieldPath = parentPath + '.' + fieldPath;
     }
 
-    if (condition(parentValue, state.value)) {
+    if (condition({ path: fieldPath, parentValue, formValue: state.value })) {
       const fieldValue = parentValue[field.name];
       outputValue[field.name] = fieldValue;
 

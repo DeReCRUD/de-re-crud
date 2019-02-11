@@ -12,12 +12,14 @@ const mapToProps = ({
   formId,
   value,
   renderers,
-}: IStoreState): Partial<IBlockHostRendererProps> => ({
-  schema,
-  formId,
-  formValue: value,
-  renderers,
-});
+}: IStoreState): Partial<IBlockHostRendererProps> => {
+  return {
+    schema,
+    formId,
+    formValue: value,
+    renderers,
+  };
+};
 
 export default connect(mapToProps)(BlockHostRenderer) as ComponentConstructor<
   IBlockHostRendererConnectProps

@@ -10,7 +10,5 @@ export interface IStampHostRendererConnectProps {
 export interface IStampHostRendererProps {
   rendererId: string;
   stamp: IInternalStamp;
-  formValue: object;
-  parentValue: object;
   renderers: IRendererDefinitions;
 }

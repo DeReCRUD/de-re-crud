@@ -1,6 +1,13 @@
 export const DEFAULT_FIELD_WIDTH = 12;
 export type StampSize = 1 | 2 | 3 | 4 | 5 | 6;
 
+export interface IConditionParams {
+  path: string;
+  parentValue: object | object[];
+  formValue: object;
+}
+
+export type ConditionFunc = (params: IConditionParams) => boolean;
 export type FieldConditionFunc = (fieldParent: object, form: object) => boolean;
 export type BlockConditionFunc = (form: object) => boolean;
 

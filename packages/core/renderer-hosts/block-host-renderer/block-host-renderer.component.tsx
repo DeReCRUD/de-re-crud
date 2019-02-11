@@ -32,14 +32,18 @@ export default class BlockHostRenderer extends BaseComponent<
     const block = getBlock(schema, struct, blockName);
     const customHints = block.hints.custom;
 
-    if (!block.condition(formValue)) {
-      return null;
-    }
-
     let path = `${block.name}`;
 
     if (parentPath) {
       path = `${parentPath}.${path}`;
+    }
+
+    const parentValue = parentPath
+      ? formPathToValue(formValue, parentPath)
+      : formValue;
+
+    if (!block.condition({ path, formValue, parentValue })) {
+      return null;
     }
 
     const rendererId = `${formId}.block.${path}`;
@@ -65,7 +69,17 @@ export default class BlockHostRenderer extends BaseComponent<
 
     const rows = [];
 
-    if (!root && !block.condition(formValue)) {
+    let path = `${block.name}`;
+
+    if (parentPath) {
+      path = `${parentPath}.${path}`;
+    }
+
+    const parentValue = parentPath
+      ? formPathToValue(formValue, parentPath)
+      : formValue;
+
+    if (!root && !block.condition({ path, parentValue, formValue })) {
       return rows;
     }
 
@@ -84,12 +98,20 @@ export default class BlockHostRenderer extends BaseComponent<
         return;
       }
 
+      let itemPath: string;
+
       const fieldReference = item as IInternalFieldReference;
       if (fieldReference.field) {
-        const parentValue = formPathToValue(formValue, parentPath);
         const field = schema.fields.get(block.struct).get(fieldReference.field);
 
-        if (!fieldReference.condition(parentValue, formValue)) {
+        itemPath = `${field.name}`;
+        if (parentPath) {
+          itemPath = `${parentPath}.${itemPath}`;
+        }
+
+        if (
+          !fieldReference.condition({ path: itemPath, parentValue, formValue })
+        ) {
           return;
         }
 
@@ -98,6 +120,18 @@ export default class BlockHostRenderer extends BaseComponent<
         }
 
         width = fieldReference.hints.width || field.hints.width;
+      }
+
+      const stamp = item as IInternalStamp;
+      if (stamp.text) {
+        itemPath = `stamp.${stamp.blockInstance}`;
+        if (parentPath) {
+          itemPath = `${parentPath}.${path}`;
+        }
+
+        if (!stamp.condition({ path: itemPath, parentValue, formValue })) {
+          return;
+        }
       }
 
       if (block.hints.layout !== 'horizontal') {
@@ -113,9 +147,10 @@ export default class BlockHostRenderer extends BaseComponent<
       }
 
       nextRow.cells.push({
-        renderedItem: this.renderItem(item as
-          | IInternalFieldReference
-          | IInternalStamp),
+        renderedItem: this.renderItem(
+          item as IInternalFieldReference | IInternalStamp,
+          itemPath,
+        ),
         width,
       });
     });
@@ -123,18 +158,16 @@ export default class BlockHostRenderer extends BaseComponent<
     return rows;
   }
 
-  private renderItem(item: IInternalFieldReference | IInternalStamp) {
+  private renderItem(
+    item: IInternalFieldReference | IInternalStamp,
+    itemPath: string,
+  ) {
     const { formId, struct, path: parentPath } = this.props;
 
     const stamp = item as IInternalStamp;
 
     if (stamp.text) {
-      let path = `stamp.${stamp.blockInstance}`;
-      if (parentPath) {
-        path = `${parentPath}.${path}`;
-      }
-
-      const rendererId = `${formId}.${path}`;
+      const rendererId = `${formId}.${itemPath}`;
 
       return (
         <StampHostRenderer
@@ -148,16 +181,14 @@ export default class BlockHostRenderer extends BaseComponent<
 
     const fieldReference = item as IInternalFieldReference;
     if (fieldReference.field) {
-      const fieldName = fieldReference.field;
-      const fieldPath = parentPath ? `${parentPath}.${fieldName}` : fieldName;
-      const rendererId = `${formId}.${fieldPath}`;
+      const rendererId = `${formId}.${itemPath}`;
 
       return (
         <FieldHostRenderer
           key={`${struct}-${rendererId}`}
           rendererId={rendererId}
           struct={struct}
-          fieldPath={fieldPath}
+          fieldPath={itemPath}
           fieldReference={fieldReference}
           parentPath={parentPath}
         />

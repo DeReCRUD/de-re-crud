@@ -5,7 +5,7 @@ import {
   IInternalFieldReference,
   IInternalLinkedStructFieldReference,
 } from '../internal-schema';
-import { BlockConditionFunc, DEFAULT_FIELD_WIDTH } from '../models/schema';
+import { DEFAULT_FIELD_WIDTH } from '../models/schema';
 import parseCondition from './parse-condition';
 import parseLabel from './parse-label';
 
@@ -16,7 +16,7 @@ export default function parseBlock(
   const result: IInternalBlock = {
     struct: structName,
     name: blockJson.name,
-    condition: parseCondition(blockJson.condition, true) as BlockConditionFunc,
+    condition: parseCondition(blockJson.condition, true),
     fields: [],
     items: [],
     hints: {

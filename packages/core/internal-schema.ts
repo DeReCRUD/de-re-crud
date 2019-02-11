@@ -2,14 +2,13 @@ import {
   ILabel,
   FieldType,
   FieldValue,
-  BlockConditionFunc,
-  FieldConditionFunc,
   StampSize,
   ReferenceValue,
   IOption,
   ListValue,
   ICustomHints,
   ICustomValidator,
+  ConditionFunc,
 } from './models/schema';
 
 export interface IInternalStruct {
@@ -104,7 +103,7 @@ export interface IInternalBlock {
   struct: string;
   name: string;
   label?: ILabel;
-  condition: BlockConditionFunc;
+  condition: ConditionFunc;
   items: Array<
     | IInternalBlockReference
     | IInternalFieldReference
@@ -124,7 +123,7 @@ export interface IInternalBlockReference {
 
 export interface IInternalFieldReference {
   field: string;
-  condition: FieldConditionFunc;
+  condition: ConditionFunc;
   hints: {
     width?: number;
     custom: ICustomHints;
@@ -135,7 +134,7 @@ export interface IInternalStamp {
   text: string;
   size: StampSize;
   blockInstance: number;
-  condition: FieldConditionFunc;
+  condition: ConditionFunc;
   hints: {
     custom: ICustomHints;
   };
