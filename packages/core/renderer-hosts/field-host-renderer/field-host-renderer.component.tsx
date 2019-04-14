@@ -85,7 +85,11 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private isDisabled = () => {
-    return this.props.formLocked;
+    return (
+      this.props.formSubmitting ||
+      this.props.formLocked ||
+      this.props.formDisabled
+    );
   };
 
   private isBusy = (path: string) => {

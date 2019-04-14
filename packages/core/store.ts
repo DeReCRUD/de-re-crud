@@ -44,6 +44,9 @@ export interface IStoreState {
   conditionCacheKey: number;
   formId: number;
   formClassName?: string;
+  formDisabled: boolean;
+  formLocked: boolean;
+  formSubmitting: boolean;
   schema: IInternalSchema;
   type: FormType;
   struct: string;
@@ -61,8 +64,6 @@ export interface IStoreState {
   renderers: IRendererDefinitions;
   buttonOptions: IButtonOptions;
   collectionReferences?: ICollectionReferences;
-  formLocked: boolean;
-  formSubmitting: boolean;
   onSubmit?: FormSubmission;
   onCancel?: () => void;
   onFieldChange?: FieldChangeNotification;
@@ -85,6 +86,7 @@ export function createStore(
   structName: string,
   type?: FormType,
   blockName?: string,
+  disabled?: boolean,
   rendererOptions?: IRendererOptions,
   renderers?: Partial<IRendererDefinitions>,
   buttonOptions?: IButtonOptions,
@@ -137,6 +139,7 @@ export function createStore(
     formClassName: rendererOptionDefaults
       ? rendererOptionDefaults.formClassName
       : undefined,
+    formDisabled: disabled || false,
     formLocked: false,
     formSubmitting: false,
     initialValue,
@@ -168,6 +171,7 @@ export function createStore(
 
 export function updateStore(
   store: IStore,
+  disabled?: boolean,
   rendererOptions?: IRendererOptions,
   renderers?: Partial<IRendererDefinitions>,
   buttonOptions?: IButtonOptions,
@@ -188,6 +192,7 @@ export function updateStore(
     formClassName: rendererOptionDefaults
       ? rendererOptionDefaults.formClassName
       : undefined,
+    formDisabled: disabled || false,
     collectionReferences,
     onCancel,
     onFieldChange,

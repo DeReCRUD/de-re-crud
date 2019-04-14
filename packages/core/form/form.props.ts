@@ -78,6 +78,7 @@ export type FieldParentChangeNotification = (
 
 export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;
+  disabled?: boolean;
   rendererOptions?: IRendererOptions;
   renderers?: Partial<IRendererDefinitions>;
   buttonOptions?: IButtonOptions;
@@ -96,6 +97,7 @@ export interface IFormProps extends IFormBaseProps {
   buttonOptions: IButtonOptions;
   schema: IInternalSchema;
   formClassName?: string;
+  formDisabled: boolean;
   formLocked: boolean;
   formSubmitting: boolean;
   navStack: INavState[];

@@ -23,6 +23,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       renderers,
       buttonOptions: { backButton, cancelButton, submitButton },
       navStack,
+      formDisabled,
       formLocked,
       formSubmitting,
       submitForm,
@@ -54,6 +55,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
 
     const struct = getStruct(schema, visibleStruct);
 
+    const disabled = formSubmitting || formLocked || formDisabled;
     const classNames = ['de-re-crud-form', className, formClassName];
 
     if (!struct) {
@@ -101,7 +103,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
                     classes={submitButton.classNames}
                     text={submitButtonText}
                     onClick={submitForm}
-                    disabled={formSubmitting || formLocked}
+                    disabled={disabled}
                   />
                 )}
                 {submitButton.visible && cancelButton.visible && ' '}
@@ -111,7 +113,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
                       classes={cancelButton.classNames}
                       text={cancelButton.text}
                       onClick={onCancel}
-                      disabled={formSubmitting || formLocked}
+                      disabled={disabled}
                     />
                   )}
               </div>
@@ -121,7 +123,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
                 classes={backButton.classNames}
                 text={backButton.text}
                 onClick={pop}
-                disabled={formSubmitting || formLocked}
+                disabled={disabled}
               />
             )}
       </form>

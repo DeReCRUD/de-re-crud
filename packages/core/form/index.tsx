@@ -16,6 +16,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
     const {
       block,
       collectionReferences,
+      disabled,
       initialErrors,
       onCancel,
       onFieldChange,
@@ -37,6 +38,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       struct,
       type,
       block,
+      disabled,
       rendererOptions,
       renderers,
       buttonOptions,
@@ -59,6 +61,7 @@ export default class Form extends BaseComponent<IFormConnectProps> {
   public componentWillReceiveProps(nextProps: IFormConnectProps) {
     updateStore(
       this.store,
+      nextProps.disabled,
       nextProps.rendererOptions,
       nextProps.renderers,
       nextProps.buttonOptions,
