@@ -13,7 +13,7 @@ steps:
 - script: |
     yarn install --frozen-lockfile
     yarn bootstrap
-    yarn add -D -W codecov jest-junit
+
   displayName: 'Install Dependencies'
 
 - script: yarn lint
