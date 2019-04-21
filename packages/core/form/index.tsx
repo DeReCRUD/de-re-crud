@@ -1,9 +1,12 @@
 import { h } from 'preact';
 import { Provider } from 'redux-zero/preact';
 import BaseComponent from '../base-component';
-import { createStore, IStore, updateStore } from '../store';
+import { FieldValue, ComplexFieldValue } from '../models/schema';
 import generateCacheKey from '../utils/generate-cache-key';
 import shallowCompare from '../utils/shallow-compare';
+import formPathToValue from '../utils/form-path-to-value';
+import { createStore, IStore, updateStore } from '../store';
+import Logger from '../logger';
 import FormConnect from './form.connect';
 import { IFormConnectProps } from './form.props';
 
@@ -52,6 +55,9 @@ export default class Form extends BaseComponent<IFormConnectProps> {
       onFieldChangeType,
       onFieldParentChange,
     );
+
+    this.reEvaluateConditions = this.reEvaluateConditions.bind(this);
+    this.setValue = this.setValue.bind(this);
   }
 
   public shouldComponentUpdate(nextProps: IFormConnectProps) {
@@ -75,11 +81,63 @@ export default class Form extends BaseComponent<IFormConnectProps> {
     );
   }
 
-  public reEvaluateConditions = () => {
+  public reEvaluateConditions() {
     this.store.setState({
       conditionCacheKey: generateCacheKey(),
     });
-  };
+  }
+
+  public getValue(path: string) {
+    if (!path) {
+      Logger.warning('No path set. Can not get value.');
+      return undefined;
+    }
+
+    const { value } = this.store.getState();
+
+    return formPathToValue(value, path);
+  }
+
+  public setValue(path: string, value?: FieldValue | null) {
+    if (!path) {
+      Logger.warning('No path set. Can not set value.');
+      return;
+    }
+
+    if (typeof value === 'undefined') {
+      value = null;
+    }
+
+    const { value: formValue } = this.store.getState();
+    const newFormValue = { ...formValue };
+
+    const pathArray = path.split('.');
+
+    let currentValue: ComplexFieldValue = newFormValue;
+    let parentValue: ComplexFieldValue;
+
+    for (let i = 0; i < pathArray.length; i++) {
+      const currentPath = pathArray[i];
+      parentValue = currentValue;
+
+      if (i === pathArray.length - 1) {
+        parentValue[currentPath] = value;
+        break;
+      }
+
+      if (Array.isArray(currentValue)) {
+        parentValue[currentPath] = currentValue.concat();
+      } else if (typeof currentValue === 'object') {
+        parentValue[currentPath] = { ...currentValue };
+      }
+
+      currentValue = parentValue[currentPath];
+    }
+
+    this.store.setState({
+      value: newFormValue,
+    });
+  }
 
   public render() {
     return (

@@ -4,7 +4,7 @@ import defaults from './defaults';
 import NoopRenderer from './noop-renderer';
 
 export default function parseRendererOptions(
-  rendererOptions: IRendererOptions,
+  rendererOptions?: IRendererOptions,
   instanceRenderers: Partial<IRendererDefinitions> = {},
   defaultRenderers: Partial<IRendererDefinitions> = {},
 ): IRendererDefinitions {
@@ -33,7 +33,7 @@ export default function parseRendererOptions(
   return defaults<IRendererDefinitions>(
     instanceRenderers,
     defaultRenderers,
-    rendererOptions.renderers,
+    rendererOptions ? rendererOptions.renderers : undefined,
     noopRenderers,
   ) as IRendererDefinitions;
 }

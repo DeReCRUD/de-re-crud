@@ -3,11 +3,11 @@ import { ComponentConstructor } from '../core/models/constructors';
 import BaseComponent from './base-component';
 import Form from './form';
 import { IFormConnectProps as IFormProps } from './form/form.props';
+import { FieldValue } from './models/schema';
 
-export { Form };
+export { Form, FieldValue, IFormProps };
 
 export {
-  IFormProps,
   FormSubmission,
   FormSubmissionCallback,
   FieldChangeNotification,
@@ -28,6 +28,7 @@ export { DeReCrudOptions } from './options';
 
 export interface IForm {
   reEvaluateConditions: () => void;
+  setValue: (path: string, value?: FieldValue) => void;
 }
 
 export function renderForm(props: IFormProps, nativeElement: Element): IForm {
@@ -38,6 +39,9 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
   return {
     reEvaluateConditions: () => {
       form.reEvaluateConditions();
+    },
+    setValue: (path: string, value?: FieldValue) => {
+      form.setValue(path, value);
     },
   };
 }
