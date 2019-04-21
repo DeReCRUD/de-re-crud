@@ -1,12 +1,12 @@
 import { h } from 'preact';
 import { Provider } from 'redux-zero/preact';
 import BaseComponent from '../base-component';
+import Logger from '../logger';
 import { FieldValue, ComplexFieldValue } from '../models/schema';
+import { createStore, IStore, updateStore } from '../store';
+import formPathToValue from '../utils/form-path-to-value';
 import generateCacheKey from '../utils/generate-cache-key';
 import shallowCompare from '../utils/shallow-compare';
-import formPathToValue from '../utils/form-path-to-value';
-import { createStore, IStore, updateStore } from '../store';
-import Logger from '../logger';
 import FormConnect from './form.connect';
 import { IFormConnectProps } from './form.props';
 

@@ -1,7 +1,7 @@
 import { h, Ref } from 'preact';
 import { cleanup, render } from 'preact-testing-library';
-import { IFormConnectProps } from '../form.props';
 import Form from '../';
+import { IFormConnectProps } from '../form.props';
 
 const defaultSchema = {
   structs: [
@@ -30,7 +30,7 @@ const defaultSchema = {
 
 function createComponent(
   props: Partial<IFormConnectProps> = {},
-  refCallback: Ref<Form> = undefined,
+  refCallback: Ref<Form> = null,
 ) {
   return (
     <Form
