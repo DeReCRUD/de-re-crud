@@ -12,7 +12,7 @@ const mockStruct: IInternalStruct = {
   blocks: [],
 };
 
-jest.mock('../parse-struct', () => ({ default: () => mockStruct }));
+jest.mock('../parse-struct', () => () => mockStruct);
 
 describe('SchemaParser', () => {
   let schemaJson: any;
