@@ -46,6 +46,10 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
   };
 }
 
+export function renderElement(element: JSX.Element, nativeElement: Element) {
+  render(element, null, nativeElement);
+}
+
 export type DestroyFunc = () => void;
 
 export type ComponentRenderer<IProps> = (
