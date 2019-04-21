@@ -434,7 +434,13 @@ export default class FieldHostRenderer extends BaseComponent<
             valueErrorIndicators: childErrors,
           };
 
-          return <LinkedStructFieldRenderer {...tableLinkedStructFieldProps} />;
+          const TableLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
+            ITableLinkedStructRenderer
+          >;
+
+          return (
+            <TableLinkedStructFieldRenderer {...tableLinkedStructFieldProps} />
+          );
         } else {
           const items = values.map((_, index) => {
             const itemPath = `${fieldPath}.${index}`;
@@ -463,8 +469,14 @@ export default class FieldHostRenderer extends BaseComponent<
             renderedItems: items,
           };
 
+          const InlineLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
+            IInlineLinkedStructRenderer
+          >;
+
           return (
-            <LinkedStructFieldRenderer {...inlineLinkedStructFieldProps} />
+            <InlineLinkedStructFieldRenderer
+              {...inlineLinkedStructFieldProps}
+            />
           );
         }
       }
