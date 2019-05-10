@@ -35,6 +35,7 @@ function createFieldTests(
         ...fieldJson,
         hints: {
           ...fieldJson.hints,
+          readOnly: false,
           width: DEFAULT_FIELD_WIDTH,
         },
         keyField: false,
@@ -109,6 +110,15 @@ function createFieldTests(
       ).toBe(DEFAULT_FIELD_WIDTH);
     });
 
+    it('should set readOnly hint when specified', () => {
+      expect(
+        parseField(structName, {
+          ...fieldJson,
+          hints: { ...fieldJson.hints, readOnly: true },
+        }).hints.readOnly,
+      ).toBe(true);
+    });
+
     extraTests(fieldJson);
   });
 }
@@ -173,7 +183,12 @@ describe('parseField', () => {
     'list',
     null,
     {
-      hints: { custom: {}, width: DEFAULT_FIELD_WIDTH, layout: 'select' },
+      hints: {
+        readOnly: false,
+        custom: {},
+        width: DEFAULT_FIELD_WIDTH,
+        layout: 'select',
+      },
       multiSelect: false,
       dynamicOptions: false,
       options: [],

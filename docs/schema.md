@@ -167,9 +167,11 @@ Recommendations given to the UI about how to display the form element. Applies t
 
 #### [Field](#field) Hints
 
-| Field | Type   | Required | Missing Val | Notes                          |
-| ----- | ------ | -------- | ----------- | ------------------------------ |
-| width | number | false    | 12          | The width of the field (1-12). |
+| Field    | Type    | Required | Missing Val | Notes                                             |
+| -------- | ------- | -------- | ----------- | ------------------------------------------------- |
+| width    | number  | false    | 12          | The width of the field (1-12)                     |
+| readOnly | boolean | false    | false       | Indicates whether the field is read only          |
+| custom   | object  | false    |             | Hints that will be passed unmodified to renderers |
 
 ##### <a name="field-list-hints"></a> Additional properties for hints of [type](#type) list
 

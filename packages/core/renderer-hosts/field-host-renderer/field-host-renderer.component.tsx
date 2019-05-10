@@ -81,7 +81,10 @@ export default class FieldHostRenderer extends BaseComponent<
   }
 
   private isReadOnly = () => {
-    return false;
+    const { schema, struct, fieldReference } = this.props;
+
+    const field = getField(schema, struct, fieldReference.field);
+    return field.hints.readOnly;
   };
 
   private isDisabled = () => {

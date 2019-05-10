@@ -23,6 +23,7 @@ export default function parseField(
     unique: fieldJson.unique || false,
     hints: {
       width: DEFAULT_FIELD_WIDTH,
+      readOnly: false,
       custom: {},
     },
     customValidators: [],
@@ -53,6 +54,10 @@ export default function parseField(
       fieldJson.hints.width <= DEFAULT_FIELD_WIDTH
     ) {
       result.hints.width = fieldJson.hints.width;
+    }
+
+    if (typeof fieldJson.hints.readOnly !== 'undefined') {
+      result.hints.readOnly = fieldJson.hints.readOnly;
     }
 
     if (typeof fieldJson.hints.custom !== 'undefined') {

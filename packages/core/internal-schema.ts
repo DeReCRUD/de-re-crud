@@ -19,6 +19,12 @@ export interface IInternalStruct {
   blocks: string[];
 }
 
+export interface IFieldHints {
+  width: number;
+  readOnly: boolean;
+  custom: ICustomHints;
+}
+
 export interface IInternalField {
   struct: string;
   name: string;
@@ -31,10 +37,7 @@ export interface IInternalField {
   initialValue?: FieldValue;
   missingValue?: FieldValue;
   placeholder?: string;
-  hints: {
-    width: number;
-    custom: ICustomHints;
-  };
+  hints: IFieldHints;
   customValidators: string[];
 }
 
@@ -61,10 +64,8 @@ export interface IInternalListField extends IInternalField {
   multiSelect: boolean;
   options: IOption[];
   dynamicOptions: boolean;
-  hints: {
-    width: number;
+  hints: IFieldHints & {
     layout: 'select' | 'radio';
-    custom: ICustomHints;
   };
 }
 
