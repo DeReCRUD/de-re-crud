@@ -18,6 +18,7 @@ describe('validators', () => {
       required: false,
       unique: false,
       hints: {
+        readOnly: false,
         width: 1,
         custom: {},
       },

@@ -12,6 +12,7 @@ const defaultFieldName = 'test1';
 
 const defaultField: IInternalField = {
   hints: {
+    readOnly: false,
     custom: {},
     width: 1,
   },
