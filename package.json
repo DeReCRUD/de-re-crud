@@ -5,8 +5,8 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
+    "postinstall": "lerna bootstrap",
     "clean": "node ./scripts/clean-dist-dir.js",
-    "bootstrap": "lerna bootstrap",
     "lint": "yarn format:check && yarn lint:src && yarn lint:test",
     "lint:src": "tslint --project ./tsconfig.json",
     "lint:test": "tslint --project ./tsconfig.test.json",
@@ -35,7 +35,7 @@
     "husky": "^1.1.4",
     "jest": "^24.7.1",
     "jest-junit": "5.2.0",
-    "lerna": "^2.11.0",
+    "lerna": "^3.16.4",
     "lint-staged": "^8.0.5",
     "preact-testing-library": "^0.3.0",
     "prettier": "^1.14.0",

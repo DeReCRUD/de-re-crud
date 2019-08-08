@@ -12,7 +12,6 @@ steps:
 
 - script: |
     yarn install --frozen-lockfile
-    yarn bootstrap
 
   displayName: 'Install Dependencies'
 
@@ -46,8 +45,8 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'package' 
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'package'
     publishLocation: 'Container'
   displayName: 'Publish Artifacts'
 
