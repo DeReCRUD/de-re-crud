@@ -1,5 +1,5 @@
 import { ILabel } from '../../models/schema';
-import parseLabel from '../../schema-parser/parse-label';
+import parseLabel from '../parse-label';
 
 describe('parseLabel', () => {
   it('should return default label for falsy value', () => {

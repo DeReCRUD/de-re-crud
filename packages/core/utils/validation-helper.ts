@@ -15,6 +15,75 @@ import {
 import PatternValidator from '../validators/pattern-validator';
 import { getKeyFields } from './schema-helper';
 
+function validateKeywordField(_: IInternalField, value: string): string[] {
+  const errors = [];
+
+  if (value) {
+    if (/\s/g.test(value)) {
+      errors.push('This field can not contain any tabs or spaces.');
+    }
+  }
+
+  return errors;
+}
+
+function validateTextField(field: IInternalTextField, value: string): string[] {
+  const errors = [];
+
+  if (value) {
+    if (field.minLength && value.length < field.minLength) {
+      errors.push(
+        `This field must have at least ${field.minLength} character(s).`,
+      );
+    } else if (field.maxLength && value.length > field.maxLength) {
+      errors.push(
+        `This field can not have more than ${field.maxLength} character(s).`,
+      );
+    }
+  }
+
+  return errors;
+}
+
+function validateIntegerField(
+  field: IInternalIntegerField,
+  value: number,
+): string[] {
+  const errors = [];
+
+  if (value) {
+    if (typeof field.min !== 'undefined' && value < field.min) {
+      errors.push(`This field must have a value of at least ${field.min}.`);
+    } else if (typeof field.max !== 'undefined' && value > field.max) {
+      errors.push(`This field can not exceed the value of ${field.max}.`);
+    }
+  }
+
+  return errors;
+}
+
+export function validateLinkedStructField(
+  field: IInternalLinkedStructField,
+  value: object[],
+) {
+  const errors = [];
+
+  if (
+    (field.required || field.minInstances) &&
+    (!value || !value.length || value.length < field.minInstances)
+  ) {
+    errors.push(
+      `This field must have at least ${field.minInstances || 1} item(s).`,
+    );
+  } else if (field.maxInstances && value.length > field.maxInstances) {
+    errors.push(
+      `This field can not have more than ${field.maxInstances} item(s).`,
+    );
+  }
+
+  return errors;
+}
+
 export function validateField(
   schema: IInternalSchema,
   structName: string,
@@ -121,75 +190,6 @@ export function validateField(
       errors.push(validator.message);
     }
   });
-
-  return errors;
-}
-
-function validateKeywordField(_: IInternalField, value: string): string[] {
-  const errors = [];
-
-  if (value) {
-    if (/\s/g.test(value)) {
-      errors.push('This field can not contain any tabs or spaces.');
-    }
-  }
-
-  return errors;
-}
-
-function validateTextField(field: IInternalTextField, value: string): string[] {
-  const errors = [];
-
-  if (value) {
-    if (field.minLength && value.length < field.minLength) {
-      errors.push(
-        `This field must have at least ${field.minLength} character(s).`,
-      );
-    } else if (field.maxLength && value.length > field.maxLength) {
-      errors.push(
-        `This field can not have more than ${field.maxLength} character(s).`,
-      );
-    }
-  }
-
-  return errors;
-}
-
-function validateIntegerField(
-  field: IInternalIntegerField,
-  value: number,
-): string[] {
-  const errors = [];
-
-  if (value) {
-    if (typeof field.min !== 'undefined' && value < field.min) {
-      errors.push(`This field must have a value of at least ${field.min}.`);
-    } else if (typeof field.max !== 'undefined' && value > field.max) {
-      errors.push(`This field can not exceed the value of ${field.max}.`);
-    }
-  }
-
-  return errors;
-}
-
-export function validateLinkedStructField(
-  field: IInternalLinkedStructField,
-  value: object[],
-) {
-  const errors = [];
-
-  if (
-    (field.required || field.minInstances) &&
-    (!value || !value.length || value.length < field.minInstances)
-  ) {
-    errors.push(
-      `This field must have at least ${field.minInstances || 1} item(s).`,
-    );
-  } else if (field.maxInstances && value.length > field.maxInstances) {
-    errors.push(
-      `This field can not have more than ${field.maxInstances} item(s).`,
-    );
-  }
 
   return errors;
 }

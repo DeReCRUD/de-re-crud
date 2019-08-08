@@ -5,11 +5,7 @@ export default abstract class BaseComponent<
   P = {},
   S = {}
 > extends PreactComponent<P, S> {
-  public shouldComponentUpdate(
-    nextProps: Readonly<P>,
-    nextState: Readonly<S>,
-    _: any,
-  ) {
+  public shouldComponentUpdate(nextProps: Readonly<P>, nextState: Readonly<S>) {
     return shallowCompare(this, nextProps, nextState);
   }
 }

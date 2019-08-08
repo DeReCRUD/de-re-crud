@@ -1,4 +1,5 @@
 import defaults from '../defaults';
+
 describe('defaults', () => {
   it('should assign defaults', () => {
     expect(

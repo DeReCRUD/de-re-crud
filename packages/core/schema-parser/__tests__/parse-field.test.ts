@@ -10,7 +10,6 @@ import parseField from '../parse-field';
 
 const structName = 'TestStruct';
 
-// tslint:disable:no-empty
 function createFieldTests(
   type: FieldType,
   extraInitailData = {},

@@ -6,7 +6,7 @@ const Bootstrap4MultiSelectListFieldRenderer = (
   props: IMultiSelectListFieldRenderer,
 ) => (
   <div className="bootstrap4-multi-select-list-renderer">
-    <Bootstrap4SelectRenderer {...props} multiSelect={true} />
+    <Bootstrap4SelectRenderer {...props} multiSelect />
   </div>
 );
 

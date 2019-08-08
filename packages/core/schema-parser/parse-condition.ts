@@ -7,8 +7,22 @@ import {
 
 export const DEFAULT_CONDITION = () => true;
 
+function wrapCondition(args: any[], blockCondition: boolean = false) {
+  // eslint-disable-next-line no-new-func
+  const condition = new Function(...args);
+
+  return (params: IConditionParams): boolean => {
+    if (blockCondition) {
+      const blockConditionFunc = condition as BlockConditionFunc;
+      return blockConditionFunc(params.formValue);
+    }
+
+    const fieldConditionFunc = condition as FieldConditionFunc;
+    return fieldConditionFunc(params.parentValue, params.formValue);
+  };
+}
+
 export default function parseCondition(
-  // tslint:disable-next-line:ban-types
   conditionJson: string | Function,
   blockCondition: boolean = false,
 ): ConditionFunc {
@@ -27,23 +41,8 @@ export default function parseCondition(
 
     condition = wrapCondition(args, blockCondition);
   } else {
-    // tslint:disable-next-line:no-function-constructor-with-string-args
     condition = DEFAULT_CONDITION;
   }
 
   return condition;
-}
-
-function wrapCondition(args: any[], blockCondition: boolean = false) {
-  const condition = new Function(...args);
-
-  return (params: IConditionParams): boolean => {
-    if (blockCondition) {
-      const blockConditionFunc = condition as BlockConditionFunc;
-      return blockConditionFunc(params.formValue);
-    } else {
-      const fieldConditionFunc = condition as FieldConditionFunc;
-      return fieldConditionFunc(params.parentValue, params.formValue);
-    }
-  };
 }

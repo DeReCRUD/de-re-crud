@@ -3,5 +3,5 @@ export default function createCssClass(root: string, ...params: string[]) {
     return root;
   }
 
-  return root + '-' + params.join('-');
+  return `${root}-${params.join('-')}`;
 }

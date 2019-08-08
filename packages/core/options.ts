@@ -42,6 +42,8 @@ export class DeReCrudOptions {
   );
 
   public renderers?: Partial<IRendererDefinitions>;
+
   public rendererOptions?: IRendererOptions;
+
   public buttonOptions?: IButtonOptions;
 }

@@ -9,8 +9,9 @@ import {
   FieldValue,
   SimpleFieldValue,
 } from '../../models/schema';
-import { ChangeArrayActionType } from '../../renderer-hosts/field-host-renderer/field-host-renderer.actions';
+import { ChangeArrayActionType } from './field-host-renderer.actions';
 import { INavState } from '../../store';
+
 export interface IFieldHostRendererConnectProps {
   rendererId: string;
   fieldPath: string;

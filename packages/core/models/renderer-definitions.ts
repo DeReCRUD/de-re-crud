@@ -1,7 +1,4 @@
-import {
-  ComponentConstructor,
-  FunctionalComponent,
-} from '../models/constructors';
+import { ComponentConstructor, FunctionalComponent } from './constructors';
 import {
   IBlockContainerRenderer,
   IBooleanFieldRenderer,
@@ -16,7 +13,7 @@ import {
   IStampRenderer,
   ITableLinkedStructRenderer,
   ITextFieldRenderer,
-} from '../models/renderers';
+} from './renderers';
 
 export interface IRendererDefinitions {
   stamp:

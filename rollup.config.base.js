@@ -9,7 +9,10 @@ import generatePackageJson from 'rollup-plugin-generate-package-json';
 import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 import replace from 'rollup-plugin-replace';
+import typescriptLib from 'typescript';
+import packageJson from './package.json';
 
+// eslint-disable-next-line import/no-dynamic-require
 const tsConfig = require(path.resolve(process.cwd(), 'tsconfig.json'));
 const { outDir } = tsConfig.compilerOptions;
 
@@ -55,7 +58,7 @@ function generateDefaultConfig(pkg, input, external, minify) {
 
   const config = {
     input,
-    output: output,
+    output,
     external,
     plugins: [
       replace({
@@ -66,7 +69,7 @@ function generateDefaultConfig(pkg, input, external, minify) {
         minimize: minify,
       }),
       typescript({
-        typescript: require('typescript'),
+        typescript: typescriptLib,
         tsconfigOverride: {
           compilerOptions: {
             declaration: false,
@@ -116,10 +119,8 @@ function generateMainConfig(pkg, input, external, minify) {
 }
 
 export function generateConfig(input, external) {
-  const pkg = require('./package.json');
-
   return [
-    generateMainConfig(pkg, input, external),
-    generateMainConfig(pkg, input, external, true),
+    generateMainConfig(packageJson, input, external),
+    generateMainConfig(packageJson, input, external, true),
   ];
 }

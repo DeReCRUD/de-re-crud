@@ -1,5 +1,5 @@
 import { cleanup } from 'preact-testing-library';
-import { renderForm, IForm, IFormProps } from '../';
+import { renderForm, IForm, IFormProps } from '..';
 import Form from '../form';
 
 const render = jest.spyOn(Form.prototype, 'render');

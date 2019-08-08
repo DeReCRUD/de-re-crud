@@ -25,44 +25,6 @@ const generateId = () =>
     .toString(36)
     .substr(2, 9);
 
-function onFieldChange(
-  store: IStore,
-  type: FieldChangeNotificationType,
-  params: IFieldChangeNotificationParams,
-) {
-  clearTimeout(DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path]);
-  delete DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path];
-  delete PENDING_FIELD_CHANGE_REQUESTS[params.path];
-
-  const { getState } = store;
-  const state = getState();
-
-  const id = generateId();
-
-  if (state.onFieldChange.length > 1) {
-    const { onFieldChangeInputTimeout } = state;
-    let timeoutId;
-
-    if (onFieldChangeInputTimeout && type === 'input') {
-      timeoutId = setTimeout(
-        () => onFieldChangeAsync(id, store, params),
-        onFieldChangeInputTimeout,
-      );
-    } else {
-      timeoutId = setTimeout(() => {
-        onFieldChangeAsync(id, store, params);
-      }, 0);
-    }
-
-    DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path] = timeoutId;
-    return;
-  }
-
-  state.onFieldChange(params);
-
-  return {};
-}
-
 function onFieldChangeAsync(
   id: string,
   { getState, setState }: IStore,
@@ -107,6 +69,44 @@ function onFieldChangeAsync(
 
     setState(newState);
   });
+}
+
+function onFieldChange(
+  store: IStore,
+  type: FieldChangeNotificationType,
+  params: IFieldChangeNotificationParams,
+) {
+  clearTimeout(DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path]);
+  delete DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path];
+  delete PENDING_FIELD_CHANGE_REQUESTS[params.path];
+
+  const { getState } = store;
+  const state = getState();
+
+  const id = generateId();
+
+  if (state.onFieldChange.length > 1) {
+    const { onFieldChangeInputTimeout } = state;
+    let timeoutId;
+
+    if (onFieldChangeInputTimeout && type === 'input') {
+      timeoutId = setTimeout(
+        () => onFieldChangeAsync(id, store, params),
+        onFieldChangeInputTimeout,
+      );
+    } else {
+      timeoutId = setTimeout(() => {
+        onFieldChangeAsync(id, store, params);
+      }, 0);
+    }
+
+    DEBOUNCED_FIELD_CHANGE_REQUESTS[params.path] = timeoutId;
+    return {};
+  }
+
+  state.onFieldChange(params);
+
+  return {};
 }
 
 export default function fieldHostRendererActions(store: IStore) {
@@ -324,6 +324,8 @@ export default function fieldHostRendererActions(store: IStore) {
             case 'remove':
               arrayValue.splice(startingIndex, 1);
               break;
+            default:
+              return {};
           }
         } else if (Array.isArray(iterationValue)) {
           parentValue[path] = iterationValue.concat();

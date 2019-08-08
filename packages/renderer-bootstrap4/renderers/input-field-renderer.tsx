@@ -1,7 +1,7 @@
 import { ITextFieldRenderer } from '@de-re-crud/core/models/renderers';
 import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
-import Bootstrap4LabelRenderer from '@de-re-crud/renderer-bootstrap4/renderers/label-renderer';
 import { h } from 'preact';
+import Bootstrap4LabelRenderer from './label-renderer';
 
 const Bootstrap4InputFieldRenderer = ({
   fieldType,

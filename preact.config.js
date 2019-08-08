@@ -1,8 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const { resolve } = require('path');
 const webpack = require('webpack');
 const preactCliTypeScript = require('preact-cli-plugin-typescript');
 
-module.exports = function(config) {
+module.exports = (config) => {
   // NOTE: Hack to add Webpack 4 support to plugin
   config.module.loaders = config.module.rules;
   preactCliTypeScript(config);

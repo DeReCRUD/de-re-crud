@@ -116,7 +116,7 @@ export default class BlockHostRenderer extends BaseComponent<
         }
 
         if (fieldReference.hints.width) {
-          width = fieldReference.hints.width;
+          ({ width } = fieldReference.hints);
         }
 
         width = fieldReference.hints.width || field.hints.width;
@@ -194,5 +194,7 @@ export default class BlockHostRenderer extends BaseComponent<
         />
       );
     }
+
+    return null;
   }
 }

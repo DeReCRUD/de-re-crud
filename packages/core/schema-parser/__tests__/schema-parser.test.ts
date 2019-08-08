@@ -1,4 +1,4 @@
-import SchemaParser from '../';
+import SchemaParser from '..';
 import {
   IInternalStruct,
   IInternalSchema,

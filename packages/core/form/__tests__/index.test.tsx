@@ -1,6 +1,6 @@
 import { h, Ref } from 'preact';
 import { cleanup, render } from 'preact-testing-library';
-import Form from '../';
+import Form from '..';
 import { IFormConnectProps } from '../form.props';
 
 const defaultSchema = {

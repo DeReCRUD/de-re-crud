@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 // https://www.npmjs.com/package/shallow-compare
 
 function shallowDiffers(a, b) {

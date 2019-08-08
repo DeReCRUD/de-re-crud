@@ -106,7 +106,6 @@ export interface ISelectListFieldRenderer extends IFieldRenderer {
   options: ISelectableOption[];
 }
 
-// tslint:disable-next-line:no-empty-interface
 export interface IMultiSelectListFieldRenderer
   extends ISelectListFieldRenderer {}
 

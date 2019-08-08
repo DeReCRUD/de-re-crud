@@ -26,7 +26,6 @@ export default class SchemaParser {
         };
 
         Logger.warning(
-          // tslint:disable-next-line:max-line-length
           'WARNING: Structs should live under the `structs` key in the schema instead of at the root. Support for this will be removed in the future',
         );
       }

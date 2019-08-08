@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 const replace = require('replace-in-file');
 
 const options = {
   files: 'dist/**/*.js',
-  from: /import \'(.*).css\';/g,
+  from: /import '(.*).css';/g,
   to: '',
   verbose: true,
 };

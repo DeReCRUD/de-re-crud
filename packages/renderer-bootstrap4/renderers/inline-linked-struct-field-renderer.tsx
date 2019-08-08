@@ -1,8 +1,8 @@
 import { IInlineLinkedStructRenderer } from '@de-re-crud/core/models/renderers';
 import createCssClass from '@de-re-crud/core/utils/create-css-class';
-import Bootstrap4ButtonRenderer from '@de-re-crud/renderer-bootstrap4/renderers/button-renderer';
-import Bootstrap4LabelRenderer from '@de-re-crud/renderer-bootstrap4/renderers/label-renderer';
 import { h } from 'preact';
+import Bootstrap4ButtonRenderer from './button-renderer';
+import Bootstrap4LabelRenderer from './label-renderer';
 
 const cssName = 'bootstrap4-inline-linked-struct-renderer';
 

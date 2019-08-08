@@ -42,7 +42,7 @@ export default function parseBlock(
   if (Array.isArray(blockJson.fields)) {
     let blockInstance = 1;
 
-    blockJson.fields.map((blockFieldJson) => {
+    blockJson.fields.forEach((blockFieldJson) => {
       if (typeof blockFieldJson.stamp !== 'undefined') {
         const stamp: IInternalStamp = {
           blockInstance: blockInstance++,

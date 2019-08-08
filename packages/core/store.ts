@@ -1,4 +1,4 @@
-import { default as createReduxZeroStore } from 'redux-zero';
+import createReduxZeroStore from 'redux-zero';
 import { connect } from 'redux-zero/devtools';
 import { applyMiddleware } from 'redux-zero/middleware';
 import {
@@ -23,6 +23,7 @@ import generateChildErrors from './utils/generate-child-errors';
 import parseButtonOptions from './utils/parse-button-options';
 import parseRendererOptions from './utils/parse-renderer-options';
 import { getKeyFields } from './utils/schema-helper';
+import Logger from './logger';
 
 let FORM_COUNTER = 0;
 
@@ -74,8 +75,7 @@ export interface IStoreState {
 
 const logger = (store) => (next) => (action) => {
   if (process.env.ENABLE_LOGGING) {
-    // tslint:disable-next-line:no-console
-    console.log('current state:', store.getState());
+    Logger.debug('current state:', store.getState());
   }
 
   return next(action);

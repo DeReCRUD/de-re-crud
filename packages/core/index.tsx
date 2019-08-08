@@ -1,8 +1,8 @@
 import { h, render } from 'preact';
-import { ComponentConstructor } from '../core/models/constructors';
 import BaseComponent from './base-component';
-import Form from './form';
+import { ComponentConstructor } from './models/constructors';
 import { IFormConnectProps as IFormProps } from './form/form.props';
+import Form from './form';
 import { FieldValue } from './models/schema';
 
 export { Form, FieldValue, IFormProps };
@@ -34,7 +34,16 @@ export interface IForm {
 export function renderForm(props: IFormProps, nativeElement: Element): IForm {
   let form: Form;
 
-  render(<Form ref={(c) => (form = c)} {...props} />, null, nativeElement);
+  render(
+    <Form
+      ref={(c) => {
+        form = c;
+      }}
+      {...props}
+    />,
+    null,
+    nativeElement,
+  );
 
   return {
     reEvaluateConditions: () => {

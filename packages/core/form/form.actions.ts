@@ -33,7 +33,7 @@ function validateBlock(
     let fieldPath = field.name;
 
     if (parentPath) {
-      fieldPath = parentPath + '.' + fieldPath;
+      fieldPath = `${parentPath}.${fieldPath}`;
     }
 
     if (condition({ path: fieldPath, parentValue, formValue: state.value })) {
@@ -61,37 +61,41 @@ function validateBlock(
 
       switch (field.type) {
         case 'linkedStruct':
-          const linkedStructField = field as IInternalLinkedStructField;
-          const linkedStructValue = parentValue[field.name] as object[];
+          {
+            const linkedStructField = field as IInternalLinkedStructField;
+            const linkedStructValue = parentValue[field.name] as object[];
 
-          if (linkedStructValue) {
-            linkedStructValue.forEach((value, index) => {
-              const itemPath = fieldPath + '.' + index;
+            if (linkedStructValue) {
+              linkedStructValue.forEach((value, index) => {
+                const itemPath = `${fieldPath}.${index}`;
 
-              const result = validateBlock(
-                state,
-                linkedStructField.reference.struct,
-                linkedStructField.reference.block,
-                value,
-                itemPath,
-              );
+                const result = validateBlock(
+                  state,
+                  linkedStructField.reference.struct,
+                  linkedStructField.reference.block,
+                  value,
+                  itemPath,
+                );
 
-              Object.assign(errors, result.errors);
-              Object.assign(touched, result.touched);
+                Object.assign(errors, result.errors);
+                Object.assign(touched, result.touched);
 
-              outputValue[field.name][index] = result.outputValue;
+                outputValue[field.name][index] = result.outputValue;
 
-              if (!hasErrors) {
-                hasErrors = result.hasErrors;
-              }
-            });
+                if (!hasErrors) {
+                  ({ hasErrors } = result);
+                }
+              });
+            }
           }
+          break;
+        default:
           break;
       }
     }
 
     if (
-      field.hasOwnProperty('missingValue') &&
+      typeof field.missingValue !== 'undefined' &&
       typeof outputValue[field.name] === 'undefined'
     ) {
       outputValue[field.name] = field.missingValue;

@@ -9,9 +9,7 @@ import {
 } from '../../internal-schema';
 import Logger from '../../logger';
 import {
-  FieldBlurEvent,
   FieldChangeEvent,
-  FieldFocusEvent,
   IFieldRenderer,
   IForeignKeyFieldRenderer,
   IInlineLinkedStructRenderer,
@@ -123,7 +121,7 @@ export default class FieldHostRenderer extends BaseComponent<
     this.props.changeValue(this.props.struct, fieldName, fieldPath, value);
   };
 
-  private onFocus = (_: FieldFocusEvent) => {
+  private onFocus = () => {
     const {
       struct,
       focusField,
@@ -134,7 +132,7 @@ export default class FieldHostRenderer extends BaseComponent<
     focusField(struct, field, fieldPath);
   };
 
-  private onBlur = (_: FieldBlurEvent) => {
+  private onBlur = () => {
     const {
       struct,
       blurField,
@@ -154,17 +152,20 @@ export default class FieldHostRenderer extends BaseComponent<
         value = e.target.checked;
         break;
       case 'select-multiple':
-        value = [];
+        {
+          value = [];
 
-        const { options } = e.target;
-        for (const option of options) {
-          if (option.selected) {
-            value.push(option.value);
-          }
+          const { options } = e.target;
+
+          options.forEach((option) => {
+            if (option.selected) {
+              (value as SimpleFieldValue[]).push(option.value);
+            }
+          });
         }
         break;
       default:
-        value = e.target.value;
+        ({ value } = e.target);
         break;
     }
 
@@ -244,7 +245,7 @@ export default class FieldHostRenderer extends BaseComponent<
     );
   };
 
-  private canRemove = (_: number) => {
+  private canRemove = () => {
     const { schema, struct, fieldReference, fieldValue } = this.props;
 
     const linkedStructField = getField(
@@ -444,44 +445,42 @@ export default class FieldHostRenderer extends BaseComponent<
           return (
             <TableLinkedStructFieldRenderer {...tableLinkedStructFieldProps} />
           );
-        } else {
-          const items = values.map((_, index) => {
-            const itemPath = `${fieldPath}.${index}`;
+        }
 
-            busyValues[index] = this.isBusy(itemPath);
-            disabledValues[index] = this.isDisabled();
+        const items = values.map((_, index) => {
+          const itemPath = `${fieldPath}.${index}`;
 
-            return (
-              <BlockHostRenderer
-                key={itemPath}
-                struct={reference.struct}
-                block={block.name}
-                path={itemPath}
-              />
-            );
-          });
-
-          const inlineLinkedStructFieldProps: IInlineLinkedStructRenderer = {
-            ...fieldProps,
-            canAdd: this.canAdd,
-            canRemove: this.canRemove,
-            onAdd: () => this.onAdd((values && values.length) || 0),
-            onRemove: this.onRemove,
-            busyRenderedItems: busyValues,
-            disabledRenderedItems: disabledValues,
-            renderedItems: items,
-          };
-
-          const InlineLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
-            IInlineLinkedStructRenderer
-          >;
+          busyValues[index] = this.isBusy(itemPath);
+          disabledValues[index] = this.isDisabled();
 
           return (
-            <InlineLinkedStructFieldRenderer
-              {...inlineLinkedStructFieldProps}
+            <BlockHostRenderer
+              key={itemPath}
+              struct={reference.struct}
+              block={block.name}
+              path={itemPath}
             />
           );
-        }
+        });
+
+        const inlineLinkedStructFieldProps: IInlineLinkedStructRenderer = {
+          ...fieldProps,
+          canAdd: this.canAdd,
+          canRemove: this.canRemove,
+          onAdd: () => this.onAdd((values && values.length) || 0),
+          onRemove: this.onRemove,
+          busyRenderedItems: busyValues,
+          disabledRenderedItems: disabledValues,
+          renderedItems: items,
+        };
+
+        const InlineLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
+          IInlineLinkedStructRenderer
+        >;
+
+        return (
+          <InlineLinkedStructFieldRenderer {...inlineLinkedStructFieldProps} />
+        );
       }
       case 'list': {
         const {

@@ -146,14 +146,18 @@ export default function parseField(
       }
       break;
     }
-    case 'foreignKey': {
-      const foreignKeyField = result as IInternalForeignKeyField;
+    case 'foreignKey':
+      {
+        const foreignKeyField = result as IInternalForeignKeyField;
 
-      foreignKeyField.reference = {
-        struct: fieldJson.reference.struct,
-        labelField: fieldJson.reference.labelField,
-      };
-    }
+        foreignKeyField.reference = {
+          struct: fieldJson.reference.struct,
+          labelField: fieldJson.reference.labelField,
+        };
+      }
+      break;
+    default:
+      break;
   }
 
   return result;

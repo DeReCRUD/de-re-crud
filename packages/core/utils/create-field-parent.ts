@@ -4,19 +4,6 @@ import {
 } from '../internal-schema';
 import { getStruct, getField } from './schema-helper';
 
-export default function createFieldParent(
-  schema: IInternalSchema,
-  struct: string,
-  parentValue: object = {},
-) {
-  const value = { ...parentValue };
-  const fields = getStruct(schema, struct).fields;
-
-  assignDefaultValues(schema, struct, fields, value);
-
-  return value;
-}
-
 function assignDefaultValues(
   schema: IInternalSchema,
   struct: string,
@@ -27,7 +14,7 @@ function assignDefaultValues(
     const field = getField(schema, struct, fieldName);
     const valueDefined = typeof value[field.name] !== 'undefined';
 
-    if (field.hasOwnProperty('initialValue') && !valueDefined) {
+    if (typeof field.initialValue !== 'undefined' && !valueDefined) {
       value[field.name] = field.initialValue;
     }
 
@@ -48,4 +35,17 @@ function assignDefaultValues(
       });
     }
   });
+}
+
+export default function createFieldParent(
+  schema: IInternalSchema,
+  struct: string,
+  parentValue: object = {},
+) {
+  const value = { ...parentValue };
+  const { fields } = getStruct(schema, struct);
+
+  assignDefaultValues(schema, struct, fields, value);
+
+  return value;
 }
