@@ -21,8 +21,8 @@ module.exports = {
       'error',
       {
         devDependencies: [
-          'scripts/**/*.js',
-          'rollup.*',
+          '**/rollup.*js',
+          '**/scripts/**/*.js',
           '*.config.js',
           '**/__tests__/**/*',
         ],

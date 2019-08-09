@@ -4,13 +4,15 @@ import { IRendererOptions } from './models/renderer-options';
 
 let optionDefaultsInitialized = false;
 
-if (module.hot) {
-  module.hot.accept(() => {
+// eslint-disable-next-line dot-notation
+const hmr = module['hot'];
+if (hmr) {
+  hmr.accept(() => {
     optionDefaultsInitialized = false;
   });
 
-  if (module.hot.addStatusHandler) {
-    module.hot.addStatusHandler((status) => {
+  if (hmr.addStatusHandler) {
+    hmr.addStatusHandler((status) => {
       if (status === 'apply') {
         optionDefaultsInitialized = false;
       }

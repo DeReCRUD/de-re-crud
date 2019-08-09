@@ -10,7 +10,6 @@ import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 import replace from 'rollup-plugin-replace';
 import typescriptLib from 'typescript';
-import packageJson from './package.json';
 
 // eslint-disable-next-line import/no-dynamic-require
 const tsConfig = require(path.resolve(process.cwd(), 'tsconfig.json'));
@@ -18,7 +17,7 @@ const { outDir } = tsConfig.compilerOptions;
 
 fs.ensureDirSync(outDir);
 
-function generateDefaultConfig(pkg, input, external, minify) {
+function generateDefaultConfig(pkg, input, external, globals, minify) {
   let mainFile = pkg.main;
   if (minify) {
     mainFile = mainFile.replace('.js', '.min.js');
@@ -44,7 +43,7 @@ function generateDefaultConfig(pkg, input, external, minify) {
       file: path.join(outDir, mainFile),
       format: 'umd',
       sourcemap: true,
-      globals: { preact: 'preact' },
+      globals,
     },
   ];
 
@@ -92,8 +91,8 @@ function generateDefaultConfig(pkg, input, external, minify) {
   return config;
 }
 
-function generateMainConfig(pkg, input, external, minify) {
-  const config = generateDefaultConfig(pkg, input, external, minify);
+function generateMainConfig(pkg, input, external, globals, minify) {
+  const config = generateDefaultConfig(pkg, input, external, globals, minify);
 
   const newPkg = {
     ...pkg,
@@ -118,9 +117,16 @@ function generateMainConfig(pkg, input, external, minify) {
   return config;
 }
 
-export function generateConfig(input, external) {
+export function generateConfig(
+  input,
+  external,
+  globals = { preact: 'preact' },
+) {
+  // eslint-disable-next-line global-require
+  const pkg = require('./package.json');
+
   return [
-    generateMainConfig(packageJson, input, external),
-    generateMainConfig(packageJson, input, external, true),
+    generateMainConfig(pkg, input, external, globals),
+    generateMainConfig(pkg, input, external, globals, true),
   ];
 }
