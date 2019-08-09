@@ -16,10 +16,8 @@
   "optionalDependencies": {
     "bootstrap": "~4"
   },
-  "peerDependencies": {
-    "@de-re-crud/core": "0.14.x"
-  },
   "dependencies": {
+    "@de-re-crud/core": "0.14.1",
     "preact": "~8"
   }
 }

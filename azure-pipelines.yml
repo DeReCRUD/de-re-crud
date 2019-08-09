@@ -49,5 +49,3 @@ steps:
     artifactName: 'package'
     publishLocation: 'Container'
   displayName: 'Publish Artifacts'
-
-
