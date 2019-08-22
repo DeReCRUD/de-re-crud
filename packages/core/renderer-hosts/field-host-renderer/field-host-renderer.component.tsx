@@ -301,6 +301,15 @@ export default class FieldHostRenderer extends BaseComponent<
           />
         );
       }
+      case 'textArea': {
+        const TextAreaFieldRenderer = renderers.textAreaField;
+        return (
+          <TextAreaFieldRenderer
+            {...fieldProps}
+            value={fieldProps.value as string}
+          />
+        );
+      }
       case 'keyword': {
         const KeywordFieldRenderer = renderers.keywordField;
         return <KeywordFieldRenderer {...fieldProps} />;
