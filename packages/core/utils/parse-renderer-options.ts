@@ -28,6 +28,7 @@ export default function parseRendererOptions(
     stamp: NoopRenderer as any,
     tableLinkedStructField: NoopRenderer as any,
     textField: NoopRenderer as any,
+    textAreaField: NoopRenderer as any,
   };
 
   return defaults<IRendererDefinitions>(
