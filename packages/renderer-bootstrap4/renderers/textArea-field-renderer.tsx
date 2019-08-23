@@ -3,6 +3,14 @@ import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
 import Bootstrap4LabelRenderer from '@de-re-crud/renderer-bootstrap4/renderers/label-renderer';
 import { h } from 'preact';
 
+let textAreaRef: HTMLTextAreaElement;
+
+function autoResize(e: any): EventHandlerNonNull {
+  textAreaRef.style.height = `${textAreaRef.scrollHeight}px`;
+  e();
+  return;
+}
+
 const Bootstrap4TextAreaFieldRenderer = ({
   fieldType,
   label,
@@ -26,10 +34,11 @@ const Bootstrap4TextAreaFieldRenderer = ({
       </Bootstrap4LabelRenderer>
       <textarea
         class={combineCssClasses('form-control', errors.length && 'is-invalid')}
+        ref={(r) => (textAreaRef = r)}
         placeholder={placeholder}
         onFocus={onFocus}
         onBlur={onBlur}
-        onInput={onChange}
+        onInput={autoResize(onChange)}
         cols={cols}
         rows={rows}
         maxLength={maxLength}
