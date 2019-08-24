@@ -173,11 +173,17 @@ Recommendations given to the UI about how to display the form element. Applies t
 | readOnly | boolean | false    | false       | Indicates whether the field is read only          |
 | custom   | object  | false    |             | Hints that will be passed unmodified to renderers |
 
+##### <a name="field-text-hints"></a> Additional properties for hints of [type](#type) text
+
+| Field  | Type              | Required | Missing Val | Notes                                                  |
+| ------ | ----------------- | -------- | ----------- | ------------------------------------------------------ |
+| layout | input or textarea | false    | input       | Indicates how to display the [Field](#field) instance |
+
 ##### <a name="field-list-hints"></a> Additional properties for hints of [type](#type) list
 
 | Field  | Type            | Required | Missing Val | Notes                                                  |
 | ------ | --------------- | -------- | ----------- | ------------------------------------------------------ |
-| layout | select or radio | false    | select      | Indicates how to display the [Field](#struct) instance |
+| layout | select or radio | false    | select      | Indicates how to display the [Field](#field) instance |
 
 #### [Block](#block) Hints
 
