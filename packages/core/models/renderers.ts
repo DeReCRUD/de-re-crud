@@ -97,6 +97,14 @@ export interface ITextFieldRenderer extends IFieldRenderer {
   value?: string | number;
 }
 
+export interface ITextAreaFieldRenderer extends IFieldRenderer {
+  cols?: number;
+  rows?: number;
+  wrap?: string;
+  maxLength?: number;
+  value?: string | number;
+}
+
 export interface IBooleanFieldRenderer extends IFieldRenderer {
   value?: boolean;
 }

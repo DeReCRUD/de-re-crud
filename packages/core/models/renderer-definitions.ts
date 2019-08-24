@@ -13,7 +13,8 @@ import {
   IStampRenderer,
   ITableLinkedStructRenderer,
   ITextFieldRenderer,
-} from './renderers';
+  ITextAreaFieldRenderer,
+} from '../models/renderers';
 
 export interface IRendererDefinitions {
   stamp:
@@ -31,6 +32,9 @@ export interface IRendererDefinitions {
   textField:
     | FunctionalComponent<ITextFieldRenderer>
     | ComponentConstructor<ITextFieldRenderer>;
+  textAreaField:
+    | FunctionalComponent<ITextAreaFieldRenderer>
+    | ComponentConstructor<ITextAreaFieldRenderer>;
   keywordField:
     | FunctionalComponent<IFieldRenderer>
     | ComponentConstructor<IFieldRenderer>;
