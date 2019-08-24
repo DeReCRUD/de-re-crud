@@ -13,7 +13,6 @@ export type BlockConditionFunc = (form: object) => boolean;
 
 export type SimpleFieldType =
   | 'text'
-  | 'textArea'
   | 'keyword'
   | 'integer'
   | 'estimate'
