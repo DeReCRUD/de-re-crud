@@ -9,7 +9,6 @@
     "clean": "node ./scripts/clean-dist-dir.js",
     "lint": "run-s format:check eslint:check",
     "eslint:check": "eslint --ext \".js,.ts,.tsx\" .",
-    "start": "cross-env ENABLE_LOGGING=true yarn workspace @de-re-crud/schema-builder dev",
     "build": "yarn clean && lerna run build && node ./scripts/replace-dist-css-imports.js",
     "test": "jest",
     "cover": "jest --coverage",
