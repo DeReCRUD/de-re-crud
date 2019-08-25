@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "root"
+    },
+    {
+      "path": "packages/core"
+    },
+    {
+      "path": "packages/renderer-bootstrap4"
+    }
+  ],
+  "settings": {
+    "jest.disabledWorkspaceFolders": [
+      "core",
+      "renderer-bootstrap4"
+    ]
+  }
+}
