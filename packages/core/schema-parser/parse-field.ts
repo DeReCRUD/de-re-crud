@@ -91,7 +91,7 @@ export default function parseField(
       ) {
         textField.hints.layout = fieldJson.hints.layout;
       } else {
-        textField.hints.layout = 'text';
+        textField.hints.layout = 'input';
       }
       break;
     }

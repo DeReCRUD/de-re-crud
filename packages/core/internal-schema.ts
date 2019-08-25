@@ -48,7 +48,7 @@ export interface IInternalTextField extends IInternalField {
   minLength?: number;
   maxLength?: number;
   hints: IFieldHints & {
-    layout: 'text' | 'textArea';
+    layout: 'input' | 'textArea';
   };
 }
 
