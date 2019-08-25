@@ -248,7 +248,7 @@ describe('parseField', () => {
         readOnly: false,
         custom: {},
         width: DEFAULT_FIELD_WIDTH,
-        layout: 'text',
+        layout: 'input',
       },
     },
     (fieldJson) => {
