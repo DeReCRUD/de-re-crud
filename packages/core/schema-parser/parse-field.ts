@@ -85,6 +85,14 @@ export default function parseField(
         textField.maxLength = fieldJson.maxLength;
       }
 
+      if (
+        typeof fieldJson.hints !== 'undefined' &&
+        typeof fieldJson.hints.layout !== 'undefined'
+      ) {
+        textField.hints.layout = fieldJson.hints.layout;
+      } else {
+        textField.hints.layout = 'input';
+      }
       break;
     }
     case 'integer': {

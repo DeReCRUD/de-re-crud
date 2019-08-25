@@ -47,6 +47,9 @@ export interface IInternalTextField extends IInternalField {
   missingValue?: string;
   minLength?: number;
   maxLength?: number;
+  hints: IFieldHints & {
+    layout: 'input' | 'textArea';
+  };
 }
 
 export interface IInternalIntegerField extends IInternalField {

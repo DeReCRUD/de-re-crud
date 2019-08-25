@@ -239,23 +239,44 @@ describe('parseField', () => {
   createFieldTests('money');
   createFieldTests('percent');
 
-  createFieldTests('text', null, null, (fieldJson) => {
-    it('should include min length when specified', () => {
-      const textField = parseField(structName, {
-        ...fieldJson,
-        minLength: 5,
-      }) as IInternalTextField;
+  createFieldTests(
+    'text',
+    null,
+    {
+      hints: {
+        readOnly: false,
+        custom: {},
+        width: DEFAULT_FIELD_WIDTH,
+        layout: 'input',
+      },
+    },
+    (fieldJson) => {
+      it('should include min length when specified', () => {
+        const textField = parseField(structName, {
+          ...fieldJson,
+          minLength: 5,
+        }) as IInternalTextField;
 
-      expect(textField.minLength).toBe(5);
-    });
+        expect(textField.minLength).toBe(5);
+      });
 
-    it('should include max length when specified', () => {
-      const textField = parseField(structName, {
-        ...fieldJson,
-        maxLength: 100,
-      }) as IInternalTextField;
+      it('should include max length when specified', () => {
+        const textField = parseField(structName, {
+          ...fieldJson,
+          maxLength: 100,
+        }) as IInternalTextField;
 
-      expect(textField.maxLength).toBe(100);
-    });
-  });
+        expect(textField.maxLength).toBe(100);
+      });
+
+      it('should layout as text area when specified', () => {
+        const textField = parseField(structName, {
+          ...fieldJson,
+          hints: { ...fieldJson.hints, layout: 'textArea' },
+        }) as IInternalListField;
+
+        expect(textField.hints.layout).toEqual('textArea');
+      });
+    },
+  );
 });

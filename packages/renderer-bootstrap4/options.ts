@@ -10,7 +10,7 @@ import Bootstrap4RadioListFieldRenderer from './renderers/radio-list-field-rende
 import Bootstrap4SelectListFieldRenderer from './renderers/select-list-field-renderer';
 import Bootstrap4StampRenderer from './renderers/stamp-renderer';
 import Bootstrap4TableLinkedStructFieldRenderer from './renderers/table-linked-struct-field-renderer';
-import Bootstrap4TextAreaFieldRenderer from './renderers/textArea-field-renderer';
+import Bootstrap4TextAreaFieldRenderer from './renderers/text-area-field-renderer';
 
 const Bootstrap4RendererOptions: IRendererOptions = {
   formClassName: 'de-re-crud-form-bootstrap4',

@@ -6,6 +6,7 @@ import {
   IInternalFieldReference,
   IInternalForeignKeyField,
   IInternalListField,
+  IInternalTextField,
 } from '../../internal-schema';
 import Logger from '../../logger';
 import {
@@ -294,18 +295,20 @@ export default class FieldHostRenderer extends BaseComponent<
 
     switch (field.type) {
       case 'text': {
-        const TextFieldRenderer = renderers.textField;
+        const {
+          hints: { layout },
+        } = field as IInternalTextField;
+
+        let TextFieldRenderer = renderers.textField;
+
+        if (layout === 'textArea') {
+          TextFieldRenderer = renderers.textAreaField;
+        } else {
+          TextFieldRenderer = renderers.textField;
+        }
+
         return (
           <TextFieldRenderer
-            {...fieldProps}
-            value={fieldProps.value as string}
-          />
-        );
-      }
-      case 'textArea': {
-        const TextAreaFieldRenderer = renderers.textAreaField;
-        return (
-          <TextAreaFieldRenderer
             {...fieldProps}
             value={fieldProps.value as string}
           />
