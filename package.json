@@ -95,7 +95,8 @@
     "collectCoverageFrom": [
       "packages/**/*.{ts,js}",
       "!packages/**/rollup*",
-      "!packages/**/*.d.ts"
+      "!packages/**/*.d.ts",
+      "!packages/storybook/**/*"
     ]
   }
 }
