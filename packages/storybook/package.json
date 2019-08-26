@@ -5,7 +5,7 @@
   "scripts": {
     "start": "start-storybook -p 9000"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.5.5",
     "@de-re-crud/core": "0.15.0",
     "@de-re-crud/renderer-bootstrap4": "0.15.0",

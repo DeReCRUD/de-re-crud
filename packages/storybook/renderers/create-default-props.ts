@@ -9,7 +9,7 @@ export function createDefaultProps(
 ): IFieldRenderer {
   return {
     rendererId: id,
-    label: label,
+    label,
     fieldName: id,
     fieldType,
     errors: [],

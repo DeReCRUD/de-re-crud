@@ -14,7 +14,7 @@ import {
   ITableLinkedStructRenderer,
   ITextFieldRenderer,
   ITextAreaFieldRenderer,
-} from '../models/renderers';
+} from './renderers';
 
 export interface IRendererDefinitions {
   stamp:
