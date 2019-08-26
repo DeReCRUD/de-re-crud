@@ -9,12 +9,16 @@
     },
     {
       "path": "packages/renderer-bootstrap4"
+    },
+    {
+      "path": "packages/storybook"
     }
   ],
   "settings": {
     "jest.disabledWorkspaceFolders": [
       "core",
-      "renderer-bootstrap4"
+      "renderer-bootstrap4",
+      "storybook"
     ]
   }
 }

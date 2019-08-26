@@ -12,6 +12,7 @@
     "build": "yarn clean && lerna run build && node ./scripts/replace-dist-css-imports.js",
     "test": "jest",
     "cover": "jest --coverage",
+    "storybook": "yarn workspace @de-re-crud/storybook run start",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
     "format": "prettier \"**/*.{ts,tsx,js,json}\" --write",
     "bump": "lerna publish --skip-npm --force-publish=*"
