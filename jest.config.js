@@ -14,4 +14,7 @@ module.exports = {
     '!packages/**/*.d.ts',
     '!packages/storybook/**/*',
   ],
+  moduleNameMapper: {
+    '@de-re-crud/(.*)': '<rootDir>/packages/$1/src',
+  },
 };

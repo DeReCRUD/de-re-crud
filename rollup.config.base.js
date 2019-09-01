@@ -1,11 +1,9 @@
 import path from 'path';
 import fs from 'fs-extra';
-import cleaner from 'rollup-plugin-cleaner';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import sourceMaps from 'rollup-plugin-sourcemaps';
 import typescript from 'rollup-plugin-typescript2';
-import postcss from 'rollup-plugin-postcss';
 import generatePackageJson from 'rollup-plugin-generate-package-json';
 import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
@@ -17,6 +15,7 @@ const tsConfig = require(path.resolve(process.cwd(), 'tsconfig.json'));
 const { outDir } = tsConfig.compilerOptions;
 
 fs.ensureDirSync(outDir);
+fs.emptyDirSync(outDir);
 
 function generateDefaultConfig(
   globalName,
@@ -29,16 +28,6 @@ function generateDefaultConfig(
   let mainFile = pkg.main;
   if (minify) {
     mainFile = mainFile.replace('.js', '.min.js');
-  }
-
-  let styleFile = null;
-
-  if (pkg.style) {
-    styleFile = path.join(outDir, pkg.style);
-
-    if (minify) {
-      styleFile = styleFile.replace('.css', '.min.css');
-    }
   }
 
   const outDirParts = outDir.split('/');
@@ -68,15 +57,8 @@ function generateDefaultConfig(
     output,
     external,
     plugins: [
-      // cleaner({
-      //   targets: [outDir],
-      // }),
       replace({
         'process.env.ENABLE_LOGGING': false,
-      }),
-      postcss({
-        extract: styleFile,
-        minimize: minify,
       }),
       typescript({
         typescript: typescriptLib,

@@ -9,12 +9,16 @@
     "jsxFactory": "h",
     "moduleResolution": "node",
     "sourceMap": false,
-    "rootDirs": ["./packages/*"],
     "typeRoots": ["node_modules/@types"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@de-re-crud/core": ["./packages/core/src"],
+      "@de-re-crud/ui": ["./packages/ui/src"],
+      "@de-re-crud/theme-bootstrap4": ["./packages/theme-bootstrap4/src"]
+    }
   }
 }
