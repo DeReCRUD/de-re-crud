@@ -1,5 +1,5 @@
-import { IBlockContainerRenderer } from '@de-re-crud/core/models/renderers';
-import { h } from 'preact';
+import { h } from '@de-re-crud/ui';
+import { IBlockContainerRenderer } from '@de-re-crud/ui/renderers';
 
 const Bootstrap4BlockContainerRenderer = ({
   rows,

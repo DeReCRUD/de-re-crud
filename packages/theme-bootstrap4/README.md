@@ -12,4 +12,4 @@ or using npm:
 
 `npm install --save @de-re-crud/theme-bootstrap4`
 
-If used directly in the browser, the API is accessible under `DeReCrud.ui.themes.bootstrap4`.
+This library depends on `@de-re-crud/ui` and therefore it must be installed as well. If used directly in the browser, the API is accessible under `DeReCrud.ui.themes.bootstrap4`.

@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "../../dist/storybook",
-    "outDir": "../../dist/storybook"
+    "declarationDir": "dist",
+    "outDir": "dist"
   }
 }

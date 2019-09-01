@@ -1,0 +1,25 @@
+{
+  "name": "@de-re-crud/ui",
+  "description": "Core library for creating De Re CRUD interfaces and services",
+  "version": "0.15.0",
+  "repository": "https://github.com/babel/babel/tree/master/packages/ui",
+  "license": "Apache-2.0",
+  "main": "de-re-crud-ui.umd.js",
+  "module": "de-re-crud-ui.es.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "rollup --config"
+  },
+  "peerDependencies": {
+    "@de-re-crud/core": "0.15.0",
+    "preact": "~8"
+  },
+  "dependencies": {
+    "redux-zero": "^5.0.5"
+  },
+  "devDependencies": {
+    "@de-re-crud/core": "0.15.0",
+    "preact": "~8",
+    "preact-testing-library": "^0.4.0"
+  }
+}

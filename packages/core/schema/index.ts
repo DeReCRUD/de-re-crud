@@ -3,6 +3,27 @@ export type ObjectFieldValue = object | object[];
 
 export type FieldValue = undefined | null | ScalarFieldValue | ObjectFieldValue;
 
+export interface IErrors {
+  [path: string]: string[];
+}
+
+export interface IChildErrors {
+  [parentPath: string]: { [childIndex: number]: boolean };
+}
+
+export interface ICollectionReferenceParams {
+  parentValue: any;
+  formValue: any;
+}
+
+export type CollectionReference = (
+  params: ICollectionReferenceParams,
+) => object[];
+
+export interface ICollectionReferences {
+  [key: string]: CollectionReference;
+}
+
 /**
  * The container for De Re Crud's schema
  */

@@ -1,6 +1,6 @@
-import { IButtonRenderer } from '@de-re-crud/core/models/renderers';
-import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
-import { h } from 'preact';
+import { h } from '@de-re-crud/ui';
+import { IButtonRenderer } from '@de-re-crud/ui/renderers';
+import { combineCssClasses } from '@de-re-crud/ui/renderers/utils';
 
 const Bootstrap4ButtonRenderer = ({
   classes,

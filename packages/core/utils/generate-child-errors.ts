@@ -1,4 +1,4 @@
-import { IChildErrors, IErrors } from '../models/errors';
+import { IChildErrors, IErrors } from '../schema';
 
 export default function generateChildErrors(errors: IErrors): IChildErrors {
   const childErrors = {};

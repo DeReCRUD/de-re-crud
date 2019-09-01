@@ -1,6 +1,6 @@
-import { ITableLinkedStructRenderer } from '@de-re-crud/core/models/renderers';
-import createCssClass from '@de-re-crud/core/utils/create-css-class';
-import { h } from 'preact';
+import { h } from '@de-re-crud/ui';
+import { ITableLinkedStructRenderer } from '@de-re-crud/ui/renderers';
+import { createCssClass } from '@de-re-crud/ui/renderers/utils';
 import Bootstrap4ButtonRenderer from './button-renderer';
 import Bootstrap4LabelRenderer from './label-renderer';
 

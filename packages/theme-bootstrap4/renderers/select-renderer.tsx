@@ -1,6 +1,6 @@
-import { ISelectListFieldRenderer } from '@de-re-crud/core/models/renderers';
-import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
-import { h } from 'preact';
+import { h } from '@de-re-crud/ui';
+import { ISelectListFieldRenderer } from '@de-re-crud/ui/renderers';
+import { combineCssClasses } from '@de-re-crud/ui/renderers/utils';
 import Bootstrap4LabelRenderer from './label-renderer';
 
 export type Bootstrap4SelectRendererProps = ISelectListFieldRenderer & {

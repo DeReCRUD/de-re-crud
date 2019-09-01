@@ -1,4 +1,4 @@
-import { IRendererOptions } from '@de-re-crud/core/models/renderer-options';
+import { IRendererOptions } from '@de-re-crud/ui/options/renderer-options';
 import Bootstrap4BlockContainerRenderer from './renderers/block-container-renderer';
 import Bootstrap4BooleanFieldRenderer from './renderers/boolean-field-renderer';
 import Bootstrap4ButtonRenderer from './renderers/button-renderer';

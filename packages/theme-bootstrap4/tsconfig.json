@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "../../dist/theme-bootstrap4",
-    "outDir": "../../dist/theme-bootstrap4"
+    "declarationDir": "dist",
+    "outDir": "dist"
   }
 }

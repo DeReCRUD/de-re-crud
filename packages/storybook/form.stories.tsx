@@ -1,7 +1,7 @@
-import { h } from 'preact';
+import { h, Form } from '@de-re-crud/ui';
+import { ISchema } from '@de-re-crud/core';
 import { storiesOf } from '@storybook/preact';
 import { action } from '@storybook/addon-actions';
-import { Form, ISchema } from '@de-re-crud/core';
 import schema from './schema.json';
 
 storiesOf('Form', module).add('default', () => (

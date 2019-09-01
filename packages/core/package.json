@@ -1,25 +1,13 @@
 {
   "name": "@de-re-crud/core",
-  "description": "Core library for creating De Re CRUD interfaces and services",
+  "description": "Core library for De Re CRUD",
   "version": "0.15.0",
-  "repository": "https://github.com/DeReCRUD/de-re-crud.git",
+  "repository": "https://github.com/babel/babel/tree/master/packages/core",
   "license": "Apache-2.0",
-  "main": "dist/de-re-crud-core.umd.js",
-  "module": "dist/de-re-crud-core.es.js",
+  "main": "de-re-crud-core.umd.js",
+  "module": "de-re-crud-core.es.js",
   "types": "index.d.ts",
   "scripts": {
-    "compile": "tsc",
-    "bundle": "rollup --config",
-    "build": "yarn compile && yarn bundle"
-  },
-  "peerDependencies": {
-    "preact": "~8"
-  },
-  "dependencies": {
-    "redux-zero": "^5.0.5"
-  },
-  "devDependencies": {
-    "preact": "~8",
-    "preact-testing-library": "^0.4.0"
+    "build": "rollup --config"
   }
 }

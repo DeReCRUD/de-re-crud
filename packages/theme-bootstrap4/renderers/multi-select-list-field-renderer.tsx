@@ -1,5 +1,5 @@
-import { IMultiSelectListFieldRenderer } from '@de-re-crud/core/models/renderers';
-import { h } from 'preact';
+import { h } from '@de-re-crud/ui';
+import { IMultiSelectListFieldRenderer } from '@de-re-crud/ui/renderers';
 import Bootstrap4SelectRenderer from './select-renderer';
 
 const Bootstrap4MultiSelectListFieldRenderer = (

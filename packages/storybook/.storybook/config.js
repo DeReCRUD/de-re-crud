@@ -1,9 +1,9 @@
 import { configure } from '@storybook/preact';
-import { DeReCrudOptions } from '@de-re-crud/core';
+import { DeReCrudUiOptions } from '@de-re-crud/ui';
 import { Bootstrap4RendererOptions } from '@de-re-crud/theme-bootstrap4';
 import 'bootstrap-css-only/css/bootstrap.css';
 
-DeReCrudOptions.setDefaults({
+DeReCrudUiOptions.setDefaults({
   rendererOptions: Bootstrap4RendererOptions,
 });
 

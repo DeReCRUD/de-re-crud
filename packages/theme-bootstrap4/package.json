@@ -2,18 +2,19 @@
   "name": "@de-re-crud/theme-bootstrap4",
   "description": "Bootstrap 4 theme for De Re CRUD interfaces",
   "version": "0.15.0",
-  "repository": "https://github.com/DeReCRUD/core.git",
+  "repository": "https://github.com/babel/babel/tree/master/packages/theme-bootstrap4",
   "license": "Apache-2.0",
   "main": "dist/de-re-crud-theme-bootstrap4.umd.js",
   "module": "dist/de-re-crud-theme-bootstrap4.es.js",
   "types": "index.d.ts",
   "scripts": {
-    "compile": "tsc",
-    "bundle": "rollup --config",
-    "build": "yarn compile && yarn bundle"
+    "build": "rollup --config"
   },
-  "dependencies": {
-    "@de-re-crud/core": "0.15.0",
-    "preact": "~8"
+  "peerDependencies": {
+    "@de-re-crud/ui": "0.15.0"
+  },
+  "devDependencies": {
+    "@de-re-crud/ui": "0.15.0",
+    "preact-testing-library": "^0.4.0"
   }
 }

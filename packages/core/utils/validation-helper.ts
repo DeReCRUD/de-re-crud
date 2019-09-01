@@ -1,4 +1,3 @@
-import { ICollectionReferences } from '../form/form.props';
 import {
   IInternalSchema,
   IInternalIntegerField,
@@ -12,8 +11,8 @@ import {
   defaultValidatorMessages,
 } from '../validators/default-validators';
 import PatternValidator from '../validators/pattern-validator';
-import { getKeyFields } from './schema-helper';
-import { FieldValue, ICustomValidator } from '../schema';
+import { FieldValue, ICustomValidator, ICollectionReferences } from '../schema';
+import { getKeyFields } from '../schema/schema-helper';
 
 function validateKeywordField(_: IInternalField, value: string): string[] {
   const errors = [];

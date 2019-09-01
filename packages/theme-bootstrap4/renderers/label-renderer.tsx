@@ -1,5 +1,5 @@
-import combineCssClasses from '@de-re-crud/core/utils/combine-css-classes';
-import { h, ComponentChild } from 'preact';
+import { h, ComponentChild } from '@de-re-crud/ui';
+import { combineCssClasses } from '@de-re-crud/ui/renderers/utils';
 
 export interface IBootstrap4LabelRenderer {
   htmlFor?: string;

@@ -1,8 +1,8 @@
-import { h } from 'preact';
+import { h } from '@de-re-crud/ui';
 import {
   IRadioListFieldRenderer,
   FieldChangeEvent,
-} from '@de-re-crud/core/models/renderers';
+} from '@de-re-crud/ui/renderers';
 import Bootstrap4LabelRenderer from './label-renderer';
 
 const Bootstrap4RadioListFieldRenderer = ({

@@ -6,10 +6,12 @@ For more information about the ideology of library, see [this](docs/ideology.md)
 
 ## Getting Started
 
-Install core library:
+Install preact, core, and UI libraries:
 
 ```bash
+yarn add preact@~8  #or npm install --save preact@~8
 yarn add @de-re-crud/core #or npm install --save @de-re-crud/core 
+yarn add @de-re-crud/ui #or npm install --save @de-re-crud/ui 
 ```
 
 Install a theme:
@@ -19,13 +21,10 @@ Install a theme:
 yarn add @de-re-crud/theme-bootstrap4 #or npm install --save @de-re-crud/theme-bootstrap4
 ```
 
----
-
-For Preact:
+Import the neccessary exports and render the form:
 
 ```typescript
-import { h } from 'preact';
-import { Form } from '@de-re-crud/core';
+import { h, Form } from '@de-re-crud/ui'; // h is re-exported from preact for convenience
 import { Bootstrap4RendererOptions } from '@de-re-crud/theme-bootstrap4';
 import schemaJson from './schema.json'; // Your defined De Re CRUD schema
 
@@ -38,14 +37,9 @@ h(
         // Handle submission
     }}
   />,
-  el
+  document.getElementById('root') // An element in the body
 );
 ```
-
----
-
-For Angular, see the [Angular wrapper](https://github.com/DeReCRUD/angular).
-
 
 ## Roadmap
 

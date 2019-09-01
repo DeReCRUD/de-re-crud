@@ -1,8 +1,8 @@
+import { h } from '@de-re-crud/ui';
 import {
   IBooleanFieldRenderer,
   FieldChangeEvent,
-} from '@de-re-crud/core/models/renderers';
-import { h } from 'preact';
+} from '@de-re-crud/ui/renderers';
 import Bootstrap4LabelRenderer from './label-renderer';
 
 const Bootstrap4BooleanFieldRenderer = ({

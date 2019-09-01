@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
+import cleaner from 'rollup-plugin-cleaner';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import sourceMaps from 'rollup-plugin-sourcemaps';
@@ -67,6 +68,9 @@ function generateDefaultConfig(
     output,
     external,
     plugins: [
+      // cleaner({
+      //   targets: [outDir],
+      // }),
       replace({
         'process.env.ENABLE_LOGGING': false,
       }),
@@ -131,7 +135,7 @@ function generateMainConfig(globalName, pkg, input, external, globals, minify) {
   return config;
 }
 
-export function generateConfig(globalName, input, external, globals) {
+export function generateConfig(globalName, input, external, globals = {}) {
   // eslint-disable-next-line global-require
   const pkg = require('./package.json');
 
