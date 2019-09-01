@@ -1,5 +1,5 @@
-import { IInternalField } from '../internal-schema';
-import { FieldValue } from '../models/schema';
+import { IInternalField } from '../schema/internal-schema';
+import { FieldValue } from '../schema';
 
 export type ValidatorFunc = (
   field: IInternalField,

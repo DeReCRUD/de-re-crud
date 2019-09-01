@@ -5,8 +5,7 @@ import {
   IInternalTextField,
   IInternalLinkedStructField,
   IInternalField,
-} from '../internal-schema';
-import { FieldValue, ICustomValidator } from '../models/schema';
+} from '../schema/internal-schema';
 import {
   defaultValidators,
   defaultValidatorFuncs,
@@ -14,6 +13,7 @@ import {
 } from '../validators/default-validators';
 import PatternValidator from '../validators/pattern-validator';
 import { getKeyFields } from './schema-helper';
+import { FieldValue, ICustomValidator } from '../schema';
 
 function validateKeywordField(_: IInternalField, value: string): string[] {
   const errors = [];

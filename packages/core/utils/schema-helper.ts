@@ -3,7 +3,7 @@ import {
   IInternalStruct,
   IInternalField,
   IInternalBlock,
-} from '../internal-schema';
+} from '../schema/internal-schema';
 
 export function getStruct(
   schema: IInternalSchema,

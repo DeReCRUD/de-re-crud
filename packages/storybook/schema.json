@@ -256,7 +256,7 @@
             {
               "stamp": "Additional Type Options",
               "size": 5,
-              "condition": "fieldParent.type === 'text' || fieldParent.type === 'integer' || fieldParent.type === 'derived' || fieldParent.type === 'linkedStruct' || fieldParent.type === 'list'"
+              "condition": "parentValue.type === 'text' || parentValue.type === 'integer' || parentValue.type === 'derived' || parentValue.type === 'linkedStruct' || parentValue.type === 'list'"
             },
             {
               "block": "textFieldOptions"
@@ -266,15 +266,15 @@
             },
             {
               "field": "pattern",
-              "condition": "fieldParent.type === 'derived'"
+              "condition": "parentValue.type === 'derived'"
             },
             {
               "field": "reference",
-              "condition": "fieldParent.type === 'linkedStruct'"
+              "condition": "parentValue.type === 'linkedStruct'"
             },
             {
               "field": "options",
-              "condition": "fieldParent.type === 'list'"
+              "condition": "parentValue.type === 'list'"
             }
           ]
         },
@@ -283,14 +283,14 @@
           "fields": [
             {
               "field": "minLength",
-              "condition": "fieldParent.type === 'text'",
+              "condition": "parentValue.type === 'text'",
               "hints": {
                 "width": 4
               }
             },
             {
               "field": "maxLength",
-              "condition": "fieldParent.type === 'text'",
+              "condition": "parentValue.type === 'text'",
               "hints": {
                 "width": 4
               }
@@ -305,14 +305,14 @@
           "fields": [
             {
               "field": "min",
-              "condition": "fieldParent.type === 'integer'",
+              "condition": "parentValue.type === 'integer'",
               "hints": {
                 "width": 4
               }
             },
             {
               "field": "max",
-              "condition": "fieldParent.type === 'integer'",
+              "condition": "parentValue.type === 'integer'",
               "hints": {
                 "width": 4
               }

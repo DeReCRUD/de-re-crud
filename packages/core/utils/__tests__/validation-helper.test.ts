@@ -1,4 +1,4 @@
-import { IInternalLinkedStructField } from '../../internal-schema';
+import { IInternalLinkedStructField } from '../../schema/internal-schema';
 import { validateLinkedStructField } from '../validation-helper';
 
 describe('validationHelper', () => {

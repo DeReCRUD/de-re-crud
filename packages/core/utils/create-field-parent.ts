@@ -1,7 +1,7 @@
 import {
   IInternalSchema,
   IInternalLinkedStructField,
-} from '../internal-schema';
+} from '../schema/internal-schema';
 import { getStruct, getField } from './schema-helper';
 
 function assignDefaultValues(

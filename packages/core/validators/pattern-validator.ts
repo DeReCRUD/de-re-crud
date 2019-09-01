@@ -1,5 +1,5 @@
-import { IInternalField } from '../internal-schema';
-import { FieldValue } from '../models/schema';
+import { IInternalField } from '../schema/internal-schema';
+import { FieldValue } from '../schema';
 import { IValidator } from './validator';
 
 export default class PatternValidator implements IValidator {

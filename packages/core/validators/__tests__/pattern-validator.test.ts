@@ -1,8 +1,8 @@
-import { IInternalField } from '../../internal-schema';
+import { IInternalField } from '../../schema/internal-schema';
 import PatternValidator from '../pattern-validator';
 
-describe('PattemValidator', () => {
-  let field: IInternalField = null;
+describe('PatternValidator', () => {
+  let field: IInternalField;
 
   beforeEach(() => {
     field = {

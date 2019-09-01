@@ -1,5 +1,5 @@
-import { IInternalStamp } from '../../internal-schema';
 import { IRendererDefinitions } from '../../models/renderer-definitions';
+import { IInternalStamp } from '../../schema/internal-schema';
 
 export interface IStampHostRendererConnectProps {
   rendererId: string;

@@ -1,10 +1,10 @@
 import { h } from 'preact';
-import BaseComponent from '../base-component';
-import { IInternalStruct } from '../internal-schema';
-import Logger from '../logger';
+import { IInternalStruct } from '../schema/internal-schema';
 import BlockHostRenderer from '../renderer-hosts/block-host-renderer';
 import combineCssClasses from '../utils/combine-css-classes';
 import { getStruct, getBlock } from '../utils/schema-helper';
+import BaseComponent from '../base-component';
+import Logger from '../logger';
 import { IFormProps } from './form.props';
 
 export interface IFormState {
@@ -31,13 +31,13 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       onCancel,
     } = this.props;
 
-    if (!schema.json) {
+    if (!schema.raw) {
       Logger.error('No schema defined.');
       return null;
     }
 
     if (!Array.isArray(schema.structs)) {
-      Logger.error('Invalid schema defined.', schema.json);
+      Logger.error('Invalid schema defined.', schema.raw);
       return null;
     }
 
@@ -59,7 +59,11 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     const classNames = ['de-re-crud-form', className, formClassName];
 
     if (!struct) {
-      Logger.error(`Struct '${struct.name}' is not defined.`);
+      if (!structName) {
+        Logger.error(`No struct specified`);
+      } else {
+        Logger.error(`Struct '${structName}' is not defined.`);
+      }
       return null;
     }
 

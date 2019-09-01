@@ -1,10 +1,10 @@
-import { IInternalSchema } from '../internal-schema';
 import { IButtonOptions } from '../models/button-options';
 import { IErrors } from '../models/errors';
 import { IRendererDefinitions } from '../models/renderer-definitions';
 import { IRendererOptions } from '../models/renderer-options';
-import { FieldValue } from '../models/schema';
 import { INavState } from '../store';
+import { ISchema, FieldValue } from '../schema';
+import { IInternalSchema } from '../schema/internal-schema';
 
 export interface ICollectionReferenceParams {
   parentValue: any;
@@ -23,7 +23,6 @@ export type FormType = 'create' | 'update';
 
 interface IFormBaseProps {
   className?: string;
-  schema: any;
   struct: string;
   block?: string;
   collectionReferences?: ICollectionReferences;
@@ -78,6 +77,7 @@ export type FieldParentChangeNotification = (
 
 export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;
+  schema: ISchema;
   disabled?: boolean;
   rendererOptions?: IRendererOptions;
   renderers?: Partial<IRendererDefinitions>;

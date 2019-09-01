@@ -3,8 +3,7 @@ import {
   IFieldChangeNotificationParams,
   IFieldParentChangeNotificationParams,
 } from '../../form/form.props';
-import { IInternalLinkedStructField } from '../../internal-schema';
-import { ComplexFieldValue, SimpleFieldValue } from '../../models/schema';
+import { IInternalLinkedStructField } from '../../schema/internal-schema';
 import { IStore, IStoreState } from '../../store';
 import createFieldParent from '../../utils/create-field-parent';
 import formPathToValue from '../../utils/form-path-to-value';
@@ -14,6 +13,7 @@ import {
   validateField,
   validateLinkedStructField,
 } from '../../utils/validation-helper';
+import { ScalarFieldValue, ObjectFieldValue } from '../../schema';
 
 export type ChangeArrayActionType = 'add' | 'remove';
 
@@ -190,7 +190,7 @@ export default function fieldHostRendererActions(store: IStore) {
       structName: string,
       fieldName: string,
       fieldPath: string,
-      fieldValue: SimpleFieldValue | SimpleFieldValue[],
+      fieldValue: ScalarFieldValue | ScalarFieldValue[],
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const oldValue = formPathToValue(state.value, fieldPath);
       const initialValue = formPathToValue(state.initialValue, fieldPath);
@@ -299,7 +299,7 @@ export default function fieldHostRendererActions(store: IStore) {
       }
 
       const newFormValue = { ...state.value };
-      let iterationValue: ComplexFieldValue = newFormValue;
+      let iterationValue: ObjectFieldValue = newFormValue;
       let parentValue;
 
       for (let i = 0; i < pathArray.length; i++) {

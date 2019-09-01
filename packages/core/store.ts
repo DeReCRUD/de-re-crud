@@ -9,14 +9,11 @@ import {
   FormType,
   ICollectionReferences,
 } from './form/form.props';
-import { IInternalSchema } from './internal-schema';
 import { IButtonOptions } from './models/button-options';
 import { IChildErrors, IErrors } from './models/errors';
 import { IRendererDefinitions } from './models/renderer-definitions';
 import { IRendererOptions } from './models/renderer-options';
-import { SimpleFieldValue } from './models/schema';
 import { DeReCrudOptions } from './options';
-import SchemaParser from './schema-parser';
 import createFieldParent from './utils/create-field-parent';
 import generateCacheKey from './utils/generate-cache-key';
 import generateChildErrors from './utils/generate-child-errors';
@@ -24,6 +21,9 @@ import parseButtonOptions from './utils/parse-button-options';
 import parseRendererOptions from './utils/parse-renderer-options';
 import { getKeyFields } from './utils/schema-helper';
 import Logger from './logger';
+import { IInternalSchema } from './schema/internal-schema';
+import SchemaParser from './schema/parser';
+import { ISchema, ScalarFieldValue } from './schema';
 
 let FORM_COUNTER = 0;
 
@@ -55,7 +55,7 @@ export interface IStoreState {
   initialValue: object;
   value: object;
   navStack: INavState[];
-  focused: { [path: string]: SimpleFieldValue };
+  focused: { [path: string]: ScalarFieldValue };
   touched: { [path: string]: boolean };
   busy: { [path: string]: boolean };
   errors: IErrors;
@@ -82,7 +82,7 @@ const logger = (store) => (next) => (action) => {
 };
 
 export function createStore(
-  schemaJson: any,
+  rawSchema: ISchema,
   structName: string,
   type?: FormType,
   blockName?: string,
@@ -100,16 +100,18 @@ export function createStore(
   onFieldChangeType?: FieldChangeNotificationType,
   onFieldParentChange?: FieldParentChangeNotification,
 ): IStore {
-  const schema = SchemaParser.parse(schemaJson);
+  const schema = SchemaParser.parse(rawSchema);
 
   const optionDefaults = DeReCrudOptions.getDefaults();
 
   const rendererOptionDefaults =
     rendererOptions || optionDefaults.rendererOptions;
 
-  initialValue = createFieldParent(schema, structName, initialValue);
+  if (rawSchema && structName) {
+    initialValue = createFieldParent(schema, structName, initialValue);
+  }
 
-  if (!type) {
+  if (rawSchema && structName && !type) {
     const keyFields = getKeyFields(schema, structName);
 
     const allKeyFieldsSet =

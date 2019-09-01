@@ -1,3 +1,4 @@
+import Logger from '../../logger';
 import {
   IInternalSchema,
   IInternalStruct,
@@ -6,63 +7,63 @@ import {
   FieldMap,
   BlockMap,
 } from '../internal-schema';
-import Logger from '../logger';
-import { ICustomValidator } from '../models/schema';
 import parseBlock from './parse-block';
 import parseField from './parse-field';
 import parseStruct from './parse-struct';
+import { ISchema, ICustomValidator } from '..';
 
 export default class SchemaParser {
-  public static parse(schemaJson: any): IInternalSchema {
+  public static parse(schema: ISchema): IInternalSchema {
     const structs: IInternalStruct[] = [];
     const fields: Map<string, FieldMap> = new Map<string, FieldMap>();
     const blocks: Map<string, BlockMap> = new Map<string, BlockMap>();
     const customValidators: ICustomValidator[] = [];
 
-    if (schemaJson) {
-      if (Array.isArray(schemaJson)) {
-        schemaJson = {
-          structs: schemaJson,
+    if (schema) {
+      const legacySchema = schema as any;
+      if (Array.isArray(legacySchema)) {
+        schema = {
+          structs: legacySchema,
         };
 
-        Logger.warning(
-          'WARNING: Structs should live under the `structs` key in the schema instead of at the root. Support for this will be removed in the future',
+        Logger.deprecate(
+          'Structs should live under the `structs` key in the schema instead of at the root',
         );
       }
 
-      if (Array.isArray(schemaJson.structs)) {
-        schemaJson.structs.forEach((structJson) => {
-          const struct = parseStruct(structJson);
+      if (Array.isArray(schema.structs)) {
+        schema.structs.forEach((rawStruct) => {
+          const struct = parseStruct(rawStruct);
           structs.push(struct);
 
-          if (Array.isArray(structJson.fields)) {
-            structJson.fields.forEach((fieldJson) => {
-              const field = parseField(struct.name, fieldJson);
+          if (Array.isArray(rawStruct.fields)) {
+            rawStruct.fields.forEach((rawField) => {
+              const field = parseField(struct.name, rawField);
 
               if (!fields.has(struct.name)) {
                 fields.set(struct.name, new Map<string, IInternalField>());
               }
 
-              fields.get(struct.name).set(field.name, field);
+              fields.get(struct.name)!.set(field.name, field);
             });
           }
 
-          if (Array.isArray(structJson.blocks)) {
-            structJson.blocks.forEach((blockJson) => {
-              const block = parseBlock(struct.name, blockJson);
+          if (Array.isArray(rawStruct.blocks)) {
+            rawStruct.blocks.forEach((rawBlock) => {
+              const block = parseBlock(struct.name, rawBlock);
 
               if (!blocks.has(struct.name)) {
                 blocks.set(struct.name, new Map<string, IInternalBlock>());
               }
 
-              blocks.get(struct.name).set(block.name, block);
+              blocks.get(struct.name)!.set(block.name, block);
             });
           }
         });
       }
 
-      if (Array.isArray(schemaJson.customValidators)) {
-        schemaJson.customValidators.forEach((validator) => {
+      if (Array.isArray(schema.customValidators)) {
+        schema.customValidators.forEach((validator) => {
           if (
             typeof validator.name === 'string' &&
             typeof validator.message === 'string' &&
@@ -79,6 +80,6 @@ export default class SchemaParser {
       }
     }
 
-    return { structs, fields, blocks, customValidators, json: schemaJson };
+    return { structs, fields, blocks, customValidators, raw: schema };
   }
 }

@@ -1,9 +1,10 @@
 import { h, Ref } from 'preact';
 import { cleanup, render } from 'preact-testing-library';
-import Form from '..';
+import { ISchema } from '../../schema';
 import { IFormConnectProps } from '../form.props';
+import Form from '..';
 
-const defaultSchema = {
+const schema: ISchema = {
   structs: [
     {
       name: 'struct',
@@ -21,7 +22,7 @@ const defaultSchema = {
       blocks: [
         {
           name: 'default',
-          fields: ['name'],
+          references: ['name'],
         },
       ],
     },
@@ -35,7 +36,7 @@ function createComponent(
   return (
     <Form
       ref={refCallback}
-      schema={defaultSchema}
+      schema={schema}
       struct="struct"
       onSubmit={jest.fn()}
       {...props}

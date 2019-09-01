@@ -1,5 +1,5 @@
 import { IFieldRenderer } from '@de-re-crud/core/models/renderers';
-import { FieldType } from '@de-re-crud/core/models/schema';
+import { FieldType } from '@de-re-crud/core';
 import { action } from '@storybook/addon-actions';
 
 export function createDefaultProps(

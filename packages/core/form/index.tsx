@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { Provider } from 'redux-zero/preact';
 import BaseComponent from '../base-component';
 import Logger from '../logger';
-import { FieldValue, ComplexFieldValue } from '../models/schema';
+import { FieldValue, ObjectFieldValue } from '../schema';
 import { createStore, IStore, updateStore } from '../store';
 import formPathToValue from '../utils/form-path-to-value';
 import generateCacheKey from '../utils/generate-cache-key';
@@ -113,8 +113,8 @@ export default class Form extends BaseComponent<IFormConnectProps> {
 
     const pathArray = path.split('.');
 
-    let currentValue: ComplexFieldValue = newFormValue;
-    let parentValue: ComplexFieldValue;
+    let currentValue: ObjectFieldValue = newFormValue;
+    let parentValue: ObjectFieldValue;
 
     for (let i = 0; i < pathArray.length; i++) {
       const currentPath = pathArray[i];

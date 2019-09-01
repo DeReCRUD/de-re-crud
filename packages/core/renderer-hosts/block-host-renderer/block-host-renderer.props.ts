@@ -1,5 +1,5 @@
-import { IInternalSchema } from '../../internal-schema';
 import { IRendererDefinitions } from '../../models/renderer-definitions';
+import { IInternalSchema } from '../../schema/internal-schema';
 
 export interface IBlockHostRendererConnectProps {
   struct: string;

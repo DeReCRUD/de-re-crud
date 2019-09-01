@@ -2,10 +2,15 @@ import { h, render } from 'preact';
 import BaseComponent from './base-component';
 import { ComponentConstructor } from './models/constructors';
 import { IFormConnectProps as IFormProps } from './form/form.props';
+import { FieldValue } from './schema';
 import Form from './form';
-import { FieldValue } from './models/schema';
 
-export { Form, FieldValue, IFormProps };
+export * from './schema';
+export * from './validators/validator';
+export * from './validators/default-validators';
+export * from './validators/pattern-validator';
+
+export { Form, IFormProps };
 
 export {
   FormSubmission,

@@ -1,9 +1,9 @@
-import { IInternalLinkedStructField } from '../internal-schema';
 import { IErrors } from '../models/errors';
-import { IStoreState } from '../store';
 import formPathToValue from '../utils/form-path-to-value';
 import generateChildErrors from '../utils/generate-child-errors';
 import { validateField } from '../utils/validation-helper';
+import { IInternalLinkedStructField } from '../schema/internal-schema';
+import { IStoreState } from '../store';
 
 interface IValidationResult {
   outputValue: {};

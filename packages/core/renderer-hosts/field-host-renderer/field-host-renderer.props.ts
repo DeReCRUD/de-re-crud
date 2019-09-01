@@ -2,13 +2,9 @@ import { ICollectionReferences } from '../../form/form.props';
 import {
   IInternalFieldReference,
   IInternalSchema,
-} from '../../internal-schema';
+} from '../../schema/internal-schema';
 import { IRendererDefinitions } from '../../models/renderer-definitions';
-import {
-  ComplexFieldValue,
-  FieldValue,
-  SimpleFieldValue,
-} from '../../models/schema';
+import { FieldValue, ObjectFieldValue, ScalarFieldValue } from '../../schema';
 import { ChangeArrayActionType } from './field-host-renderer.actions';
 import { INavState } from '../../store';
 
@@ -28,7 +24,7 @@ export interface IFieldHostRendererProps
   collectionReferences?: ICollectionReferences;
   fieldPath: string;
   fieldValue: FieldValue;
-  parentValue: ComplexFieldValue;
+  parentValue: ObjectFieldValue;
   formDisabled: boolean;
   formLocked: boolean;
   formSubmitting: boolean;
@@ -53,7 +49,7 @@ export interface IFieldHostRendererProps
     structName: string,
     fieldName: string,
     fieldPath: string,
-    value: SimpleFieldValue | SimpleFieldValue[],
+    value: ScalarFieldValue | ScalarFieldValue[],
   ) => void;
   changeArrayValue: (
     structName: string,

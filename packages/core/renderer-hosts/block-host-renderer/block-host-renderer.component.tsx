@@ -6,9 +6,9 @@ import {
   IInternalFieldReference,
   IInternalStamp,
   IInternalSchema,
-} from '../../internal-schema';
+  DEFAULT_FIELD_WIDTH,
+} from '../../schema/internal-schema';
 import { IBlockRow } from '../../models/renderers';
-import { DEFAULT_FIELD_WIDTH } from '../../models/schema';
 import formPathToValue from '../../utils/form-path-to-value';
 import { getBlock } from '../../utils/schema-helper';
 import FieldHostRenderer from '../field-host-renderer';
@@ -85,10 +85,10 @@ export default class BlockHostRenderer extends BaseComponent<
 
     let nextRow: IBlockRow;
 
-    block.items.forEach((item) => {
+    block.references.forEach((reference) => {
       let width = DEFAULT_FIELD_WIDTH;
 
-      const blockReference = item as IInternalBlockReference;
+      const blockReference = reference as IInternalBlockReference;
       if (blockReference.block) {
         const itemBlock = schema.blocks
           .get(block.struct)
@@ -100,7 +100,7 @@ export default class BlockHostRenderer extends BaseComponent<
 
       let itemPath: string;
 
-      const fieldReference = item as IInternalFieldReference;
+      const fieldReference = reference as IInternalFieldReference;
       if (fieldReference.field) {
         const field = schema.fields.get(block.struct).get(fieldReference.field);
 
@@ -122,7 +122,7 @@ export default class BlockHostRenderer extends BaseComponent<
         width = fieldReference.hints.width || field.hints.width;
       }
 
-      const stamp = item as IInternalStamp;
+      const stamp = reference as IInternalStamp;
       if (stamp.text) {
         itemPath = `stamp.${stamp.blockInstance}`;
         if (parentPath) {
@@ -148,7 +148,7 @@ export default class BlockHostRenderer extends BaseComponent<
 
       nextRow.cells.push({
         renderedItem: this.renderItem(
-          item as IInternalFieldReference | IInternalStamp,
+          reference as IInternalFieldReference | IInternalStamp,
           itemPath,
         ),
         width,

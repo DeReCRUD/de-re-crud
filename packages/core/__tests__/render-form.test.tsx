@@ -1,10 +1,11 @@
 import { cleanup } from 'preact-testing-library';
 import { renderForm, IForm, IFormProps } from '..';
 import Form from '../form';
+import { ISchema } from '../schema';
 
 const render = jest.spyOn(Form.prototype, 'render');
 
-const defaultSchema = {
+const schema: ISchema = {
   structs: [
     {
       name: 'struct',
@@ -22,7 +23,7 @@ const defaultSchema = {
       blocks: [
         {
           name: 'default',
-          fields: ['name'],
+          references: ['name'],
         },
       ],
     },
@@ -35,7 +36,7 @@ function createForm(
 ): IForm {
   return renderForm(
     {
-      schema: defaultSchema,
+      schema,
       struct: 'struct',
       onSubmit: jest.fn(),
       ...props,

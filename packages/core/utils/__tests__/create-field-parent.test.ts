@@ -4,7 +4,7 @@ import {
   IInternalStruct,
   IInternalBlock,
   IInternalLinkedStructField,
-} from '../../internal-schema';
+} from '../../schema/internal-schema';
 import createFieldParent from '../create-field-parent';
 
 const structName = 'struct';
@@ -53,7 +53,9 @@ const createSchema = (...fields: IInternalField[]) => {
     fields: fieldMap,
     blocks: new Map<string, Map<string, IInternalBlock>>(),
     customValidators: [],
-    json: {},
+    raw: {
+      structs: [],
+    },
   };
 
   return schema;

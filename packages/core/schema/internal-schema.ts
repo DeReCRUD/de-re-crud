@@ -1,15 +1,17 @@
 import {
+  ISchema,
   ILabel,
-  FieldType,
-  FieldValue,
-  StampSize,
-  ReferenceValue,
-  IOption,
-  ListValue,
   ICustomHints,
   ICustomValidator,
+  FieldType,
+  StampSize,
   ConditionFunc,
-} from './models/schema';
+} from '.';
+
+export const DEFAULT_FIELD_WIDTH = 12;
+
+export type ListValue = string | number;
+export type ReferenceValue = ListValue | object;
 
 export interface IInternalStruct {
   name: string;
@@ -19,26 +21,26 @@ export interface IInternalStruct {
   blocks: string[];
 }
 
-export interface IFieldHints {
-  width: number;
-  readOnly: boolean;
-  custom: ICustomHints;
-}
-
 export interface IInternalField {
   struct: string;
   name: string;
-  label?: ILabel;
+  label: ILabel;
   keyField: boolean;
   type: FieldType;
   required: boolean;
   unique: boolean;
   help?: string;
-  initialValue?: FieldValue;
-  missingValue?: FieldValue;
+  initialValue?: any;
+  missingValue?: any;
   placeholder?: string;
   hints: IFieldHints;
   customValidators: string[];
+}
+
+export interface IFieldHints {
+  width: number;
+  readOnly: boolean;
+  custom: ICustomHints;
 }
 
 export interface IInternalTextField extends IInternalField {
@@ -48,7 +50,7 @@ export interface IInternalTextField extends IInternalField {
   minLength?: number;
   maxLength?: number;
   hints: IFieldHints & {
-    layout: 'input' | 'textArea';
+    layout: 'input' | 'textarea';
   };
 }
 
@@ -60,12 +62,17 @@ export interface IInternalIntegerField extends IInternalField {
   max?: number;
 }
 
+export interface IInternalOptions {
+  label: ILabel;
+  value: string | number;
+}
+
 export interface IInternalListField extends IInternalField {
   type: 'list';
   initialValue?: ListValue | ListValue[];
   missingValue?: ListValue | ListValue[];
   multiSelect: boolean;
-  options: IOption[];
+  options: IInternalOptions[];
   dynamicOptions: boolean;
   hints: IFieldHints & {
     layout: 'select' | 'radio';
@@ -108,7 +115,7 @@ export interface IInternalBlock {
   name: string;
   label?: ILabel;
   condition: ConditionFunc;
-  items: Array<
+  references: Array<
     | IInternalBlockReference
     | IInternalFieldReference
     | IInternalLinkedStructFieldReference
@@ -162,5 +169,5 @@ export interface IInternalSchema {
   fields: ReadonlyMap<string, FieldMap>;
   blocks: ReadonlyMap<string, BlockMap>;
   customValidators: ICustomValidator[];
-  json: any;
+  raw: ISchema;
 }

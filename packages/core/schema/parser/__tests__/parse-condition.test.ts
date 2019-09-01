@@ -1,13 +1,13 @@
-import { IConditionParams } from '../../models/schema';
 import parseCondition, { DEFAULT_CONDITION } from '../parse-condition';
+import { IConditionParams } from '../..';
 
 describe('parseCondition', () => {
   it('should return default condition if none specified', () => {
     expect(parseCondition(undefined)).toEqual(DEFAULT_CONDITION);
   });
 
-  it('should return block condition function if string condition is specified', () => {
-    const condition = parseCondition('form.name === "test"', true);
+  it('should allow string condition to specify formValue', () => {
+    const condition = parseCondition('formValue.name === "test"');
 
     expect(
       condition({
@@ -20,7 +20,7 @@ describe('parseCondition', () => {
 
   it('should return field condition function if string condition is specified', () => {
     const condition = parseCondition(
-      'form.items[0].name === "test" && fieldParent.name === "test"',
+      'formValue.items[0].name === "test" && parentValue.name === "test"',
     );
 
     expect(

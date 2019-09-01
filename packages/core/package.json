@@ -12,6 +12,9 @@
     "bundle": "rollup --config",
     "build": "yarn compile && yarn bundle"
   },
+  "peerDependencies": {
+    "preact": "~8"
+  },
   "dependencies": {
     "redux-zero": "^5.0.5"
   },

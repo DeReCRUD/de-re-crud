@@ -7,7 +7,7 @@ import {
   IInternalForeignKeyField,
   IInternalListField,
   IInternalTextField,
-} from '../../internal-schema';
+} from '../../schema/internal-schema';
 import Logger from '../../logger';
 import {
   FieldChangeEvent,
@@ -18,7 +18,7 @@ import {
   ISelectListFieldRenderer,
   ITableLinkedStructRenderer,
 } from '../../models/renderers';
-import { SimpleFieldValue } from '../../models/schema';
+import { ScalarFieldValue } from '../../schema';
 import { getField, getKeyFields, getBlock } from '../../utils/schema-helper';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
@@ -117,7 +117,7 @@ export default class FieldHostRenderer extends BaseComponent<
   private changeValue = (
     fieldName: string,
     fieldPath: string,
-    value: SimpleFieldValue | SimpleFieldValue[],
+    value: ScalarFieldValue | ScalarFieldValue[],
   ) => {
     this.props.changeValue(this.props.struct, fieldName, fieldPath, value);
   };
@@ -146,7 +146,7 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private onChange = (e: FieldChangeEvent) => {
-    let value: SimpleFieldValue | SimpleFieldValue[];
+    let value: ScalarFieldValue | ScalarFieldValue[];
 
     switch (e.target.type) {
       case 'checkbox':
@@ -160,7 +160,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
           options.forEach((option) => {
             if (option.selected) {
-              (value as SimpleFieldValue[]).push(option.value);
+              (value as ScalarFieldValue[]).push(option.value);
             }
           });
         }
@@ -173,7 +173,7 @@ export default class FieldHostRenderer extends BaseComponent<
     this.onValueChange(value);
   };
 
-  private onValueChange = (value: SimpleFieldValue | SimpleFieldValue[]) => {
+  private onValueChange = (value: ScalarFieldValue | ScalarFieldValue[]) => {
     const {
       fieldReference: { field },
       fieldPath,
@@ -301,7 +301,7 @@ export default class FieldHostRenderer extends BaseComponent<
 
         let TextFieldRenderer = renderers.textField;
 
-        if (layout === 'textArea') {
+        if (layout === 'textarea') {
           TextFieldRenderer = renderers.textAreaField;
         } else {
           TextFieldRenderer = renderers.textField;
@@ -521,17 +521,26 @@ export default class FieldHostRenderer extends BaseComponent<
             : fieldProps.value;
         }
 
-        const options = listOptions.map((option) => ({
-          ...option,
-          selected: value.findIndex((x) => x === option.value) >= 0,
-        }));
+        const options = listOptions.map(
+          (option) =>
+            ({
+              // TODO: Label should change depending on displayed size
+              label: option.label.medium,
+              value: option.value,
+              selected: value.findIndex((x: number) => x === option.value) >= 0,
+            } as ISelectableOption),
+        );
 
         if (
           layout === 'select' &&
           !multiSelect &&
           typeof fieldProps.value === 'undefined'
         ) {
-          options.unshift({ label: '', value: '', selected: false });
+          options.unshift({
+            label: '',
+            value: '',
+            selected: false,
+          });
         }
 
         const selectListFieldProps: ISelectListFieldRenderer = {
