@@ -4,6 +4,6 @@
     "dist",
     "node_modules",
     "**/__mocks__/**/*.ts",
-    "**/__tests_/**/*.ts"
+    "**/__tests__/**/*.ts"
   ]
 }

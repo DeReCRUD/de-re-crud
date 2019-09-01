@@ -13,10 +13,6 @@
     "bundle": "rollup --config",
     "build": "yarn compile && yarn bundle"
   },
-  "optionalDependencies": {
-    "bootstrap": "~4",
-    "bootstrap-css-only": "~4"
-  },
   "dependencies": {
     "@de-re-crud/core": "0.15.0",
     "preact": "~8"
