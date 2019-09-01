@@ -1,16 +1,16 @@
 import {
-  IInternalField,
-  IInternalSchema,
-  IInternalStruct,
-  IInternalBlock,
-  IInternalLinkedStructField,
+  IField,
+  ISchema,
+  IStruct,
+  IBlock,
+  ILinkedStructField,
 } from '@de-re-crud/core';
 import createFieldParent from '../create-field-parent';
 
 const structName = 'struct';
 const defaultFieldName = 'test1';
 
-const defaultField: IInternalField = {
+const defaultField: IField = {
   hints: {
     readOnly: false,
     custom: {},
@@ -27,10 +27,10 @@ const defaultField: IInternalField = {
   customValidators: [],
 };
 
-const createSchema = (...fields: IInternalField[]) => {
-  const structs: IInternalStruct[] = [];
+const createSchema = (...fields: IField[]) => {
+  const structs: IStruct[] = [];
 
-  const fieldMap = new Map<string, Map<string, IInternalField>>();
+  const fieldMap = new Map<string, Map<string, IField>>();
 
   fields.forEach((x) => {
     let struct = structs.find((s) => s.name === x.struct);
@@ -41,19 +41,19 @@ const createSchema = (...fields: IInternalField[]) => {
     }
 
     if (!fieldMap.has(x.struct)) {
-      fieldMap.set(x.struct, new Map<string, IInternalField>());
+      fieldMap.set(x.struct, new Map<string, IField>());
     }
 
     fieldMap.get(x.struct).set(x.name, x);
     struct.fields.push(x.name);
   });
 
-  const schema: IInternalSchema = {
+  const schema: ISchema = {
     structs,
     fields: fieldMap,
-    blocks: new Map<string, Map<string, IInternalBlock>>(),
+    blocks: new Map<string, Map<string, IBlock>>(),
     customValidators: [],
-    raw: {
+    json: {
       structs: [],
     },
   };
@@ -97,7 +97,7 @@ describe('createFieldParent', () => {
   });
 
   it('should return field parent with nested initial values when field is linked struct', () => {
-    const fields: IInternalField[] = [
+    const fields: IField[] = [
       { ...defaultField },
       {
         ...defaultField,
@@ -107,7 +107,7 @@ describe('createFieldParent', () => {
       },
     ];
 
-    const linkedStructField = fields[0] as IInternalLinkedStructField;
+    const linkedStructField = fields[0] as ILinkedStructField;
     linkedStructField.type = 'linkedStruct';
     linkedStructField.reference = {
       block: 'block',

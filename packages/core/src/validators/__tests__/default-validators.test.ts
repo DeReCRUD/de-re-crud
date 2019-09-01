@@ -1,8 +1,8 @@
-import { IInternalField } from '../../schema/internal';
+import { IField } from '../../schema';
 import { defaultValidatorFuncs } from '../default-validators';
 
 describe('validators', () => {
-  let field: IInternalField;
+  let field: IField;
 
   beforeEach(() => {
     field = {

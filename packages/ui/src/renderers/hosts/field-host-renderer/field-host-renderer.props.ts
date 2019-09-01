@@ -3,8 +3,8 @@ import {
   ObjectFieldValue,
   ScalarFieldValue,
   ICollectionReferences,
-  IInternalFieldReference,
-  IInternalSchema,
+  IFieldReference,
+  ISchema,
 } from '@de-re-crud/core';
 import { INavState } from '../../../store';
 import { IRendererDefinitions } from '../../defintions';
@@ -15,12 +15,12 @@ export interface IFieldHostRendererConnectProps {
   fieldPath: string;
   parentPath?: string;
   struct: string;
-  fieldReference: IInternalFieldReference;
+  fieldReference: IFieldReference;
 }
 
 export interface IFieldHostRendererProps
   extends IFieldHostRendererConnectProps {
-  schema: IInternalSchema;
+  schema: ISchema;
   rendererId: string;
   renderers: IRendererDefinitions;
   collectionReferences?: ICollectionReferences;

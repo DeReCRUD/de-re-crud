@@ -1,5 +1,5 @@
 import parseCondition, { DEFAULT_CONDITION } from '../parse-condition';
-import { IConditionParams } from '../..';
+import { IConditionParams } from '../../json';
 
 describe('parseCondition', () => {
   it('should return default condition if none specified', () => {

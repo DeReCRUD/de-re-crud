@@ -1,4 +1,4 @@
-import { Condition, IConditionParams, ConditionFunc } from '..';
+import { Condition, IConditionParams, ConditionFunc } from '../json';
 
 export const DEFAULT_CONDITION = () => true;
 

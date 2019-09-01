@@ -1,7 +1,7 @@
 import {
   ScalarFieldValue,
   ObjectFieldValue,
-  IInternalLinkedStructField,
+  ILinkedStructField,
   validateField,
   validateLinkedStructField,
   formPathToValue,
@@ -281,7 +281,7 @@ export default function fieldHostRendererActions(store: IStore) {
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const linkedStructField = state.schema.fields
         .get(structName)
-        .get(fieldName) as IInternalLinkedStructField;
+        .get(fieldName) as ILinkedStructField;
 
       const oldValue = formPathToValue(state.value, fieldPath);
       const pathArray = fieldPath.split('.');

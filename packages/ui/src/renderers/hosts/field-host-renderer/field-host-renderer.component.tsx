@@ -2,12 +2,12 @@ import {
   Logger,
   ScalarFieldValue,
   InternalSchemaHelper,
-  IInternalLinkedStructFieldReference,
-  IInternalLinkedStructField,
-  IInternalFieldReference,
-  IInternalForeignKeyField,
-  IInternalListField,
-  IInternalTextField,
+  ILinkedStructFieldReference,
+  ILinkedStructField,
+  IFieldReference,
+  IForeignKeyField,
+  IListField,
+  ITextField,
 } from '@de-re-crud/core';
 import { h } from '../../../h';
 import BaseComponent from '../../base-component';
@@ -196,7 +196,7 @@ export default class FieldHostRenderer extends BaseComponent<
     navigate: boolean = true,
   ) => {
     const { struct, changeArrayValue, fieldReference, fieldPath } = this.props;
-    const linkedStructFieldReference = fieldReference as IInternalLinkedStructFieldReference;
+    const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
     const shouldNavigate =
       navigate && linkedStructFieldReference.hints.layout === 'table';
 
@@ -217,7 +217,7 @@ export default class FieldHostRenderer extends BaseComponent<
       schema,
       struct,
       fieldReference.field,
-    ) as IInternalLinkedStructField;
+    ) as ILinkedStructField;
 
     const {
       reference: { struct: referenceStruct, block },
@@ -237,7 +237,7 @@ export default class FieldHostRenderer extends BaseComponent<
       schema,
       struct,
       fieldReference.field,
-    ) as IInternalLinkedStructField;
+    ) as ILinkedStructField;
     const value = (fieldValue as object[]) || [];
 
     if (
@@ -261,7 +261,7 @@ export default class FieldHostRenderer extends BaseComponent<
       schema,
       struct,
       fieldReference.field,
-    ) as IInternalLinkedStructField;
+    ) as ILinkedStructField;
     const value = (fieldValue as object[]) || [];
 
     return value.length > linkedStructField.minInstances;
@@ -285,7 +285,7 @@ export default class FieldHostRenderer extends BaseComponent<
   };
 
   private renderField(
-    fieldReference: IInternalFieldReference,
+    fieldReference: IFieldReference,
     fieldProps: IFieldRenderer,
   ) {
     const {
@@ -309,7 +309,7 @@ export default class FieldHostRenderer extends BaseComponent<
       case 'text': {
         const {
           hints: { layout },
-        } = field as IInternalTextField;
+        } = field as ITextField;
 
         let TextFieldRenderer = renderers.textField;
 
@@ -363,7 +363,7 @@ export default class FieldHostRenderer extends BaseComponent<
         const ForeignKeyFieldRenderer = renderers.foreignKeyField;
         let options: ISelectableOption[];
 
-        const foreignKeyField = field as IInternalForeignKeyField;
+        const foreignKeyField = field as IForeignKeyField;
 
         const {
           struct: referenceStruct,
@@ -410,8 +410,8 @@ export default class FieldHostRenderer extends BaseComponent<
         return <ForeignKeyFieldRenderer {...foreignKeyFieldProps} />;
       }
       case 'linkedStruct': {
-        const { reference, minInstances } = field as IInternalLinkedStructField;
-        const { hints } = fieldReference as IInternalLinkedStructFieldReference;
+        const { reference, minInstances } = field as ILinkedStructField;
+        const { hints } = fieldReference as ILinkedStructFieldReference;
         const isTable = hints.layout === 'table';
         const blockName = hints.block || reference.block;
         const block = InternalSchemaHelper.getBlock(
@@ -523,7 +523,7 @@ export default class FieldHostRenderer extends BaseComponent<
           options: listOptions,
           dynamicOptions,
           hints: { layout },
-        } = field as IInternalListField;
+        } = field as IListField;
 
         let ListFieldRenderer;
 

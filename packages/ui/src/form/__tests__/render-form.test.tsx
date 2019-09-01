@@ -1,10 +1,10 @@
-import { ISchema } from '@de-re-crud/core';
+import { ISchemaJson } from '@de-re-crud/core';
 import { cleanup } from 'preact-testing-library';
 import Form, { renderForm, IForm, IFormProps } from '..';
 
 const render = jest.spyOn(Form.prototype, 'render');
 
-const schema: ISchema = {
+const schema: ISchemaJson = {
   structs: [
     {
       name: 'struct',

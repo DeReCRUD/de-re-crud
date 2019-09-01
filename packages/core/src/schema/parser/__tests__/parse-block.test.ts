@@ -1,27 +1,22 @@
-import {
-  IInternalBlock,
-  IInternalStamp,
-  IInternalBlockReference,
-  IInternalFieldReference,
-} from '../../internal';
-import { IBlock } from '../..';
+import { IBlock, IStamp, IBlockReference, IFieldReference } from '../..';
+import { IBlockJson } from '../../json';
 import parseBlock from '../parse-block';
 import { DEFAULT_CONDITION } from '../parse-condition';
 
 const struct = 'TestStruct';
 
 describe('parseBlock', () => {
-  let result: IInternalBlock;
   let block: IBlock;
+  let json: IBlockJson;
 
   beforeEach(() => {
-    block = {
+    json = {
       name: 'block',
       references: [],
     };
 
-    result = {
-      name: block.name,
+    block = {
+      name: json.name,
       struct,
       fields: [],
       references: [],
@@ -34,45 +29,45 @@ describe('parseBlock', () => {
   });
 
   it('should return defaults when no overrides specified', () => {
-    expect(parseBlock(struct, block)).toEqual(result);
+    expect(parseBlock(struct, json)).toEqual(block);
   });
 
   it('should parse label override', () => {
     expect(
       parseBlock(struct, {
-        ...block,
+        ...json,
         label: 'Block',
       }),
     ).toEqual({
-      ...result,
+      ...block,
       label: {
         short: 'Block',
         medium: 'Block',
         long: 'Block',
       },
-    } as IInternalBlock);
+    } as IBlock);
   });
 
   it('should parse layout override', () => {
     expect(
       parseBlock(struct, {
-        ...block,
+        ...json,
         hints: {
           layout: 'horizontal',
         },
       }),
     ).toEqual({
-      ...result,
+      ...block,
       hints: {
-        ...result.hints,
+        ...block.hints,
         layout: 'horizontal',
       },
-    } as IInternalBlock);
+    } as IBlock);
   });
 
   it('should parse stamp with default size', () => {
-    block = {
-      ...block,
+    json = {
+      ...json,
       references: [
         {
           stamp: 'Stamp',
@@ -81,8 +76,8 @@ describe('parseBlock', () => {
       ],
     };
 
-    expect(parseBlock(struct, block)).toEqual({
-      ...result,
+    expect(parseBlock(struct, json)).toEqual({
+      ...block,
       references: [
         {
           text: 'Stamp',
@@ -92,14 +87,14 @@ describe('parseBlock', () => {
           hints: {
             custom: {},
           },
-        } as IInternalStamp,
+        } as IStamp,
       ],
-    } as IInternalBlock);
+    } as IBlock);
   });
 
   it('should parse stamp with specified size', () => {
-    block = {
-      ...block,
+    json = {
+      ...json,
       references: [
         {
           stamp: 'Stamp',
@@ -109,8 +104,8 @@ describe('parseBlock', () => {
       ],
     };
 
-    expect(parseBlock(struct, block)).toEqual({
-      ...result,
+    expect(parseBlock(struct, json)).toEqual({
+      ...block,
       references: [
         {
           text: 'Stamp',
@@ -120,14 +115,14 @@ describe('parseBlock', () => {
           hints: {
             custom: {},
           },
-        } as IInternalStamp,
+        } as IStamp,
       ],
-    } as IInternalBlock);
+    } as IBlock);
   });
 
   it('should parse simple field references', () => {
-    block = {
-      ...block,
+    json = {
+      ...json,
       references: ['field1'],
     };
 
@@ -141,16 +136,16 @@ describe('parseBlock', () => {
       },
     ];
 
-    expect(parseBlock(struct, block)).toEqual({
-      ...result,
+    expect(parseBlock(struct, json)).toEqual({
+      ...block,
       fields,
       references: fields,
-    } as IInternalBlock);
+    } as IBlock);
   });
 
   it('should parse complex field references', () => {
-    block = {
-      ...block,
+    json = {
+      ...json,
       references: [
         {
           field: 'field1',
@@ -159,7 +154,7 @@ describe('parseBlock', () => {
       ],
     };
 
-    const fields: IInternalFieldReference[] = [
+    const fields: IFieldReference[] = [
       {
         field: 'field1',
         condition: DEFAULT_CONDITION,
@@ -169,16 +164,16 @@ describe('parseBlock', () => {
       },
     ];
 
-    expect(parseBlock(struct, block)).toEqual({
-      ...result,
+    expect(parseBlock(struct, json)).toEqual({
+      ...block,
       fields,
       references: fields,
-    } as IInternalBlock);
+    } as IBlock);
   });
 
   it('should parse block references', () => {
-    block = {
-      ...block,
+    json = {
+      ...json,
       references: [
         {
           block: 'Block',
@@ -186,19 +181,19 @@ describe('parseBlock', () => {
       ],
     };
 
-    expect(parseBlock(struct, block)).toEqual({
-      ...result,
+    expect(parseBlock(struct, json)).toEqual({
+      ...block,
       references: [
         {
           block: 'Block',
-        } as IInternalBlockReference,
+        } as IBlockReference,
       ],
-    } as IInternalBlock);
+    } as IBlock);
   });
 
   it('should pass through custom hints', () => {
-    block = {
-      ...block,
+    json = {
+      ...json,
       hints: {
         custom: {
           block: true,
@@ -227,7 +222,7 @@ describe('parseBlock', () => {
       ],
     };
 
-    const field: IInternalFieldReference = {
+    const field: IFieldReference = {
       field: 'field1',
       condition: DEFAULT_CONDITION,
       hints: {
@@ -237,10 +232,10 @@ describe('parseBlock', () => {
       },
     };
 
-    expect(parseBlock(struct, block)).toEqual({
-      ...result,
+    expect(parseBlock(struct, json)).toEqual({
+      ...block,
       hints: {
-        ...result.hints,
+        ...block.hints,
         custom: {
           block: true,
         },
@@ -258,8 +253,8 @@ describe('parseBlock', () => {
               stamp: true,
             },
           },
-        } as IInternalStamp,
+        } as IStamp,
       ],
-    } as IInternalBlock);
+    } as IBlock);
   });
 });

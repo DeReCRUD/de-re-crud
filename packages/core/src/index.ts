@@ -7,7 +7,7 @@ import Logger from './logger';
 
 export * from './utils/validation-helper';
 export * from './schema';
-export * from './schema/internal';
+export * from './schema/json';
 export * from './schema/helper';
 export * from './validators/validator';
 export * from './validators/default-validators';

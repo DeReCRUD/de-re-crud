@@ -1,11 +1,11 @@
 import {
-  IInternalSchema,
-  IInternalLinkedStructField,
+  ISchema,
+  ILinkedStructField,
   InternalSchemaHelper,
 } from '@de-re-crud/core';
 
 function assignDefaultValues(
-  schema: IInternalSchema,
+  schema: ISchema,
   struct: string,
   fields: string[],
   value: object = {},
@@ -23,7 +23,7 @@ function assignDefaultValues(
       Array.isArray(value[field.name]) &&
       value[field.name].length > 0
     ) {
-      const linkedStructField = field as IInternalLinkedStructField;
+      const linkedStructField = field as ILinkedStructField;
       const { struct: referenceStruct } = linkedStructField.reference;
 
       const { fields: referenceFields } = schema.structs.find(
@@ -38,7 +38,7 @@ function assignDefaultValues(
 }
 
 export default function createFieldParent(
-  schema: IInternalSchema,
+  schema: ISchema,
   struct: string,
   parentValue: object = {},
 ) {

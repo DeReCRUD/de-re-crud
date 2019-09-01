@@ -1,29 +1,22 @@
 import Logger from '../../logger';
-import {
-  IInternalSchema,
-  IInternalStruct,
-  IInternalField,
-  IInternalBlock,
-  FieldMap,
-  BlockMap,
-} from '../internal';
+import { ISchema, IStruct, IField, IBlock, FieldMap, BlockMap } from '..';
 import parseBlock from './parse-block';
 import parseField from './parse-field';
 import parseStruct from './parse-struct';
-import { ISchema, ICustomValidator } from '..';
+import { ISchemaJson, ICustomValidator } from '../json';
 
 export default class SchemaParser {
-  public static parse(schema: ISchema): IInternalSchema {
-    const structs: IInternalStruct[] = [];
+  public static parse(schemaJson: ISchemaJson): ISchema {
+    const structs: IStruct[] = [];
     const fields: Map<string, FieldMap> = new Map<string, FieldMap>();
     const blocks: Map<string, BlockMap> = new Map<string, BlockMap>();
     const customValidators: ICustomValidator[] = [];
 
-    if (schema) {
-      const legacySchema = schema as any;
-      if (Array.isArray(legacySchema)) {
-        schema = {
-          structs: legacySchema,
+    if (schemaJson) {
+      const legacySchemaJson = schemaJson as any;
+      if (Array.isArray(legacySchemaJson)) {
+        schemaJson = {
+          structs: legacySchemaJson,
         };
 
         Logger.deprecate(
@@ -31,8 +24,8 @@ export default class SchemaParser {
         );
       }
 
-      if (Array.isArray(schema.structs)) {
-        schema.structs.forEach((rawStruct) => {
+      if (Array.isArray(schemaJson.structs)) {
+        schemaJson.structs.forEach((rawStruct) => {
           const struct = parseStruct(rawStruct);
           structs.push(struct);
 
@@ -41,7 +34,7 @@ export default class SchemaParser {
               const field = parseField(struct.name, rawField);
 
               if (!fields.has(struct.name)) {
-                fields.set(struct.name, new Map<string, IInternalField>());
+                fields.set(struct.name, new Map<string, IField>());
               }
 
               fields.get(struct.name)!.set(field.name, field);
@@ -49,11 +42,11 @@ export default class SchemaParser {
           }
 
           if (Array.isArray(rawStruct.blocks)) {
-            rawStruct.blocks.forEach((rawBlock) => {
-              const block = parseBlock(struct.name, rawBlock);
+            rawStruct.blocks.forEach((blockJson) => {
+              const block = parseBlock(struct.name, blockJson);
 
               if (!blocks.has(struct.name)) {
-                blocks.set(struct.name, new Map<string, IInternalBlock>());
+                blocks.set(struct.name, new Map<string, IBlock>());
               }
 
               blocks.get(struct.name)!.set(block.name, block);
@@ -62,24 +55,24 @@ export default class SchemaParser {
         });
       }
 
-      if (Array.isArray(schema.customValidators)) {
-        schema.customValidators.forEach((validator) => {
+      if (Array.isArray(schemaJson.customValidators)) {
+        schemaJson.customValidators.forEach((validationJson) => {
           if (
-            typeof validator.name === 'string' &&
-            typeof validator.message === 'string' &&
-            typeof validator.pattern === 'string'
+            typeof validationJson.name === 'string' &&
+            typeof validationJson.message === 'string' &&
+            typeof validationJson.pattern === 'string'
           ) {
             customValidators.push({
-              name: validator.name,
-              message: validator.message,
-              pattern: new RegExp(validator.pattern),
-              negate: validator.negate === true,
+              name: validationJson.name,
+              message: validationJson.message,
+              pattern: new RegExp(validationJson.pattern),
+              negate: validationJson.negate === true,
             });
           }
         });
       }
     }
 
-    return { structs, fields, blocks, customValidators, raw: schema };
+    return { structs, fields, blocks, customValidators, json: schemaJson };
   }
 }

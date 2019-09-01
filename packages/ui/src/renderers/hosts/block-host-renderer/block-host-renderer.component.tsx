@@ -1,10 +1,10 @@
 import {
   formPathToValue,
-  IInternalBlock,
-  IInternalBlockReference,
-  IInternalFieldReference,
-  IInternalStamp,
-  IInternalSchema,
+  IBlock,
+  IBlockReference,
+  IFieldReference,
+  IStamp,
+  ISchema,
   DEFAULT_FIELD_WIDTH,
   InternalSchemaHelper,
 } from '@de-re-crud/core';
@@ -60,11 +60,7 @@ export default class BlockHostRenderer extends BaseComponent<
     );
   }
 
-  private createRows(
-    schema: IInternalSchema,
-    block: IInternalBlock,
-    root: boolean = false,
-  ) {
+  private createRows(schema: ISchema, block: IBlock, root: boolean = false) {
     const { formValue, path: parentPath } = this.props;
 
     const rows = [];
@@ -88,7 +84,7 @@ export default class BlockHostRenderer extends BaseComponent<
     block.references.forEach((reference) => {
       let width = DEFAULT_FIELD_WIDTH;
 
-      const blockReference = reference as IInternalBlockReference;
+      const blockReference = reference as IBlockReference;
       if (blockReference.block) {
         const itemBlock = schema.blocks
           .get(block.struct)
@@ -100,7 +96,7 @@ export default class BlockHostRenderer extends BaseComponent<
 
       let itemPath: string;
 
-      const fieldReference = reference as IInternalFieldReference;
+      const fieldReference = reference as IFieldReference;
       if (fieldReference.field) {
         const field = schema.fields.get(block.struct).get(fieldReference.field);
 
@@ -122,7 +118,7 @@ export default class BlockHostRenderer extends BaseComponent<
         width = fieldReference.hints.width || field.hints.width;
       }
 
-      const stamp = reference as IInternalStamp;
+      const stamp = reference as IStamp;
       if (stamp.text) {
         itemPath = `stamp.${stamp.blockInstance}`;
         if (parentPath) {
@@ -148,7 +144,7 @@ export default class BlockHostRenderer extends BaseComponent<
 
       nextRow.cells.push({
         renderedItem: this.renderItem(
-          reference as IInternalFieldReference | IInternalStamp,
+          reference as IFieldReference | IStamp,
           itemPath,
         ),
         width,
@@ -158,13 +154,10 @@ export default class BlockHostRenderer extends BaseComponent<
     return rows;
   }
 
-  private renderItem(
-    item: IInternalFieldReference | IInternalStamp,
-    itemPath: string,
-  ) {
+  private renderItem(item: IFieldReference | IStamp, itemPath: string) {
     const { formId, struct, path: parentPath } = this.props;
 
-    const stamp = item as IInternalStamp;
+    const stamp = item as IStamp;
 
     if (stamp.text) {
       const rendererId = `${formId}.${itemPath}`;
@@ -179,7 +172,7 @@ export default class BlockHostRenderer extends BaseComponent<
       );
     }
 
-    const fieldReference = item as IInternalFieldReference;
+    const fieldReference = item as IFieldReference;
     if (fieldReference.field) {
       const rendererId = `${formId}.${itemPath}`;
 

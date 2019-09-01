@@ -1,20 +1,22 @@
 import {
-  IInternalSchema,
-  IInternalIntegerField,
-  IInternalTextField,
-  IInternalLinkedStructField,
-  IInternalField,
-} from '../schema/internal';
+  ISchema,
+  IIntegerField,
+  ITextField,
+  ILinkedStructField,
+  IField,
+  FieldValue,
+  ICollectionReferences,
+} from '../schema';
+import InternalSchemaHelper from '../schema/helper';
+import { ICustomValidator } from '../schema/json';
 import {
   defaultValidators,
   defaultValidatorFuncs,
   defaultValidatorMessages,
 } from '../validators/default-validators';
 import PatternValidator from '../validators/pattern-validator';
-import { FieldValue, ICustomValidator, ICollectionReferences } from '../schema';
-import InternalSchemaHelper from '../schema/helper';
 
-function validateKeywordField(_: IInternalField, value: string): string[] {
+function validateKeywordField(_: IField, value: string): string[] {
   const errors = [];
 
   if (value) {
@@ -26,7 +28,7 @@ function validateKeywordField(_: IInternalField, value: string): string[] {
   return errors;
 }
 
-function validateTextField(field: IInternalTextField, value: string): string[] {
+function validateTextField(field: ITextField, value: string): string[] {
   const errors = [];
 
   if (value) {
@@ -44,10 +46,7 @@ function validateTextField(field: IInternalTextField, value: string): string[] {
   return errors;
 }
 
-function validateIntegerField(
-  field: IInternalIntegerField,
-  value: number,
-): string[] {
+function validateIntegerField(field: IIntegerField, value: number): string[] {
   const errors = [];
 
   if (value) {
@@ -62,7 +61,7 @@ function validateIntegerField(
 }
 
 export function validateLinkedStructField(
-  field: IInternalLinkedStructField,
+  field: ILinkedStructField,
   value: object[],
 ) {
   const errors = [];
@@ -84,7 +83,7 @@ export function validateLinkedStructField(
 }
 
 export function validateField(
-  schema: IInternalSchema,
+  schema: ISchema,
   structName: string,
   fieldName: string,
   fieldValue: FieldValue,
@@ -156,19 +155,19 @@ export function validateField(
       break;
     case 'integer':
       fieldTypeErrors = validateIntegerField(
-        field as IInternalIntegerField,
+        field as IIntegerField,
         fieldValue as number,
       );
       break;
     case 'text':
       fieldTypeErrors = validateTextField(
-        field as IInternalTextField,
+        field as ITextField,
         fieldValue as string,
       );
       break;
     case 'linkedStruct':
       fieldTypeErrors = validateLinkedStructField(
-        field as IInternalLinkedStructField,
+        field as ILinkedStructField,
         fieldValue as object[],
       );
       break;

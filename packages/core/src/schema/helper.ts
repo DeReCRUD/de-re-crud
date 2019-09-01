@@ -1,38 +1,27 @@
-import {
-  IInternalSchema,
-  IInternalStruct,
-  IInternalField,
-  IInternalBlock,
-} from './internal';
+import { ISchema, IStruct, IField, IBlock } from '.';
 
 export default class InternalSchemaHelper {
-  public static getStruct(
-    schema: IInternalSchema,
-    structName: string,
-  ): IInternalStruct {
+  public static getStruct(schema: ISchema, structName: string): IStruct {
     return schema.structs.find((struct) => struct.name === structName);
   }
 
   public static getField(
-    schema: IInternalSchema,
+    schema: ISchema,
     structName: string,
     fieldName: string,
-  ): IInternalField {
+  ): IField {
     return schema.fields.get(structName).get(fieldName);
   }
 
   public static getBlock(
-    schema: IInternalSchema,
+    schema: ISchema,
     structName: string,
     blockName: string,
-  ): IInternalBlock {
+  ): IBlock {
     return schema.blocks.get(structName).get(blockName);
   }
 
-  public static getKeyFields(
-    schema: IInternalSchema,
-    structName: string,
-  ): string[] {
+  public static getKeyFields(schema: ISchema, structName: string): string[] {
     const struct = this.getStruct(schema, structName);
 
     return struct.fields.filter((x) => {

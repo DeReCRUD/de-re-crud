@@ -1,9 +1,9 @@
 import {
-  ISchema,
+  ISchemaJson,
   ICollectionReferences,
   IErrors,
   FieldValue,
-  IInternalSchema,
+  ISchema,
 } from '@de-re-crud/core';
 import { INavState } from '../store';
 import { IRendererOptions } from '../options/renderer-options';
@@ -68,7 +68,7 @@ export type FieldParentChangeNotification = (
 
 export interface IFormConnectProps extends IFormBaseProps {
   type?: FormType;
-  schema: ISchema;
+  schema: ISchemaJson;
   disabled?: boolean;
   rendererOptions?: IRendererOptions;
   renderers?: Partial<IRendererDefinitions>;
@@ -86,7 +86,7 @@ export interface IFormProps extends IFormBaseProps {
   type: FormType;
   renderers: IRendererDefinitions;
   buttonOptions: IButtonOptions;
-  schema: IInternalSchema;
+  schema: ISchema;
   formClassName?: string;
   formDisabled: boolean;
   formLocked: boolean;

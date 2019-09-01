@@ -1,37 +1,37 @@
 import Logger from '../../logger';
 import {
   DEFAULT_FIELD_WIDTH,
-  IInternalBlock,
-  IInternalStamp,
-  IInternalBlockReference,
-  IInternalFieldReference,
-  IInternalLinkedStructFieldReference,
-} from '../internal';
+  IBlock,
+  IStamp,
+  IBlockReference,
+  IFieldReference,
+  ILinkedStructFieldReference,
+} from '..';
 import parseCondition from './parse-condition';
 import parseLabel from './parse-label';
 import {
-  IBlock,
-  IStampReference,
-  IBlockReference,
-  IFieldReference,
-  ILinkedStructFieldReferenceHints,
-} from '..';
+  IBlockJson,
+  IStampReferenceJson,
+  IBlockReferenceJson,
+  IFieldReferenceJson,
+  ILinkedStructFieldReferenceHintsJson,
+} from '../json';
 
 export default function parseBlock(
   structName: string,
-  block: IBlock,
-): IInternalBlock {
-  const legacyBlock = block as any;
-  if (Array.isArray(legacyBlock.fields)) {
-    block.references = legacyBlock.fields;
+  blockJson: IBlockJson,
+): IBlock {
+  const legacyBlockJson = blockJson as any;
+  if (Array.isArray(legacyBlockJson.fields)) {
+    blockJson.references = legacyBlockJson.fields;
 
     Logger.deprecate('block.fields should moved to block.references');
   }
 
-  const result: IInternalBlock = {
+  const block: IBlock = {
     struct: structName,
-    name: block.name,
-    condition: parseCondition(block.condition),
+    name: blockJson.name,
+    condition: parseCondition(blockJson.condition),
     fields: [],
     references: [],
     hints: {
@@ -40,114 +40,114 @@ export default function parseBlock(
     },
   };
 
-  if (typeof block.label !== 'undefined') {
-    result.label = parseLabel(block.label);
+  if (typeof blockJson.label !== 'undefined') {
+    block.label = parseLabel(blockJson.label);
   }
 
-  if (typeof block.hints !== 'undefined') {
-    if (typeof block.hints.layout !== 'undefined') {
-      result.hints.layout = block.hints.layout;
+  if (typeof blockJson.hints !== 'undefined') {
+    if (typeof blockJson.hints.layout !== 'undefined') {
+      block.hints.layout = blockJson.hints.layout;
     }
 
-    if (typeof block.hints.custom !== 'undefined') {
-      result.hints.custom = block.hints.custom;
+    if (typeof blockJson.hints.custom !== 'undefined') {
+      block.hints.custom = blockJson.hints.custom;
     }
   }
 
-  if (Array.isArray(block.references)) {
+  if (Array.isArray(blockJson.references)) {
     let blockInstance = 1;
 
-    block.references.forEach((reference) => {
-      const stampReference = reference as IStampReference;
-      if (typeof stampReference.stamp !== 'undefined') {
-        const stamp: IInternalStamp = {
+    blockJson.references.forEach((referenceJson) => {
+      const stampReferenceJson = referenceJson as IStampReferenceJson;
+      if (typeof stampReferenceJson.stamp !== 'undefined') {
+        const stamp: IStamp = {
           blockInstance: blockInstance++,
-          condition: parseCondition(stampReference.condition),
-          size: stampReference.size || 3,
-          text: stampReference.stamp,
+          condition: parseCondition(stampReferenceJson.condition),
+          size: stampReferenceJson.size || 3,
+          text: stampReferenceJson.stamp,
           hints: {
             custom: {},
           },
         };
 
-        if (typeof stampReference.hints !== 'undefined') {
-          if (typeof stampReference.hints.custom !== 'undefined') {
-            stamp.hints.custom = stampReference.hints.custom;
+        if (typeof stampReferenceJson.hints !== 'undefined') {
+          if (typeof stampReferenceJson.hints.custom !== 'undefined') {
+            stamp.hints.custom = stampReferenceJson.hints.custom;
           }
         }
 
-        result.references.push(stamp);
+        block.references.push(stamp);
         return;
       }
 
-      const blockReference = reference as IBlockReference;
-      if (typeof blockReference.block !== 'undefined') {
-        result.references.push({
-          block: blockReference.block,
-        } as IInternalBlockReference);
+      const blockReferenceJson = referenceJson as IBlockReferenceJson;
+      if (typeof blockReferenceJson.block !== 'undefined') {
+        block.references.push({
+          block: blockReferenceJson.block,
+        } as IBlockReference);
 
         return;
       }
 
-      const fieldReference = reference as IFieldReference;
-      if (typeof fieldReference.field !== 'undefined') {
-        const internalReference: IInternalFieldReference = {
-          condition: parseCondition(fieldReference.condition),
-          field: fieldReference.field,
+      const fieldReferenceJson = referenceJson as IFieldReferenceJson;
+      if (typeof fieldReferenceJson.field !== 'undefined') {
+        const fieldReference: IFieldReference = {
+          condition: parseCondition(fieldReferenceJson.condition),
+          field: fieldReferenceJson.field,
           hints: {
             custom: {},
           },
         };
 
-        if (typeof fieldReference.hints !== 'undefined') {
+        if (typeof fieldReferenceJson.hints !== 'undefined') {
           if (
-            typeof fieldReference.hints.width !== 'undefined' &&
-            fieldReference.hints.width >= 1 &&
-            fieldReference.hints.width <= DEFAULT_FIELD_WIDTH
+            typeof fieldReferenceJson.hints.width !== 'undefined' &&
+            fieldReferenceJson.hints.width >= 1 &&
+            fieldReferenceJson.hints.width <= DEFAULT_FIELD_WIDTH
           ) {
-            internalReference.hints.width = fieldReference.hints.width;
+            fieldReference.hints.width = fieldReferenceJson.hints.width;
           }
 
-          if (typeof fieldReference.hints !== 'undefined') {
-            const linkedStructFieldReferenceHints = fieldReference.hints as ILinkedStructFieldReferenceHints;
+          if (typeof fieldReferenceJson.hints !== 'undefined') {
+            const linkedStructFieldReferenceHints = fieldReferenceJson.hints as ILinkedStructFieldReferenceHintsJson;
 
             if (typeof linkedStructFieldReferenceHints.layout !== 'undefined') {
-              const linkedStructFieldReference = internalReference as IInternalLinkedStructFieldReference;
+              const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
               linkedStructFieldReference.hints.layout =
                 linkedStructFieldReferenceHints.layout;
             }
 
             if (typeof linkedStructFieldReferenceHints.block !== 'undefined') {
-              const linkedStructFieldReference = internalReference as IInternalLinkedStructFieldReference;
+              const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
               linkedStructFieldReference.hints.block =
                 linkedStructFieldReferenceHints.block;
             }
           }
 
-          if (typeof fieldReference.hints.custom !== 'undefined') {
-            internalReference.hints.custom = fieldReference.hints.custom;
+          if (typeof fieldReferenceJson.hints.custom !== 'undefined') {
+            fieldReference.hints.custom = fieldReferenceJson.hints.custom;
           }
         }
 
-        result.references.push(internalReference);
-        result.fields.push(internalReference);
+        block.references.push(fieldReference);
+        block.fields.push(fieldReference);
         return;
       }
 
-      if (typeof reference === 'string') {
-        const strfieldReference: IInternalFieldReference = {
+      if (typeof referenceJson === 'string') {
+        const strFieldReference: IFieldReference = {
           condition: parseCondition(undefined),
-          field: reference as string,
+          field: referenceJson as string,
           hints: {
             custom: {},
           },
         };
 
-        result.references.push(strfieldReference);
-        result.fields.push(strfieldReference);
+        block.references.push(strFieldReference);
+        block.fields.push(strFieldReference);
       }
     });
   }
 
-  return result;
+  return block;
 }

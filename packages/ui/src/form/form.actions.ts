@@ -1,6 +1,6 @@
 import {
   IErrors,
-  IInternalLinkedStructField,
+  ILinkedStructField,
   validateField,
   generateChildErrors,
   formPathToValue,
@@ -64,7 +64,7 @@ function validateBlock(
       switch (field.type) {
         case 'linkedStruct':
           {
-            const linkedStructField = field as IInternalLinkedStructField;
+            const linkedStructField = field as ILinkedStructField;
             const linkedStructValue = parentValue[field.name] as object[];
 
             if (linkedStructValue) {

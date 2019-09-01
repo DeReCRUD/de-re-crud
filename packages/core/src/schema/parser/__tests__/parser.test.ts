@@ -1,27 +1,27 @@
-import { IInternalSchema, BlockMap, FieldMap } from '../../internal';
+import { ISchemaJson, IStructJson } from '../../json';
+import { ISchema, BlockMap, FieldMap } from '../..';
 import SchemaParser from '..';
-import { ISchema, IStruct } from '../..';
 
-const struct: IStruct = {
+const structJson: IStructJson = {
   name: 'struct',
   fields: [],
   blocks: [],
 };
 
 describe('SchemaParser', () => {
-  let schema: ISchema;
+  let json: ISchemaJson;
 
   beforeEach(() => {
-    schema = {
-      structs: [struct],
+    json = {
+      structs: [structJson],
     };
   });
 
   it('should parse schema', () => {
-    expect(SchemaParser.parse(schema)).toEqual({
+    expect(SchemaParser.parse(json)).toEqual({
       structs: [
         {
-          name: struct.name,
+          name: structJson.name,
           fields: [],
           blocks: [],
         },
@@ -29,7 +29,7 @@ describe('SchemaParser', () => {
       fields: new Map<string, FieldMap>(),
       blocks: new Map<string, BlockMap>(),
       customValidators: [],
-      raw: schema,
-    } as IInternalSchema);
+      json,
+    } as ISchema);
   });
 });

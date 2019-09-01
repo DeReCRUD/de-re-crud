@@ -1,8 +1,4 @@
-import {
-  IInternalStruct,
-  Logger,
-  InternalSchemaHelper,
-} from '@de-re-crud/core';
+import { IStruct, Logger, InternalSchemaHelper } from '@de-re-crud/core';
 import { h } from '../h';
 import BaseComponent from '../renderers/base-component';
 import combineCssClasses from '../renderers/utils/combine-css-classes';
@@ -10,7 +6,7 @@ import BlockHostRenderer from '../renderers/hosts/block-host-renderer';
 import { IFormProps } from './form.props';
 
 export interface IFormState {
-  structs: IInternalStruct[];
+  structs: IStruct[];
 }
 
 export default class Form extends BaseComponent<IFormProps, IFormState> {
@@ -33,13 +29,13 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       onCancel,
     } = this.props;
 
-    if (!schema.raw) {
+    if (!schema.json) {
       Logger.error('No schema defined.');
       return null;
     }
 
     if (!Array.isArray(schema.structs)) {
-      Logger.error('Invalid schema defined.', schema.raw);
+      Logger.error('Invalid schema defined.', schema.json);
       return null;
     }
 

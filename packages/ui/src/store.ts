@@ -1,8 +1,8 @@
 import {
   Logger,
-  IInternalSchema,
-  generateChildErrors,
   ISchema,
+  generateChildErrors,
+  ISchemaJson,
   ScalarFieldValue,
   IErrors,
   IChildErrors,
@@ -52,7 +52,7 @@ export interface IStoreState {
   formDisabled: boolean;
   formLocked: boolean;
   formSubmitting: boolean;
-  schema: IInternalSchema;
+  schema: ISchema;
   type: FormType;
   struct: string;
   block: string;
@@ -86,7 +86,7 @@ const logger = (store) => (next) => (action) => {
 };
 
 export function createStore(
-  rawSchema: ISchema,
+  schemaJson: ISchemaJson,
   structName: string,
   type?: FormType,
   blockName?: string,
@@ -104,18 +104,18 @@ export function createStore(
   onFieldChangeType?: FieldChangeNotificationType,
   onFieldParentChange?: FieldParentChangeNotification,
 ): IStore {
-  const schema = SchemaParser.parse(rawSchema);
+  const schema = SchemaParser.parse(schemaJson);
 
   const optionDefaults = DeReCrudUiOptions.getDefaults();
 
   const rendererOptionDefaults =
     rendererOptions || optionDefaults.rendererOptions;
 
-  if (rawSchema && structName) {
+  if (schemaJson && structName) {
     initialValue = createFieldParent(schema, structName, initialValue);
   }
 
-  if (rawSchema && structName && !type) {
+  if (schemaJson && structName && !type) {
     const keyFields = InternalSchemaHelper.getKeyFields(schema, structName);
 
     const allKeyFieldsSet =

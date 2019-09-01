@@ -1,37 +1,37 @@
-import { IInternalStruct } from '../internal';
-import parseLabel from './parse-label';
 import { IStruct } from '..';
+import parseLabel from './parse-label';
+import { IStructJson } from '../json';
 
-export default function parseStruct(struct: IStruct): IInternalStruct {
-  const result: IInternalStruct = {
-    name: struct.name,
+export default function parseStruct(structJson: IStructJson): IStruct {
+  const struct: IStruct = {
+    name: structJson.name,
     fields: [],
     blocks: [],
   };
 
-  if (typeof struct.label !== 'undefined') {
-    result.label = parseLabel(struct.label);
+  if (typeof structJson.label !== 'undefined') {
+    struct.label = parseLabel(structJson.label);
   }
 
-  if (typeof struct.collectionLabel !== 'undefined') {
-    result.collectionLabel = parseLabel(struct.collectionLabel);
+  if (typeof structJson.collectionLabel !== 'undefined') {
+    struct.collectionLabel = parseLabel(structJson.collectionLabel);
   }
 
-  if (Array.isArray(struct.fields)) {
-    struct.fields.forEach((field) => {
+  if (Array.isArray(structJson.fields)) {
+    structJson.fields.forEach((field) => {
       if (field.name) {
-        result.fields.push(field.name);
+        struct.fields.push(field.name);
       }
     });
   }
 
-  if (Array.isArray(struct.blocks)) {
-    struct.blocks.forEach((block) => {
+  if (Array.isArray(structJson.blocks)) {
+    structJson.blocks.forEach((block) => {
       if (block.name) {
-        result.blocks.push(block.name);
+        struct.blocks.push(block.name);
       }
     });
   }
 
-  return result;
+  return struct;
 }

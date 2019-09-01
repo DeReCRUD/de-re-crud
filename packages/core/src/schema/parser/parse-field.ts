@@ -1,34 +1,34 @@
 import {
   DEFAULT_FIELD_WIDTH,
-  IInternalField,
-  IInternalLinkedStructField,
-  IInternalListField,
-  IInternalIntegerField,
-  IInternalTextField,
-  IInternalForeignKeyField,
-} from '../internal';
-import parseLabel from './parse-label';
-import {
   IField,
-  ITextField,
-  IIntegerField,
-  IListField,
   ILinkedStructField,
+  IListField,
+  IIntegerField,
+  ITextField,
   IForeignKeyField,
 } from '..';
+import parseLabel from './parse-label';
+import {
+  IFieldJson,
+  ITextFieldJson,
+  IIntegerFieldJson,
+  IListFieldJson,
+  ILinkedStructFieldJson,
+  IForeignKeyFieldJson,
+} from '../json';
 
 export default function parseField(
   struct: string,
-  field: IField,
-): IInternalField {
-  const result: IInternalField = {
-    keyField: field.keyField || false,
-    label: parseLabel(field.label),
-    name: field.name,
-    required: field.required || false,
+  fieldJson: IFieldJson,
+): IField {
+  const field: IField = {
+    keyField: fieldJson.keyField || false,
+    label: parseLabel(fieldJson.label),
+    name: fieldJson.name,
+    required: fieldJson.required || false,
     struct,
-    type: field.type,
-    unique: field.unique || false,
+    type: fieldJson.type,
+    unique: fieldJson.unique || false,
     hints: {
       width: DEFAULT_FIELD_WIDTH,
       readOnly: false,
@@ -37,98 +37,98 @@ export default function parseField(
     customValidators: [],
   };
 
-  if (typeof field.help !== 'undefined') {
-    result.help = field.help;
+  if (typeof fieldJson.help !== 'undefined') {
+    field.help = fieldJson.help;
   }
 
-  if (typeof field.initialValue !== 'undefined') {
-    result.initialValue = field.initialValue;
+  if (typeof fieldJson.initialValue !== 'undefined') {
+    field.initialValue = fieldJson.initialValue;
   }
 
-  if (typeof field.missingValue !== 'undefined') {
-    result.missingValue = field.missingValue;
+  if (typeof fieldJson.missingValue !== 'undefined') {
+    field.missingValue = fieldJson.missingValue;
   }
 
-  if (typeof field.placeholder !== 'undefined') {
-    result.placeholder = field.placeholder;
+  if (typeof fieldJson.placeholder !== 'undefined') {
+    field.placeholder = fieldJson.placeholder;
   } else {
-    result.placeholder = result.label.short;
+    field.placeholder = field.label.short;
   }
 
-  if (typeof field.hints !== 'undefined') {
+  if (typeof fieldJson.hints !== 'undefined') {
     if (
-      typeof field.hints.width !== 'undefined' &&
-      field.hints.width >= 1 &&
-      field.hints.width <= DEFAULT_FIELD_WIDTH
+      typeof fieldJson.hints.width !== 'undefined' &&
+      fieldJson.hints.width >= 1 &&
+      fieldJson.hints.width <= DEFAULT_FIELD_WIDTH
     ) {
-      result.hints.width = field.hints.width;
+      field.hints.width = fieldJson.hints.width;
     }
 
-    if (typeof field.hints.readOnly !== 'undefined') {
-      result.hints.readOnly = field.hints.readOnly;
+    if (typeof fieldJson.hints.readOnly !== 'undefined') {
+      field.hints.readOnly = fieldJson.hints.readOnly;
     }
 
-    if (typeof field.hints.custom !== 'undefined') {
-      result.hints.custom = field.hints.custom;
+    if (typeof fieldJson.hints.custom !== 'undefined') {
+      field.hints.custom = fieldJson.hints.custom;
     }
   }
 
-  if (Array.isArray(field.customValidators)) {
-    field.customValidators.forEach((validator) => {
+  if (Array.isArray(fieldJson.customValidators)) {
+    fieldJson.customValidators.forEach((validator) => {
       if (typeof validator === 'string') {
-        result.customValidators.push(validator);
+        field.customValidators.push(validator);
       }
     });
   }
 
-  switch (result.type) {
+  switch (field.type) {
     case 'text': {
+      const textFieldJson = fieldJson as ITextFieldJson;
       const textField = field as ITextField;
-      const internalTextField = result as IInternalTextField;
 
-      if (textField.minLength) {
-        internalTextField.minLength = textField.minLength;
+      if (textFieldJson.minLength) {
+        textField.minLength = textFieldJson.minLength;
       }
 
-      if (textField.maxLength) {
-        internalTextField.maxLength = textField.maxLength;
+      if (textFieldJson.maxLength) {
+        textField.maxLength = textFieldJson.maxLength;
       }
 
       if (
-        typeof textField.hints !== 'undefined' &&
-        typeof textField.hints.layout !== 'undefined'
+        typeof textFieldJson.hints !== 'undefined' &&
+        typeof textFieldJson.hints.layout !== 'undefined'
       ) {
-        internalTextField.hints.layout = textField.hints.layout;
+        textField.hints.layout = textFieldJson.hints.layout;
       } else {
-        internalTextField.hints.layout = 'input';
+        textField.hints.layout = 'input';
       }
       break;
     }
     case 'integer': {
+      const integerFieldJson = fieldJson as IIntegerFieldJson;
       const integerField = field as IIntegerField;
-      const internalIntegerField = result as IInternalIntegerField;
 
-      if (integerField.min) {
-        internalIntegerField.min = integerField.min;
+      if (integerFieldJson.min) {
+        integerField.min = integerFieldJson.min;
       }
 
-      if (integerField.max) {
-        internalIntegerField.max = integerField.max;
+      if (integerFieldJson.max) {
+        integerField.max = integerFieldJson.max;
       }
 
       break;
     }
     case 'list': {
+      const listFieldJson = fieldJson as IListFieldJson;
       const listField = field as IListField;
-      const internalListField = result as IInternalListField;
 
-      internalListField.multiSelect = listField.multiSelect || false;
-      internalListField.dynamicOptions = listField.dynamicOptions || false;
-      internalListField.options = [];
+      listField.multiSelect = listFieldJson.multiSelect || false;
+      listField.dynamicOptions = listFieldJson.dynamicOptions || false;
+      listField.options = [];
 
-      if (Array.isArray(listField.options)) {
-        listField.options.forEach((option) => {
-          internalListField.options.push({
+      if (Array.isArray(listFieldJson.options)) {
+        listFieldJson.options.forEach((option) => {
+          listField.options.push({
             label: parseLabel(option.label),
             value: option.value,
           });
@@ -136,45 +136,45 @@ export default function parseField(
       }
 
       if (
-        !internalListField.multiSelect &&
-        typeof listField.hints !== 'undefined' &&
-        typeof listField.hints.layout !== 'undefined'
+        !listField.multiSelect &&
+        typeof listFieldJson.hints !== 'undefined' &&
+        typeof listFieldJson.hints.layout !== 'undefined'
       ) {
-        internalListField.hints.layout = listField.hints.layout;
+        listField.hints.layout = listFieldJson.hints.layout;
       } else {
-        internalListField.hints.layout = 'select';
+        listField.hints.layout = 'select';
       }
 
       break;
     }
     case 'linkedStruct': {
+      const linkedStructFieldJson = fieldJson as ILinkedStructFieldJson;
       const linkedStructField = field as ILinkedStructField;
-      const internalLinkedStructField = result as IInternalLinkedStructField;
 
-      internalLinkedStructField.reference = {
-        block: linkedStructField.reference.block || 'default',
-        struct: linkedStructField.reference.struct,
+      linkedStructField.reference = {
+        block: linkedStructFieldJson.reference.block || 'default',
+        struct: linkedStructFieldJson.reference.struct,
       };
 
-      if (linkedStructField.minInstances) {
-        internalLinkedStructField.minInstances = linkedStructField.minInstances;
+      if (linkedStructFieldJson.minInstances) {
+        linkedStructField.minInstances = linkedStructFieldJson.minInstances;
       } else {
-        internalLinkedStructField.minInstances = 0;
+        linkedStructField.minInstances = 0;
       }
 
-      if (linkedStructField.maxInstances) {
-        internalLinkedStructField.maxInstances = linkedStructField.maxInstances;
+      if (linkedStructFieldJson.maxInstances) {
+        linkedStructField.maxInstances = linkedStructFieldJson.maxInstances;
       }
 
       break;
     }
     case 'foreignKey': {
+      const foreignKeyFieldJson = fieldJson as IForeignKeyFieldJson;
       const foreignKeyField = field as IForeignKeyField;
-      const linkedForeignKeyField = result as IInternalForeignKeyField;
 
-      linkedForeignKeyField.reference = {
-        struct: foreignKeyField.reference.struct,
-        labelField: foreignKeyField.reference.labelField,
+      foreignKeyField.reference = {
+        struct: foreignKeyFieldJson.reference.struct,
+        labelField: foreignKeyFieldJson.reference.labelField,
       };
 
       break;
@@ -183,5 +183,5 @@ export default function parseField(
       break;
   }
 
-  return result;
+  return field;
 }

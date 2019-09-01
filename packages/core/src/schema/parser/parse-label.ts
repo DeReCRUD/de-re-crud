@@ -1,4 +1,4 @@
-import { ILabel } from '..';
+import { ILabel } from '../json';
 
 export default function parseLabel(
   label?: string | { short?: string; medium?: string; long?: string },

@@ -1,4 +1,4 @@
-import { IInternalSchema } from '@de-re-crud/core';
+import { ISchema } from '@de-re-crud/core';
 import { IRendererDefinitions } from '../../defintions';
 
 export interface IBlockHostRendererConnectProps {
@@ -10,7 +10,7 @@ export interface IBlockHostRendererConnectProps {
 export interface IBlockHostRendererProps
   extends IBlockHostRendererConnectProps {
   conditionCacheKey: number;
-  schema: IInternalSchema;
+  schema: ISchema;
   formId: number;
   formValue: object;
   renderers: IRendererDefinitions;

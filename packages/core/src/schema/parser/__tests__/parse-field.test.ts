@@ -1,20 +1,21 @@
 import {
-  DEFAULT_FIELD_WIDTH,
-  IInternalField,
-  IInternalIntegerField,
-  IInternalLinkedStructField,
-  IInternalListField,
-  IInternalTextField,
-  IInternalOptions,
-} from '../../internal';
-import {
   FieldType,
+  IFieldJson,
+  IIntegerFieldJson,
+  ILinkedStructFieldJson,
+  IListFieldJson,
+  ITextFieldJson,
+} from '../../json';
+import {
+  DEFAULT_FIELD_WIDTH,
   IField,
   IIntegerField,
   ILinkedStructField,
   IListField,
   ITextField,
+  IOptions,
 } from '../..';
+
 import parseField from '../parse-field';
 
 const struct = 'TestStruct';
@@ -23,7 +24,7 @@ function createFieldTests(
   type: FieldType,
   extraInitailData = {},
   extraExpectedData = {},
-  extraTests: (field: IField) => void = () => {},
+  extraTests: (json: IFieldJson) => void = () => {},
 ) {
   describe(`when type is ${type}`, () => {
     const field: any = {
@@ -57,7 +58,7 @@ function createFieldTests(
         type,
         unique: false,
         ...extraExpectedData,
-      } as IInternalField);
+      } as IField);
     });
 
     it('should include help when specified', () => {
@@ -145,7 +146,7 @@ describe('parseField', () => {
       const integerField = parseField(struct, {
         ...field,
         min: 5,
-      } as IIntegerField) as IInternalIntegerField;
+      } as IIntegerFieldJson) as IIntegerField;
 
       expect(integerField.min).toBe(5);
     });
@@ -154,7 +155,7 @@ describe('parseField', () => {
       const integerField = parseField(struct, {
         ...field,
         max: 100,
-      } as IIntegerField) as IInternalIntegerField;
+      } as IIntegerFieldJson) as IIntegerField;
 
       expect(integerField.max).toBe(100);
     });
@@ -166,21 +167,21 @@ describe('parseField', () => {
     'linkedStruct',
     { reference: { struct } },
     { minInstances: 0, reference: { struct, block: 'default' } },
-    (field) => {
+    (json) => {
       it('should include min instances when specified', () => {
         const linkedStructField = parseField(struct, {
-          ...field,
+          ...json,
           minInstances: 2,
-        } as ILinkedStructField) as IInternalLinkedStructField;
+        } as ILinkedStructFieldJson) as ILinkedStructField;
 
         expect(linkedStructField.minInstances).toBe(2);
       });
 
       it('should include max instances when specified', () => {
         const linkedStructField = parseField(struct, {
-          ...field,
+          ...json,
           maxInstances: 10,
-        } as ILinkedStructField) as IInternalLinkedStructField;
+        } as ILinkedStructFieldJson) as ILinkedStructField;
 
         expect(linkedStructField.maxInstances).toBe(10);
       });
@@ -201,44 +202,44 @@ describe('parseField', () => {
       dynamicOptions: false,
       options: [],
     },
-    (field) => {
+    (json) => {
       it('should enable multi select when specified', () => {
         const listField = parseField(struct, {
-          ...field,
+          ...json,
           multiSelect: true,
-        } as IListField) as IInternalListField;
+        } as IListFieldJson) as IListField;
 
         expect(listField.multiSelect).toBe(true);
       });
 
       it('should enable dynamic options when specified', () => {
         const listField = parseField(struct, {
-          ...field,
+          ...json,
           dynamicOptions: true,
-        } as IListField) as IInternalListField;
+        } as IListFieldJson) as IListField;
 
         expect(listField.dynamicOptions).toBe(true);
       });
 
       it('should include options when specified', () => {
         const listField = parseField(struct, {
-          ...field,
+          ...json,
           options: [{ label: 'Label', value: 'Value' }],
-        } as IListField) as IInternalListField;
+        } as IListFieldJson) as IListField;
 
         expect(listField.options).toEqual([
           {
             label: { short: 'Label', medium: 'Label', long: 'Label' },
             value: 'Value',
           },
-        ] as IInternalOptions[]);
+        ] as IOptions[]);
       });
 
       it('should layout as radio when specified', () => {
         const listField = parseField(struct, {
-          ...field,
-          hints: { ...field.hints, layout: 'radio' },
-        } as IListField) as IInternalListField;
+          ...json,
+          hints: { ...json.hints, layout: 'radio' },
+        } as IListFieldJson) as IListField;
 
         expect(listField.hints.layout).toEqual('radio');
       });
@@ -259,30 +260,30 @@ describe('parseField', () => {
         layout: 'input',
       },
     },
-    (field) => {
+    (json) => {
       it('should include min length when specified', () => {
         const textField = parseField(struct, {
-          ...field,
+          ...json,
           minLength: 5,
-        } as ITextField) as IInternalTextField;
+        } as ITextFieldJson) as ITextField;
 
         expect(textField.minLength).toBe(5);
       });
 
       it('should include max length when specified', () => {
         const textField = parseField(struct, {
-          ...field,
+          ...json,
           maxLength: 100,
-        } as ITextField) as IInternalTextField;
+        } as ITextFieldJson) as ITextField;
 
         expect(textField.maxLength).toBe(100);
       });
 
       it('should layout as text area when specified', () => {
         const textField = parseField(struct, {
-          ...field,
-          hints: { ...field.hints, layout: 'textarea' },
-        } as ITextField) as IInternalListField;
+          ...json,
+          hints: { ...json.hints, layout: 'textarea' },
+        } as ITextFieldJson) as IListField;
 
         expect(textField.hints.layout).toEqual('textarea');
       });

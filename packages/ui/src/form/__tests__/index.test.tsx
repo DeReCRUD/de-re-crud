@@ -1,9 +1,9 @@
-import { ISchema } from '@de-re-crud/core';
+import { ISchemaJson } from '@de-re-crud/core';
 import { cleanup, render } from 'preact-testing-library';
 import { h, Ref } from '../../h';
 import Form, { IFormProps } from '..';
 
-const schema: ISchema = {
+const schema: ISchemaJson = {
   structs: [
     {
       name: 'struct',

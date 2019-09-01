@@ -1,11 +1,7 @@
-import { IInternalField } from '../schema/internal';
-import { FieldValue } from '../schema';
+import { IField, FieldValue } from '../schema';
 
-export type ValidatorFunc = (
-  field: IInternalField,
-  value: FieldValue,
-) => boolean;
+export type ValidatorFunc = (field: IField, value: FieldValue) => boolean;
 
 export interface IValidator {
-  validate: (field: IInternalField, value: FieldValue) => boolean;
+  validate: (field: IField, value: FieldValue) => boolean;
 }
