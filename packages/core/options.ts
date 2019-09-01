@@ -4,19 +4,20 @@ import { IRendererOptions } from './models/renderer-options';
 
 let optionDefaultsInitialized = false;
 
-// eslint-disable-next-line dot-notation
-const hmr = module['hot'];
-if (hmr) {
-  hmr.accept(() => {
-    optionDefaultsInitialized = false;
-  });
-
-  if (hmr.addStatusHandler) {
-    hmr.addStatusHandler((status) => {
-      if (status === 'apply') {
-        optionDefaultsInitialized = false;
-      }
+if (typeof module !== 'undefined') {
+  const hmr = module.hot;
+  if (hmr) {
+    hmr.accept(() => {
+      optionDefaultsInitialized = false;
     });
+
+    if (hmr.addStatusHandler) {
+      hmr.addStatusHandler((status) => {
+        if (status === 'apply') {
+          optionDefaultsInitialized = false;
+        }
+      });
+    }
   }
 }
 

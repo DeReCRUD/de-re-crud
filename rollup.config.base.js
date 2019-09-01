@@ -17,7 +17,14 @@ const { outDir } = tsConfig.compilerOptions;
 
 fs.ensureDirSync(outDir);
 
-function generateDefaultConfig(pkg, input, external, globals, minify) {
+function generateDefaultConfig(
+  globalName,
+  pkg,
+  input,
+  external,
+  globals,
+  minify,
+) {
   let mainFile = pkg.main;
   if (minify) {
     mainFile = mainFile.replace('.js', '.min.js');
@@ -39,7 +46,7 @@ function generateDefaultConfig(pkg, input, external, globals, minify) {
 
   const output = [
     {
-      name: pkg.name,
+      name: globalName,
       file: path.join(outDir, mainFile),
       format: 'umd',
       sourcemap: true,
@@ -91,8 +98,15 @@ function generateDefaultConfig(pkg, input, external, globals, minify) {
   return config;
 }
 
-function generateMainConfig(pkg, input, external, globals, minify) {
-  const config = generateDefaultConfig(pkg, input, external, globals, minify);
+function generateMainConfig(globalName, pkg, input, external, globals, minify) {
+  const config = generateDefaultConfig(
+    globalName,
+    pkg,
+    input,
+    external,
+    globals,
+    minify,
+  );
 
   const newPkg = {
     ...pkg,
@@ -117,16 +131,12 @@ function generateMainConfig(pkg, input, external, globals, minify) {
   return config;
 }
 
-export function generateConfig(
-  input,
-  external,
-  globals = { preact: 'preact' },
-) {
+export function generateConfig(globalName, input, external, globals) {
   // eslint-disable-next-line global-require
   const pkg = require('./package.json');
 
   return [
-    generateMainConfig(pkg, input, external, globals),
-    generateMainConfig(pkg, input, external, globals, true),
+    generateMainConfig(globalName, pkg, input, external, globals),
+    generateMainConfig(globalName, pkg, input, external, globals, true),
   ];
 }
