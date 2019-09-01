@@ -1,12 +1,11 @@
 {
-  "name": "@de-re-crud/renderer-bootstrap4",
-  "description": "Bootstrap 4 renderers for De Re CRUD interfaces",
+  "name": "@de-re-crud/theme-bootstrap4",
+  "description": "Bootstrap 4 theme for De Re CRUD interfaces",
   "version": "0.15.0",
   "repository": "https://github.com/DeReCRUD/core.git",
   "license": "Apache-2.0",
-  "style": "dist/de-re-crud-renderer-bootstrap4.css",
-  "main": "dist/de-re-crud-renderer-bootstrap4.umd.js",
-  "module": "dist/de-re-crud-renderer-bootstrap4.es.js",
+  "main": "dist/de-re-crud-theme-bootstrap4.umd.js",
+  "module": "dist/de-re-crud-theme-bootstrap4.es.js",
   "types": "index.d.ts",
   "scripts": {
     "compile": "tsc",

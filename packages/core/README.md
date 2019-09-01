@@ -1,42 +1,15 @@
-# De Re CRUD (Core)
+# @de-re-crud/core
 
-## Getting Started
+Core library used by all other De Re CRUD libraries. It contains utilities for creating and validating schema.
 
-Install library:
+## Usage
 
-```bash
-npm install --save @de-re-crud/core #or, yarn add @de-re-crud/core
-```
+The library can be installed with npm using:
 
-Install a renderer:
+`yarn add @de-re-crud/core`
 
-```bash
-# This is the Bootstrap 4 renderer as an example. You will need to include Bootstrap CSS and the CSS shipped with the renderer library.
-npm install --save @de-re-crud/renderer-bootstrap4
-#or, yarn add @de-re-crud/renderer-bootstrap4
-```
+or using npm:
 
----
+`npm install --save @de-re-crud/core`
 
-For Preact:
-
-```typescript
-import { h } from "preact";
-import { Form } from "@de-re-crud/core";
-import { Bootstrap4RendererOptions } from "@de-re-crud/renderer-bootstrap4";
-import schemaJson from "./schema.json";
-
-h(
-  <Form
-    rendererOptions={Bootstrap4RendererOptions}
-    schema={schemaJson}
-    struct="struct"
-    onSubmit={() => {}}
-  />,
-  el
-);
-```
-
----
-
-For Angular, see the [Angular wrapper](https://github.com/DeReCRUD/angular).
+If used directly in the browser, the API is accessible under `DeReCrud`.
