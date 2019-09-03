@@ -40,7 +40,17 @@ steps:
   displayName: 'Publish Code Coverage Results'
 
 - script: |
-    cp -R dist/ $(Build.ArtifactStagingDirectory)
+    for d in packages/*/; do
+      if [ -d "$d" ]; then
+        package=$(basename $d)
+
+        if [ -d "$d/dist/" ]; then
+          echo "Copying dist for $package"
+
+          cp -R $d/dist/ $(Build.ArtifactStagingDirectory)/$package
+        fi
+      fi
+    done
   displayName: 'Copy Artifacts'
 
 - task: PublishBuildArtifacts@1
