@@ -10,6 +10,7 @@ import createCssClass from './renderers/utils/create-css-class';
 import BaseComponent from './renderers/base-component';
 import { IRendererOptions } from './options/renderer-options';
 import { IButtonOptions } from './options/button-options';
+import { IRendererDefinitions } from './renderers/defintions';
 import Form from './form';
 
 export * from './form';
@@ -22,6 +23,7 @@ export {
   createCssClass,
   IRendererOptions,
   IButtonOptions,
+  IRendererDefinitions,
 };
 
 export type DestroyFunc = () => void;

@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import path from 'path';
 import fs from 'fs-extra';
 import resolve from 'rollup-plugin-node-resolve';
@@ -8,14 +9,12 @@ import generatePackageJson from 'rollup-plugin-generate-package-json';
 import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 import replace from 'rollup-plugin-replace';
-import typescriptLib from 'typescript';
 
 // eslint-disable-next-line import/no-dynamic-require
 const tsConfig = require(path.resolve(process.cwd(), 'tsconfig.json'));
 const { outDir } = tsConfig.compilerOptions;
 
 fs.ensureDirSync(outDir);
-fs.emptyDirSync(outDir);
 
 function generateDefaultConfig(
   globalName,
@@ -30,9 +29,7 @@ function generateDefaultConfig(
     mainFile = mainFile.replace('.js', '.min.js');
   }
 
-  const outDirParts = outDir.split('/');
-  outDirParts[outDirParts.length - 2] = '.rpt2_cache';
-  const cacheRoot = outDirParts.join('/');
+  const cacheRoot = path.join(outDir, '..', '.rpt2_cache');
 
   const output = [
     {
@@ -61,12 +58,7 @@ function generateDefaultConfig(
         'process.env.ENABLE_LOGGING': false,
       }),
       typescript({
-        typescript: typescriptLib,
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: false,
-          },
-        },
+        typescript: require('typescript'),
         cacheRoot,
       }),
       commonjs(),
@@ -118,7 +110,6 @@ function generateMainConfig(globalName, pkg, input, external, globals, minify) {
 }
 
 export function generateConfig(globalName, input, external, globals = {}) {
-  // eslint-disable-next-line global-require
   const pkg = require('./package.json');
 
   return [

@@ -2,7 +2,8 @@ import { ISchema, IStruct, IField, IBlock } from '.';
 
 export default class InternalSchemaHelper {
   public static getStruct(schema: ISchema, structName: string): IStruct {
-    return schema.structs.find((struct) => struct.name === structName);
+    const struct = schema.structs.find((x) => x.name === structName);
+    return struct;
   }
 
   public static getField(
@@ -22,7 +23,7 @@ export default class InternalSchemaHelper {
   }
 
   public static getKeyFields(schema: ISchema, structName: string): string[] {
-    const struct = this.getStruct(schema, structName);
+    const struct = InternalSchemaHelper.getStruct(schema, structName);
 
     return struct.fields.filter((x) => {
       const fields = schema.fields.get(structName);

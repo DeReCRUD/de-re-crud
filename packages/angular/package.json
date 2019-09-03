@@ -1,0 +1,28 @@
+{
+  "name": "@de-re-crud/angular",
+  "description": "Angular wrapper for De Re CRUD",
+  "version": "0.15.0",
+  "repository": "https://github.com/babel/babel/tree/master/packages/angular",
+  "peerDependencies": {
+    "@angular/cdk": "^8.0.0",
+    "@angular/common": "^8.0.0 || ^9.0.0-0",
+    "@angular/core": "^8.0.0 || ^9.0.0-0",
+    "@de-re-crud/core": "0.15.0",
+    "@de-re-crud/ui": "0.15.0"
+  },
+  "devDependencies": {
+    "@angular/cdk": "^8.1.4",
+    "@angular/common": "^8.2.4",
+    "@angular/compiler": "^8.2.4",
+    "@angular/compiler-cli": "^8.2.4",
+    "@angular/core": "^8.2.4",
+    "@de-re-crud/core": "0.15.0",
+    "@de-re-crud/ui": "0.15.0",
+    "ng-packagr": "^5.5.0",
+    "rxjs": "^6.4.0",
+    "zone.js": "~0.9.1"
+  },
+  "scripts": {
+    "build": "ng-packagr -c ./tsconfig.json"
+  }
+}

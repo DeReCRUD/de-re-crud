@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./packages",
     "target": "es5",
     "module": "es2015",
     "lib": ["dom", "es2015"],
@@ -16,9 +16,9 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "paths": {
-      "@de-re-crud/core": ["./packages/core/src"],
-      "@de-re-crud/ui": ["./packages/ui/src"],
-      "@de-re-crud/theme-bootstrap4": ["./packages/theme-bootstrap4/src"]
+      "@de-re-crud/core": ["core/src"],
+      "@de-re-crud/ui": ["ui/src"],
+      "@de-re-crud/theme-bootstrap4": ["theme-bootstrap4/src"]
     }
   }
 }

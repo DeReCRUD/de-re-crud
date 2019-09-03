@@ -4,7 +4,7 @@ import { IButtonOptions } from './button-options';
 
 let optionDefaultsInitialized = false;
 
-if (typeof module !== 'undefined') {
+if (typeof module !== 'undefined' && typeof module.hot !== 'undefined') {
   const hmr = module.hot;
   if (hmr) {
     hmr.accept(() => {
@@ -33,11 +33,11 @@ export class DeReCrudUiOptions {
 
     Object.assign(options, defaults);
 
-    this.options = Object.freeze(options);
+    DeReCrudUiOptions.options = Object.freeze(options);
   }
 
   public static getDefaults() {
-    return this.options;
+    return DeReCrudUiOptions.options;
   }
 
   private static options: DeReCrudUiOptions = Object.freeze(

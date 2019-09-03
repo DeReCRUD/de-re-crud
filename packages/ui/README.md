@@ -6,7 +6,7 @@ UI library used by all other De Re CRUD interface libraries. It contains utiliti
 
 The library can be installed with npm using:
 
-`yarn add @de-re-crud/core`
+`yarn add @de-re-crud/ui`
 
 or using npm:
 

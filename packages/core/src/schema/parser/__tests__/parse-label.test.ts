@@ -1,4 +1,4 @@
-import { ILabel } from '../..';
+import { ILabel } from '../../json';
 import parseLabel from '../parse-label';
 
 describe('parseLabel', () => {
