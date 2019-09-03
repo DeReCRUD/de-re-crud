@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "declaration": false,
+    "declaration": true,
     "target": "es2015",
     "module": "es2015",
     "sourceMap": true,

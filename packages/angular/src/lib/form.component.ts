@@ -6,6 +6,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  AfterViewInit,
 } from '@angular/core';
 import { FieldValue, ICollectionReferences, IErrors } from '@de-re-crud/core';
 import {
@@ -37,10 +38,10 @@ import {
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormComponent implements OnChanges, IForm {
+export class FormComponent implements AfterViewInit, OnChanges, IForm {
   private instance: IForm;
 
-  @ViewChild(FormHostDirective, { static: true })
+  @ViewChild(FormHostDirective, { static: false })
   formHost: FormHostDirective;
 
   @Input()
@@ -108,6 +109,10 @@ export class FormComponent implements OnChanges, IForm {
 
   constructor() {}
 
+  ngAfterViewInit() {
+    this.render();
+  }
+
   ngOnChanges() {
     this.render();
   }
@@ -166,6 +171,10 @@ export class FormComponent implements OnChanges, IForm {
   };
 
   render() {
+    if (!this.formHost) {
+      return;
+    }
+
     const { nativeElement } = this.formHost.viewContainerRef.element;
 
     this.instance = renderForm(

@@ -12,6 +12,11 @@ yarn add @de-re-crud/core #or npm install --save @de-re-crud/core
 yarn add @de-re-crud/ui #or npm install --save @de-re-crud/ui 
 ```
 
+Install Angular CDK:
+```bash
+yarn add @angular/cdk  #or npm install --save @angular/cdk
+```
+
 Install the library:
 
 ```bash
@@ -49,7 +54,7 @@ import schemaJson from './schema.json';  // Your defined De Re CRUD schema
 export class AppComponent {
   rendererOptions = Bootstrap4RendererOptions;
   schema = schemaJson;
-  struct="struct"
+  struct= "struct"
 
   onSubmit() {
       // Handle submission
