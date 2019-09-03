@@ -1,6 +1,6 @@
 import { h } from '@de-re-crud/ui';
 import { storiesOf } from '@storybook/preact';
-import Bootstrap4InputFieldRenderer from '@de-re-crud/theme-bootstrap4/renderers/input-field-renderer';
+import { Bootstrap4InputFieldRenderer } from '@de-re-crud/theme-bootstrap4';
 import { createDefaultProps } from './create-default-props';
 
 const defaultProps = createDefaultProps('textInput', 'Text Input', 'text');

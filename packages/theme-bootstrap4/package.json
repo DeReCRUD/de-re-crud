@@ -4,9 +4,9 @@
   "version": "0.15.0",
   "repository": "https://github.com/babel/babel/tree/master/packages/theme-bootstrap4",
   "license": "Apache-2.0",
-  "main": "dist/de-re-crud-theme-bootstrap4.umd.js",
-  "module": "dist/de-re-crud-theme-bootstrap4.es.js",
-  "types": "index.d.ts",
+  "main": "de-re-crud-theme-bootstrap4.umd.js",
+  "module": "de-re-crud-theme-bootstrap4.es.js",
+  "types": "theme-bootstrap4/index.d.ts",
   "scripts": {
     "build": "rollup --config"
   },

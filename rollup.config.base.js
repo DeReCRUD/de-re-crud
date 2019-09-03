@@ -10,9 +10,7 @@ import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 import replace from 'rollup-plugin-replace';
 
-// eslint-disable-next-line import/no-dynamic-require
-const tsConfig = require(path.resolve(process.cwd(), 'tsconfig.json'));
-const { outDir } = tsConfig.compilerOptions;
+const outDir = 'dist';
 
 fs.ensureDirSync(outDir);
 

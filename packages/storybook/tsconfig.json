@@ -3,14 +3,6 @@
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "dist",
-    "outDir": "dist",
-    "paths": {
-      "@de-re-crud/core": ["./packages/core/src"],
-      "@de-re-crud/ui": ["./packages/ui/src"],
-      "@de-re-crud/theme-bootstrap4": ["./packages/theme-bootstrap4/src"],
-      "@de-re-crud/theme-bootstrap4/renderers/*": [
-        "./packages/theme-bootstrap4/src/renderers/*"
-      ]
-    }
+    "outDir": "dist"
   }
 }

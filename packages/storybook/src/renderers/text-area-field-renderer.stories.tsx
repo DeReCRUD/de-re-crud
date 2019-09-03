@@ -1,6 +1,6 @@
 import { h } from '@de-re-crud/ui';
 import { storiesOf } from '@storybook/preact';
-import Bootstrap4TextAreaFieldRenderer from '@de-re-crud/theme-bootstrap4/renderers/text-area-field-renderer';
+import { Bootstrap4TextAreaFieldRenderer } from '@de-re-crud/theme-bootstrap4';
 import { createDefaultProps } from './create-default-props';
 
 const defaultProps = createDefaultProps('textArea', 'Text Area', 'text');

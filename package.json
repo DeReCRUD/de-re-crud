@@ -5,7 +5,7 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "clean": "del-cli packages/*/dist/**/*",
+    "clean": "del-cli packages/*/dist",
     "postinstall": "lerna bootstrap",
     "lint": "run-s format:check eslint:check",
     "eslint:check": "eslint --ext \".js,.ts,.tsx\" .",
