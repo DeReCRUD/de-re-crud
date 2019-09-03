@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "main": "de-re-crud-theme-bootstrap4.umd.js",
   "module": "de-re-crud-theme-bootstrap4.es.js",
-  "types": "theme-bootstrap4/index.d.ts",
+  "typings": "index.d.ts",
   "scripts": {
     "build": "rollup --config"
   },

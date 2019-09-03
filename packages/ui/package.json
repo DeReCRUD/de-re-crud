@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "main": "de-re-crud-ui.umd.js",
   "module": "de-re-crud-ui.es.js",
-  "types": "ui/index.d.ts",
+  "typings": "index.d.ts",
   "scripts": {
     "build": "rollup --config"
   },
