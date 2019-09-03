@@ -18,9 +18,6 @@ steps:
 - script: yarn lint
   displayName: 'Lint Source'
 
-- script: yarn build
-  displayName: 'Run Build'
-
 - script: |
     yarn cover --ci --reporters=default --reporters=jest-junit --coverageReporters=lcov --coverageReporters=cobertura
     ./node_modules/.bin/codecov
@@ -38,6 +35,9 @@ steps:
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
     reportDirectory: '$(System.DefaultWorkingDirectory)/coverage/lcov-report'
   displayName: 'Publish Code Coverage Results'
+
+- script: yarn build
+  displayName: 'Run Build'
 
 - script: |
     for d in packages/*/; do
