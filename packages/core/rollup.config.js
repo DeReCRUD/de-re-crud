@@ -1,6 +1,6 @@
 import { generateConfig } from '../../rollup.config.base';
 
-const external = (id) => /(^preact)/.test(id);
-const config = generateConfig('index.tsx', external);
+const external = () => false;
+const config = generateConfig('DeReCrud', 'index.ts', external);
 
 export default config;

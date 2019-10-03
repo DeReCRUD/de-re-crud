@@ -9,10 +9,11 @@
     "jsxFactory": "h",
     "moduleResolution": "node",
     "sourceMap": false,
-    "rootDirs": ["./packages/*"],
     "typeRoots": ["node_modules/@types"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   }
 }

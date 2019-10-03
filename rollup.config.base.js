@@ -1,47 +1,41 @@
+/* eslint-disable global-require */
 import path from 'path';
 import fs from 'fs-extra';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import sourceMaps from 'rollup-plugin-sourcemaps';
 import typescript from 'rollup-plugin-typescript2';
-import postcss from 'rollup-plugin-postcss';
 import generatePackageJson from 'rollup-plugin-generate-package-json';
 import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 import replace from 'rollup-plugin-replace';
 
-const tsConfig = require(path.resolve(process.cwd(), 'tsconfig.json'));
-const { outDir } = tsConfig.compilerOptions;
+const outDir = 'dist';
 
 fs.ensureDirSync(outDir);
 
-function generateDefaultConfig(pkg, input, external, minify) {
+function generateDefaultConfig(
+  globalName,
+  pkg,
+  input,
+  external,
+  globals,
+  minify,
+) {
   let mainFile = pkg.main;
   if (minify) {
     mainFile = mainFile.replace('.js', '.min.js');
   }
 
-  let styleFile = null;
-
-  if (pkg.style) {
-    styleFile = path.join(outDir, pkg.style);
-
-    if (minify) {
-      styleFile = styleFile.replace('.css', '.min.css');
-    }
-  }
-
-  const outDirParts = outDir.split('/');
-  outDirParts[outDirParts.length - 2] = '.rpt2_cache';
-  const cacheRoot = outDirParts.join('/');
+  const cacheRoot = path.join(outDir, '..', '.rpt2_cache');
 
   const output = [
     {
-      name: pkg.name,
+      name: globalName,
       file: path.join(outDir, mainFile),
       format: 'umd',
       sourcemap: true,
-      globals: { preact: 'preact' },
+      globals,
     },
   ];
 
@@ -55,23 +49,14 @@ function generateDefaultConfig(pkg, input, external, minify) {
 
   const config = {
     input,
-    output: output,
+    output,
     external,
     plugins: [
       replace({
         'process.env.ENABLE_LOGGING': false,
       }),
-      postcss({
-        extract: styleFile,
-        minimize: minify,
-      }),
       typescript({
         typescript: require('typescript'),
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: false,
-          },
-        },
         cacheRoot,
       }),
       commonjs(),
@@ -89,8 +74,15 @@ function generateDefaultConfig(pkg, input, external, minify) {
   return config;
 }
 
-function generateMainConfig(pkg, input, external, minify) {
-  const config = generateDefaultConfig(pkg, input, external, minify);
+function generateMainConfig(globalName, pkg, input, external, globals, minify) {
+  const config = generateDefaultConfig(
+    globalName,
+    pkg,
+    input,
+    external,
+    globals,
+    minify,
+  );
 
   const newPkg = {
     ...pkg,
@@ -115,11 +107,11 @@ function generateMainConfig(pkg, input, external, minify) {
   return config;
 }
 
-export function generateConfig(input, external) {
+export function generateConfig(globalName, input, external, globals = {}) {
   const pkg = require('./package.json');
 
   return [
-    generateMainConfig(pkg, input, external),
-    generateMainConfig(pkg, input, external, true),
+    generateMainConfig(globalName, pkg, input, external, globals),
+    generateMainConfig(globalName, pkg, input, external, globals, true),
   ];
 }

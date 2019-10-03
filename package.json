@@ -5,15 +5,15 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "clean": "node ./scripts/clean-dist-dir.js",
-    "bootstrap": "lerna bootstrap",
-    "lint": "yarn format:check && yarn lint:src && yarn lint:test",
-    "lint:src": "tslint --project ./tsconfig.json",
-    "lint:test": "tslint --project ./tsconfig.test.json",
-    "start": "cross-env ENABLE_LOGGING=true yarn workspace @de-re-crud/schema-builder dev",
-    "build": "yarn clean && lerna run build && node ./scripts/replace-dist-css-imports.js",
+    "clean": "del-cli packages/*/dist",
+    "postinstall": "lerna bootstrap",
+    "lint": "run-s format:check eslint:check",
+    "eslint:check": "eslint --ext \".js,.ts,.tsx\" .",
+    "build": "run-s clean build:packages",
+    "build:packages": "lerna run build --stream",
     "test": "jest",
     "cover": "jest --coverage",
+    "storybook": "yarn workspace @de-re-crud/storybook run start",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
     "format": "prettier \"**/*.{ts,tsx,js,json}\" --write",
     "bump": "lerna publish --skip-npm --force-publish=*"
@@ -26,34 +26,45 @@
     "@babel/preset-typescript": "^7.3.3",
     "@types/jest": "^24.0.11",
     "@types/node": "^10.12.18",
-    "@types/webpack-env": "^1.13.6",
-    "awesome-typescript-loader": "^5.2.0",
+    "@types/webpack-env": "^1.14.0",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
     "babel-core": "^7.0.0-bridge.0",
     "codecov": "^3.3.0",
     "cross-env": "^5.2.0",
+    "del-cli": "^2.0.0",
     "dom-testing-library": "^3.19.3",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-import-resolver-lerna": "^1.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "fs-extra": "^8.1.0",
     "husky": "^1.1.4",
     "jest": "^24.7.1",
     "jest-junit": "5.2.0",
-    "lerna": "^2.11.0",
+    "lerna": "^3.16.4",
     "lint-staged": "^8.0.5",
+    "npm-run-all": "^4.1.5",
     "preact-testing-library": "^0.3.0",
     "prettier": "^1.14.0",
     "replace-in-file": "^3.4.0",
-    "rollup": "^0.63.5",
+    "rollup": "^1.20.3",
     "rollup-plugin-commonjs": "^9.1.4",
-    "rollup-plugin-css-only": "^0.4.0",
     "rollup-plugin-filesize": "^4.0.1",
     "rollup-plugin-generate-package-json": "^2.1.1",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^1.0.1",
-    "rollup-plugin-typescript2": "^0.16.1",
-    "tslint": "^5.10.0",
-    "tslint-config-prettier": "^1.14.0",
-    "typescript": "^3.4.4"
+    "rollup-plugin-typescript2": "^0.24.0",
+    "ts-jest": "^24.0.2",
+    "ts-loader": "^6.0.4",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "typescript": "^3.5.3"
   },
   "husky": {
     "hooks": {
@@ -64,28 +75,6 @@
     "*.{ts,tsx,js,json}": [
       "prettier --write",
       "git add"
-    ]
-  },
-  "jest": {
-    "projects": [
-      "<rootDir>/packages"
-    ],
-    "resetMocks": true,
-    "testURL": "http://localhost",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "testRegex": "(/__tests__/.*\\.(test|spec))\\.(js|jsx|ts|tsx)?$",
-    "testPathIgnorePatterns": [
-      "<rootDir>/node_modules/",
-      "<rootDir>/dist/"
-    ],
-    "collectCoverageFrom": [
-      "packages/**/*.{ts,js}",
-      "!packages/**/rollup*",
-      "!packages/**/*.d.ts"
     ]
   }
 }

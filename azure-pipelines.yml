@@ -12,15 +12,11 @@ steps:
 
 - script: |
     yarn install --frozen-lockfile
-    yarn bootstrap
 
   displayName: 'Install Dependencies'
 
 - script: yarn lint
   displayName: 'Lint Source'
-
-- script: yarn build
-  displayName: 'Run Build'
 
 - script: |
     yarn cover --ci --reporters=default --reporters=jest-junit --coverageReporters=lcov --coverageReporters=cobertura
@@ -40,15 +36,26 @@ steps:
     reportDirectory: '$(System.DefaultWorkingDirectory)/coverage/lcov-report'
   displayName: 'Publish Code Coverage Results'
 
+- script: yarn build
+  displayName: 'Run Build'
+
 - script: |
-    cp -R dist/ $(Build.ArtifactStagingDirectory)
+    for d in packages/*/; do
+      if [ -d "$d" ]; then
+        package=$(basename $d)
+
+        if [ -d "$d/dist/" ]; then
+          echo "Copying dist for $package"
+
+          cp -R $d/dist/ $(Build.ArtifactStagingDirectory)/$package
+        fi
+      fi
+    done
   displayName: 'Copy Artifacts'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'package' 
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'package'
     publishLocation: 'Container'
   displayName: 'Publish Artifacts'
-
-

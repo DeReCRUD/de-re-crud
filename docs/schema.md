@@ -97,7 +97,7 @@ A grouping of fields displayed in the UI
 | name      | keyword                                                                                                     | true     | The common name used to identify the block                                          |
 | label     | string or [Label](#label)                                                                                   | false    | Describes the block in the UI                                                       |
 | condition | [condition](#condition)                                                                                     | false    | The [Condition](#condition) evaluated to determine if the block should be displayed |
-| fields    | (string or [Field Reference](#field-reference) or [Block Reference](#block-reference) or [Stamp](#stamp))[] | true     |                                                                                     |
+| references    | (string or [Field Reference](#field-reference) or [Block Reference](#block-reference) or [Stamp](#stamp))[] | true     |                                                                                     |
 | hints     | [hint](#hint)                                                                                               | false    | Display recomendation to the UI                                                     |
 
 ### <a name="label"></a> Label
