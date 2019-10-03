@@ -417,10 +417,10 @@ export default function fieldHostRendererActions(store: IStore) {
         }
 
         state.onFieldParentChange(params);
+      }
 
-        if (navigateFunc) {
-          navigateFunc(startingIndex);
-        }
+      if (navigateFunc) {
+        navigateFunc(startingIndex);
       }
 
       return {};
