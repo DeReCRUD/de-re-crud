@@ -61,6 +61,7 @@ export interface IFieldHostRendererProps
     startingIndex: number,
     count: number,
     navigateFunc?: (index: number) => void,
+    values?: object[],
   ) => void;
   push: (state: INavState) => void;
 }
