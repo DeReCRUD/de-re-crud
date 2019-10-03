@@ -21,7 +21,8 @@ export default class PatternValidator implements IValidator {
       return true;
     }
 
-    const result = value.toString().match(this.pattern) !== null;
+    const matches = value.toString().match(this.pattern);
+    const result = matches !== null;
     return this.negate ? !result : result;
   };
 }
