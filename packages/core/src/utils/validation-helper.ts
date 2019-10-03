@@ -7,21 +7,58 @@ import {
   FieldValue,
   ICollectionReferences,
 } from '../schema';
-import InternalSchemaHelper from '../schema/helper';
-import { ICustomValidator } from '../schema/json';
-import {
-  defaultValidators,
-  defaultValidatorFuncs,
-  defaultValidatorMessages,
-} from '../validators/default-validators';
+import { ICustomValidator, IDefaultValidatorMessages } from '../schema/json';
+import { defaultValidatorFuncs } from '../validators/default-validators';
 import PatternValidator from '../validators/pattern-validator';
+import formPathToValue from './form-path-to-value';
 
-function validateKeywordField(_: IField, value: string): string[] {
+const defaultValidatorMessages: IDefaultValidatorMessages = {
+  keyword: 'This field can not contain any tabs or spaces.',
+  minLength: 'This field must have at least {minLength} character(s).',
+  maxLength: 'This field can not have more than {maxLength} character(s).',
+  min: 'This field must have a value of at least {min}.',
+  max: 'This field can not exceed the value of {max}.',
+  minInstances: 'This field must have at least {minInstances,1} item(s).',
+  maxInstances: 'This field can not have more than {maxInstances} item(s).',
+  unique: 'This field must be unique.',
+  required: 'This field is required.',
+};
+
+function interpolateMessage(messageFormat: string, field: IField) {
+  return messageFormat.replace(/({[a-zA-Z0-9,.]*})/gm, (match) => {
+    const key = match.replace(/[{}]/g, '');
+    const parts = key.split(',');
+
+    const propValue = formPathToValue(field, parts[0]);
+    if (parts.length === 2) {
+      if (!propValue) {
+        return parts[1];
+      }
+
+      return propValue;
+    }
+
+    return typeof propValue !== 'undefined' ? propValue : match;
+  });
+}
+
+function interpolateMessageType(
+  messageType: keyof IDefaultValidatorMessages,
+  field: IField,
+) {
+  const messageFormat =
+    field.defaultValidatorMessages[messageType] ||
+    defaultValidatorMessages[messageType];
+
+  return interpolateMessage(messageFormat, field);
+}
+
+function validateKeywordField(field: IField, value: string): string[] {
   const errors = [];
 
   if (value) {
     if (/\s/g.test(value)) {
-      errors.push('This field can not contain any tabs or spaces.');
+      errors.push(interpolateMessageType('keyword', field));
     }
   }
 
@@ -33,13 +70,9 @@ function validateTextField(field: ITextField, value: string): string[] {
 
   if (value) {
     if (field.minLength && value.length < field.minLength) {
-      errors.push(
-        `This field must have at least ${field.minLength} character(s).`,
-      );
+      errors.push(interpolateMessageType('minLength', field));
     } else if (field.maxLength && value.length > field.maxLength) {
-      errors.push(
-        `This field can not have more than ${field.maxLength} character(s).`,
-      );
+      errors.push(interpolateMessageType('maxLength', field));
     }
   }
 
@@ -51,9 +84,9 @@ function validateIntegerField(field: IIntegerField, value: number): string[] {
 
   if (value) {
     if (typeof field.min !== 'undefined' && value < field.min) {
-      errors.push(`This field must have a value of at least ${field.min}.`);
+      errors.push(interpolateMessageType('min', field));
     } else if (typeof field.max !== 'undefined' && value > field.max) {
-      errors.push(`This field can not exceed the value of ${field.max}.`);
+      errors.push(interpolateMessageType('max', field));
     }
   }
 
@@ -70,13 +103,9 @@ export function validateLinkedStructField(
     (field.required || field.minInstances) &&
     (!value || !value.length || value.length < field.minInstances)
   ) {
-    errors.push(
-      `This field must have at least ${field.minInstances || 1} item(s).`,
-    );
+    errors.push(interpolateMessageType('minInstances', field));
   } else if (field.maxInstances && value.length > field.maxInstances) {
-    errors.push(
-      `This field can not have more than ${field.maxInstances} item(s).`,
-    );
+    errors.push(interpolateMessageType('maxInstances', field));
   }
 
   return errors;
@@ -96,54 +125,33 @@ export function validateField(
   const errors = [];
   const field = schema.fields.get(structName).get(fieldName);
 
-  defaultValidators.forEach((validator) => {
-    const valid = defaultValidatorFuncs[validator](field, fieldValue);
+  Object.keys(defaultValidatorFuncs).forEach((key) => {
+    const validatorFn = defaultValidatorFuncs[key];
+    const valid = validatorFn(field, fieldValue);
     if (!valid) {
-      errors.push(defaultValidatorMessages[validator]);
+      errors.push(
+        interpolateMessageType(key as keyof IDefaultValidatorMessages, field),
+      );
     }
   });
 
-  if (field.type !== 'linkedStruct') {
-    if (
-      (field.unique || field.keyField) &&
-      fieldValue !== initialFieldValue &&
-      collectionReferences[field.struct]
-    ) {
-      const references = collectionReferences[field.struct]({
-        formValue,
-        parentValue,
-      });
+  if (
+    field.type !== 'linkedStruct' &&
+    (field.unique || field.keyField) &&
+    fieldValue !== initialFieldValue &&
+    collectionReferences[field.struct]
+  ) {
+    const references = collectionReferences[field.struct]({
+      formValue,
+      parentValue,
+    });
 
-      if (Array.isArray(references)) {
-        const keyFields = InternalSchemaHelper.getKeyFields(schema, structName);
-        let sameInstanceFound = false;
+    const instances = references.filter((reference) => {
+      return reference[field.name] === fieldValue;
+    });
 
-        const uniqueError = references.find((reference) => {
-          if (!sameInstanceFound) {
-            const sameInstances = keyFields.filter((keyField) => {
-              return reference[keyField] === parentValue[keyField];
-            });
-
-            if (sameInstances.length) {
-              sameInstanceFound = true;
-            }
-
-            if (sameInstances.length > 1) {
-              return true;
-            }
-
-            if (sameInstances.length === 1) {
-              return false;
-            }
-          }
-
-          return reference[field.name] === fieldValue;
-        });
-
-        if (uniqueError) {
-          errors.push('This field must be unique.');
-        }
-      }
+    if (instances.length > 1) {
+      errors.push(interpolateMessageType('unique', field));
     }
   }
 
@@ -185,7 +193,7 @@ export function validateField(
     );
 
     if (!patternValidator.validate(field, fieldValue)) {
-      errors.push(validator.message);
+      errors.push(interpolateMessage(validator.message, field));
     }
   });
 

@@ -31,7 +31,11 @@ export default class SchemaParser {
 
           if (Array.isArray(rawStruct.fields)) {
             rawStruct.fields.forEach((rawField) => {
-              const field = parseField(struct.name, rawField);
+              const field = parseField(
+                struct.name,
+                rawField,
+                schemaJson.defaultValidatorMessages,
+              );
 
               if (!fields.has(struct.name)) {
                 fields.set(struct.name, new Map<string, IField>());

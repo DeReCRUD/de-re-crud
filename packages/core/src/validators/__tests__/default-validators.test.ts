@@ -23,6 +23,7 @@ describe('validators', () => {
         custom: {},
       },
       customValidators: [],
+      defaultValidatorMessages: {},
     };
   });
 

@@ -25,6 +25,7 @@ const defaultField: IField = {
   type: 'text',
   unique: false,
   customValidators: [],
+  defaultValidatorMessages: {},
 };
 
 const createSchema = (...fields: IField[]) => {

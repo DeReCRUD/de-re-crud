@@ -15,11 +15,13 @@ import {
   IListFieldJson,
   ILinkedStructFieldJson,
   IForeignKeyFieldJson,
+  IDefaultValidatorMessages,
 } from '../json';
 
 export default function parseField(
   struct: string,
   fieldJson: IFieldJson,
+  defaultValidatorMessages: Partial<IDefaultValidatorMessages> = {},
 ): IField {
   const field: IField = {
     keyField: fieldJson.keyField || false,
@@ -35,6 +37,7 @@ export default function parseField(
       custom: {},
     },
     customValidators: [],
+    defaultValidatorMessages: fieldJson.defaultValidatorMessages || {},
   };
 
   if (typeof fieldJson.help !== 'undefined') {
@@ -80,6 +83,12 @@ export default function parseField(
       }
     });
   }
+
+  Object.keys(defaultValidatorMessages).forEach((key) => {
+    if (typeof field.defaultValidatorMessages[key] === 'undefined') {
+      field.defaultValidatorMessages[key] = defaultValidatorMessages[key];
+    }
+  });
 
   switch (field.type) {
     case 'text': {
