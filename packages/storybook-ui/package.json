@@ -1,9 +1,9 @@
 {
-  "name": "@de-re-crud/storybook",
+  "name": "@de-re-crud/storybook-ui",
   "private": true,
   "version": "0.16.0",
   "scripts": {
-    "start": "start-storybook -p 9000"
+    "storybook": "start-storybook -p 9000"
   },
   "dependencies": {
     "@babel/core": "^7.5.5",
