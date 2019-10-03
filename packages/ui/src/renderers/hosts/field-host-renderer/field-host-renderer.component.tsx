@@ -511,7 +511,9 @@ export default class FieldHostRenderer extends BaseComponent<
           ...fieldProps,
           canAdd: this.canAdd,
           canRemove: this.canRemove,
-          onAdd: () => this.onAdd((values && values.length) || 0),
+          onAdd: (value: object = undefined) => {
+            this.onAdd((values && values.length) || 0, 1, false, [value]);
+          },
           onRemove: this.onRemove,
           busyRenderedItems: busyValues,
           disabledRenderedItems: disabledValues,

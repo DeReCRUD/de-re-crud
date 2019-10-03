@@ -145,7 +145,7 @@ export interface IInlineLinkedStructRenderer extends IFieldRenderer {
   disabledRenderedItems: { [index: number]: boolean };
   canAdd: () => boolean;
   canRemove: (index: number) => boolean;
-  onAdd: (value?: object, navigate?: boolean) => void;
+  onAdd: (value?: object) => void;
   onRemove: (index: number) => void;
 }
 
