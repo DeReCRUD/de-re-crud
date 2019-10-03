@@ -16,12 +16,41 @@ import {
 } from '../validators/default-validators';
 import PatternValidator from '../validators/pattern-validator';
 
-function validateKeywordField(_: IField, value: string): string[] {
+const messages = {
+  keyword: 'This field can not contain any tabs or spaces.',
+  minLength: 'This field must have at least {minLength} character(s).',
+  maxLength: 'This field can not have more than {maxLength} character(s).',
+  min: 'This field must have a value of at least {min}.',
+  max: 'This field can not exceed the value of {max}.',
+  minInstances: 'This field must have at least {minInstances,1} item(s).',
+  maxInstances: 'This field can not have more than {maxInstances} item(s).',
+  unique: 'This field must be unique.',
+};
+
+function interpolateMessage(messageFormat: string, field: IField) {
+  return messageFormat.replace(/({[a-zA-Z0-9,]*})/gm, (match) => {
+    const key = match.replace(/[{}]/g, '');
+    const parts = key.split(',');
+
+    const propValue = field[parts[0]];
+    if (parts.length === 2) {
+      if (!propValue) {
+        return parts[1];
+      }
+
+      return propValue;
+    }
+
+    return typeof propValue !== 'undefined' ? propValue : match;
+  });
+}
+
+function validateKeywordField(field: IField, value: string): string[] {
   const errors = [];
 
   if (value) {
     if (/\s/g.test(value)) {
-      errors.push('This field can not contain any tabs or spaces.');
+      errors.push(interpolateMessage(messages.keyword, field));
     }
   }
 
@@ -33,13 +62,9 @@ function validateTextField(field: ITextField, value: string): string[] {
 
   if (value) {
     if (field.minLength && value.length < field.minLength) {
-      errors.push(
-        `This field must have at least ${field.minLength} character(s).`,
-      );
+      errors.push(interpolateMessage(messages.minLength, field));
     } else if (field.maxLength && value.length > field.maxLength) {
-      errors.push(
-        `This field can not have more than ${field.maxLength} character(s).`,
-      );
+      errors.push(interpolateMessage(messages.maxLength, field));
     }
   }
 
@@ -51,9 +76,9 @@ function validateIntegerField(field: IIntegerField, value: number): string[] {
 
   if (value) {
     if (typeof field.min !== 'undefined' && value < field.min) {
-      errors.push(`This field must have a value of at least ${field.min}.`);
+      errors.push(interpolateMessage(messages.min, field));
     } else if (typeof field.max !== 'undefined' && value > field.max) {
-      errors.push(`This field can not exceed the value of ${field.max}.`);
+      errors.push(interpolateMessage(messages.max, field));
     }
   }
 
@@ -70,13 +95,9 @@ export function validateLinkedStructField(
     (field.required || field.minInstances) &&
     (!value || !value.length || value.length < field.minInstances)
   ) {
-    errors.push(
-      `This field must have at least ${field.minInstances || 1} item(s).`,
-    );
+    errors.push(interpolateMessage(messages.minInstances, field));
   } else if (field.maxInstances && value.length > field.maxInstances) {
-    errors.push(
-      `This field can not have more than ${field.maxInstances} item(s).`,
-    );
+    errors.push(interpolateMessage(messages.maxInstances, field));
   }
 
   return errors;
@@ -99,7 +120,9 @@ export function validateField(
   defaultValidators.forEach((validator) => {
     const valid = defaultValidatorFuncs[validator](field, fieldValue);
     if (!valid) {
-      errors.push(defaultValidatorMessages[validator]);
+      errors.push(
+        interpolateMessage(defaultValidatorMessages[validator], field),
+      );
     }
   });
 
@@ -141,7 +164,7 @@ export function validateField(
         });
 
         if (uniqueError) {
-          errors.push('This field must be unique.');
+          errors.push(interpolateMessage(messages.unique, field));
         }
       }
     }

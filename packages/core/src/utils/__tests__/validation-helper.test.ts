@@ -1,7 +1,55 @@
+import { ISchemaJson, IFieldJson } from '../../schema/json';
 import { ILinkedStructField } from '../../schema';
-import { validateLinkedStructField } from '../validation-helper';
+import SchemaParser from '../../schema/parser';
+import { validateLinkedStructField, validateField } from '../validation-helper';
+
+function createSchema(field: Partial<IFieldJson> = {}) {
+  const schemaJson: ISchemaJson = {
+    structs: [
+      {
+        name: 'struct',
+        label: 'Struct',
+        collectionLabel: 'Structs',
+        fields: [
+          {
+            type: 'text',
+            name: 'field',
+            label: 'field',
+            ...(field as any),
+          },
+        ],
+        blocks: [],
+      },
+    ],
+  };
+
+  return SchemaParser.parse(schemaJson);
+}
+
+function runValidateField(field: Partial<IFieldJson> = {}) {
+  return validateField(
+    createSchema(field),
+    'struct',
+    'field',
+    '',
+    '',
+    {},
+    {},
+    [],
+  );
+}
 
 describe('validationHelper', () => {
+  it('should return error if field is required and value is nil', () => {
+    expect(runValidateField({ required: true })).toEqual([
+      'This field is required.',
+    ]);
+  });
+
+  it('should return not error if field is not required and value is nil', () => {
+    expect(runValidateField({ required: false })).toEqual([]);
+  });
+
   describe('when validating linked struct fields', () => {
     it('should return no error if field is not required and value is nil', () => {
       const field: Partial<ILinkedStructField> = {
