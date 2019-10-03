@@ -44,7 +44,7 @@ const Bootstrap4InlineLinkedStructFieldRenderer = ({
           <Bootstrap4ButtonRenderer
             classes="btn btn-sm btn-secondary"
             text="Add"
-            onClick={onAdd}
+            onClick={() => onAdd()}
             disabled={disabled}
           />
         )}

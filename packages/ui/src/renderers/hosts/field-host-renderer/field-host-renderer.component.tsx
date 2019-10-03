@@ -194,6 +194,7 @@ export default class FieldHostRenderer extends BaseComponent<
     index: number,
     count: number = 1,
     navigate: boolean = true,
+    values: object[] = undefined,
   ) => {
     const { struct, changeArrayValue, fieldReference, fieldPath } = this.props;
     const linkedStructFieldReference = fieldReference as ILinkedStructFieldReference;
@@ -208,6 +209,7 @@ export default class FieldHostRenderer extends BaseComponent<
       index,
       count,
       shouldNavigate ? this.navigate : null,
+      values,
     );
   };
 
@@ -464,7 +466,14 @@ export default class FieldHostRenderer extends BaseComponent<
               );
               return blockField.label.short;
             }),
-            onAdd: () => this.onAdd((mappedValue && mappedValue.length) || 0),
+            onAdd: (value: object = undefined, navigate: boolean = true) => {
+              this.onAdd(
+                (mappedValue && mappedValue.length) || 0,
+                1,
+                navigate,
+                [value],
+              );
+            },
             onEdit: this.onEdit,
             onRemove: this.onRemove,
             busyValues,

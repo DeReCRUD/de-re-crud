@@ -278,6 +278,7 @@ export default function fieldHostRendererActions(store: IStore) {
       startingIndex: number,
       count: number = 1,
       navigateFunc?: (index: number) => void,
+      values?: object[],
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
       const linkedStructField = state.schema.fields
         .get(structName)
@@ -292,7 +293,12 @@ export default function fieldHostRendererActions(store: IStore) {
 
       if (type === 'add') {
         for (let i = 0; i < itemsToCreate; i++) {
-          const newValue = createFieldParent(state.schema, structName);
+          let newValue: object;
+          if (Array.isArray(values) && typeof values[i] === 'object') {
+            newValue = values[i];
+          } else {
+            newValue = createFieldParent(state.schema, structName);
+          }
 
           newPaths.push(`${fieldPath}.${startingIndex + i}`);
           newValues.push(newValue);
