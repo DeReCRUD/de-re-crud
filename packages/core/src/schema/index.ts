@@ -6,6 +6,7 @@ import {
   FieldType,
   StampSize,
   ConditionFunc,
+  IDefaultValidatorMessages,
 } from './json';
 
 export type ScalarFieldValue = string | number | boolean;
@@ -61,6 +62,7 @@ export interface IField {
   placeholder?: string;
   hints: IFieldHints;
   customValidators: string[];
+  defaultValidatorMessages: Partial<IDefaultValidatorMessages>;
 }
 
 export interface IFieldHints {

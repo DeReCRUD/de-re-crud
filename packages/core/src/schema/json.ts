@@ -7,6 +7,7 @@ export interface ISchemaJson {
    */
   structs: IStructJson[];
   customValidators?: ICustomValidator[];
+  defaultValidatorMessages?: Partial<IDefaultValidatorMessages>;
 }
 
 export interface ICustomValidator {
@@ -14,6 +15,18 @@ export interface ICustomValidator {
   pattern: RegExp;
   message: string;
   negate: boolean;
+}
+
+export interface IDefaultValidatorMessages {
+  keyword: string;
+  minLength: string;
+  maxLength: string;
+  min: string;
+  max: string;
+  minInstances: string;
+  maxInstances: string;
+  unique: string;
+  required: string;
 }
 
 /**
@@ -136,6 +149,7 @@ export interface IFieldJson {
   placeholder?: string;
   hints?: IFieldHint;
   customValidators?: string[];
+  defaultValidatorMessages?: Partial<IDefaultValidatorMessages>;
 }
 
 export interface ITextFieldJson extends IFieldJson {

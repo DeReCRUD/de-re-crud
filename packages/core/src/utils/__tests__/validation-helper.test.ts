@@ -40,6 +40,16 @@ function runValidateField(field: Partial<IFieldJson> = {}) {
 }
 
 describe('validationHelper', () => {
+  it('should return custom error if defined', () => {
+    expect(
+      runValidateField({
+        label: 'Custom',
+        required: true,
+        defaultValidatorMessages: { required: '{label.short} is required.' },
+      }),
+    ).toEqual(['Custom is required.']);
+  });
+
   it('should return error if field is required and value is nil', () => {
     expect(runValidateField({ required: true })).toEqual([
       'This field is required.',
@@ -51,41 +61,67 @@ describe('validationHelper', () => {
   });
 
   describe('when validating linked struct fields', () => {
+    let field: ILinkedStructField = {
+      type: 'linkedStruct',
+      name: 'linkedStruct',
+      label: {
+        short: 'Linked Struct',
+        medium: 'Linked Struct',
+        long: 'Linked Struct',
+      },
+      struct: 'struct',
+      required: true,
+      keyField: false,
+      unique: false,
+      minInstances: 0,
+      customValidators: [],
+      defaultValidatorMessages: {},
+      reference: {
+        struct: 'struct',
+        block: 'default',
+      },
+      hints: {
+        readOnly: false,
+        width: 1,
+        custom: {},
+      },
+    };
+
     it('should return no error if field is not required and value is nil', () => {
-      const field: Partial<ILinkedStructField> = {
+      field = {
+        ...field,
         required: false,
         minInstances: 0,
       };
 
-      expect(
-        validateLinkedStructField(field as ILinkedStructField, undefined),
-      ).toEqual([]);
+      expect(validateLinkedStructField(field, undefined)).toEqual([]);
     });
 
     it('should return no error if field is not required and value is empty', () => {
-      const field: Partial<ILinkedStructField> = {
+      field = {
+        ...field,
         required: false,
         minInstances: 0,
       };
 
-      expect(
-        validateLinkedStructField(field as ILinkedStructField, []),
-      ).toEqual([]);
+      expect(validateLinkedStructField(field, [])).toEqual([]);
     });
 
     it('should return error if field is required and value is empty', () => {
-      const field: Partial<ILinkedStructField> = {
+      field = {
+        ...field,
         required: true,
         minInstances: 0,
       };
 
-      expect(
-        validateLinkedStructField(field as ILinkedStructField, []),
-      ).toEqual(['This field must have at least 1 item(s).']);
+      expect(validateLinkedStructField(field, [])).toEqual([
+        'This field must have at least 1 item(s).',
+      ]);
     });
 
     it('should return error if field has minimum instance limit and value is empty', () => {
-      const field: Partial<ILinkedStructField> = {
+      field = {
+        ...field,
         required: false,
         minInstances: 5,
       };

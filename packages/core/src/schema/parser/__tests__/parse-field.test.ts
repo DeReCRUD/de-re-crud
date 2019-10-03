@@ -33,6 +33,7 @@ function createFieldTests(
       type,
       label: 'Field1',
       customValidators: [],
+      defaultValidatorMessages: {},
       hints: {
         custom: {},
       },
@@ -126,6 +127,39 @@ function createFieldTests(
           hints: { ...field.hints, readOnly: true },
         }).hints.readOnly,
       ).toBe(true);
+    });
+
+    it('should set default validation message when specified on field', () => {
+      expect(
+        parseField(struct, {
+          ...field,
+          defaultValidatorMessages: {
+            keyword: 'Keyword Error',
+          },
+        }).defaultValidatorMessages.keyword,
+      ).toBe('Keyword Error');
+    });
+
+    it('should set default validation message when specified globally', () => {
+      expect(
+        parseField(struct, field, { keyword: 'Keyword Error' })
+          .defaultValidatorMessages.keyword,
+      ).toBe('Keyword Error');
+    });
+
+    it('should set default validation message when specified on field and globally', () => {
+      expect(
+        parseField(
+          struct,
+          {
+            ...field,
+            defaultValidatorMessages: {
+              keyword: 'Keyword Error',
+            },
+          },
+          { keyword: 'Global Keyword Error' },
+        ).defaultValidatorMessages.keyword,
+      ).toBe('Keyword Error');
     });
 
     extraTests(field);
