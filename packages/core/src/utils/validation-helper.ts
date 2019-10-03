@@ -7,7 +7,6 @@ import {
   FieldValue,
   ICollectionReferences,
 } from '../schema';
-import InternalSchemaHelper from '../schema/helper';
 import { ICustomValidator, IDefaultValidatorMessages } from '../schema/json';
 import { defaultValidatorFuncs } from '../validators/default-validators';
 import PatternValidator from '../validators/pattern-validator';
@@ -25,14 +24,7 @@ const defaultValidatorMessages: IDefaultValidatorMessages = {
   required: 'This field is required.',
 };
 
-function interpolateMessage(
-  messageType: keyof IDefaultValidatorMessages,
-  field: IField,
-) {
-  const messageFormat =
-    field.defaultValidatorMessages[messageType] ||
-    defaultValidatorMessages[messageType];
-
+function interpolateMessage(messageFormat: string, field: IField) {
   return messageFormat.replace(/({[a-zA-Z0-9,.]*})/gm, (match) => {
     const key = match.replace(/[{}]/g, '');
     const parts = key.split(',');
@@ -50,12 +42,23 @@ function interpolateMessage(
   });
 }
 
+function interpolateMessageType(
+  messageType: keyof IDefaultValidatorMessages,
+  field: IField,
+) {
+  const messageFormat =
+    field.defaultValidatorMessages[messageType] ||
+    defaultValidatorMessages[messageType];
+
+  return interpolateMessage(messageFormat, field);
+}
+
 function validateKeywordField(field: IField, value: string): string[] {
   const errors = [];
 
   if (value) {
     if (/\s/g.test(value)) {
-      errors.push(interpolateMessage('keyword', field));
+      errors.push(interpolateMessageType('keyword', field));
     }
   }
 
@@ -67,9 +70,9 @@ function validateTextField(field: ITextField, value: string): string[] {
 
   if (value) {
     if (field.minLength && value.length < field.minLength) {
-      errors.push(interpolateMessage('minLength', field));
+      errors.push(interpolateMessageType('minLength', field));
     } else if (field.maxLength && value.length > field.maxLength) {
-      errors.push(interpolateMessage('maxLength', field));
+      errors.push(interpolateMessageType('maxLength', field));
     }
   }
 
@@ -81,9 +84,9 @@ function validateIntegerField(field: IIntegerField, value: number): string[] {
 
   if (value) {
     if (typeof field.min !== 'undefined' && value < field.min) {
-      errors.push(interpolateMessage('min', field));
+      errors.push(interpolateMessageType('min', field));
     } else if (typeof field.max !== 'undefined' && value > field.max) {
-      errors.push(interpolateMessage('max', field));
+      errors.push(interpolateMessageType('max', field));
     }
   }
 
@@ -100,9 +103,9 @@ export function validateLinkedStructField(
     (field.required || field.minInstances) &&
     (!value || !value.length || value.length < field.minInstances)
   ) {
-    errors.push(interpolateMessage('minInstances', field));
+    errors.push(interpolateMessageType('minInstances', field));
   } else if (field.maxInstances && value.length > field.maxInstances) {
-    errors.push(interpolateMessage('maxInstances', field));
+    errors.push(interpolateMessageType('maxInstances', field));
   }
 
   return errors;
@@ -127,7 +130,7 @@ export function validateField(
     const valid = validatorFn(field, fieldValue);
     if (!valid) {
       errors.push(
-        interpolateMessage(key as keyof IDefaultValidatorMessages, field),
+        interpolateMessageType(key as keyof IDefaultValidatorMessages, field),
       );
     }
   });
@@ -148,7 +151,7 @@ export function validateField(
     });
 
     if (instances.length > 1) {
-      errors.push(interpolateMessage('unique', field));
+      errors.push(interpolateMessageType('unique', field));
     }
   }
 
@@ -190,7 +193,7 @@ export function validateField(
     );
 
     if (!patternValidator.validate(field, fieldValue)) {
-      errors.push(validator.message);
+      errors.push(interpolateMessage(validator.message, field));
     }
   });
 
