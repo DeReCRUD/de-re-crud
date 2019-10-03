@@ -23,6 +23,7 @@ describe('PatternValidator', () => {
         custom: {},
       },
       customValidators: ['testPattern'],
+      defaultValidatorMessages: {},
     };
   });
 
