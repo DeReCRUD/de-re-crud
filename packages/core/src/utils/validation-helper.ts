@@ -132,47 +132,23 @@ export function validateField(
     }
   });
 
-  if (field.type !== 'linkedStruct') {
-    if (
-      (field.unique || field.keyField) &&
-      fieldValue !== initialFieldValue &&
-      collectionReferences[field.struct]
-    ) {
-      const references = collectionReferences[field.struct]({
-        formValue,
-        parentValue,
-      });
+  if (
+    field.type !== 'linkedStruct' &&
+    (field.unique || field.keyField) &&
+    fieldValue !== initialFieldValue &&
+    collectionReferences[field.struct]
+  ) {
+    const references = collectionReferences[field.struct]({
+      formValue,
+      parentValue,
+    });
 
-      if (Array.isArray(references)) {
-        const keyFields = InternalSchemaHelper.getKeyFields(schema, structName);
-        let sameInstanceFound = false;
+    const instances = references.filter((reference) => {
+      return reference[field.name] === fieldValue;
+    });
 
-        const uniqueError = references.find((reference) => {
-          if (!sameInstanceFound) {
-            const sameInstances = keyFields.filter((keyField) => {
-              return reference[keyField] === parentValue[keyField];
-            });
-
-            if (sameInstances.length) {
-              sameInstanceFound = true;
-            }
-
-            if (sameInstances.length > 1) {
-              return true;
-            }
-
-            if (sameInstances.length === 1) {
-              return false;
-            }
-          }
-
-          return reference[field.name] === fieldValue;
-        });
-
-        if (uniqueError) {
-          errors.push(interpolateMessage('unique', field));
-        }
-      }
+    if (instances.length > 1) {
+      errors.push(interpolateMessage('unique', field));
     }
   }
 
