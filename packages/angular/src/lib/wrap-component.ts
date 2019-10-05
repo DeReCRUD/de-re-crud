@@ -12,13 +12,20 @@ interface IComponentCache {
   [rendererId: string]: any;
 }
 
+export interface INgRenderer<R extends IRenderer> {
+  props: R;
+}
+
 export interface INgComponentConstructor<P> {
   new (...params: any[]): P & Component;
 }
 
 const cache: IComponentCache = {};
 
-class DynamicComponentLoader<TComponent> {
+class DynamicComponentLoader<
+  TRenderer extends IRenderer,
+  TComponent extends INgRenderer<TRenderer>
+> {
   private appRef: ApplicationRef;
 
   private componentFactoryResolver: ComponentFactoryResolver;
@@ -55,19 +62,16 @@ class DynamicComponentLoader<TComponent> {
     this.componentRef = this.portalHost.attach(this.portal);
   };
 
-  updateInputs = (inputs: any) => {
+  updateInputs = (inputs: TRenderer) => {
     if (!this.componentRef) {
       return;
     }
 
-    Object.keys(inputs).forEach((key) => {
-      this.componentRef.instance[key] = inputs[key];
-    });
-
+    this.componentRef.instance.props = inputs;
     this.componentRef.changeDetectorRef.detectChanges();
   };
 
-  renderComponent = (element: Element, inputs: any) => {
+  renderComponent = (element: Element, inputs: TRenderer) => {
     this.initializeComponent(element);
     this.updateInputs(inputs);
   };
@@ -89,29 +93,36 @@ class DynamicComponentLoader<TComponent> {
   };
 }
 
-export function wrapNgComponent<TComponent extends IRenderer>(
+export function wrapNgComponent<
+  TRenderer extends IRenderer,
+  TComponent extends INgRenderer<TRenderer>
+>(
   injector: Injector,
   ngComponent: INgComponentConstructor<TComponent>,
-): ComponentConstructor<TComponent> {
-  return wrapComponent<TComponent>(
-    (props: Readonly<TComponent>, nativeElement: Element) => {
-      let dynamicComponentLoader: DynamicComponentLoader<TComponent> = cache[
-        props.rendererId
-      ] as DynamicComponentLoader<TComponent>;
+): ComponentConstructor<TRenderer> {
+  return wrapComponent<TRenderer>(
+    (renderer: Readonly<TRenderer>, nativeElement: Element) => {
+      let dynamicComponentLoader: DynamicComponentLoader<
+        TRenderer,
+        TComponent
+      > = cache[renderer.rendererId] as DynamicComponentLoader<
+        TRenderer,
+        TComponent
+      >;
 
       if (!dynamicComponentLoader) {
         dynamicComponentLoader = new DynamicComponentLoader(
           injector,
           ngComponent,
           () => {
-            delete cache[props.rendererId];
+            delete cache[renderer.rendererId];
           },
         );
 
-        cache[props.rendererId] = dynamicComponentLoader;
+        cache[renderer.rendererId] = dynamicComponentLoader;
       }
 
-      dynamicComponentLoader.renderComponent(nativeElement, props);
+      dynamicComponentLoader.renderComponent(nativeElement, renderer);
       return dynamicComponentLoader.destroyComponent;
     },
   );
