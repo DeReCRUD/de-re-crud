@@ -33,7 +33,7 @@ import {
 @Component({
   selector: 'drc-form',
   template: `
-    <div class="de-re-crud-form-angular" drcFormHost></div>
+    <div class="de-re-crud-angular-form" drcFormHost></div>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
