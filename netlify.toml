@@ -5,7 +5,7 @@ command = "yarn build:storybook && cp -R packages/storybook-ui/dist/publish dist
 
 [[redirects]]
 from = "/angular/*"
-to = "/angular/index.html
+to = "/angular/index.html"
 
 [[redirects]]
 from = "/*"
