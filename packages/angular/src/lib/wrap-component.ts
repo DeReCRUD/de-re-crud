@@ -5,7 +5,7 @@ import {
   ComponentRef,
   ApplicationRef,
 } from '@angular/core';
-import { ComponentPortal, DomPortalHost } from '@angular/cdk/portal';
+import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
 import { wrapComponent, ComponentConstructor, IRenderer } from '@de-re-crud/ui';
 
 interface IComponentCache {
@@ -34,7 +34,7 @@ class DynamicComponentLoader<
 
   private portal: ComponentPortal<TComponent>;
 
-  private portalHost: DomPortalHost;
+  private portalHost: DomPortalOutlet;
 
   constructor(
     private injector: Injector,
@@ -52,7 +52,7 @@ class DynamicComponentLoader<
 
     this.portal = new ComponentPortal(this.componentConstructor);
 
-    this.portalHost = new DomPortalHost(
+    this.portalHost = new DomPortalOutlet(
       element,
       this.componentFactoryResolver,
       this.appRef,
