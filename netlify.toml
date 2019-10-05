@@ -1,0 +1,4 @@
+[build]
+publish = "dist"
+
+command = "yarn build:storybook && mkdir -p dist/angular && cp -r packages/storybook-ui/dist/* dist/ && cp -r packages/storybook-angular/dist/* dist/angular/"

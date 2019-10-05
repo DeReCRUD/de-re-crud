@@ -8,6 +8,7 @@ import {
   IForeignKeyField,
   IListField,
   ITextField,
+  IIntegerField,
 } from '@de-re-crud/core';
 import { h } from '../../../h';
 import BaseComponent from '../../base-component';
@@ -19,6 +20,15 @@ import {
   ISelectableOption,
   ISelectListFieldRenderer,
   ITableLinkedStructRenderer,
+  ITextFieldRenderer,
+  IIntegerFieldRenderer,
+  IKeywordFieldRenderer,
+  IEstimateFieldRenderer,
+  IDateFieldRenderer,
+  IBooleanFieldRenderer,
+  IPercentFieldRenderer,
+  IMoneyFieldRenderer,
+  IDerivedFieldRenderer,
 } from '../..';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
@@ -43,6 +53,7 @@ export default class FieldHostRenderer extends BaseComponent<
       struct,
       fieldReference.field,
     );
+
     const customHints = {
       ...field.hints.custom,
       ...fieldReference.hints.custom,
@@ -264,8 +275,8 @@ export default class FieldHostRenderer extends BaseComponent<
       struct,
       fieldReference.field,
     ) as ILinkedStructField;
-    const value = (fieldValue as object[]) || [];
 
+    const value = (fieldValue as object[]) || [];
     return value.length > linkedStructField.minInstances;
   };
 
@@ -309,11 +320,25 @@ export default class FieldHostRenderer extends BaseComponent<
 
     switch (field.type) {
       case 'text': {
-        const {
+        const textField = field as ITextField;
+
+        let {
           hints: { layout },
-        } = field as ITextField;
+        } = textField;
+
+        const textFieldRendererProps: ITextFieldRenderer = {
+          ...fieldProps,
+          minLength: textField.minLength,
+          maxLength: textField.maxLength,
+          value: fieldProps.value as string,
+        };
 
         let TextFieldRenderer = renderers.textField;
+
+        if ((layout as string) === 'textArea') {
+          Logger.deprecate('Use "textarea" instead of "textArea"');
+          layout = 'textarea';
+        }
 
         if (layout === 'textarea') {
           TextFieldRenderer = renderers.textAreaField;
@@ -321,45 +346,74 @@ export default class FieldHostRenderer extends BaseComponent<
           TextFieldRenderer = renderers.textField;
         }
 
-        return (
-          <TextFieldRenderer
-            {...fieldProps}
-            value={fieldProps.value as string}
-          />
-        );
+        return <TextFieldRenderer {...textFieldRendererProps} />;
       }
       case 'keyword': {
+        const keyworldFieldRendererProps: IKeywordFieldRenderer = {
+          ...fieldProps,
+          value: fieldProps.value as string,
+        };
+
         const KeywordFieldRenderer = renderers.keywordField;
-        return <KeywordFieldRenderer {...fieldProps} />;
+        return <KeywordFieldRenderer {...keyworldFieldRendererProps} />;
       }
       case 'integer': {
+        const integerField = field as IIntegerField;
+
+        const integerFieldRendererProps: IIntegerFieldRenderer = {
+          ...fieldProps,
+          min: integerField.min,
+          max: integerField.max,
+          value: fieldProps.value as number,
+        };
+
         const IntegerFieldRenderer = renderers.integerField;
-        return <IntegerFieldRenderer {...fieldProps} />;
+        return <IntegerFieldRenderer {...integerFieldRendererProps} />;
       }
       case 'estimate': {
+        const estimateFieldRendererProps: IEstimateFieldRenderer = {
+          ...fieldProps,
+          value: fieldProps.value as number,
+        };
+
         const EsimateFieldRenderer = renderers.estimateField;
-        return <EsimateFieldRenderer {...fieldProps} />;
+        return <EsimateFieldRenderer {...estimateFieldRendererProps} />;
       }
       case 'date': {
+        const dateFieldRendererProps: IDateFieldRenderer = {
+          ...fieldProps,
+          value: fieldProps.value as string,
+        };
+
         const DateFieldRenderer = renderers.dateField;
-        return <DateFieldRenderer {...fieldProps} />;
+        return <DateFieldRenderer {...dateFieldRendererProps} />;
       }
       case 'boolean': {
+        const booleanFieldRendererProps: IBooleanFieldRenderer = {
+          ...fieldProps,
+          value: fieldProps.value as boolean,
+        };
+
         const BooleanFieldRenderer = renderers.booleanField;
-        return (
-          <BooleanFieldRenderer
-            {...fieldProps}
-            value={fieldProps.value as boolean}
-          />
-        );
+        return <BooleanFieldRenderer {...booleanFieldRendererProps} />;
       }
       case 'percent': {
+        const percentFieldRendererProps: IPercentFieldRenderer = {
+          ...fieldProps,
+          value: fieldProps.value as number,
+        };
+
         const PercentFieldRenderer = renderers.percentField;
-        return <PercentFieldRenderer {...fieldProps} />;
+        return <PercentFieldRenderer {...percentFieldRendererProps} />;
       }
       case 'money': {
+        const moneyFieldRendererProps: IMoneyFieldRenderer = {
+          ...fieldProps,
+          value: fieldProps.value as number,
+        };
+
         const MoneyFieldRenderer = renderers.moneyField;
-        return <MoneyFieldRenderer {...fieldProps} />;
+        return <MoneyFieldRenderer {...moneyFieldRendererProps} />;
       }
       case 'foreignKey': {
         const ForeignKeyFieldRenderer = renderers.foreignKeyField;
@@ -435,14 +489,12 @@ export default class FieldHostRenderer extends BaseComponent<
           values = fieldProps.value as object[];
         }
 
-        if (values.length < minInstances) {
+        if (!isTable && values.length < minInstances) {
           const startingIndex = values.length;
           const itemsToCreate = minInstances - values.length;
 
           this.onAdd(startingIndex, itemsToCreate, false);
-        }
-
-        if (isTable) {
+        } else if (isTable) {
           const mappedValue: any[][] = [];
 
           values.forEach((value, index) => {
@@ -586,8 +638,13 @@ export default class FieldHostRenderer extends BaseComponent<
         return <ListFieldRenderer {...selectListFieldProps} />;
       }
       case 'derived': {
+        const derivedFieldRendererProps: IDerivedFieldRenderer = {
+          ...fieldProps,
+          value: fieldProps.value as string,
+        };
+
         const DerivedFieldRenderer = renderers.derivedField;
-        return <DerivedFieldRenderer {...fieldProps} />;
+        return <DerivedFieldRenderer {...derivedFieldRendererProps} />;
       }
       default: {
         Logger.error(`Field type ${field.type} is not supported.`);

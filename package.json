@@ -10,10 +10,11 @@
     "lint": "run-s format:check eslint:check",
     "eslint:check": "eslint --ext \".js,.ts,.tsx\" .",
     "build": "run-s clean build:packages",
-    "build:packages": "lerna run build --stream",
+    "build:packages": "lerna run build --stream --concurrency 1 --ignore @de-re-crud/storybook-*",
+    "build:storybook": "lerna run build --stream --concurrency 1 --scope @de-re-crud/storybook-*",
     "test": "jest",
     "cover": "jest --coverage",
-    "storybook": "yarn workspace @de-re-crud/storybook run start",
+    "storybook": "lerna run storybook --stream",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
     "format": "prettier \"**/*.{ts,tsx,js,json}\" --write",
     "bump": "lerna publish --skip-npm --force-publish=*"

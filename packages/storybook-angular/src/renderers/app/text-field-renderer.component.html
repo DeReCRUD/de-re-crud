@@ -1,0 +1,21 @@
+<div [ngClass]="getCssName()">
+    <label [htmlFor]="props.rendererId">
+        <span>{{props.label}}</span>
+        <span *ngIf="props.required" class="required text-danger"> *</span>
+    </label>
+    <input
+        [id]="props.rendererId"
+        class="form-control"
+        [class.is-invalid]="props.errors.length"
+        type="text"
+        [placeholder]="props.placeholder"
+        [attr.minlength]="props.minLength"
+        [attr.maxLength]="props.maxLength"
+        [required]="props.required"
+        [disabled]="props.disabled"
+        [readOnly]="props.readOnly"
+        [value]="props.value ? props.value : ''"
+        (focus)="props.onFocus($event)"
+        (blur)="props.onBlur($event)"
+        (input)="props.onChange($event)" />
+</div>

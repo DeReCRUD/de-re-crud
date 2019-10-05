@@ -12,14 +12,14 @@
   },
   "peerDependencies": {
     "@de-re-crud/core": "0.16.0",
-    "preact": "~8"
+    "preact": "^10.0.0-rc.3"
   },
   "dependencies": {
     "redux-zero": "^5.0.5"
   },
   "devDependencies": {
     "@de-re-crud/core": "^0.16.0",
-    "preact": "~8",
+    "preact": "^10.0.0-rc.3",
     "preact-testing-library": "^0.4.0"
   }
 }

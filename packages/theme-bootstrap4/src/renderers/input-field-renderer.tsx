@@ -1,4 +1,9 @@
-import { h, ITextFieldRenderer, combineCssClasses } from '@de-re-crud/ui';
+import {
+  h,
+  ITextFieldRenderer,
+  combineCssClasses,
+  IIntegerFieldRenderer,
+} from '@de-re-crud/ui';
 import Bootstrap4LabelRenderer from './label-renderer';
 
 const Bootstrap4InputFieldRenderer = ({
@@ -9,14 +14,17 @@ const Bootstrap4InputFieldRenderer = ({
   onFocus,
   onBlur,
   onChange,
+  min,
+  max,
   minLength,
   maxLength,
   required,
   disabled,
   readOnly,
   errors,
-}: ITextFieldRenderer) => {
-  let inputType;
+}: Omit<ITextFieldRenderer, 'value'> &
+  Omit<IIntegerFieldRenderer, 'value'> & { value?: string | number }) => {
+  let inputType: string;
 
   switch (fieldType) {
     case 'date':
@@ -44,6 +52,8 @@ const Bootstrap4InputFieldRenderer = ({
         onFocus={onFocus}
         onBlur={onBlur}
         onInput={onChange}
+        min={min}
+        max={max}
         minLength={minLength}
         maxLength={maxLength}
         required={required}

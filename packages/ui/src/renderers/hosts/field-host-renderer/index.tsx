@@ -41,9 +41,15 @@ const mapToProps = (
     });
   }
 
-  const combinedErrors = [];
-  combinedErrors.push(...externalErrors[fieldPath]);
-  combinedErrors.push(...errors[fieldPath]);
+  const combinedErrors: string[] = [];
+
+  if (typeof externalErrors[fieldPath] !== 'undefined') {
+    combinedErrors.push(...externalErrors[fieldPath]);
+  }
+
+  if (typeof errors[fieldPath] !== 'undefined') {
+    combinedErrors.push(...errors[fieldPath]);
+  }
 
   return {
     schema,
