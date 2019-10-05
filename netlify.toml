@@ -1,0 +1,14 @@
+[build]
+publish = "dist/publish"
+
+command = "yarn build:storybook && \ 
+    cp -R packages/storybook-ui/dist/publish dist/publish && \ 
+    cp -R packages/storybook-angular/dist/publish dist/publish/angular"
+
+[[redirects]]
+from = "/angular/*"
+to = "/angular/index.html
+
+[[redirects]]
+from = "/*"
+to: "/index.html"
