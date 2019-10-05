@@ -1,4 +1,5 @@
 import { storiesOf } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
 import { IFormSubmission } from '@de-re-crud/angular/public-api';
 import { CustomRendererModule } from './app/custom-renderer.module';
 
@@ -12,6 +13,7 @@ storiesOf('Custom renderers', module)
   `,
     props: {
       onSubmit: (e: IFormSubmission) => {
+        action('form submit')(e.value);
         e.onComplete();
       },
     },
@@ -25,6 +27,7 @@ storiesOf('Custom renderers', module)
   `,
     props: {
       onSubmit: (e: IFormSubmission) => {
+        action('form submit')(e.value);
         e.onComplete();
       },
     },

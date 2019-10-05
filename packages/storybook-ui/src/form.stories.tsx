@@ -8,6 +8,9 @@ storiesOf('Form', module).add('default', () => (
   <Form
     schema={schema as ISchemaJson}
     struct="struct"
-    onSubmit={action('form submit')}
+    onSubmit={(value, cb) => {
+      action('form submit')(value);
+      cb();
+    }}
   />
 ));

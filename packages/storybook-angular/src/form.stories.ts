@@ -1,4 +1,5 @@
 import { storiesOf } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
 import {
   DeReCrudModule,
   IFormSubmission,
@@ -16,6 +17,7 @@ storiesOf('Form', module).add('default', () => ({
     schema,
     struct: 'struct',
     onSubmit: (e: IFormSubmission) => {
+      action('form submit')(e.value);
       e.onComplete();
     },
   },
