@@ -107,6 +107,36 @@ export interface ITextAreaFieldRenderer extends IFieldRenderer {
   value?: string | number;
 }
 
+export interface IKeywordFieldRenderer extends IFieldRenderer {
+  value?: string;
+}
+
+export interface IDerivedFieldRenderer extends IFieldRenderer {
+  value?: string;
+}
+
+export interface IDateFieldRenderer extends IFieldRenderer {
+  value?: string;
+}
+
+export interface IIntegerFieldRenderer extends IFieldRenderer {
+  min?: number;
+  max?: number;
+  value?: number;
+}
+
+export interface IEstimateFieldRenderer extends IFieldRenderer {
+  value?: number;
+}
+
+export interface IPercentFieldRenderer extends IFieldRenderer {
+  value?: number;
+}
+
+export interface IMoneyFieldRenderer extends IFieldRenderer {
+  value?: number;
+}
+
 export interface IBooleanFieldRenderer extends IFieldRenderer {
   value?: boolean;
 }

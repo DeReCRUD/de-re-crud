@@ -4,7 +4,6 @@ import {
   IBooleanFieldRenderer,
   IButtonRenderer,
   IFieldContainerRenderer,
-  IFieldRenderer,
   IForeignKeyFieldRenderer,
   IInlineLinkedStructRenderer,
   IMultiSelectListFieldRenderer,
@@ -14,6 +13,13 @@ import {
   ITableLinkedStructRenderer,
   ITextFieldRenderer,
   ITextAreaFieldRenderer,
+  IIntegerFieldRenderer,
+  IPercentFieldRenderer,
+  IMoneyFieldRenderer,
+  IDerivedFieldRenderer,
+  IDateFieldRenderer,
+  IEstimateFieldRenderer,
+  IKeywordFieldRenderer,
 } from '.';
 
 export interface IRendererDefinitions {
@@ -36,26 +42,26 @@ export interface IRendererDefinitions {
     | FunctionalComponent<ITextAreaFieldRenderer>
     | ComponentConstructor<ITextAreaFieldRenderer>;
   keywordField:
-    | FunctionalComponent<IFieldRenderer>
-    | ComponentConstructor<IFieldRenderer>;
+    | FunctionalComponent<IKeywordFieldRenderer>
+    | ComponentConstructor<IKeywordFieldRenderer>;
   integerField:
-    | FunctionalComponent<IFieldRenderer>
-    | ComponentConstructor<IFieldRenderer>;
+    | FunctionalComponent<IIntegerFieldRenderer>
+    | ComponentConstructor<IIntegerFieldRenderer>;
   estimateField:
-    | FunctionalComponent<IFieldRenderer>
-    | ComponentConstructor<IFieldRenderer>;
+    | FunctionalComponent<IEstimateFieldRenderer>
+    | ComponentConstructor<IEstimateFieldRenderer>;
   dateField:
-    | FunctionalComponent<IFieldRenderer>
-    | ComponentConstructor<IFieldRenderer>;
+    | FunctionalComponent<IDateFieldRenderer>
+    | ComponentConstructor<IDateFieldRenderer>;
   booleanField:
     | FunctionalComponent<IBooleanFieldRenderer>
     | ComponentConstructor<IBooleanFieldRenderer>;
   percentField:
-    | FunctionalComponent<IFieldRenderer>
-    | ComponentConstructor<IFieldRenderer>;
+    | FunctionalComponent<IPercentFieldRenderer>
+    | ComponentConstructor<IPercentFieldRenderer>;
   moneyField:
-    | FunctionalComponent<IFieldRenderer>
-    | ComponentConstructor<IFieldRenderer>;
+    | FunctionalComponent<IMoneyFieldRenderer>
+    | ComponentConstructor<IMoneyFieldRenderer>;
   foreignKeyField:
     | FunctionalComponent<IForeignKeyFieldRenderer>
     | ComponentConstructor<IForeignKeyFieldRenderer>;
@@ -75,6 +81,6 @@ export interface IRendererDefinitions {
     | FunctionalComponent<IRadioListFieldRenderer>
     | ComponentConstructor<IRadioListFieldRenderer>;
   derivedField:
-    | FunctionalComponent<IFieldRenderer>
-    | ComponentConstructor<IFieldRenderer>;
+    | FunctionalComponent<IDerivedFieldRenderer>
+    | ComponentConstructor<IDerivedFieldRenderer>;
 }
