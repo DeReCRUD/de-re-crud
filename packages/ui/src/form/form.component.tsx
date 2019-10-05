@@ -70,6 +70,11 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       return null;
     }
 
+    if (!visibleBlock) {
+      Logger.warning("No block specified, defaulting to 'default'.");
+      visibleBlock = 'default';
+    }
+
     let block = InternalSchemaHelper.getBlock(
       schema,
       struct.name,
@@ -78,7 +83,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
 
     if (!block) {
       Logger.warning(
-        "No block specified and the 'default' block is not defined. Defalting to first defined block.",
+        `Block (${visibleBlock}) not found. Defaulting to first defined block.`,
       );
 
       block = InternalSchemaHelper.getBlock(
