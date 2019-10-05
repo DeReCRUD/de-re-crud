@@ -4,7 +4,7 @@
   "version": "0.16.0",
   "scripts": {
     "storybook": "start-storybook -p 9000",
-    "build": "build-storybook -c .storybook -o dist/public"
+    "build": "build-storybook -c .storybook -o dist"
   },
   "dependencies": {
     "@babel/core": "^7.5.5",

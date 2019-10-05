@@ -4,7 +4,7 @@
   "version": "0.16.0",
   "scripts": {
     "storybook": "start-storybook -p 9001",
-    "build": "build-storybook -c .storybook -o dist/public"
+    "build": "build-storybook -c .storybook -o dist"
   },
   "dependencies": {
     "@angular-devkit/build-angular": "^0.803.8",

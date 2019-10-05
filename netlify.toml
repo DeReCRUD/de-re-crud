@@ -1,14 +1,9 @@
 [build]
-publish = "dist/public"
+publish = "dist"
 
-command = "yarn build:storybook && mkdir -p dist/public/angular && cp -R packages/storybook-ui/dist/public dist/public && cp -R packages/storybook-angular/dist/public dist/public/angular"
+command = "yarn build:storybook && mkdir -p dist/angular && cp -R packages/storybook-ui/dist dist && cp -R packages/storybook-angular/dist dist/angular"
 
 [[redirects]]
 from = "/angular*"
-to = "/public/angular/index.html"
-status = 200
-
-[[redirects]]
-from = "/*"
-to = "/public/index.html"
+to = "/angular/index.html"
 status = 200
