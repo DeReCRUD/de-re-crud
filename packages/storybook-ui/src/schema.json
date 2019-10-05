@@ -55,7 +55,7 @@
       "blocks": [
         {
           "name": "default",
-          "fields": [
+          "references": [
             "name",
             "label",
             "collectionLabel",
@@ -244,7 +244,7 @@
       "blocks": [
         {
           "name": "default",
-          "fields": [
+          "references": [
             "name",
             "label",
             "placeholder",
@@ -280,7 +280,7 @@
         },
         {
           "name": "textFieldOptions",
-          "fields": [
+          "references": [
             {
               "field": "minLength",
               "condition": "parentValue.type === 'text'",
@@ -302,7 +302,7 @@
         },
         {
           "name": "integerFieldOptions",
-          "fields": [
+          "references": [
             {
               "field": "min",
               "condition": "parentValue.type === 'integer'",
@@ -324,7 +324,7 @@
         },
         {
           "name": "table",
-          "fields": ["name", "label", "type"]
+          "references": ["name", "label", "type"]
         }
       ]
     },
@@ -356,7 +356,7 @@
       "blocks": [
         {
           "name": "default",
-          "fields": [
+          "references": [
             "name",
             {
               "field": "fields",
@@ -399,7 +399,7 @@
       "blocks": [
         {
           "name": "default",
-          "fields": ["field", "condition"]
+          "references": ["field", "condition"]
         }
       ]
     },
@@ -431,7 +431,7 @@
       "blocks": [
         {
           "name": "default",
-          "fields": ["label", "value"]
+          "references": ["label", "value"]
         }
       ]
     }
