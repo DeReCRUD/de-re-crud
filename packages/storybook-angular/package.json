@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.16.0",
   "scripts": {
-    "storybook": "start-storybook -p 9000"
+    "storybook": "start-storybook -p 9001",
+    "build": "build-storybook -c .storybook -o dist/public"
   },
   "dependencies": {
     "@angular-devkit/build-angular": "^0.803.8",
