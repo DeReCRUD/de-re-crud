@@ -1,4 +1,4 @@
-import { Input, Component, ChangeDetectionStrategy } from '@angular/core';
+import { Input, Component } from '@angular/core';
 import { ITableLinkedStructRenderer, createCssClass } from '@de-re-crud/ui';
 import { INgRenderer } from '@de-re-crud/angular/public-api';
 
@@ -9,8 +9,6 @@ interface IRow {
 @Component({
   selector: 'drc-table-struct-renderer',
   templateUrl: './table-linked-struct-renderer.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableLinkedStructRenderer
   implements INgRenderer<ITableLinkedStructRenderer> {
