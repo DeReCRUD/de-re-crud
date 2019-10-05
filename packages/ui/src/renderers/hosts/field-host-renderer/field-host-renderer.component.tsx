@@ -275,8 +275,8 @@ export default class FieldHostRenderer extends BaseComponent<
       struct,
       fieldReference.field,
     ) as ILinkedStructField;
-    const value = (fieldValue as object[]) || [];
 
+    const value = (fieldValue as object[]) || [];
     return value.length > linkedStructField.minInstances;
   };
 
@@ -489,14 +489,12 @@ export default class FieldHostRenderer extends BaseComponent<
           values = fieldProps.value as object[];
         }
 
-        if (values.length < minInstances) {
+        if (!isTable && values.length < minInstances) {
           const startingIndex = values.length;
           const itemsToCreate = minInstances - values.length;
 
           this.onAdd(startingIndex, itemsToCreate, false);
-        }
-
-        if (isTable) {
+        } else if (isTable) {
           const mappedValue: any[][] = [];
 
           values.forEach((value, index) => {
