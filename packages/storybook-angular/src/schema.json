@@ -75,6 +75,10 @@
           ]
         },
         {
+          "name": "text",
+          "references": ["label"]
+        },
+        {
           "name": "tableLinkedStruct",
           "references": [
             {

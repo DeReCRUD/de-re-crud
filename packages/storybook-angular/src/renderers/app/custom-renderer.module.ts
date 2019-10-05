@@ -14,6 +14,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { TableLinkedStructRenderer } from './table-linked-struct-renderer.component';
 import schema from '../../schema.json';
+import { TextFieldRenderer } from './text-field-renderer.component';
 
 @Component({
   selector: 'drc-table-struct-renderer-form',
@@ -53,13 +54,50 @@ export class CustomTableLinkedStructRendererForm {
   };
 }
 
+@Component({
+  selector: 'drc-text-field-renderer-form',
+  template: `
+    <drc-form 
+      [schema]="schema"
+      [struct]="struct"
+      [block]="block"
+      [renderers]="renderers"
+      (submitted)="onSubmit($event)">
+    </drc-form>
+  `,
+})
+export class CustomTextFieldRendererForm {
+  schema = schema;
+
+  struct: string = 'struct';
+
+  block: string = 'text';
+
+  renderers: Partial<IRendererDefinitions>;
+
+  @Output()
+  submitted = new EventEmitter<IFormSubmission>();
+
+  constructor(injector: Injector) {
+    this.renderers = {
+      textField: wrapNgComponent(injector, TextFieldRenderer),
+    };
+  }
+
+  onSubmit = (e: IFormSubmission) => {
+    this.submitted.emit(e);
+  };
+}
+
 @NgModule({
   imports: [CommonModule, DeReCrudModule],
   declarations: [
     CustomTableLinkedStructRendererForm,
+    CustomTextFieldRendererForm,
     TableLinkedStructRenderer,
+    TextFieldRenderer,
   ],
-  exports: [CustomTableLinkedStructRendererForm],
-  entryComponents: [TableLinkedStructRenderer],
+  exports: [CustomTableLinkedStructRendererForm, CustomTextFieldRendererForm],
+  entryComponents: [TableLinkedStructRenderer, TextFieldRenderer],
 })
 export class CustomRendererModule {}
