@@ -7,7 +7,7 @@ import schema from './schema.json';
 storiesOf('Form', module).add('default', () => (
   <div class="container">
     <div class="row">
-      <div className="col-md-12">
+      <div class="col-md-12">
         <Form
           schema={schema as ISchemaJson}
           struct="struct"

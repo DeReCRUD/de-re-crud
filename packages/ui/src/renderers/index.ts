@@ -5,6 +5,7 @@ import {
   FieldType,
   ScalarFieldValue,
 } from '@de-re-crud/core';
+import { h } from '..';
 
 export interface ISelectableOption {
   label: string;
@@ -19,7 +20,7 @@ export interface IRenderer {
 
 export interface IBlockCell {
   width: number;
-  renderedItem: JSX.Element;
+  renderedItem: h.JSX.Element;
 }
 
 export interface IBlockRow {
@@ -34,7 +35,7 @@ export interface IFieldContainerRenderer extends IRenderer {
   fieldName: string;
   fieldDescription?: string;
   errors: string[];
-  renderedField?: JSX.Element;
+  renderedField?: h.JSX.Element;
 }
 
 export interface IStampRenderer extends IRenderer {
@@ -140,7 +141,7 @@ export interface ITableLinkedStructRenderer extends IFieldRenderer {
 }
 
 export interface IInlineLinkedStructRenderer extends IFieldRenderer {
-  renderedItems: JSX.Element[];
+  renderedItems: h.JSX.Element[];
   busyRenderedItems: { [index: number]: boolean };
   disabledRenderedItems: { [index: number]: boolean };
   canAdd: () => boolean;

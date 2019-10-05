@@ -9,7 +9,7 @@ For more information about the ideology of library, see [this](docs/ideology.md)
 Install preact, core, and UI libraries:
 
 ```bash
-yarn add preact@~8  #or npm install --save preact@~8
+yarn add preact@next  #or npm install --save preact@next
 yarn add @de-re-crud/core #or npm install --save @de-re-crud/core 
 yarn add @de-re-crud/ui #or npm install --save @de-re-crud/ui 
 ```

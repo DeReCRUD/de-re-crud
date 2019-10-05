@@ -44,7 +44,6 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
       }}
       {...props}
     />,
-    null,
     nativeElement,
   );
 

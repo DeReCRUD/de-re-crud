@@ -40,11 +40,11 @@ export function wrapComponent<IProps>(
     private destroyFunc: DestroyFunc;
 
     public componentDidMount() {
-      this.destroyFunc = renderer(this.props, this.base);
+      this.destroyFunc = renderer(this.props, this.base as HTMLElement);
     }
 
     public componentDidUpdate() {
-      this.destroyFunc = renderer(this.props, this.base);
+      this.destroyFunc = renderer(this.props, this.base as HTMLElement);
     }
 
     public componentWillUnmount() {
