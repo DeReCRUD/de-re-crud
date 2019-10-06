@@ -1,6 +1,6 @@
-import { Input, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ITableLinkedStructRenderer, createCssClass } from '@de-re-crud/ui';
-import { INgRenderer } from '@de-re-crud/angular/public-api';
+import { NgRenderer } from '@de-re-crud/angular/src/lib/renderer';
 
 interface IRow {
   columns: string[];
@@ -10,11 +10,9 @@ interface IRow {
   selector: 'drc-table-struct-renderer',
   templateUrl: './table-linked-struct-renderer.component.html',
 })
-export class TableLinkedStructRenderer
-  implements INgRenderer<ITableLinkedStructRenderer> {
-  @Input()
-  props: ITableLinkedStructRenderer;
-
+export class TableLinkedStructRenderer extends NgRenderer<
+  ITableLinkedStructRenderer
+> {
   get rows(): IRow[] {
     const value: IRow[] = [];
 

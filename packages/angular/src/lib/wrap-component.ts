@@ -7,13 +7,10 @@ import {
 } from '@angular/core';
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
 import { wrapComponent, ComponentConstructor, IRenderer } from '@de-re-crud/ui';
+import { INgRenderer } from './renderer';
 
 interface IComponentCache {
   [rendererId: string]: any;
-}
-
-export interface INgRenderer<R extends IRenderer> {
-  props: R;
 }
 
 export interface INgComponentConstructor<P> {
@@ -68,7 +65,6 @@ class DynamicComponentLoader<
     }
 
     this.componentRef.instance.props = inputs;
-    this.componentRef.changeDetectorRef.detectChanges();
   };
 
   renderComponent = (element: Element, inputs: TRenderer) => {

@@ -1,15 +1,13 @@
-import { INgRenderer } from '@de-re-crud/angular/public-api';
 import { ITextFieldRenderer, createCssClass } from '@de-re-crud/ui';
-import { Input, Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { NgRenderer } from '@de-re-crud/angular/src/lib/renderer';
 
 @Component({
   selector: 'drc-text-field',
   templateUrl: './text-field-renderer.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextFieldRenderer implements INgRenderer<ITextFieldRenderer> {
-  @Input()
-  props: ITextFieldRenderer;
-
+export class TextFieldRenderer extends NgRenderer<ITextFieldRenderer> {
   getCssName = (...names: string[]) => {
     return createCssClass('de-re-crud-angular-text-field-renderer', ...names);
   };
