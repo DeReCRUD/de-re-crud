@@ -1,4 +1,4 @@
-# @de-re-crud/core
+# @de-re-crud/ui
 
 UI library used by all other De Re CRUD interface libraries. It contains utilities and components for creating De Re CRUD interfaces.
 
