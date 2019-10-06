@@ -1,16 +1,16 @@
 {
   "name": "@de-re-crud/storybook-ui",
   "private": true,
-  "version": "0.16.1",
+  "version": "0.16.2",
   "scripts": {
     "storybook": "start-storybook -p 9000",
     "build": "build-storybook -c .storybook -o dist"
   },
   "dependencies": {
     "@babel/core": "^7.5.5",
-    "@de-re-crud/core": "^0.16.1",
-    "@de-re-crud/theme-bootstrap4": "^0.16.1",
-    "@de-re-crud/ui": "^0.16.1",
+    "@de-re-crud/core": "^0.16.2",
+    "@de-re-crud/theme-bootstrap4": "^0.16.2",
+    "@de-re-crud/ui": "^0.16.2",
     "@storybook/addon-actions": "5.1.11",
     "@storybook/preact": "^5.1.11",
     "awesome-typescript-loader": "^5.2.1",
