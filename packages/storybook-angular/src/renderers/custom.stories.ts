@@ -18,12 +18,12 @@ storiesOf('Custom renderers', module)
       },
     },
   }))
-  .add('table linked struct', () => ({
+  .add('table linked struct field', () => ({
     moduleMetadata: {
       imports: [CustomRendererModule],
     },
     template: `
-    <drc-table-struct-renderer-form (submitted)="onSubmit($event)"></drc-table-struct-renderer-form>
+    <drc-table-linked-struct-field-renderer-form (submitted)="onSubmit($event)"></drc-table-linked-struct-field-renderer-form>
   `,
     props: {
       onSubmit: (e: IFormSubmission) => {

@@ -1,17 +1,20 @@
 import { Component } from '@angular/core';
-import { ITableLinkedStructRenderer, createCssClass } from '@de-re-crud/ui';
-import { NgRenderer } from '@de-re-crud/angular/src/lib/renderer';
+import {
+  ITableLinkedStructFieldRenderer,
+  createCssClass,
+} from '@de-re-crud/ui';
+import { NgRenderer } from '@de-re-crud/angular/public-api';
 
 interface IRow {
   columns: string[];
 }
 
 @Component({
-  selector: 'drc-table-struct-renderer',
-  templateUrl: './table-linked-struct-renderer.component.html',
+  selector: 'drc-table-linked-struct-field-renderer',
+  templateUrl: './table-linked-struct-field-renderer.component.html',
 })
-export class TableLinkedStructRenderer extends NgRenderer<
-  ITableLinkedStructRenderer
+export class TableLinkedStructFieldRenderer extends NgRenderer<
+  ITableLinkedStructFieldRenderer
 > {
   get rows(): IRow[] {
     const value: IRow[] = [];
@@ -26,7 +29,10 @@ export class TableLinkedStructRenderer extends NgRenderer<
   }
 
   getCssName = (...names: string[]) => {
-    return createCssClass('de-re-crud-angular-table-struct-renderer', ...names);
+    return createCssClass(
+      'de-re-crud-angular-table-linked-struct-ifled-renderer',
+      ...names,
+    );
   };
 
   onAdd = () => {

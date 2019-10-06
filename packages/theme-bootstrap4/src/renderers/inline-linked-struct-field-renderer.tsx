@@ -1,4 +1,8 @@
-import { h, IInlineLinkedStructRenderer, createCssClass } from '@de-re-crud/ui';
+import {
+  h,
+  IInlineLinkedStructFieldRenderer,
+  createCssClass,
+} from '@de-re-crud/ui';
 import Bootstrap4ButtonRenderer from './button-renderer';
 import Bootstrap4LabelRenderer from './label-renderer';
 
@@ -14,7 +18,7 @@ const Bootstrap4InlineLinkedStructFieldRenderer = ({
   canRemove,
   onAdd,
   onRemove,
-}: IInlineLinkedStructRenderer) => {
+}: IInlineLinkedStructFieldRenderer) => {
   const rows = renderedItems.map((item, index) => {
     const removeButtonVisible = canRemove(index);
 

@@ -16,10 +16,10 @@ import {
   FieldChangeEvent,
   IFieldRenderer,
   IForeignKeyFieldRenderer,
-  IInlineLinkedStructRenderer,
+  IInlineLinkedStructFieldRenderer,
   ISelectableOption,
   ISelectListFieldRenderer,
-  ITableLinkedStructRenderer,
+  ITableLinkedStructFieldRenderer,
   ITextFieldRenderer,
   IIntegerFieldRenderer,
   IKeywordFieldRenderer,
@@ -506,7 +506,7 @@ export default class FieldHostRenderer extends BaseComponent<
             disabledValues[index] = this.isDisabled();
           });
 
-          const tableLinkedStructFieldProps: ITableLinkedStructRenderer = {
+          const tableLinkedStructFieldProps: ITableLinkedStructFieldRenderer = {
             ...fieldProps,
             canAdd: this.canAdd,
             canRemove: this.canRemove,
@@ -535,7 +535,7 @@ export default class FieldHostRenderer extends BaseComponent<
           };
 
           const TableLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
-            ITableLinkedStructRenderer
+            ITableLinkedStructFieldRenderer
           >;
 
           return (
@@ -559,7 +559,7 @@ export default class FieldHostRenderer extends BaseComponent<
           );
         });
 
-        const inlineLinkedStructFieldProps: IInlineLinkedStructRenderer = {
+        const inlineLinkedStructFieldProps: IInlineLinkedStructFieldRenderer = {
           ...fieldProps,
           canAdd: this.canAdd,
           canRemove: this.canRemove,
@@ -573,7 +573,7 @@ export default class FieldHostRenderer extends BaseComponent<
         };
 
         const InlineLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
-          IInlineLinkedStructRenderer
+          IInlineLinkedStructFieldRenderer
         >;
 
         return (

@@ -5,6 +5,6 @@ import { createDefaultProps } from './create-default-props';
 
 const defaultProps = createDefaultProps('textArea', 'Text Area', 'text');
 
-storiesOf('Text area renderer', module).add('default', () => (
+storiesOf('Renderers/Text area', module).add('default', () => (
   <Bootstrap4TextAreaFieldRenderer {...defaultProps} value={undefined} />
 ));

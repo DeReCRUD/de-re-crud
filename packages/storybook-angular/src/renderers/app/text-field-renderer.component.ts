@@ -1,6 +1,6 @@
 import { ITextFieldRenderer, createCssClass } from '@de-re-crud/ui';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { NgRenderer } from '@de-re-crud/angular/src/lib/renderer';
+import { NgRenderer } from '@de-re-crud/angular/public-api';
 
 @Component({
   selector: 'drc-text-field',

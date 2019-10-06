@@ -12,12 +12,12 @@ import {
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableLinkedStructRenderer } from './table-linked-struct-renderer.component';
 import schema from '../../schema.json';
+import { TableLinkedStructFieldRenderer } from './table-linked-struct-field-renderer.component';
 import { TextFieldRenderer } from './text-field-renderer.component';
 
 @Component({
-  selector: 'drc-table-struct-renderer-form',
+  selector: 'drc-table-linked-struct-field-renderer-form',
   template: `
     <drc-form 
       [schema]="schema"
@@ -28,7 +28,7 @@ import { TextFieldRenderer } from './text-field-renderer.component';
     </drc-form>
   `,
 })
-export class CustomTableLinkedStructRendererForm {
+export class CustomTableLinkedStructFieldRendererForm {
   schema = schema;
 
   struct: string = 'struct';
@@ -44,7 +44,7 @@ export class CustomTableLinkedStructRendererForm {
     this.renderers = {
       tableLinkedStructField: wrapNgComponent(
         injector,
-        TableLinkedStructRenderer,
+        TableLinkedStructFieldRenderer,
       ),
     };
   }
@@ -92,12 +92,15 @@ export class CustomTextFieldRendererForm {
 @NgModule({
   imports: [CommonModule, DeReCrudModule],
   declarations: [
-    CustomTableLinkedStructRendererForm,
+    CustomTableLinkedStructFieldRendererForm,
     CustomTextFieldRendererForm,
-    TableLinkedStructRenderer,
+    TableLinkedStructFieldRenderer,
     TextFieldRenderer,
   ],
-  exports: [CustomTableLinkedStructRendererForm, CustomTextFieldRendererForm],
-  entryComponents: [TableLinkedStructRenderer, TextFieldRenderer],
+  exports: [
+    CustomTableLinkedStructFieldRendererForm,
+    CustomTextFieldRendererForm,
+  ],
+  entryComponents: [TableLinkedStructFieldRenderer, TextFieldRenderer],
 })
 export class CustomRendererModule {}

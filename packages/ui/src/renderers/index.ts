@@ -157,7 +157,7 @@ export interface IForeignKeyFieldRenderer extends IFieldRenderer {
   options: ISelectableOption[];
 }
 
-export interface ITableLinkedStructRenderer extends IFieldRenderer {
+export interface ITableLinkedStructFieldRenderer extends IFieldRenderer {
   headers: string[];
   value: string[][];
   valueErrorIndicators: { [index: number]: boolean };
@@ -170,7 +170,7 @@ export interface ITableLinkedStructRenderer extends IFieldRenderer {
   onRemove: (index: number) => void;
 }
 
-export interface IInlineLinkedStructRenderer extends IFieldRenderer {
+export interface IInlineLinkedStructFieldRenderer extends IFieldRenderer {
   renderedItems: h.JSX.Element[];
   busyRenderedItems: { [index: number]: boolean };
   disabledRenderedItems: { [index: number]: boolean };

@@ -5,6 +5,6 @@ import { createDefaultProps } from './create-default-props';
 
 const defaultProps = createDefaultProps('textInput', 'Text Input', 'text');
 
-storiesOf('Text input renderer', module).add('default', () => (
+storiesOf('Renderers/Text input', module).add('default', () => (
   <Bootstrap4InputFieldRenderer {...defaultProps} value={undefined} />
 ));

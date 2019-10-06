@@ -1,4 +1,8 @@
-import { h, ITableLinkedStructRenderer, createCssClass } from '@de-re-crud/ui';
+import {
+  h,
+  ITableLinkedStructFieldRenderer,
+  createCssClass,
+} from '@de-re-crud/ui';
 import Bootstrap4ButtonRenderer from './button-renderer';
 import Bootstrap4LabelRenderer from './label-renderer';
 
@@ -17,7 +21,7 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
   onAdd,
   onEdit,
   onRemove,
-}: ITableLinkedStructRenderer) => {
+}: ITableLinkedStructFieldRenderer) => {
   const rows = [];
 
   value.forEach((columns, index) => {

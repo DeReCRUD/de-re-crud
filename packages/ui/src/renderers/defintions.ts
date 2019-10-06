@@ -5,12 +5,12 @@ import {
   IButtonRenderer,
   IFieldContainerRenderer,
   IForeignKeyFieldRenderer,
-  IInlineLinkedStructRenderer,
+  IInlineLinkedStructFieldRenderer,
   IMultiSelectListFieldRenderer,
   IRadioListFieldRenderer,
   ISelectListFieldRenderer,
   IStampRenderer,
-  ITableLinkedStructRenderer,
+  ITableLinkedStructFieldRenderer,
   ITextFieldRenderer,
   ITextAreaFieldRenderer,
   IIntegerFieldRenderer,
@@ -66,11 +66,11 @@ export interface IRendererDefinitions {
     | FunctionalComponent<IForeignKeyFieldRenderer>
     | ComponentConstructor<IForeignKeyFieldRenderer>;
   inlineLinkedStructField:
-    | FunctionalComponent<IInlineLinkedStructRenderer>
-    | ComponentConstructor<IInlineLinkedStructRenderer>;
+    | FunctionalComponent<IInlineLinkedStructFieldRenderer>
+    | ComponentConstructor<IInlineLinkedStructFieldRenderer>;
   tableLinkedStructField:
-    | FunctionalComponent<ITableLinkedStructRenderer>
-    | ComponentConstructor<ITableLinkedStructRenderer>;
+    | FunctionalComponent<ITableLinkedStructFieldRenderer>
+    | ComponentConstructor<ITableLinkedStructFieldRenderer>;
   selectListField:
     | FunctionalComponent<ISelectListFieldRenderer>
     | ComponentConstructor<ISelectListFieldRenderer>;
