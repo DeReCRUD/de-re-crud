@@ -1,4 +1,4 @@
-import { h } from '../../../h';
+import { h } from 'preact';
 import BaseComponent from '../../base-component';
 import { IStampHostRendererProps } from './stamp-host-renderer.props';
 

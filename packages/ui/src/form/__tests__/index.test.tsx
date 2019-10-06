@@ -1,6 +1,6 @@
 import { ISchemaJson } from '@de-re-crud/core';
+import { h, Ref } from 'preact';
 import { cleanup, render } from 'preact-testing-library';
-import { h, Ref } from '../../h';
 import Form, { IFormProps } from '..';
 
 const schema: ISchemaJson = {

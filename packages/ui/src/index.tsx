@@ -4,7 +4,7 @@ import {
   FunctionalComponent,
   ComponentChild,
   ComponentConstructor,
-} from './h';
+} from 'preact';
 import combineCssClasses from './renderers/utils/combine-css-classes';
 import createCssClass from './renderers/utils/create-css-class';
 import BaseComponent from './renderers/base-component';

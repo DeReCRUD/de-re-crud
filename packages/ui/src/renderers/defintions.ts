@@ -1,4 +1,4 @@
-import { FunctionalComponent, ComponentConstructor } from '../h';
+import { FunctionalComponent, ComponentConstructor } from 'preact';
 import {
   IBlockContainerRenderer,
   IBooleanFieldRenderer,

@@ -6,7 +6,7 @@ import {
   generateChildErrors,
 } from '@de-re-crud/core';
 import { Provider } from 'redux-zero/preact';
-import { h, render } from '../h';
+import { h, render } from 'preact';
 import BaseComponent from '../renderers/base-component';
 import { createStore, IStore, updateStore } from '../store';
 import shallowCompare from '../renderers/utils/shallow-compare';

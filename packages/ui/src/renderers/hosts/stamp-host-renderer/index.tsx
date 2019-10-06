@@ -1,6 +1,6 @@
 import { connect } from 'redux-zero/preact';
+import { ComponentConstructor } from 'preact';
 import { IStoreState } from '../../../store';
-import { ComponentConstructor } from '../../../h';
 import StampHostRenderer from './stamp-host-renderer.component';
 import {
   IStampHostRendererConnectProps,

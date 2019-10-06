@@ -8,7 +8,7 @@ import {
   DEFAULT_FIELD_WIDTH,
   InternalSchemaHelper,
 } from '@de-re-crud/core';
-import { h } from '../../../h';
+import { h } from 'preact';
 import BaseComponent from '../../base-component';
 import FieldHostRenderer from '../field-host-renderer';
 import StampHostRenderer from '../stamp-host-renderer';
