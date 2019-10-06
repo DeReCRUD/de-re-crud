@@ -2,7 +2,7 @@
   "name": "@de-re-crud/ui",
   "description": "Core library for creating De Re CRUD interfaces and services",
   "version": "0.16.0",
-  "repository": "https://github.com/babel/babel/tree/master/packages/ui",
+  "repository": "https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui",
   "license": "Apache-2.0",
   "main": "de-re-crud-ui.umd.js",
   "module": "de-re-crud-ui.es.js",
