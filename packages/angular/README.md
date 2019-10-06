@@ -47,7 +47,7 @@ The use it in a component:
 `app.component.ts`
 
 ```typescript
-import { Bootstrap4RendererOptions } from '@de-re-crud/renderer-bootstrap4';
+import { Bootstrap4RendererOptions } from '@de-re-crud/theme-bootstrap4';
 import schemaJson from './schema.json';  // Your defined De Re CRUD schema
 
 @Component({ /*...*/ })
