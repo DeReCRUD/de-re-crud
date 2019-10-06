@@ -1,9 +1,11 @@
 import { formPathToValue } from '@de-re-crud/core';
 import { connect } from 'redux-zero/preact';
+import { useContext } from 'preact/hooks';
 import { combineActions } from 'redux-zero/utils';
-import { ComponentConstructor } from '../../../h';
+import { h, FunctionalComponent, ComponentConstructor } from '../../../h';
 import navigationActions from '../../../navigation.actions';
 import { IStoreState } from '../../../store';
+import { FormContext } from '../../../form/form.context';
 import fieldHostRendererActions from './field-host-renderer.actions';
 import FieldHostRenderer from './field-host-renderer.component';
 import {
@@ -19,7 +21,6 @@ const mapToProps = (
     busy,
     formDisabled,
     formLocked,
-    formSubmitting,
     errors,
     childErrors,
     externalChildErrors,
@@ -60,7 +61,6 @@ const mapToProps = (
     fieldValue: formPathToValue(value, fieldPath),
     formDisabled,
     formLocked,
-    formSubmitting,
     formValue: value,
     parentValue: formPathToValue(value, parentPath),
     busy,
@@ -69,7 +69,17 @@ const mapToProps = (
   };
 };
 
+const FieldHostRendererWrapper: FunctionalComponent<IFieldHostRendererProps> = (
+  props,
+) => {
+  const { submitting } = useContext(FormContext);
+
+  return <FieldHostRenderer {...props} formSubmitting={submitting} />;
+};
+
 export default connect(
   mapToProps,
   combineActions(fieldHostRendererActions, navigationActions),
-)(FieldHostRenderer) as ComponentConstructor<IFieldHostRendererConnectProps>;
+)(FieldHostRendererWrapper) as ComponentConstructor<
+  IFieldHostRendererConnectProps
+>;

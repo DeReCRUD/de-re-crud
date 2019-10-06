@@ -2,7 +2,6 @@ import { connect } from 'redux-zero/preact';
 import { combineActions } from 'redux-zero/utils';
 import navigationActions from '../navigation.actions';
 import { IStoreState } from '../store';
-import formActions from './form.actions';
 import Form from './form.component';
 import { IFormProps } from './form.props';
 
@@ -17,7 +16,6 @@ const mapToProps = ({
   formClassName,
   formDisabled,
   formLocked,
-  formSubmitting,
   type,
 }: IStoreState): Partial<IFormProps> => ({
   block,
@@ -25,7 +23,6 @@ const mapToProps = ({
   formClassName,
   formDisabled,
   formLocked,
-  formSubmitting,
   navStack,
   onCancel,
   renderers,
@@ -36,5 +33,5 @@ const mapToProps = ({
 
 export default connect(
   mapToProps,
-  combineActions(navigationActions, formActions),
+  combineActions(navigationActions),
 )(Form);

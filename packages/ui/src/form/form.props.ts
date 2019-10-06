@@ -90,7 +90,6 @@ export interface IFormProps extends IFormBaseProps {
   formClassName?: string;
   formDisabled: boolean;
   formLocked: boolean;
-  formSubmitting: boolean;
   navStack: INavState[];
   submitForm: () => void;
   pop: () => void;

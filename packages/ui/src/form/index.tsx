@@ -3,6 +3,7 @@ import {
   ObjectFieldValue,
   Logger,
   formPathToValue,
+  generateChildErrors,
 } from '@de-re-crud/core';
 import { Provider } from 'redux-zero/preact';
 import { h, render } from '../h';
@@ -12,6 +13,8 @@ import shallowCompare from '../renderers/utils/shallow-compare';
 import generateCacheKey from '../renderers/utils/generate-cache-key';
 import FormConnect from './form.connect';
 import { IFormConnectProps as IFormProps } from './form.props';
+import { FormContext } from './form.context';
+import { validateBlock } from './form.actions';
 
 export {
   FormSubmission,
@@ -57,7 +60,11 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
   };
 }
 
-export default class Form extends BaseComponent<IFormProps> {
+interface IFormState {
+  submitting: boolean;
+}
+
+export default class Form extends BaseComponent<IFormProps, IFormState> {
   private store: IStore;
 
   constructor(props: IFormProps) {
@@ -82,6 +89,8 @@ export default class Form extends BaseComponent<IFormProps> {
       type,
       initialValue,
     } = props;
+
+    this.state = { submitting: false };
 
     this.store = createStore(
       schema,
@@ -186,10 +195,51 @@ export default class Form extends BaseComponent<IFormProps> {
     });
   }
 
+  private handleSubmit = () => {
+    const state = this.store.getState();
+    const struct = state.schema.structs.find((x) => x.name === state.struct);
+    const block = state.schema.blocks.get(state.struct).get(state.block);
+
+    const result = validateBlock(state, struct.name, block.name, state.value);
+    const { outputValue, errors, touched, hasErrors } = result;
+
+    this.store.setState({
+      childErrors: generateChildErrors(errors),
+      errors,
+      touched,
+    });
+
+    if (hasErrors) {
+      return;
+    }
+
+    this.setState({ submitting: true });
+
+    state.onSubmit(outputValue, (submissionErrors) => {
+      if (submissionErrors) {
+        this.store.setState({
+          externalChildErrors: generateChildErrors(submissionErrors),
+          externalErrors: submissionErrors,
+        });
+      } else {
+        this.store.setState({
+          externalChildErrors: {},
+          externalErrors: {},
+        });
+      }
+
+      this.setState({ submitting: false });
+    });
+  };
+
   public render() {
+    const { submitting } = this.state;
+
     return (
       <Provider store={this.store}>
-        <FormConnect />
+        <FormContext.Provider value={{ submit: this.handleSubmit, submitting }}>
+          <FormConnect />
+        </FormContext.Provider>
       </Provider>
     );
   }

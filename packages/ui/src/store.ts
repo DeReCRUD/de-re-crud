@@ -51,7 +51,6 @@ export interface IStoreState {
   formClassName?: string;
   formDisabled: boolean;
   formLocked: boolean;
-  formSubmitting: boolean;
   schema: ISchema;
   type: FormType;
   struct: string;
@@ -147,7 +146,6 @@ export function createStore(
       : undefined,
     formDisabled: disabled || false,
     formLocked: false,
-    formSubmitting: false,
     initialValue,
     navStack: [],
     onCancel,

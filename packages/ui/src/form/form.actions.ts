@@ -2,7 +2,6 @@ import {
   IErrors,
   ILinkedStructField,
   validateField,
-  generateChildErrors,
   formPathToValue,
 } from '@de-re-crud/core';
 import { IStoreState } from '../store';
@@ -14,7 +13,7 @@ interface IValidationResult {
   hasErrors: boolean;
 }
 
-function validateBlock(
+export function validateBlock(
   state: IStoreState,
   structName: string,
   blockName: string,
@@ -111,49 +110,5 @@ function validateBlock(
     hasErrors,
     outputValue,
     touched,
-  };
-}
-
-export default function formActions({ setState }) {
-  return {
-    submitForm: (
-      state: IStoreState,
-    ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
-      const struct = state.schema.structs.find((x) => x.name === state.struct);
-      const block = state.schema.blocks.get(state.struct).get(state.block);
-
-      const result = validateBlock(state, struct.name, block.name, state.value);
-      const { outputValue, errors, touched, hasErrors } = result;
-
-      setState({
-        childErrors: generateChildErrors(errors),
-        errors,
-        formSubmitting: !hasErrors,
-        touched,
-      });
-
-      if (hasErrors) {
-        return {};
-      }
-
-      return new Promise<Partial<IStoreState>>((resolve) => {
-        state.onSubmit(outputValue, (submissionErrors) => {
-          if (submissionErrors) {
-            resolve({
-              externalChildErrors: generateChildErrors(submissionErrors),
-              externalErrors: submissionErrors,
-              formSubmitting: false,
-            });
-            return;
-          }
-
-          resolve({
-            externalChildErrors: {},
-            externalErrors: {},
-            formSubmitting: false,
-          });
-        });
-      });
-    },
   };
 }

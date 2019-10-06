@@ -27,9 +27,9 @@ export interface IFieldHostRendererProps
   fieldPath: string;
   fieldValue: FieldValue;
   parentValue: ObjectFieldValue;
+  formSubmitting: boolean;
   formDisabled: boolean;
   formLocked: boolean;
-  formSubmitting: boolean;
   formValue: object;
   touched: boolean;
   busy: { [path: string]: boolean };

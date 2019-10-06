@@ -34,7 +34,8 @@
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    "react/no-unknown-property": 0
+    "react/no-unknown-property": 0,
+    "react/prop-types": 0
   },
   "settings": {
     "import/core-modules": ["redux-zero"],
