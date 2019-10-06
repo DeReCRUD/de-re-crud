@@ -1,7 +1,7 @@
 {
   "name": "@de-re-crud/ui",
   "description": "Core library for creating De Re CRUD interfaces and services",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "repository": "https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui",
   "license": "Apache-2.0",
   "main": "de-re-crud-ui.umd.js",
@@ -11,14 +11,14 @@
     "build": "rollup --config"
   },
   "peerDependencies": {
-    "@de-re-crud/core": "0.16.1",
+    "@de-re-crud/core": "0.16.2",
     "preact": "^10.0.0-rc.3"
   },
   "dependencies": {
-    "redux-zero": "^5.0.5"
+    "redux-zero": "^5.1.0"
   },
   "devDependencies": {
-    "@de-re-crud/core": "^0.16.1",
+    "@de-re-crud/core": "^0.16.2",
     "preact": "^10.0.0-rc.3",
     "preact-testing-library": "^0.4.0"
   }

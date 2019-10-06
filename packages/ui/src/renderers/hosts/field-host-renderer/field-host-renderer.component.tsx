@@ -10,7 +10,7 @@ import {
   ITextField,
   IIntegerField,
 } from '@de-re-crud/core';
-import { h } from '../../../h';
+import { h } from 'preact';
 import BaseComponent from '../../base-component';
 import {
   FieldChangeEvent,

@@ -1,6 +1,6 @@
 import { useContext } from 'preact/hooks';
 import { Logger, InternalSchemaHelper } from '@de-re-crud/core';
-import { h, FunctionalComponent } from '../h';
+import { h, FunctionalComponent } from 'preact';
 import combineCssClasses from '../renderers/utils/combine-css-classes';
 import BlockHostRenderer from '../renderers/hosts/block-host-renderer';
 import { IFormProps } from './form.props';

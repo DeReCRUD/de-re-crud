@@ -13214,7 +13214,7 @@ redent@^2.0.0:
     indent-string "^3.0.0"
     strip-indent "^2.0.0"
 
-redux-zero@^5.0.5:
+redux-zero@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/redux-zero/-/redux-zero-5.1.0.tgz#d07a9bd0b0126738cdbce78b542e907d7e5ed632"
   integrity sha512-vumZYP44A2Ah5UOR9LzTkKGJHsX9QXt57mNnYRkhzsAEnQM1QjKGLltLn/kmwhuvJCbxV7/VsiON6c1wGpyzvg==

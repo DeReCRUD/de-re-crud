@@ -1,5 +1,5 @@
 import { connect } from 'redux-zero/preact';
-import { ComponentConstructor } from '../../../h';
+import { ComponentConstructor } from 'preact';
 import { IStoreState } from '../../../store';
 import BlockHostRenderer from './block-host-renderer.component';
 import {

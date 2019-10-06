@@ -1,8 +1,8 @@
 import { formPathToValue } from '@de-re-crud/core';
-import { connect } from 'redux-zero/preact';
+import { h, FunctionalComponent, ComponentConstructor } from 'preact';
 import { useContext } from 'preact/hooks';
+import { connect } from 'redux-zero/preact';
 import { combineActions } from 'redux-zero/utils';
-import { h, FunctionalComponent, ComponentConstructor } from '../../../h';
 import navigationActions from '../../../navigation.actions';
 import { IStoreState } from '../../../store';
 import { FormContext } from '../../../form/form.context';

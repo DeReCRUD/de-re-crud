@@ -60,7 +60,9 @@ function generateDefaultConfig(
         cacheRoot,
       }),
       commonjs(),
-      resolve(),
+      resolve({
+        modulesOnly: true,
+      }),
       sourceMaps(),
     ],
   };

@@ -1,4 +1,4 @@
-import { h } from '../../h';
+import { h } from 'preact';
 
 export default function NoopRenderer() {
   return (
