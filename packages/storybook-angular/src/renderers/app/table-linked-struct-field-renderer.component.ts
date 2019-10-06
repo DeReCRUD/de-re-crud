@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, ChangeDetectorRef } from '@angular/core';
 import {
   ITableLinkedStructFieldRenderer,
   createCssClass,
@@ -16,6 +16,10 @@ interface IRow {
 export class TableLinkedStructFieldRenderer extends NgRenderer<
   ITableLinkedStructFieldRenderer
 > {
+  constructor(@Inject(ChangeDetectorRef) changeDetectorRef: ChangeDetectorRef) {
+    super(changeDetectorRef);
+  }
+
   get rows(): IRow[] {
     const value: IRow[] = [];
 
