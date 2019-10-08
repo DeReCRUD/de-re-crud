@@ -466,7 +466,11 @@ export default class FieldHostRenderer extends BaseComponent<
         return <ForeignKeyFieldRenderer {...foreignKeyFieldProps} />;
       }
       case 'linkedStruct': {
-        const { reference, minInstances } = field as ILinkedStructField;
+        const {
+          reference,
+          minInstances,
+          maxInstances,
+        } = field as ILinkedStructField;
         const { hints } = fieldReference as ILinkedStructFieldReference;
         const isTable = hints.layout === 'table';
         const blockName = hints.block || reference.block;
@@ -508,6 +512,8 @@ export default class FieldHostRenderer extends BaseComponent<
 
           const tableLinkedStructFieldProps: ITableLinkedStructFieldRenderer = {
             ...fieldProps,
+            minInstances,
+            maxInstances,
             canAdd: this.canAdd,
             canRemove: this.canRemove,
             headers: block.fields.map((x) => {
