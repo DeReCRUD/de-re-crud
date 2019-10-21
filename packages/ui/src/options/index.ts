@@ -4,7 +4,7 @@ import { IRendererOptions } from './renderer-options';
 import { IButtonOptions } from './button-options';
 
 export class DeReCrudUiOptions {
-  private static optionDefaultsInitialized;
+  private static optionDefaultsInitialized = false;
 
   public static setDefaults(defaults: Partial<DeReCrudUiOptions>) {
     if (module.hot) {
