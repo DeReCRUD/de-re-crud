@@ -4,7 +4,7 @@ import {
   ILinkedStructField,
   validateField,
   validateLinkedStructField,
-  formPathToValue,
+  getValueForPath,
   generateChildErrors,
 } from '@de-re-crud/core';
 import {
@@ -121,7 +121,7 @@ export default function fieldHostRendererActions(store: IStore) {
       __: string,
       fieldPath: string,
     ): Partial<IStoreState> => {
-      const value = formPathToValue(state.value, fieldPath);
+      const value = getValueForPath(state.value, fieldPath);
 
       return {
         focused: {
@@ -139,9 +139,9 @@ export default function fieldHostRendererActions(store: IStore) {
       parentPath?: string,
     ): Partial<IStoreState> => {
       const oldValue = state.focused[fieldPath];
-      const newValue = formPathToValue(state.value, fieldPath);
-      const parentValue = formPathToValue(state.value, parentPath);
-      const initialValue = formPathToValue(state.initialValue, fieldPath);
+      const newValue = getValueForPath(state.value, fieldPath);
+      const parentValue = getValueForPath(state.value, parentPath);
+      const initialValue = getValueForPath(state.initialValue, fieldPath);
 
       const errors = validateField(
         state.schema,
@@ -194,8 +194,8 @@ export default function fieldHostRendererActions(store: IStore) {
       fieldPath: string,
       fieldValue: ScalarFieldValue | ScalarFieldValue[],
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
-      const oldValue = formPathToValue(state.value, fieldPath);
-      const initialValue = formPathToValue(state.initialValue, fieldPath);
+      const oldValue = getValueForPath(state.value, fieldPath);
+      const initialValue = getValueForPath(state.initialValue, fieldPath);
       const pathArray = fieldPath.split('.');
 
       let parentPath;
@@ -206,7 +206,7 @@ export default function fieldHostRendererActions(store: IStore) {
       }
 
       const newFormValue = setFieldValue(state.value, fieldPath, fieldValue);
-      const parentValue = formPathToValue(newFormValue, parentPath);
+      const parentValue = getValueForPath(newFormValue, parentPath);
 
       const updates: Partial<IStoreState> = {
         externalErrors: {
@@ -274,7 +274,7 @@ export default function fieldHostRendererActions(store: IStore) {
         .get(structName)
         .get(fieldName) as ILinkedStructField;
 
-      const oldValue = formPathToValue(state.value, fieldPath);
+      const oldValue = getValueForPath(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
       const itemsToCreate = count || 1;
 
@@ -359,7 +359,7 @@ export default function fieldHostRendererActions(store: IStore) {
       if (state.onFieldParentChange) {
         const params: IFieldParentChangeNotificationParams = {
           formValue: newFormValue,
-          newValue: formPathToValue(newFormValue, fieldPath),
+          newValue: getValueForPath(newFormValue, fieldPath),
           oldValue,
           parentValue,
           path: fieldPath,

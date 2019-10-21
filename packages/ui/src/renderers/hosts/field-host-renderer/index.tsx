@@ -1,4 +1,4 @@
-import { formPathToValue } from '@de-re-crud/core';
+import { getValueForPath } from '@de-re-crud/core';
 import { h, FunctionalComponent, ComponentConstructor } from 'preact';
 import { useContext } from 'preact/hooks';
 import { connect } from 'redux-zero/preact';
@@ -58,11 +58,11 @@ const mapToProps = (
     collectionReferences,
     errors: combinedErrors,
     fieldPath,
-    fieldValue: formPathToValue(value, fieldPath),
+    fieldValue: getValueForPath(value, fieldPath),
     formDisabled,
     formLocked,
     formValue: value,
-    parentValue: formPathToValue(value, parentPath),
+    parentValue: getValueForPath(value, parentPath),
     busy,
     renderers,
     touched: touched[fieldPath] || false,

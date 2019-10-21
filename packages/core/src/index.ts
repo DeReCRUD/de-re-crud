@@ -1,5 +1,5 @@
 import defaults from './utils/defaults';
-import formPathToValue from './utils/form-path-to-value';
+import getValueForPath from './utils/get-value-for-path';
 import generateChildErrors from './utils/generate-child-errors';
 import InternalSchemaHelper from './schema/helper';
 import SchemaParser from './schema/parser';
@@ -14,7 +14,7 @@ export * from './validators/default-validators';
 export * from './validators/pattern-validator';
 
 export {
-  formPathToValue,
+  getValueForPath,
   defaults,
   generateChildErrors,
   InternalSchemaHelper,

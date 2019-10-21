@@ -10,7 +10,7 @@ import {
 import { ICustomValidator, IDefaultValidatorMessages } from '../schema/json';
 import { defaultValidatorFuncs } from '../validators/default-validators';
 import PatternValidator from '../validators/pattern-validator';
-import formPathToValue from './form-path-to-value';
+import getValueForPath from './get-value-for-path';
 
 const defaultValidatorMessages: IDefaultValidatorMessages = {
   keyword: 'This field can not contain any tabs or spaces.',
@@ -29,7 +29,7 @@ function interpolateMessage(messageFormat: string, field: IField) {
     const key = match.replace(/[{}]/g, '');
     const parts = key.split(',');
 
-    const propValue = formPathToValue(field, parts[0]);
+    const propValue = getValueForPath(field, parts[0]);
     if (parts.length === 2) {
       if (!propValue) {
         return parts[1];

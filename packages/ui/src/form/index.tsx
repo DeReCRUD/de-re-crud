@@ -1,7 +1,7 @@
 import {
   FieldValue,
   Logger,
-  formPathToValue,
+  getValueForPath,
   generateChildErrors,
 } from '@de-re-crud/core';
 import { Provider } from 'redux-zero/preact';
@@ -155,7 +155,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
 
     const { value } = this.store.getState();
 
-    return formPathToValue(value, path);
+    return getValueForPath(value, path);
   }
 
   private parseErrors(path: string, errors?: string[]) {

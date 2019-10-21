@@ -2,7 +2,7 @@ import {
   IErrors,
   ILinkedStructField,
   validateField,
-  formPathToValue,
+  getValueForPath,
 } from '@de-re-crud/core';
 import { IStoreState } from '../store';
 
@@ -41,7 +41,7 @@ export function validateBlock(
       const fieldValue = parentValue[field.name];
       outputValue[field.name] = fieldValue;
 
-      const initialFieldValue = formPathToValue(state.initialValue, fieldPath);
+      const initialFieldValue = getValueForPath(state.initialValue, fieldPath);
       const fieldErrors = validateField(
         state.schema,
         structName,
