@@ -34,6 +34,7 @@ export { IFormProps };
 
 export interface IForm {
   reEvaluateConditions: () => void;
+  getValue: (path?: string) => FieldValue;
   setValue: (path: string, value?: FieldValue, errors?: string[]) => void;
   setErrors: (path: string, errors: string[]) => void;
 }
@@ -54,6 +55,9 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
   return {
     reEvaluateConditions: () => {
       form.reEvaluateConditions();
+    },
+    getValue: (path?: string) => {
+      return form.getValue(path);
     },
     setValue: (path: string, value?: FieldValue, errors?: string[]) => {
       form.setValue(path, value, errors);
@@ -147,15 +151,19 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     });
   }
 
-  public getValue(path: string) {
-    if (!path) {
-      Logger.warning('No path set. Can not get value.');
-      return undefined;
+  public getValue(path?: string) {
+    const { value: formValue } = this.store.getState();
+    const value = getValueForPath(formValue, path);
+
+    if (Array.isArray(value)) {
+      return value.concat();
     }
 
-    const { value } = this.store.getState();
+    if (typeof value === 'object') {
+      return { ...value };
+    }
 
-    return getValueForPath(value, path);
+    return value;
   }
 
   private parseErrors(path: string, errors?: string[]) {

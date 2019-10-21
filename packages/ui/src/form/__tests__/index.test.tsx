@@ -46,6 +46,20 @@ function createComponent(
 describe('Form', () => {
   afterEach(cleanup);
 
+  it('should return root value in store', () => {
+    let instance: Form;
+
+    const value = { struct: { name: 'Name' } };
+
+    render(
+      createComponent({ initialValue: value }, (form) => {
+        instance = form;
+      }),
+    );
+
+    expect(instance.getValue()).toEqual(value);
+  });
+
   it('should update field value in store', () => {
     let instance: Form;
 

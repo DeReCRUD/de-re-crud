@@ -166,6 +166,10 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
     this.instance.reEvaluateConditions();
   };
 
+  getValue = (path?: string) => {
+    return this.instance.getValue(path);
+  };
+
   setValue = (path: string, value?: FieldValue, errors?: string[]) => {
     this.instance.setValue(path, value, errors);
   };
