@@ -14,6 +14,7 @@ import {
 } from '../../../form/form.props';
 import { IStore, IStoreState } from '../../../store';
 import createFieldParent from '../../../utils/create-field-parent';
+import setFieldValue from '../../../utils/set-field-value';
 import generateCacheKey from '../../utils/generate-cache-key';
 
 export type ChangeArrayActionType = 'add' | 'remove';
@@ -197,26 +198,15 @@ export default function fieldHostRendererActions(store: IStore) {
       const initialValue = formPathToValue(state.initialValue, fieldPath);
       const pathArray = fieldPath.split('.');
 
-      const newFormValue = { ...state.value };
-      let iterationValue = newFormValue;
-      let parentValue;
-
-      for (let i = 0; i < pathArray.length; i++) {
-        parentValue = iterationValue;
-        const path = pathArray[i];
-
-        iterationValue = iterationValue[path];
-
-        if (i === pathArray.length - 1) {
-          parentValue[path] = fieldValue;
-        } else if (Array.isArray(iterationValue)) {
-          parentValue[path] = iterationValue.concat();
-        } else if (typeof iterationValue === 'object') {
-          parentValue[path] = { ...iterationValue };
-        }
-
-        iterationValue = parentValue[path];
+      let parentPath;
+      if (pathArray.length > 1) {
+        parentPath = pathArray.splice(0, pathArray.length).join('.');
+      } else {
+        parentPath = fieldPath;
       }
+
+      const newFormValue = setFieldValue(state.value, fieldPath, fieldValue);
+      const parentValue = formPathToValue(newFormValue, parentPath);
 
       const updates: Partial<IStoreState> = {
         externalErrors: {
@@ -402,6 +392,14 @@ export default function fieldHostRendererActions(store: IStore) {
                 },
                 formLocked: false,
               };
+
+              if (callbackParams.value) {
+                newState.value = setFieldValue(
+                  newState.value,
+                  fieldPath,
+                  callbackParams.value,
+                );
+              }
 
               if (callbackParams.reEvaluateConditions) {
                 newState.conditionCacheKey = generateCacheKey();
