@@ -1,5 +1,6 @@
 import defaults from './utils/defaults';
 import getValueForPath from './utils/get-value-for-path';
+import setValueForPath from './utils/set-value-for-path';
 import generateChildErrors from './utils/generate-child-errors';
 import InternalSchemaHelper from './schema/helper';
 import SchemaParser from './schema/parser';
@@ -15,6 +16,7 @@ export * from './validators/pattern-validator';
 
 export {
   getValueForPath,
+  setValueForPath,
   defaults,
   generateChildErrors,
   InternalSchemaHelper,

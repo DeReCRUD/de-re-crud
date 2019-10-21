@@ -1,15 +1,15 @@
-import { ObjectFieldValue, FieldValue } from '@de-re-crud/core';
+import { FieldValue, ObjectFieldValue } from '..';
 
-export default function setFieldValue(
-  value: object,
+export default function setValueForPath(
+  rootValue: object,
   path: string,
-  fieldValue?: FieldValue,
+  value?: FieldValue,
 ) {
   if (typeof value === 'undefined') {
     value = null;
   }
 
-  const newValue = { ...value };
+  const newValue = { ...rootValue };
 
   const pathArray = path.split('.');
 
@@ -21,7 +21,7 @@ export default function setFieldValue(
     parentValue = currentValue;
 
     if (i === pathArray.length - 1) {
-      parentValue[currentPath] = fieldValue;
+      parentValue[currentPath] = value;
       break;
     }
 

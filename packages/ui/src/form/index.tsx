@@ -2,6 +2,7 @@ import {
   FieldValue,
   Logger,
   getValueForPath,
+  setValueForPath,
   generateChildErrors,
 } from '@de-re-crud/core';
 import { Provider } from 'redux-zero/preact';
@@ -14,7 +15,6 @@ import FormConnect from './form.connect';
 import { IFormConnectProps as IFormProps } from './form.props';
 import { FormContext } from './form.context';
 import { validateBlock } from './form.actions';
-import setFieldValue from '../utils/set-field-value';
 
 export {
   FormSubmission,
@@ -177,7 +177,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     }
 
     const formValue = this.store.getState().value;
-    const newFormValue = setFieldValue(formValue, path, value);
+    const newFormValue = setValueForPath(formValue, path, value);
 
     const externalErrors = this.parseErrors(path, errors);
 

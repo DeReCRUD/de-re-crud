@@ -5,6 +5,7 @@ import {
   validateField,
   validateLinkedStructField,
   getValueForPath,
+  setValueForPath,
   generateChildErrors,
 } from '@de-re-crud/core';
 import {
@@ -14,7 +15,6 @@ import {
 } from '../../../form/form.props';
 import { IStore, IStoreState } from '../../../store';
 import createFieldParent from '../../../utils/create-field-parent';
-import setFieldValue from '../../../utils/set-field-value';
 import generateCacheKey from '../../utils/generate-cache-key';
 
 export type ChangeArrayActionType = 'add' | 'remove';
@@ -205,7 +205,7 @@ export default function fieldHostRendererActions(store: IStore) {
         parentPath = fieldPath;
       }
 
-      const newFormValue = setFieldValue(state.value, fieldPath, fieldValue);
+      const newFormValue = setValueForPath(state.value, fieldPath, fieldValue);
       const parentValue = getValueForPath(newFormValue, parentPath);
 
       const updates: Partial<IStoreState> = {
@@ -394,7 +394,7 @@ export default function fieldHostRendererActions(store: IStore) {
               };
 
               if (callbackParams.value) {
-                newState.value = setFieldValue(
+                newState.value = setValueForPath(
                   newState.value,
                   fieldPath,
                   callbackParams.value,
