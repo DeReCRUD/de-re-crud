@@ -1,5 +1,3 @@
-// TODO: Rename to objPathToValue
-
 export default function getValueForPath(value: object, path?: string) {
   if (!path) {
     return value;
