@@ -19,6 +19,7 @@ export default function setValueForPath(
   for (let i = 0; i < pathArray.length; i++) {
     const currentPath = pathArray[i];
     parentValue = currentValue;
+    currentValue = currentValue[path];
 
     if (i === pathArray.length - 1) {
       parentValue[currentPath] = value;
