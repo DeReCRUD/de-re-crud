@@ -8,7 +8,13 @@ import {
 import { Provider } from 'redux-zero/preact';
 import { h, render } from 'preact';
 import BaseComponent from '../renderers/base-component';
-import { createStore, IStore, updateStore } from '../store';
+import {
+  createStore,
+  getStore,
+  IStore,
+  removeStore,
+  updateStore,
+} from '../store';
 import shallowCompare from '../renderers/utils/shallow-compare';
 import generateCacheKey from '../renderers/utils/generate-cache-key';
 import FormConnect from './form.connect';
@@ -37,6 +43,17 @@ export interface IForm {
   getValue: (path?: string) => FieldValue;
   setValue: (path: string, value?: FieldValue, errors?: string[]) => void;
   setErrors: (path: string, errors: string[]) => void;
+}
+
+export function renderElement(
+  formId: string,
+  element: h.JSX.Element | h.JSX.Element[],
+  nativeElement: Element,
+): void {
+  render(
+    <Provider store={getStore(formId)}>{element}</Provider>,
+    nativeElement,
+  );
 }
 
 export function renderForm(props: IFormProps, nativeElement: Element): IForm {
