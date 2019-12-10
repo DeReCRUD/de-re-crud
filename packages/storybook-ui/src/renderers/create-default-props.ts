@@ -8,6 +8,7 @@ export function createDefaultProps(
   fieldType: FieldType,
 ): IFieldRenderer {
   return {
+    formId: 'form1',
     rendererId: id,
     label,
     fieldName: id,

@@ -11,6 +11,7 @@ import { IRendererDefinitions } from '../../defintions';
 import { ChangeArrayActionType } from './field-host-renderer.actions';
 
 export interface IFieldHostRendererConnectProps {
+  formId: string;
   rendererId: string;
   fieldPath: string;
   parentPath?: string;

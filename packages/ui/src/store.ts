@@ -47,7 +47,7 @@ export interface INavState {
 
 export interface IStoreState {
   conditionCacheKey: number;
-  formId: number;
+  formId: string;
   formClassName?: string;
   formDisabled: boolean;
   formLocked: boolean;
@@ -83,6 +83,8 @@ const logger = (store) => (next) => (action) => {
 
   return next(action);
 };
+
+const storeMap: { [formId: string]: IStore } = {};
 
 export function createStore(
   schemaJson: ISchemaJson,
@@ -140,7 +142,7 @@ export function createStore(
     externalChildErrors: generateChildErrors(initialErrors),
     externalErrors: initialErrors || {},
     focused: {},
-    formId: ++FORM_COUNTER,
+    formId: (++FORM_COUNTER).toString(),
     formClassName: rendererOptionDefaults
       ? rendererOptionDefaults.formClassName
       : undefined,
@@ -170,11 +172,16 @@ export function createStore(
     (x) => x,
   );
 
-  return createReduxZeroStore(state, applyMiddleware(...middlewares)) as IStore;
+  const store = createReduxZeroStore(
+    state,
+    applyMiddleware(...middlewares),
+  ) as IStore;
+  storeMap[state.formId] = store;
+  return store;
 }
 
 export function updateStore(
-  store: IStore,
+  formId: string,
   disabled?: boolean,
   rendererOptions?: IRendererOptions,
   renderers?: Partial<IRendererDefinitions>,
@@ -191,6 +198,11 @@ export function updateStore(
 
   const rendererOptionDefaults =
     rendererOptions || optionDefaults.rendererOptions;
+
+  const store = storeMap[formId];
+  if (!store) {
+    return;
+  }
 
   store.setState({
     formClassName: rendererOptionDefaults
@@ -214,4 +226,12 @@ export function updateStore(
       optionDefaults.buttonOptions,
     ),
   });
+}
+
+export function getStore(formId: string) {
+  return storeMap[formId];
+}
+
+export function removeStore(formId: string) {
+  delete storeMap[formId];
 }

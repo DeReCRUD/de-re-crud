@@ -14,6 +14,7 @@ export interface ISelectableOption {
 }
 
 export interface IRenderer {
+  formId: string;
   rendererId: string;
   hints: ICustomHints;
 }

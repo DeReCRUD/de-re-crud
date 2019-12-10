@@ -130,7 +130,7 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
 
   public componentWillReceiveProps(nextProps: IFormProps) {
     updateStore(
-      this.store,
+      this.store.getState().formId,
       nextProps.disabled,
       nextProps.rendererOptions,
       nextProps.renderers,
@@ -143,6 +143,10 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       nextProps.onFieldChangeType,
       nextProps.onFieldParentChange,
     );
+  }
+
+  public componentWillUnmount(): void {
+    removeStore(this.store.getState().formId);
   }
 
   public reEvaluateConditions() {
