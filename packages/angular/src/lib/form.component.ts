@@ -117,36 +117,42 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
     this.render();
   }
 
-  onFieldChange = (
+  onFieldChange = (params: IFieldChangeNotificationParams) => {
+    const event: IFieldChangeEvent = {
+      params,
+    };
+
+    this.fieldChanged.emit(event);
+  };
+
+  onFieldChangeAsync = (
     params: IFieldChangeNotificationParams,
     cb: FieldChangeNotificationCallback,
   ) => {
     const event: IFieldChangeEvent = {
       params,
+      onComplete: cb,
     };
-
-    if (this.asyncFieldChanges) {
-      event.onComplete = cb;
-    } else {
-      cb();
-    }
 
     this.fieldChanged.emit(event);
   };
 
-  onFieldParentChange = (
+  onFieldParentChange = (params: IFieldParentChangeNotificationParams) => {
+    const event: IFieldParentChangeEvent = {
+      params,
+    };
+
+    this.fieldParentChanged.emit(event);
+  };
+
+  onFieldParentChangeAsync = (
     params: IFieldParentChangeNotificationParams,
     cb: FieldParentChangeNotificationCallback,
   ) => {
     const event: IFieldParentChangeEvent = {
       params,
+      onComplete: cb,
     };
-
-    if (this.asyncFieldParentChanges) {
-      event.onComplete = cb;
-    } else {
-      cb();
-    }
 
     this.fieldParentChanged.emit(event);
   };
@@ -196,8 +202,12 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
         onCancel: this.cancelVisible ? this.onCancel : undefined,
         onFieldChangeInputTimeout: this.fieldChangeInputTimeout,
         onFieldChangeType: this.fieldChangeType,
-        onFieldChange: this.onFieldChange,
-        onFieldParentChange: this.onFieldParentChange,
+        onFieldChange: this.asyncFieldChanges
+          ? this.onFieldChangeAsync
+          : this.onFieldChange,
+        onFieldParentChange: this.asyncFieldParentChanges
+          ? this.onFieldParentChangeAsync
+          : this.onFieldParentChange,
         onSubmit: this.onSubmit,
         renderers: this.renderers,
         rendererOptions: this.rendererOptions,
