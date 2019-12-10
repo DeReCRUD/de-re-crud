@@ -107,8 +107,6 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
   @Output()
   submitted = new EventEmitter<IFormSubmission>();
 
-  constructor() {}
-
   ngAfterViewInit() {
     this.render();
   }
