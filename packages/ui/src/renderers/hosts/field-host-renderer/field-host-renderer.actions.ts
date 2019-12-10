@@ -4,7 +4,8 @@ import {
   ILinkedStructField,
   validateField,
   validateLinkedStructField,
-  formPathToValue,
+  getValueForPath,
+  setValueForPath,
   generateChildErrors,
 } from '@de-re-crud/core';
 import {
@@ -120,7 +121,7 @@ export default function fieldHostRendererActions(store: IStore) {
       __: string,
       fieldPath: string,
     ): Partial<IStoreState> => {
-      const value = formPathToValue(state.value, fieldPath);
+      const value = getValueForPath(state.value, fieldPath);
 
       return {
         focused: {
@@ -138,9 +139,9 @@ export default function fieldHostRendererActions(store: IStore) {
       parentPath?: string,
     ): Partial<IStoreState> => {
       const oldValue = state.focused[fieldPath];
-      const newValue = formPathToValue(state.value, fieldPath);
-      const parentValue = formPathToValue(state.value, parentPath);
-      const initialValue = formPathToValue(state.initialValue, fieldPath);
+      const newValue = getValueForPath(state.value, fieldPath);
+      const parentValue = getValueForPath(state.value, parentPath);
+      const initialValue = getValueForPath(state.initialValue, fieldPath);
 
       const errors = validateField(
         state.schema,
@@ -193,30 +194,19 @@ export default function fieldHostRendererActions(store: IStore) {
       fieldPath: string,
       fieldValue: ScalarFieldValue | ScalarFieldValue[],
     ): Partial<IStoreState> | Promise<Partial<IStoreState>> => {
-      const oldValue = formPathToValue(state.value, fieldPath);
-      const initialValue = formPathToValue(state.initialValue, fieldPath);
+      const oldValue = getValueForPath(state.value, fieldPath);
+      const initialValue = getValueForPath(state.initialValue, fieldPath);
       const pathArray = fieldPath.split('.');
 
-      const newFormValue = { ...state.value };
-      let iterationValue = newFormValue;
-      let parentValue;
-
-      for (let i = 0; i < pathArray.length; i++) {
-        parentValue = iterationValue;
-        const path = pathArray[i];
-
-        iterationValue = iterationValue[path];
-
-        if (i === pathArray.length - 1) {
-          parentValue[path] = fieldValue;
-        } else if (Array.isArray(iterationValue)) {
-          parentValue[path] = iterationValue.concat();
-        } else if (typeof iterationValue === 'object') {
-          parentValue[path] = { ...iterationValue };
-        }
-
-        iterationValue = parentValue[path];
+      let parentPath;
+      if (pathArray.length > 1) {
+        parentPath = pathArray.splice(0, pathArray.length).join('.');
+      } else {
+        parentPath = fieldPath;
       }
+
+      const newFormValue = setValueForPath(state.value, fieldPath, fieldValue);
+      const parentValue = getValueForPath(newFormValue, parentPath);
 
       const updates: Partial<IStoreState> = {
         externalErrors: {
@@ -284,7 +274,7 @@ export default function fieldHostRendererActions(store: IStore) {
         .get(structName)
         .get(fieldName) as ILinkedStructField;
 
-      const oldValue = formPathToValue(state.value, fieldPath);
+      const oldValue = getValueForPath(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
       const itemsToCreate = count || 1;
 
@@ -369,7 +359,7 @@ export default function fieldHostRendererActions(store: IStore) {
       if (state.onFieldParentChange) {
         const params: IFieldParentChangeNotificationParams = {
           formValue: newFormValue,
-          newValue: formPathToValue(newFormValue, fieldPath),
+          newValue: getValueForPath(newFormValue, fieldPath),
           oldValue,
           parentValue,
           path: fieldPath,
@@ -402,6 +392,14 @@ export default function fieldHostRendererActions(store: IStore) {
                 },
                 formLocked: false,
               };
+
+              if (callbackParams.value) {
+                newState.value = setValueForPath(
+                  newState.value,
+                  fieldPath,
+                  callbackParams.value,
+                );
+              }
 
               if (callbackParams.reEvaluateConditions) {
                 newState.conditionCacheKey = generateCacheKey();

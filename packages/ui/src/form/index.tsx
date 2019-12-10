@@ -1,8 +1,8 @@
 import {
   FieldValue,
-  ObjectFieldValue,
   Logger,
-  formPathToValue,
+  getValueForPath,
+  setValueForPath,
   generateChildErrors,
 } from '@de-re-crud/core';
 import { Provider } from 'redux-zero/preact';
@@ -34,7 +34,9 @@ export { IFormProps };
 
 export interface IForm {
   reEvaluateConditions: () => void;
-  setValue: (path: string, value?: FieldValue) => void;
+  getValue: (path?: string) => FieldValue;
+  setValue: (path: string, value?: FieldValue, errors?: string[]) => void;
+  setErrors: (path: string, errors: string[]) => void;
 }
 
 export function renderForm(props: IFormProps, nativeElement: Element): IForm {
@@ -54,8 +56,14 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
     reEvaluateConditions: () => {
       form.reEvaluateConditions();
     },
-    setValue: (path: string, value?: FieldValue) => {
-      form.setValue(path, value);
+    getValue: (path?: string) => {
+      return form.getValue(path);
+    },
+    setValue: (path: string, value?: FieldValue, errors?: string[]) => {
+      form.setValue(path, value, errors);
+    },
+    setErrors: (path: string, errors: string[]) => {
+      form.setErrors(path, errors);
     },
   };
 }
@@ -143,55 +151,62 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     });
   }
 
-  public getValue(path: string) {
-    if (!path) {
-      Logger.warning('No path set. Can not get value.');
-      return undefined;
+  public getValue(path?: string) {
+    const { value: formValue } = this.store.getState();
+    const value = getValueForPath(formValue, path);
+
+    if (Array.isArray(value)) {
+      return value.concat();
     }
 
-    const { value } = this.store.getState();
+    if (typeof value === 'object') {
+      return { ...value };
+    }
 
-    return formPathToValue(value, path);
+    return value;
   }
 
-  public setValue(path: string, value?: FieldValue | null) {
+  private parseErrors(path: string, errors?: string[]) {
+    const externalErrors = { ...this.store.getState().errors };
+
+    if (!errors) {
+      delete externalErrors[path];
+    } else {
+      externalErrors[path] = errors;
+    }
+
+    return externalErrors;
+  }
+
+  public setValue(path: string, value?: FieldValue | null, errors?: string[]) {
     if (!path) {
       Logger.warning('No path set. Can not set value.');
       return;
     }
 
-    if (typeof value === 'undefined') {
-      value = null;
-    }
+    const formValue = this.store.getState().value;
+    const newFormValue = setValueForPath(formValue, path, value);
 
-    const { value: formValue } = this.store.getState();
-    const newFormValue = { ...formValue };
-
-    const pathArray = path.split('.');
-
-    let currentValue: ObjectFieldValue = newFormValue;
-    let parentValue: ObjectFieldValue;
-
-    for (let i = 0; i < pathArray.length; i++) {
-      const currentPath = pathArray[i];
-      parentValue = currentValue;
-
-      if (i === pathArray.length - 1) {
-        parentValue[currentPath] = value;
-        break;
-      }
-
-      if (Array.isArray(currentValue)) {
-        parentValue[currentPath] = currentValue.concat();
-      } else if (typeof currentValue === 'object') {
-        parentValue[currentPath] = { ...currentValue };
-      }
-
-      currentValue = parentValue[currentPath];
-    }
+    const externalErrors = this.parseErrors(path, errors);
 
     this.store.setState({
       value: newFormValue,
+      externalChildErrors: generateChildErrors(externalErrors),
+      externalErrors,
+    });
+  }
+
+  public setErrors(path: string, errors: string[]) {
+    if (!path) {
+      Logger.warning('No path set. Can not set value.');
+      return;
+    }
+
+    const externalErrors = this.parseErrors(path, errors);
+
+    this.store.setState({
+      externalChildErrors: generateChildErrors(externalErrors),
+      externalErrors,
     });
   }
 
@@ -204,8 +219,8 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     const { outputValue, errors, touched, hasErrors } = result;
 
     this.store.setState({
-      childErrors: generateChildErrors(errors),
-      errors,
+      externalChildErrors: generateChildErrors(errors),
+      externalErrors: errors,
       touched,
     });
 

@@ -1,33 +1,32 @@
+import { Logger } from '@de-re-crud/core';
 import { IRendererDefinitions } from '../renderers/defintions';
 import { IRendererOptions } from './renderer-options';
 import { IButtonOptions } from './button-options';
 
-let optionDefaultsInitialized = false;
-
-if (typeof module !== 'undefined' && typeof module.hot !== 'undefined') {
-  const hmr = module.hot;
-  if (hmr) {
-    hmr.accept(() => {
-      optionDefaultsInitialized = false;
-    });
-
-    if (hmr.addStatusHandler) {
-      hmr.addStatusHandler((status) => {
-        if (status === 'apply') {
-          optionDefaultsInitialized = false;
-        }
-      });
-    }
-  }
-}
-
 export class DeReCrudUiOptions {
+  private static optionDefaultsInitialized = false;
+
   public static setDefaults(defaults: Partial<DeReCrudUiOptions>) {
-    if (optionDefaultsInitialized) {
-      throw new Error('DeReCrudUiOptions.setDefaults can only be called once.');
+    if (module.hot) {
+      module.hot.accept(() => {
+        this.optionDefaultsInitialized = false;
+      });
+
+      if (module.hot.addStatusHandler) {
+        module.hot.addStatusHandler((status) => {
+          if (status === 'apply') {
+            this.optionDefaultsInitialized = false;
+          }
+        });
+      }
     }
 
-    optionDefaultsInitialized = true;
+    if (this.optionDefaultsInitialized) {
+      Logger.warning('DeReCrudUiOptions.setDefaults can only be called once.');
+      return;
+    }
+
+    this.optionDefaultsInitialized = true;
 
     const options = new DeReCrudUiOptions();
 

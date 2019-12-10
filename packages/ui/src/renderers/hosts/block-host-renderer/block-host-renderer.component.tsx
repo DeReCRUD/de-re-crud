@@ -1,5 +1,5 @@
 import {
-  formPathToValue,
+  getValueForPath,
   IBlock,
   IBlockReference,
   IFieldReference,
@@ -39,7 +39,7 @@ export default class BlockHostRenderer extends BaseComponent<
     }
 
     const parentValue = parentPath
-      ? formPathToValue(formValue, parentPath)
+      ? getValueForPath(formValue, parentPath)
       : formValue;
 
     if (!block.condition({ path, formValue, parentValue })) {
@@ -72,7 +72,7 @@ export default class BlockHostRenderer extends BaseComponent<
     }
 
     const parentValue = parentPath
-      ? formPathToValue(formValue, parentPath)
+      ? getValueForPath(formValue, parentPath)
       : formValue;
 
     if (!root && !block.condition({ path, parentValue, formValue })) {

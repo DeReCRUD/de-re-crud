@@ -80,6 +80,26 @@ describe('renderForm', () => {
 
     form.setValue('path', 'value');
 
-    expect(setValue).toHaveBeenCalledWith('path', 'value');
+    expect(setValue).toHaveBeenCalledWith('path', 'value', undefined);
+  });
+
+  it('should call setValue on instance with errors', () => {
+    const setValue = jest.spyOn(Form.prototype, 'setValue');
+
+    const form = createForm(container);
+
+    form.setValue('path', 'value', ['error']);
+
+    expect(setValue).toHaveBeenCalledWith('path', 'value', ['error']);
+  });
+
+  it('should call setErrors on instance', () => {
+    const setValue = jest.spyOn(Form.prototype, 'setErrors');
+
+    const form = createForm(container);
+
+    form.setErrors('path', ['error']);
+
+    expect(setValue).toHaveBeenCalledWith('path', ['error']);
   });
 });
