@@ -7,6 +7,10 @@ function wrapCondition(args: any[]): ConditionFunc {
   const condition = new Function(...args);
 
   return (params: IConditionParams): boolean => {
+    if (!params.path || !params.formValue || !params.parentValue) {
+      return false;
+    }
+
     return condition(params.path, params.formValue, params.parentValue);
   };
 }
