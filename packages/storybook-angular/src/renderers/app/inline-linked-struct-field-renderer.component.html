@@ -17,7 +17,7 @@
         <span *ngIf="!props.renderedItems.length">None</span>
 
         <div *ngFor="let item of props.renderedItems; let i = index;" [ngClass]="getCssName('items')">
-            <div [drcJsxHost]="props.formId" [drcJsxHostElement]="item"></div>
+            <drc-jsx-host [formId]="props.formId" [element]="item"></drc-jsx-host>
 
             <button *ngIf="props.canRemove(i)"
                     type="button"

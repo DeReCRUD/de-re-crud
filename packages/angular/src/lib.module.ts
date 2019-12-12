@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormComponent } from './form.component';
-import { FormHostDirective } from './form-host.directive';
 import { JsxHostDirective } from './jsx-host.directive';
+import { JsxHostComponent } from './jsx-host.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [FormComponent, JsxHostDirective, FormHostDirective],
-  exports: [FormComponent, JsxHostDirective],
+  declarations: [FormComponent, JsxHostComponent, JsxHostDirective],
+  exports: [FormComponent, JsxHostComponent],
 })
 export class DeReCrudModule {}

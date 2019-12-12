@@ -23,7 +23,7 @@ import {
   FieldChangeNotificationCallback,
   FieldParentChangeNotificationCallback,
 } from '@de-re-crud/ui';
-import { FormHostDirective } from './form-host.directive';
+import { JsxHostDirective } from './jsx-host.directive';
 import {
   IFieldParentChangeEvent,
   IFormSubmission,
@@ -33,7 +33,7 @@ import {
 @Component({
   selector: 'drc-form',
   template: `
-    <div class="de-re-crud-angular-form" drcFormHost></div>
+    <div class="de-re-crud-angular-form" drcJsxHost></div>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,8 +41,8 @@ import {
 export class FormComponent implements AfterViewInit, OnChanges, IForm {
   private instance: IForm;
 
-  @ViewChild(FormHostDirective, { static: false })
-  formHost: FormHostDirective;
+  @ViewChild(JsxHostDirective, { static: false })
+  jsxHost: JsxHostDirective;
 
   @Input()
   type?: FormType;
@@ -183,11 +183,11 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
   }
 
   render() {
-    if (!this.formHost) {
+    if (!this.jsxHost) {
       return;
     }
 
-    const { nativeElement } = this.formHost.viewContainerRef.element;
+    const { nativeElement } = this.jsxHost.viewContainerRef.element;
 
     this.instance = renderForm(
       {

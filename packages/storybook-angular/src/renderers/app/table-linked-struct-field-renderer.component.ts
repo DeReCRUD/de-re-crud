@@ -3,7 +3,7 @@ import {
   ITableLinkedStructFieldRenderer,
   createCssClass,
 } from '@de-re-crud/ui';
-import { NgRenderer } from '@de-re-crud/angular/public-api';
+import { NgRenderer } from '@de-re-crud/angular';
 
 interface IRow {
   columns: string[];

@@ -3,7 +3,7 @@ import {
   DeReCrudModule,
   IFormSubmission,
   wrapNgComponent,
-} from '@de-re-crud/angular/public-api';
+} from '@de-re-crud/angular';
 import {
   NgModule,
   Injector,

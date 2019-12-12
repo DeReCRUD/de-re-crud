@@ -3,7 +3,7 @@ import {
   IInlineLinkedStructFieldRenderer,
   createCssClass,
 } from '@de-re-crud/ui';
-import { NgRenderer } from '@de-re-crud/angular/public-api';
+import { NgRenderer } from '@de-re-crud/angular';
 
 @Component({
   selector: 'drc-inline-linked-struct-field-renderer',
