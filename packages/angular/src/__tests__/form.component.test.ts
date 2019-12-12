@@ -1,5 +1,5 @@
 import { render } from '@testing-library/angular';
-import { ISchemaJson } from '@de-re-crud/core/dist/src';
+import { ISchemaJson } from '@de-re-crud/core/src';
 import userEvent from '@testing-library/user-event';
 import { Bootstrap4RendererOptions } from '@de-re-crud/theme-bootstrap4';
 import { FormComponent } from '../form.component';
