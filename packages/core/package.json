@@ -8,6 +8,8 @@
   "module": "de-re-crud-core.es.js",
   "typings": "index.d.ts",
   "scripts": {
-    "build": "rollup --config"
+    "build": "rollup --config",
+    "test": "jest",
+    "cover": "jest --coverage"
   }
 }

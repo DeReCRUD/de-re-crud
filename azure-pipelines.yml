@@ -11,15 +11,14 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    yarn install --frozen-lockfile
-
+    yarn --frozen-lockfile
   displayName: 'Install Dependencies'
 
 - script: yarn lint
   displayName: 'Lint Source'
 
 - script: |
-    yarn cover --ci --reporters=default --reporters=jest-junit --coverageReporters=lcov --coverageReporters=cobertura
+    yarn cover -- --ci --reporters=default --reporters=jest-junit --coverageReporters=lcov --coverageReporters=cobertura
     ./node_modules/.bin/codecov
   displayName: 'Run Tests and Coverage'
 
