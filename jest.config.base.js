@@ -1,5 +1,4 @@
 module.exports = {
-  projects: ['<rootDir>/packages'],
   resetMocks: true,
   testURL: 'http://localhost',
   moduleFileExtensions: ['ts', 'tsx', 'js'],
@@ -15,10 +14,5 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  collectCoverageFrom: [
-    'packages/**/*.{ts,js}',
-    '!packages/**/rollup*',
-    '!packages/**/*.d.ts',
-    '!packages/storybook/**/*',
-  ],
+  collectCoverageFrom: ['src/**/*.{ts,js,tsx}', '!rollup*', '!**/*.d.ts'],
 };
