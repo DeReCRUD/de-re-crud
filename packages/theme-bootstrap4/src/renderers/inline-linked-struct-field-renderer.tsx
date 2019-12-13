@@ -38,6 +38,8 @@ const Bootstrap4InlineLinkedStructFieldRenderer = ({
     );
   });
 
+  console.log(label);
+
   return (
     <div className={createCssClass(cssName)}>
       <div className={createCssClass(cssName, 'controls')}>

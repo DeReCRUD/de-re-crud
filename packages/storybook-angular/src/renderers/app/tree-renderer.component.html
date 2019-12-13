@@ -1,0 +1,55 @@
+<div [ngClass]="getCssName()">
+    <div [ngClass]="getCssName('controls')">
+        <label>
+            <span>{{props.label}}</span>
+            <span *ngIf="props.required" class="required text-danger"> *</span>
+            <span>&nbsp;</span>
+            <button
+                    *ngIf="props.canAdd()"
+                    type="button"
+                    class="btn btn-sm btn-secondary"
+                    [disabled]="props.disabled"
+                    (click)="props.onAdd()">
+                Add
+            </button>
+        </label>
+    </div>
+
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th *ngFor="let header of props.headers">{{header}}</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngIf="!rows.length">
+            <td colspan="100">None</td>
+        </tr>
+        <tr *ngFor="let row of rows; let i = index;" [ngClass]="{ 'table-danger': props.valueErrorIndicators[i] }">
+            <td *ngFor="let column of row.columns">{{column}}</td>
+            <td>
+                <div [ngClass]="getCssName('row', 'actions')">
+                    <button
+                            type="button"
+                            class="btn btn-link"
+                            (click)="props.onEdit(i)"
+                            [disabled]="props.disabledValues[i]">
+                        Edit
+                    </button>
+                    <span *ngIf="props.canRemove(i)">|</span>
+                    <button
+                            *ngIf="props.canRemove(i)"
+                            type="button"
+                            class="btn btn-link"
+                            (click)="props.onRemove(i)"
+                            [disabled]="props.disabled || props.disabledValues[i]">
+                        Remove
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

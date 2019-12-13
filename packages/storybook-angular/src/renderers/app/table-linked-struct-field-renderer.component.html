@@ -9,7 +9,7 @@
                 type="button"
                 class="btn btn-sm btn-secondary"
                 [disabled]="props.disabled"
-                (click)="onAdd()">
+                (click)="props.onAdd()">
                 Add
             </button>
         </label>
@@ -31,10 +31,10 @@
                 <td *ngFor="let column of row.columns">{{column}}</td>
                 <td>
                     <div [ngClass]="getCssName('row', 'actions')">
-                        <button 
+                        <button
                             type="button"
                             class="btn btn-link"
-                            (click)="onEdit(i)"
+                            (click)="props.onEdit(i)"
                             [disabled]="props.disabledValues[i]">
                             Edit
                         </button>
@@ -43,7 +43,7 @@
                             *ngIf="props.canRemove(i)"
                             type="button"
                             class="btn btn-link"
-                            (click)="onRemove(i)"
+                            (click)="props.onRemove(i)"
                             [disabled]="props.disabled || props.disabledValues[i]">
                             Remove
                         </button>

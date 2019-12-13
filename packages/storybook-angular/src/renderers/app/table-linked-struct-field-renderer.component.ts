@@ -38,16 +38,4 @@ export class TableLinkedStructFieldRenderer extends NgRenderer<
       ...names,
     );
   };
-
-  onAdd = () => {
-    this.props.onAdd();
-  };
-
-  onEdit = (index: number) => {
-    this.props.onEdit(index);
-  };
-
-  onRemove = (index: number) => {
-    this.props.onRemove(index);
-  };
 }
