@@ -25,13 +25,6 @@ steps:
     testResultsFiles: '**/junit.xml'
   displayName: 'Publish Test Results'
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/packages/**/coverage/cobertura-coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/packages/**/coverage/lcov-report'
-  displayName: 'Publish Code Coverage Results'
-  
 - script: ./node_modules/.bin/codecov
   displayName: 'Publish Code Coverage Results (Codecov)'
 
