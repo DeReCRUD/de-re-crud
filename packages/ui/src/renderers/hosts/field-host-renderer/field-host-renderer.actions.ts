@@ -365,15 +365,15 @@ export default function fieldHostRendererActions(store: IStore) {
           path: fieldPath,
         };
 
-        const changedIndicies = [];
+        const changedIndices = [];
         for (let i = startingIndex; i < startingIndex + count; i++) {
-          changedIndicies.push(i);
+          changedIndices.push(i);
         }
 
         if (type === 'add') {
-          params.addedIndicies = changedIndicies;
+          params.addedIndicies = changedIndices;
         } else if (type === 'remove') {
-          params.removedIndicies = changedIndicies;
+          params.removedIndicies = changedIndices;
         }
 
         if (state.onFieldParentChange.length > 1) {

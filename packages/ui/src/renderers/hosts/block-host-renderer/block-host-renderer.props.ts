@@ -11,7 +11,7 @@ export interface IBlockHostRendererProps
   extends IBlockHostRendererConnectProps {
   conditionCacheKey: number;
   schema: ISchema;
-  formId: number;
+  formId: string;
   formValue: object;
   renderers: IRendererDefinitions;
   busy: { [path: string]: boolean };

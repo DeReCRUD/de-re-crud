@@ -89,6 +89,17 @@
               }
             }
           ]
+        },
+        {
+          "name": "inlineLinkedStruct",
+          "references": [
+            {
+              "field": "fields",
+              "hints": {
+                "layout": "inline"
+              }
+            }
+          ]
         }
       ]
     },

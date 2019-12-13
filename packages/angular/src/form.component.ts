@@ -23,7 +23,7 @@ import {
   FieldChangeNotificationCallback,
   FieldParentChangeNotificationCallback,
 } from '@de-re-crud/ui';
-import { FormHostDirective } from './form-host.directive';
+import { JsxHostDirective } from './jsx-host.directive';
 import {
   IFieldParentChangeEvent,
   IFormSubmission,
@@ -33,7 +33,7 @@ import {
 @Component({
   selector: 'drc-form',
   template: `
-    <div class="de-re-crud-angular-form" drcFormHost></div>
+    <div class="de-re-crud-angular-form" drcJsxHost></div>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,8 +41,8 @@ import {
 export class FormComponent implements AfterViewInit, OnChanges, IForm {
   private instance: IForm;
 
-  @ViewChild(FormHostDirective, { static: false })
-  formHost: FormHostDirective;
+  @ViewChild(JsxHostDirective, { static: false })
+  jsxHost: JsxHostDirective;
 
   @Input()
   type?: FormType;
@@ -107,8 +107,6 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
   @Output()
   submitted = new EventEmitter<IFormSubmission>();
 
-  constructor() {}
-
   ngAfterViewInit() {
     this.render();
   }
@@ -117,36 +115,42 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
     this.render();
   }
 
-  onFieldChange = (
+  onFieldChange = (params: IFieldChangeNotificationParams) => {
+    const event: IFieldChangeEvent = {
+      params,
+    };
+
+    this.fieldChanged.emit(event);
+  };
+
+  onFieldChangeAsync = (
     params: IFieldChangeNotificationParams,
     cb: FieldChangeNotificationCallback,
   ) => {
     const event: IFieldChangeEvent = {
       params,
+      onComplete: cb,
     };
-
-    if (this.asyncFieldChanges) {
-      event.onComplete = cb;
-    } else {
-      cb();
-    }
 
     this.fieldChanged.emit(event);
   };
 
-  onFieldParentChange = (
+  onFieldParentChange = (params: IFieldParentChangeNotificationParams) => {
+    const event: IFieldParentChangeEvent = {
+      params,
+    };
+
+    this.fieldParentChanged.emit(event);
+  };
+
+  onFieldParentChangeAsync = (
     params: IFieldParentChangeNotificationParams,
     cb: FieldParentChangeNotificationCallback,
   ) => {
     const event: IFieldParentChangeEvent = {
       params,
+      onComplete: cb,
     };
-
-    if (this.asyncFieldParentChanges) {
-      event.onComplete = cb;
-    } else {
-      cb();
-    }
 
     this.fieldParentChanged.emit(event);
   };
@@ -179,11 +183,11 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
   }
 
   render() {
-    if (!this.formHost) {
+    if (!this.jsxHost) {
       return;
     }
 
-    const { nativeElement } = this.formHost.viewContainerRef.element;
+    const { nativeElement } = this.jsxHost.viewContainerRef.element;
 
     this.instance = renderForm(
       {
@@ -196,8 +200,12 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
         onCancel: this.cancelVisible ? this.onCancel : undefined,
         onFieldChangeInputTimeout: this.fieldChangeInputTimeout,
         onFieldChangeType: this.fieldChangeType,
-        onFieldChange: this.onFieldChange,
-        onFieldParentChange: this.onFieldParentChange,
+        onFieldChange: this.asyncFieldChanges
+          ? this.onFieldChangeAsync
+          : this.onFieldChange,
+        onFieldParentChange: this.asyncFieldParentChanges
+          ? this.onFieldParentChangeAsync
+          : this.onFieldParentChange,
         onSubmit: this.onSubmit,
         renderers: this.renderers,
         rendererOptions: this.rendererOptions,

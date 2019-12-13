@@ -1,0 +1,33 @@
+<div [ngClass]="getCssName()">
+    <div [ngClass]="getCssName('controls')">
+        <label [htmlFor]="props.rendererId">
+            <span>{{props.label}}</span>
+            <span *ngIf="props.required" class="required text-danger"> *</span>
+        </label>
+        <span>&nbsp;</span>
+        <button *ngIf="props.canAdd()"
+                type="button"
+                class="btn btn-sm btn-secondary"
+                [disabled]="props.disabled"
+                (click)="props.onAdd()">
+            Add
+        </button>
+    </div>
+    <div [ngClass]="getCssName('items')">
+        <span *ngIf="!props.renderedItems.length">None</span>
+
+        <div *ngFor="let item of props.renderedItems; let i = index;" [ngClass]="getCssName('items')">
+            <drc-jsx-host [formId]="props.formId" [element]="item"></drc-jsx-host>
+
+            <button *ngIf="props.canRemove(i)"
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    (click)="props.onRemove(i)"
+                    [disabled]="props.disabled || props.disabledRenderedItems[i]">
+                Remove
+            </button>
+
+            <hr *ngIf="props.canRemove(i)" />
+        </div>
+    </div>
+</div>

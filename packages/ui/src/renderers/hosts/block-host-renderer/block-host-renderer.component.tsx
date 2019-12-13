@@ -53,6 +53,7 @@ export default class BlockHostRenderer extends BaseComponent<
 
     return (
       <BlockContainerRenderer
+        formId={formId}
         rendererId={rendererId}
         rows={rows}
         hints={customHints}
@@ -165,6 +166,7 @@ export default class BlockHostRenderer extends BaseComponent<
       return (
         <StampHostRenderer
           key={`${struct}-${rendererId}`}
+          formId={formId}
           rendererId={rendererId}
           stamp={stamp}
           parentPath={parentPath}
@@ -179,6 +181,7 @@ export default class BlockHostRenderer extends BaseComponent<
       return (
         <FieldHostRenderer
           key={`${struct}-${rendererId}`}
+          formId={formId}
           rendererId={rendererId}
           struct={struct}
           fieldPath={itemPath}

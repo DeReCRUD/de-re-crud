@@ -3,7 +3,7 @@ import {
   ITableLinkedStructFieldRenderer,
   createCssClass,
 } from '@de-re-crud/ui';
-import { NgRenderer } from '@de-re-crud/angular/public-api';
+import { NgRenderer } from '@de-re-crud/angular';
 
 interface IRow {
   columns: string[];
@@ -34,7 +34,7 @@ export class TableLinkedStructFieldRenderer extends NgRenderer<
 
   getCssName = (...names: string[]) => {
     return createCssClass(
-      'de-re-crud-angular-table-linked-struct-ifled-renderer',
+      'de-re-crud-angular-table-linked-struct-field-renderer',
       ...names,
     );
   };

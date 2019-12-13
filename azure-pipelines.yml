@@ -10,17 +10,13 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- script: |
-    yarn install --frozen-lockfile
-
+- script: yarn --frozen-lockfile
   displayName: 'Install Dependencies'
 
 - script: yarn lint
   displayName: 'Lint Source'
 
-- script: |
-    yarn cover --ci --reporters=default --reporters=jest-junit --coverageReporters=lcov --coverageReporters=cobertura
-    ./node_modules/.bin/codecov
+- script: yarn cover -- -- --ci --reporters=default --reporters=jest-junit --coverageReporters=lcov --coverageReporters=cobertura
   displayName: 'Run Tests and Coverage'
 
 - task: PublishTestResults@2
@@ -29,12 +25,8 @@ steps:
     testResultsFiles: '**/junit.xml'
   displayName: 'Publish Test Results'
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/coverage/lcov-report'
-  displayName: 'Publish Code Coverage Results'
+- script: ./node_modules/.bin/codecov
+  displayName: 'Publish Code Coverage Results (Codecov)'
 
 - script: yarn build
   displayName: 'Run Build'

@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef,
   Inject,
 } from '@angular/core';
-import { NgRenderer } from '@de-re-crud/angular/public-api';
+import { NgRenderer } from '@de-re-crud/angular';
 
 @Component({
   selector: 'drc-text-field',

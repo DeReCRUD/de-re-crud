@@ -63,14 +63,21 @@ describe('Form', () => {
   it('should update field value in store', () => {
     let instance: Form;
 
+    const value = { struct: { name: 'Name' } };
+
     render(
-      createComponent({}, (form) => {
-        instance = form;
-      }),
+      createComponent(
+        {
+          initialValue: value,
+        },
+        (form) => {
+          instance = form;
+        },
+      ),
     );
 
-    instance.setValue('struct.name', 'Name');
+    instance.setValue('struct.name', 'Updated Name');
 
-    expect(instance.getValue('struct.name')).toBe('Name');
+    expect(instance.getValue('struct.name')).toBe('Updated Name');
   });
 });

@@ -1,9 +1,6 @@
 import { storiesOf } from '@storybook/angular';
 import { action } from '@storybook/addon-actions';
-import {
-  DeReCrudModule,
-  IFormSubmission,
-} from '@de-re-crud/angular/public-api';
+import { DeReCrudModule, IFormSubmission } from '@de-re-crud/angular';
 import schema from './schema.json';
 
 storiesOf('Form', module).add('default', () => ({
