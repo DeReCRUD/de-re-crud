@@ -11,14 +11,16 @@ import BaseComponent from './renderers/base-component';
 import { IRendererOptions } from './options/renderer-options';
 import { IButtonOptions } from './options/button-options';
 import { IRendererDefinitions } from './renderers/defintions';
-import Form from './form';
 
+export { default as CollectionForm } from './collection-form';
+export * from './collection-form';
+export { default as Form } from './form';
 export * from './form';
 export * from './options';
 export * from './renderers';
 export { h, Ref, FunctionalComponent, ComponentChild, ComponentConstructor };
+
 export {
-  Form,
   combineCssClasses,
   createCssClass,
   IRendererOptions,

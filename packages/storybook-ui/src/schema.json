@@ -73,6 +73,10 @@
               }
             }
           ]
+        },
+        {
+          "name": "table",
+          "references": ["name", "label", "collectionLabel"]
         }
       ]
     },

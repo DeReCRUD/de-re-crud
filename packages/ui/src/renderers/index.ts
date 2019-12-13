@@ -162,7 +162,7 @@ export interface ITableLinkedStructFieldRenderer extends IFieldRenderer {
   headers: string[];
   value: string[][];
   minInstances: number;
-  maxInstances: number;
+  maxInstances?: number;
   valueErrorIndicators: { [index: number]: boolean };
   busyValues: { [index: number]: boolean };
   disabledValues: { [index: number]: boolean };
