@@ -21,6 +21,7 @@ import FormConnect from './form.connect';
 import { IFormConnectProps as IFormProps } from './form.props';
 import { FormContext } from './form.context';
 import { validateBlock } from './form.actions';
+import NavProvider from '../utils/navigation/provider';
 
 export {
   FormSubmission,
@@ -273,9 +274,13 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
 
     return (
       <Provider store={this.store}>
-        <FormContext.Provider value={{ submit: this.handleSubmit, submitting }}>
-          <FormConnect />
-        </FormContext.Provider>
+        <NavProvider>
+          <FormContext.Provider
+            value={{ submit: this.handleSubmit, submitting }}
+          >
+            <FormConnect />
+          </FormContext.Provider>
+        </NavProvider>
       </Provider>
     );
   }

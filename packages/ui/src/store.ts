@@ -41,12 +41,6 @@ export interface IStore {
   reset(): void;
 }
 
-export interface INavState {
-  path: string;
-  struct: string;
-  block: string;
-}
-
 export interface IStoreState {
   conditionCacheKey: number;
   formId: string;
@@ -59,7 +53,6 @@ export interface IStoreState {
   block: string;
   initialValue: object;
   value: object;
-  navStack: INavState[];
   focused: { [path: string]: ScalarFieldValue };
   touched: { [path: string]: boolean };
   busy: { [path: string]: boolean };
@@ -149,7 +142,6 @@ export function createStore(
     formDisabled: disabled || false,
     formLocked: false,
     initialValue,
-    navStack: [],
     onCancel,
     onFieldChange,
     onFieldChangeInputTimeout,

@@ -10,7 +10,8 @@ import {
   ITextField,
   IIntegerField,
 } from '@de-re-crud/core';
-import { h } from 'preact';
+import { FunctionalComponent, h } from 'preact';
+import { useContext } from 'preact/hooks';
 import BaseComponent from '../../base-component';
 import {
   FieldChangeEvent,
@@ -30,11 +31,12 @@ import {
   IMoneyFieldRenderer,
   IDerivedFieldRenderer,
 } from '../..';
+import NavContext, { INavState } from '../../../utils/navigation/context';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
 
-export default class FieldHostRenderer extends BaseComponent<
-  IFieldHostRendererProps
+class FieldHostRenderer extends BaseComponent<
+  IFieldHostRendererProps & { push: (state: INavState) => void }
 > {
   public render() {
     const {
@@ -662,3 +664,13 @@ export default class FieldHostRenderer extends BaseComponent<
     }
   }
 }
+
+const FieldHostRendererWrapper: FunctionalComponent<IFieldHostRendererProps> = (
+  props,
+) => {
+  const { push } = useContext(NavContext);
+
+  return <FieldHostRenderer {...props} push={push} />;
+};
+
+export default FieldHostRendererWrapper;
