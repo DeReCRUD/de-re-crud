@@ -127,6 +127,9 @@ export interface ILinkedStructField extends IReferenceField {
   reference: IStructReference & {
     block: string;
   };
+  hints: IFieldHints & {
+    layout: 'inline' | 'table';
+  };
 }
 
 export interface IForeignKeyField extends IReferenceField {

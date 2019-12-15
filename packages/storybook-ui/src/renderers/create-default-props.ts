@@ -12,6 +12,7 @@ export function createDefaultProps(
     rendererId: id,
     label,
     fieldName: id,
+    fieldPath: id,
     fieldType,
     errors: [],
     busy: false,

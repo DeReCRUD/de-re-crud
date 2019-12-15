@@ -34,6 +34,7 @@ import {
 import NavContext, { INavState } from '../../../utils/navigation/context';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
+import FieldHostRendererConnect from '.';
 
 class FieldHostRenderer extends BaseComponent<
   IFieldHostRendererProps & { push: (state: INavState) => void }
@@ -67,6 +68,7 @@ class FieldHostRenderer extends BaseComponent<
       fieldDescription: field.help,
       fieldName: field.name,
       fieldType: field.type,
+      fieldPath,
       label: field.label.short,
       onBlur: this.onBlur,
       onChange: this.onChange,
@@ -498,6 +500,37 @@ class FieldHostRenderer extends BaseComponent<
           values = fieldProps.value as object[];
         }
 
+        const renderChildField = (index: number, childFieldName: string) => {
+          const itemPath: string = `${fieldPath}.${index}.${childFieldName}`;
+          const rendererId = `${fieldProps.formId}.${itemPath}`;
+
+          const childField = InternalSchemaHelper.getField(
+            schema,
+            struct,
+            childFieldName,
+          );
+
+          if (!childField) {
+            Logger.warning('Child field does not exist');
+            return null;
+          }
+
+          return (
+            <FieldHostRendererConnect
+              formId={fieldProps.formId}
+              rendererId={rendererId}
+              struct={struct}
+              fieldPath={itemPath}
+              parentPath={fieldPath}
+              fieldReference={{
+                field: childField.name,
+                condition: () => true,
+                hints: childField.hints,
+              }}
+            />
+          );
+        };
+
         if (!isTable && values.length < minInstances) {
           const startingIndex = values.length;
           const itemsToCreate = minInstances - values.length;
@@ -527,6 +560,7 @@ class FieldHostRenderer extends BaseComponent<
                 reference.struct,
                 x.field,
               );
+
               return blockField.label.short;
             }),
             onAdd: (value: object = undefined, navigate: boolean = true) => {
@@ -543,6 +577,7 @@ class FieldHostRenderer extends BaseComponent<
             disabledValues,
             value: mappedValue,
             valueErrorIndicators: childErrors,
+            renderChildField,
           };
 
           const TableLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
@@ -581,6 +616,7 @@ class FieldHostRenderer extends BaseComponent<
           busyRenderedItems: busyValues,
           disabledRenderedItems: disabledValues,
           renderedItems: items,
+          renderChildField,
         };
 
         const InlineLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<

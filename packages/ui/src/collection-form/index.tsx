@@ -64,6 +64,7 @@ const CollectionForm: FunctionalComponent<{ store: IStore }> = ({ store }) => {
       fieldType="linkedStruct"
       fieldDescription=""
       fieldName="root"
+      fieldPath="root"
       headers={headers}
       value={rows}
       label={struct.collectionLabel.short}
@@ -87,6 +88,7 @@ const CollectionForm: FunctionalComponent<{ store: IStore }> = ({ store }) => {
       onChange={() => {}}
       onFocus={() => {}}
       onValueChange={() => {}}
+      renderChildField={() => null}
     />
   );
 };

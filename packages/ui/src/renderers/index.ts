@@ -82,6 +82,7 @@ export interface IFieldRenderer extends IRenderer {
   fieldName: string;
   fieldType: FieldType;
   fieldDescription?: string;
+  fieldPath: string;
   errors: string[];
   value?: FieldValue;
   required: boolean;
@@ -171,6 +172,7 @@ export interface ITableLinkedStructFieldRenderer extends IFieldRenderer {
   onAdd: (value?: object, navigate?: boolean) => void;
   onEdit: (index: number) => void;
   onRemove: (index: number) => void;
+  renderChildField: (index: number, field: string) => h.JSX.Element;
 }
 
 export interface IInlineLinkedStructFieldRenderer extends IFieldRenderer {
@@ -179,8 +181,9 @@ export interface IInlineLinkedStructFieldRenderer extends IFieldRenderer {
   disabledRenderedItems: { [index: number]: boolean };
   canAdd: () => boolean;
   canRemove: (index: number) => boolean;
-  onAdd: (value?: object) => void;
+  onAdd: (value?: object, navigate?: boolean) => void;
   onRemove: (index: number) => void;
+  renderChildField: (index: number, field: string) => h.JSX.Element;
 }
 
 export interface IButtonRenderer {

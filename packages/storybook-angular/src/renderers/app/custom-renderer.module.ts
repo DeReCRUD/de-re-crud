@@ -28,11 +28,15 @@ import { TreeRenderer } from './tree-renderer.component';
       [struct]="struct"
       [block]="block"
       [renderers]="renderers"
+      [initialValue]="initialValue"
       (submitted)="onSubmit($event)">
     </drc-form>
   `,
 })
 export class CustomRendererForm implements OnChanges {
+  @Input()
+  schema = schema;
+
   @Input()
   struct: string = 'struct';
 
@@ -40,14 +44,15 @@ export class CustomRendererForm implements OnChanges {
   block: string;
 
   @Input()
+  initialValue?: object;
+
+  @Input()
   rendererType: 'tableLinkedStruct' | 'text' | 'inlineLinkedStruct' | 'tree';
-
-  renderers: Partial<IRendererDefinitions>;
-
-  schema = schema;
 
   @Output()
   submitted = new EventEmitter<IFormSubmission>();
+
+  renderers: Partial<IRendererDefinitions>;
 
   constructor(private injector: Injector) {}
 
@@ -80,7 +85,7 @@ export class CustomRendererForm implements OnChanges {
         );
         break;
       default:
-        throw new Error('Not supported');
+        break;
     }
   }
 

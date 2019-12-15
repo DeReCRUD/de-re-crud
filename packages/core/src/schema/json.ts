@@ -230,6 +230,9 @@ export interface ILinkedStructFieldJson extends IFieldJson {
   maxInstances?: number;
   initialValue?: string[] | number[];
   missingValue?: string[] | number[];
+  hints: IFieldHint & {
+    layout: 'inline' | 'table';
+  };
 }
 
 export interface IDerivedFieldJson extends IFieldJson {

@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { IFormSubmission } from '@de-re-crud/angular';
 import { CustomRendererModule } from './app/custom-renderer.module';
 
-storiesOf('Custom renderers', module)
+storiesOf('Renderers/Custom', module)
   .add('text field', () => ({
     moduleMetadata: {
       imports: [CustomRendererModule],

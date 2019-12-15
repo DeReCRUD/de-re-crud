@@ -9,7 +9,7 @@
                     type="button"
                     class="btn btn-sm btn-secondary"
                     [disabled]="props.disabled"
-                    (click)="props.onAdd()">
+                    (click)="props.onAdd(undefined, false)">
                 Add
             </button>
         </label>
@@ -27,29 +27,38 @@
         <tr *ngIf="!rows.length">
             <td colspan="100">None</td>
         </tr>
-        <tr *ngFor="let row of rows; let i = index;" [ngClass]="{ 'table-danger': props.valueErrorIndicators[i] }">
-            <td *ngFor="let column of row.columns">{{column}}</td>
-            <td>
-                <div [ngClass]="getCssName('row', 'actions')">
-                    <button
-                            type="button"
-                            class="btn btn-link"
-                            (click)="props.onEdit(i)"
-                            [disabled]="props.disabledValues[i]">
-                        Edit
-                    </button>
-                    <span *ngIf="props.canRemove(i)">|</span>
-                    <button
-                            *ngIf="props.canRemove(i)"
-                            type="button"
-                            class="btn btn-link"
-                            (click)="props.onRemove(i)"
-                            [disabled]="props.disabled || props.disabledValues[i]">
-                        Remove
-                    </button>
-                </div>
-            </td>
-        </tr>
+
+        <ng-container *ngFor="let row of rows; let i = index;">
+            <tr [ngClass]="{ 'table-danger': props.valueErrorIndicators[i] }">
+                <td *ngFor="let column of row.columns">{{column}}</td>
+                <td>
+                    <div [ngClass]="getCssName('row', 'actions')">
+                        <button
+                                type="button"
+                                class="btn btn-link"
+                                (click)="props.onEdit(i)"
+                                [disabled]="props.disabledValues[i]">
+                            Edit
+                        </button>
+                        <span *ngIf="props.canRemove(i)">|</span>
+                        <button
+                                *ngIf="props.canRemove(i)"
+                                type="button"
+                                class="btn btn-link"
+                                (click)="props.onRemove(i)"
+                                [disabled]="props.disabled || props.disabledValues[i]">
+                            Remove
+                        </button>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td [colSpan]="row.columns.length + 1">
+                    <drc-jsx-host [formId]="props.formId" [element]="props.renderChildField(i, props.hints.childKey)"></drc-jsx-host>
+                </td>
+            </tr>
+        </ng-container>
         </tbody>
     </table>
 </div>
