@@ -356,13 +356,13 @@ class FieldHostRenderer extends BaseComponent<
         return <TextFieldRenderer {...textFieldRendererProps} />;
       }
       case 'keyword': {
-        const keyworldFieldRendererProps: IKeywordFieldRenderer = {
+        const keywordFieldRendererProps: IKeywordFieldRenderer = {
           ...fieldProps,
           value: fieldProps.value as string,
         };
 
         const KeywordFieldRenderer = renderers.keywordField;
-        return <KeywordFieldRenderer {...keyworldFieldRendererProps} />;
+        return <KeywordFieldRenderer {...keywordFieldRendererProps} />;
       }
       case 'integer': {
         const integerField = field as IIntegerField;
@@ -383,8 +383,8 @@ class FieldHostRenderer extends BaseComponent<
           value: fieldProps.value as number,
         };
 
-        const EsimateFieldRenderer = renderers.estimateField;
-        return <EsimateFieldRenderer {...estimateFieldRendererProps} />;
+        const EstimateFieldRenderer = renderers.estimateField;
+        return <EstimateFieldRenderer {...estimateFieldRendererProps} />;
       }
       case 'date': {
         const dateFieldRendererProps: IDateFieldRenderer = {
