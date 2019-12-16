@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
 import { renderElement } from '@de-re-crud/ui';
@@ -17,7 +18,7 @@ import { JsxHostDirective } from './jsx-host.directive';
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class JsxHostComponent implements AfterViewInit, OnChanges {
+export class JsxHostComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input()
   formId: string;
 
@@ -25,7 +26,9 @@ export class JsxHostComponent implements AfterViewInit, OnChanges {
   element;
 
   @ViewChild(JsxHostDirective, { static: false })
-  jsxHost: JsxHostDirective;
+  private jsxHost: JsxHostDirective;
+
+  private destroyFn: Function;
 
   ngAfterViewInit() {
     this.render();
@@ -35,6 +38,12 @@ export class JsxHostComponent implements AfterViewInit, OnChanges {
     this.render();
   }
 
+  ngOnDestroy() {
+    if (this.destroyFn) {
+      this.destroyFn();
+    }
+  }
+
   render() {
     if (!this.jsxHost) {
       return;
@@ -42,6 +51,7 @@ export class JsxHostComponent implements AfterViewInit, OnChanges {
 
     const { nativeElement } = this.jsxHost.viewContainerRef.element;
 
-    renderElement(this.formId, this.element, nativeElement);
+    const element = renderElement(this.formId, this.element, nativeElement);
+    this.destroyFn = element.destroy;
   }
 }

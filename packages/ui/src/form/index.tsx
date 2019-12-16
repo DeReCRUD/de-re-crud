@@ -39,7 +39,11 @@ export {
 
 export { IFormProps };
 
-export interface IForm {
+export interface IJsxElement {
+  destroy: () => void;
+}
+
+export interface IForm extends IJsxElement {
   reEvaluateConditions: () => void;
   getValue: (path?: string) => FieldValue;
   setValue: (path: string, value?: FieldValue, errors?: string[]) => void;
@@ -50,11 +54,17 @@ export function renderElement(
   formId: string,
   element: h.JSX.Element | h.JSX.Element[],
   nativeElement: Element,
-): void {
+): IJsxElement {
   render(
     <Provider store={getStore(formId)}>{element}</Provider>,
     nativeElement,
   );
+
+  return {
+    destroy: () => {
+      render(null, nativeElement);
+    },
+  };
 }
 
 export function renderForm(props: IFormProps, nativeElement: Element): IForm {
@@ -71,6 +81,9 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
   );
 
   return {
+    destroy: () => {
+      render(null, nativeElement);
+    },
     reEvaluateConditions: () => {
       form.reEvaluateConditions();
     },
