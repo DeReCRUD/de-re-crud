@@ -39,7 +39,7 @@ const CollectionForm: FunctionalComponent<{ store: IStore }> = ({ store }) => {
         return block.fields.map(({ field: blockField }) => value[blockField]);
       });
     },
-    [(state.value as any).root, block],
+    [state.value, block],
   );
 
   const headers = useMemo(
@@ -54,7 +54,7 @@ const CollectionForm: FunctionalComponent<{ store: IStore }> = ({ store }) => {
         return field.label.short;
       });
     },
-    [block.fields],
+    [state.schema, state.struct, block.fields],
   );
 
   return (
@@ -130,6 +130,7 @@ const CollectionFormWrapper: FunctionalComponent<ICollectionFormProps> = (
     );
 
     setStore(newStore);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
 
   if (!store) {
