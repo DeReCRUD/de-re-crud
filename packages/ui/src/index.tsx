@@ -12,8 +12,6 @@ import { IRendererOptions } from './options/renderer-options';
 import { IButtonOptions } from './options/button-options';
 import { IRendererDefinitions } from './renderers/defintions';
 
-export { default as CollectionForm } from './collection-form';
-export * from './collection-form';
 export { default as Form } from './form';
 export * from './form';
 export * from './options';
