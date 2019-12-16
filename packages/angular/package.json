@@ -26,6 +26,7 @@
     "@de-re-crud/theme-bootstrap4": "^0.16.5",
     "@de-re-crud/ui": "^0.16.5",
     "@testing-library/angular": "^8.2.0",
+    "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/user-event": "^7.1.2",
     "jest-preset-angular": "^8.0.0",
     "ng-packagr": "^5.5.0",
