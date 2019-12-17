@@ -17,7 +17,9 @@ const Bootstrap4FieldContainerRenderer = ({
         <span className="form-text text-muted">{fieldDescription}</span>
       )}
     {errors.length ? (
-      <span className="invalid-feedback d-block">{errors[0]}</span>
+      <span data-testid="field-error" className="invalid-feedback d-block">
+        {errors[0]}
+      </span>
     ) : null}
   </div>
 );

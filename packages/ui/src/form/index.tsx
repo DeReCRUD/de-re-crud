@@ -207,15 +207,25 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       return;
     }
 
-    const formValue = this.store.getState().value;
+    const state = this.store.getState();
+    const formValue = state.value;
+
     const newFormValue = setValueForPath(formValue, path, value);
 
-    const externalErrors = this.parseErrors(path, errors);
+    const newErrors = {
+      ...state.errors,
+    };
+
+    delete newErrors[path];
+
+    const newExternalErrors = this.parseErrors(path, errors);
 
     this.store.setState({
       value: newFormValue,
-      externalChildErrors: generateChildErrors(externalErrors),
-      externalErrors,
+      errors: newErrors,
+      childErrors: generateChildErrors(newErrors),
+      externalErrors: newExternalErrors,
+      externalChildErrors: generateChildErrors(newExternalErrors),
     });
   }
 
