@@ -1,7 +1,7 @@
 {
   "name": "@de-re-crud/storybook-angular",
   "private": true,
-  "version": "0.16.5",
+  "version": "0.16.6",
   "scripts": {
     "storybook": "start-storybook -p 9001",
     "build": "build-storybook -c .storybook -o dist"
@@ -18,10 +18,10 @@
     "@angular/platform-browser": "^8.2.9",
     "@angular/platform-browser-dynamic": "^8.2.9",
     "@babel/core": "^7.5.5",
-    "@de-re-crud/angular": "^0.16.5",
-    "@de-re-crud/core": "^0.16.5",
-    "@de-re-crud/theme-bootstrap4": "^0.16.5",
-    "@de-re-crud/ui": "^0.16.5",
+    "@de-re-crud/angular": "^0.16.6",
+    "@de-re-crud/core": "^0.16.6",
+    "@de-re-crud/theme-bootstrap4": "^0.16.6",
+    "@de-re-crud/ui": "^0.16.6",
     "@storybook/addon-actions": "5.1.11",
     "@storybook/angular": "^5.1.11",
     "awesome-typescript-loader": "^5.2.1",
