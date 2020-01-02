@@ -10,7 +10,8 @@ import {
   ITextField,
   IIntegerField,
 } from '@de-re-crud/core';
-import { h } from 'preact';
+import { FunctionalComponent, h } from 'preact';
+import { useContext } from 'preact/hooks';
 import BaseComponent from '../../base-component';
 import {
   FieldChangeEvent,
@@ -30,11 +31,13 @@ import {
   IMoneyFieldRenderer,
   IDerivedFieldRenderer,
 } from '../..';
+import NavContext, { INavState } from '../../../utils/navigation/context';
 import BlockHostRenderer from '../block-host-renderer';
 import { IFieldHostRendererProps } from './field-host-renderer.props';
+import FieldHostRendererConnect from '.';
 
-export default class FieldHostRenderer extends BaseComponent<
-  IFieldHostRendererProps
+class FieldHostRenderer extends BaseComponent<
+  IFieldHostRendererProps & { push: (state: INavState) => void }
 > {
   public render() {
     const {
@@ -65,6 +68,7 @@ export default class FieldHostRenderer extends BaseComponent<
       fieldDescription: field.help,
       fieldName: field.name,
       fieldType: field.type,
+      fieldPath,
       label: field.label.short,
       onBlur: this.onBlur,
       onChange: this.onChange,
@@ -352,13 +356,13 @@ export default class FieldHostRenderer extends BaseComponent<
         return <TextFieldRenderer {...textFieldRendererProps} />;
       }
       case 'keyword': {
-        const keyworldFieldRendererProps: IKeywordFieldRenderer = {
+        const keywordFieldRendererProps: IKeywordFieldRenderer = {
           ...fieldProps,
           value: fieldProps.value as string,
         };
 
         const KeywordFieldRenderer = renderers.keywordField;
-        return <KeywordFieldRenderer {...keyworldFieldRendererProps} />;
+        return <KeywordFieldRenderer {...keywordFieldRendererProps} />;
       }
       case 'integer': {
         const integerField = field as IIntegerField;
@@ -379,8 +383,8 @@ export default class FieldHostRenderer extends BaseComponent<
           value: fieldProps.value as number,
         };
 
-        const EsimateFieldRenderer = renderers.estimateField;
-        return <EsimateFieldRenderer {...estimateFieldRendererProps} />;
+        const EstimateFieldRenderer = renderers.estimateField;
+        return <EstimateFieldRenderer {...estimateFieldRendererProps} />;
       }
       case 'date': {
         const dateFieldRendererProps: IDateFieldRenderer = {
@@ -496,6 +500,37 @@ export default class FieldHostRenderer extends BaseComponent<
           values = fieldProps.value as object[];
         }
 
+        const renderChildField = (index: number, childFieldName: string) => {
+          const itemPath: string = `${fieldPath}.${index}.${childFieldName}`;
+          const rendererId = `${fieldProps.formId}.${itemPath}`;
+
+          const childField = InternalSchemaHelper.getField(
+            schema,
+            struct,
+            childFieldName,
+          );
+
+          if (!childField) {
+            Logger.warning('Child field does not exist');
+            return null;
+          }
+
+          return (
+            <FieldHostRendererConnect
+              formId={fieldProps.formId}
+              rendererId={rendererId}
+              struct={struct}
+              fieldPath={itemPath}
+              parentPath={fieldPath}
+              fieldReference={{
+                field: childField.name,
+                condition: () => true,
+                hints: childField.hints,
+              }}
+            />
+          );
+        };
+
         if (!isTable && values.length < minInstances) {
           const startingIndex = values.length;
           const itemsToCreate = minInstances - values.length;
@@ -525,6 +560,7 @@ export default class FieldHostRenderer extends BaseComponent<
                 reference.struct,
                 x.field,
               );
+
               return blockField.label.short;
             }),
             onAdd: (value: object = undefined, navigate: boolean = true) => {
@@ -541,6 +577,7 @@ export default class FieldHostRenderer extends BaseComponent<
             disabledValues,
             value: mappedValue,
             valueErrorIndicators: childErrors,
+            renderChildField,
           };
 
           const TableLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
@@ -579,6 +616,7 @@ export default class FieldHostRenderer extends BaseComponent<
           busyRenderedItems: busyValues,
           disabledRenderedItems: disabledValues,
           renderedItems: items,
+          renderChildField,
         };
 
         const InlineLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
@@ -662,3 +700,13 @@ export default class FieldHostRenderer extends BaseComponent<
     }
   }
 }
+
+const FieldHostRendererWrapper: FunctionalComponent<IFieldHostRendererProps> = (
+  props,
+) => {
+  const { push } = useContext(NavContext);
+
+  return <FieldHostRenderer {...props} push={push} />;
+};
+
+export default FieldHostRendererWrapper;

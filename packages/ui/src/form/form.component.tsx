@@ -5,9 +5,11 @@ import combineCssClasses from '../renderers/utils/combine-css-classes';
 import BlockHostRenderer from '../renderers/hosts/block-host-renderer';
 import { IFormProps } from './form.props';
 import { FormContext } from './form.context';
+import NavContext from '../utils/navigation/context';
 
 const Form: FunctionalComponent<IFormProps> = (props) => {
   const { submitting, submit } = useContext(FormContext);
+  const { stack: navStack, pop } = useContext(NavContext);
 
   const {
     schema,
@@ -18,10 +20,8 @@ const Form: FunctionalComponent<IFormProps> = (props) => {
     block: blockName,
     renderers,
     buttonOptions: { backButton, cancelButton, submitButton },
-    navStack,
     formDisabled,
     formLocked,
-    pop,
     onCancel,
   } = props;
 

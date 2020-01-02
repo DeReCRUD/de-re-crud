@@ -5,22 +5,14 @@ import {
   setValueForPath,
   generateChildErrors,
 } from '@de-re-crud/core';
-import { Provider } from 'redux-zero/preact';
 import { h, render } from 'preact';
 import BaseComponent from '../renderers/base-component';
-import {
-  createStore,
-  getStore,
-  IStore,
-  removeStore,
-  updateStore,
-} from '../store';
+import { createStore, IStore, removeStore, updateStore } from '../store';
 import shallowCompare from '../renderers/utils/shallow-compare';
 import generateCacheKey from '../renderers/utils/generate-cache-key';
 import FormConnect from './form.connect';
 import { IFormConnectProps as IFormProps } from './form.props';
-import { FormContext } from './form.context';
-import { validateBlock } from './form.actions';
+import FormProvider from './provider';
 
 export {
   FormSubmission,
@@ -38,7 +30,11 @@ export {
 
 export { IFormProps };
 
-export interface IForm {
+export interface IJsxElement {
+  destroy: () => void;
+}
+
+export interface IForm extends IJsxElement {
   reEvaluateConditions: () => void;
   getValue: (path?: string) => FieldValue;
   setValue: (path: string, value?: FieldValue, errors?: string[]) => void;
@@ -49,11 +45,14 @@ export function renderElement(
   formId: string,
   element: h.JSX.Element | h.JSX.Element[],
   nativeElement: Element,
-): void {
-  render(
-    <Provider store={getStore(formId)}>{element}</Provider>,
-    nativeElement,
-  );
+): IJsxElement {
+  render(<FormProvider formId={formId}>{element}</FormProvider>, nativeElement);
+
+  return {
+    destroy: () => {
+      render(null, nativeElement);
+    },
+  };
 }
 
 export function renderForm(props: IFormProps, nativeElement: Element): IForm {
@@ -70,6 +69,9 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
   );
 
   return {
+    destroy: () => {
+      render(null, nativeElement);
+    },
     reEvaluateConditions: () => {
       form.reEvaluateConditions();
     },
@@ -205,15 +207,25 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
       return;
     }
 
-    const formValue = this.store.getState().value;
+    const state = this.store.getState();
+    const formValue = state.value;
+
     const newFormValue = setValueForPath(formValue, path, value);
 
-    const externalErrors = this.parseErrors(path, errors);
+    const newErrors = {
+      ...state.errors,
+    };
+
+    delete newErrors[path];
+
+    const newExternalErrors = this.parseErrors(path, errors);
 
     this.store.setState({
       value: newFormValue,
-      externalChildErrors: generateChildErrors(externalErrors),
-      externalErrors,
+      errors: newErrors,
+      childErrors: generateChildErrors(newErrors),
+      externalErrors: newExternalErrors,
+      externalChildErrors: generateChildErrors(newExternalErrors),
     });
   }
 
@@ -231,52 +243,11 @@ export default class Form extends BaseComponent<IFormProps, IFormState> {
     });
   }
 
-  private handleSubmit = () => {
-    const state = this.store.getState();
-    const struct = state.schema.structs.find((x) => x.name === state.struct);
-    const block = state.schema.blocks.get(state.struct).get(state.block);
-
-    const result = validateBlock(state, struct.name, block.name, state.value);
-    const { outputValue, errors, touched, hasErrors } = result;
-
-    this.store.setState({
-      externalChildErrors: generateChildErrors(errors),
-      externalErrors: errors,
-      touched,
-    });
-
-    if (hasErrors) {
-      return;
-    }
-
-    this.setState({ submitting: true });
-
-    state.onSubmit(outputValue, (submissionErrors) => {
-      if (submissionErrors) {
-        this.store.setState({
-          externalChildErrors: generateChildErrors(submissionErrors),
-          externalErrors: submissionErrors,
-        });
-      } else {
-        this.store.setState({
-          externalChildErrors: {},
-          externalErrors: {},
-        });
-      }
-
-      this.setState({ submitting: false });
-    });
-  };
-
   public render() {
-    const { submitting } = this.state;
-
     return (
-      <Provider store={this.store}>
-        <FormContext.Provider value={{ submit: this.handleSubmit, submitting }}>
-          <FormConnect />
-        </FormContext.Provider>
-      </Provider>
+      <FormProvider formId={this.store.getState().formId}>
+        <FormConnect />
+      </FormProvider>
     );
   }
 }

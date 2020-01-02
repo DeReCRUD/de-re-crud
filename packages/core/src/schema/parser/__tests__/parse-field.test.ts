@@ -200,7 +200,16 @@ describe('parseField', () => {
   createFieldTests(
     'linkedStruct',
     { reference: { struct } },
-    { minInstances: 0, reference: { struct, block: 'default' } },
+    {
+      minInstances: 0,
+      reference: { struct, block: 'default' },
+      hints: {
+        readOnly: false,
+        custom: {},
+        width: DEFAULT_FIELD_WIDTH,
+        layout: 'inline',
+      },
+    },
     (json) => {
       it('should include min instances when specified', () => {
         const linkedStructField = parseField(struct, {

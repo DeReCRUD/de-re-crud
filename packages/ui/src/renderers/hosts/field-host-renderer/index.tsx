@@ -3,7 +3,6 @@ import { h, FunctionalComponent, ComponentConstructor } from 'preact';
 import { useContext } from 'preact/hooks';
 import { connect } from 'redux-zero/preact';
 import { combineActions } from 'redux-zero/utils';
-import navigationActions from '../../../navigation.actions';
 import { IStoreState } from '../../../store';
 import { FormContext } from '../../../form/form.context';
 import fieldHostRendererActions from './field-host-renderer.actions';
@@ -79,7 +78,7 @@ const FieldHostRendererWrapper: FunctionalComponent<IFieldHostRendererProps> = (
 
 export default connect(
   mapToProps,
-  combineActions(fieldHostRendererActions, navigationActions),
+  combineActions(fieldHostRendererActions),
 )(FieldHostRendererWrapper) as ComponentConstructor<
   IFieldHostRendererConnectProps
 >;

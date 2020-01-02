@@ -7,6 +7,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { FieldValue, ICollectionReferences, IErrors } from '@de-re-crud/core';
 import {
@@ -38,7 +39,8 @@ import {
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormComponent implements AfterViewInit, OnChanges, IForm {
+export class FormComponent
+  implements AfterViewInit, OnChanges, OnDestroy, IForm {
   private instance: IForm;
 
   @ViewChild(JsxHostDirective, { static: false })
@@ -115,6 +117,10 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
     this.render();
   }
 
+  ngOnDestroy() {
+    this.destroy();
+  }
+
   onFieldChange = (params: IFieldChangeNotificationParams) => {
     const event: IFieldChangeEvent = {
       params,
@@ -176,6 +182,10 @@ export class FormComponent implements AfterViewInit, OnChanges, IForm {
 
   setValue = (path: string, value?: FieldValue, errors?: string[]) => {
     this.instance.setValue(path, value, errors);
+  };
+
+  destroy = () => {
+    this.instance.destroy();
   };
 
   setErrors(path: string, errors: string[]) {

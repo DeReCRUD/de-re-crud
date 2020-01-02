@@ -43,6 +43,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "fs-extra": "^8.1.0",
     "husky": "^1.1.4",
     "jest": "^24.7.1",

@@ -3,6 +3,8 @@ import {
   ILinkedStructField,
   validateField,
   getValueForPath,
+  IBlockReference,
+  IFieldReference,
 } from '@de-re-crud/core';
 import { IStoreState } from '../store';
 
@@ -25,9 +27,34 @@ export function validateBlock(
   const touched: { [path: string]: boolean } = {};
   let hasErrors = false;
 
-  const blockReference = state.schema.blocks.get(structName).get(blockName);
+  const block = state.schema.blocks.get(structName).get(blockName);
 
-  blockReference.fields.forEach((fieldReference) => {
+  block.references.forEach((reference) => {
+    const blockReference = reference as IBlockReference;
+    if (blockReference.block) {
+      const result = validateBlock(
+        state,
+        structName,
+        blockReference.block,
+        parentValue,
+        parentPath,
+      );
+      Object.assign(errors, result.errors);
+      Object.assign(touched, result.touched);
+      Object.assign(outputValue, result.outputValue);
+
+      if (result.hasErrors) {
+        hasErrors = true;
+      }
+
+      return;
+    }
+
+    const fieldReference = reference as IFieldReference;
+    if (!fieldReference.field) {
+      return;
+    }
+
     const { condition } = fieldReference;
     const field = state.schema.fields.get(structName).get(fieldReference.field);
 

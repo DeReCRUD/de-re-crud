@@ -5,7 +5,6 @@ import {
   FieldValue,
   ISchema,
 } from '@de-re-crud/core';
-import { INavState } from '../store';
 import { IRendererOptions } from '../options/renderer-options';
 import { IRendererDefinitions } from '../renderers/defintions';
 import { IButtonOptions } from '../options/button-options';
@@ -95,7 +94,5 @@ export interface IFormProps extends IFormBaseProps {
   formClassName?: string;
   formDisabled: boolean;
   formLocked: boolean;
-  navStack: INavState[];
   submitForm: () => void;
-  pop: () => void;
 }

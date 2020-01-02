@@ -18,9 +18,6 @@ import { IRendererDefinitions } from './renderers/defintions';
 import { IButtonOptions } from './options/button-options';
 import { IRendererOptions } from './options/renderer-options';
 import generateCacheKey from './renderers/utils/generate-cache-key';
-import parseButtonOptions from './renderers/utils/parse-button-options';
-import parseRendererOptions from './renderers/utils/parse-renderer-options';
-import { DeReCrudUiOptions } from './options';
 import {
   FieldChangeNotification,
   FieldChangeNotificationType,
@@ -28,21 +25,20 @@ import {
   FormSubmission,
   FormType,
 } from './form';
+import parseFormOptions from './renderers/utils/parse-form-options';
 
 let FORM_COUNTER = 0;
 
 export interface IStore {
   middleware(): void;
-  setState(state: Partial<IStoreState>): void;
-  subscribe(cb: () => any): any;
-  getState(): IStoreState;
-  reset(): void;
-}
 
-export interface INavState {
-  path: string;
-  struct: string;
-  block: string;
+  setState(state: Partial<IStoreState>): void;
+
+  subscribe(cb: () => any): any;
+
+  getState(): IStoreState;
+
+  reset(): void;
 }
 
 export interface IStoreState {
@@ -57,7 +53,6 @@ export interface IStoreState {
   block: string;
   initialValue: object;
   value: object;
-  navStack: INavState[];
   focused: { [path: string]: ScalarFieldValue };
   touched: { [path: string]: boolean };
   busy: { [path: string]: boolean };
@@ -107,10 +102,11 @@ export function createStore(
 ): IStore {
   const schema = SchemaParser.parse(schemaJson);
 
-  const optionDefaults = DeReCrudUiOptions.getDefaults();
-
-  const rendererOptionDefaults =
-    rendererOptions || optionDefaults.rendererOptions;
+  const formOptions = parseFormOptions({
+    buttonOptions,
+    rendererOptions,
+    renderers,
+  });
 
   if (schemaJson && structName) {
     initialValue = createFieldParent(schema, structName, initialValue);
@@ -132,10 +128,7 @@ export function createStore(
     conditionCacheKey: generateCacheKey(),
     block: blockName || 'default',
     busy: {},
-    buttonOptions: parseButtonOptions(
-      buttonOptions,
-      optionDefaults.buttonOptions,
-    ),
+    buttonOptions: formOptions.buttonOptions,
     childErrors: {},
     collectionReferences,
     errors: {},
@@ -143,24 +136,19 @@ export function createStore(
     externalErrors: initialErrors || {},
     focused: {},
     formId: (++FORM_COUNTER).toString(),
-    formClassName: rendererOptionDefaults
-      ? rendererOptionDefaults.formClassName
+    formClassName: formOptions.rendererOptions
+      ? formOptions.rendererOptions.formClassName
       : undefined,
     formDisabled: disabled || false,
     formLocked: false,
     initialValue,
-    navStack: [],
     onCancel,
     onFieldChange,
     onFieldChangeInputTimeout,
     onFieldChangeType: onFieldChangeType || 'blur',
     onFieldParentChange,
     onSubmit,
-    renderers: parseRendererOptions(
-      rendererOptions || optionDefaults.rendererOptions,
-      renderers,
-      optionDefaults.renderers,
-    ),
+    renderers: formOptions.renderers,
     schema,
     struct: structName,
     touched: {},
@@ -194,10 +182,11 @@ export function updateStore(
   onFieldChangeType?: FieldChangeNotificationType,
   onFieldParentChange?: FieldParentChangeNotification,
 ) {
-  const optionDefaults = DeReCrudUiOptions.getDefaults();
-
-  const rendererOptionDefaults =
-    rendererOptions || optionDefaults.rendererOptions;
+  const formOptions = parseFormOptions({
+    buttonOptions,
+    rendererOptions,
+    renderers,
+  });
 
   const store = storeMap[formId];
   if (!store) {
@@ -205,8 +194,8 @@ export function updateStore(
   }
 
   store.setState({
-    formClassName: rendererOptionDefaults
-      ? rendererOptionDefaults.formClassName
+    formClassName: formOptions.rendererOptions
+      ? formOptions.rendererOptions.formClassName
       : undefined,
     formDisabled: disabled || false,
     collectionReferences,
@@ -216,15 +205,8 @@ export function updateStore(
     onFieldChangeType: onFieldChangeType || 'blur',
     onFieldParentChange,
     onSubmit,
-    renderers: parseRendererOptions(
-      rendererOptionDefaults,
-      renderers,
-      optionDefaults.renderers,
-    ),
-    buttonOptions: parseButtonOptions(
-      buttonOptions,
-      optionDefaults.buttonOptions,
-    ),
+    renderers: formOptions.renderers,
+    buttonOptions: formOptions.buttonOptions,
   });
 }
 

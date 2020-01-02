@@ -6,7 +6,6 @@ import {
   IFieldReference,
   ISchema,
 } from '@de-re-crud/core';
-import { INavState } from '../../../store';
 import { IRendererDefinitions } from '../../defintions';
 import { ChangeArrayActionType } from './field-host-renderer.actions';
 
@@ -64,5 +63,4 @@ export interface IFieldHostRendererProps
     navigateFunc?: (index: number) => void,
     values?: object[],
   ) => void;
-  push: (state: INavState) => void;
 }

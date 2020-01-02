@@ -175,6 +175,15 @@ export default function parseField(
         linkedStructField.maxInstances = linkedStructFieldJson.maxInstances;
       }
 
+      if (
+        typeof linkedStructFieldJson.hints !== 'undefined' &&
+        typeof linkedStructFieldJson.hints.layout !== 'undefined'
+      ) {
+        linkedStructField.hints.layout = linkedStructFieldJson.hints.layout;
+      } else {
+        linkedStructField.hints.layout = 'inline';
+      }
+
       break;
     }
     case 'foreignKey': {

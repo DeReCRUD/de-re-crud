@@ -7,12 +7,15 @@ import {
   FieldValue,
   ICollectionReferences,
 } from '../schema';
-import { ICustomValidator, IDefaultValidatorMessages } from '../schema/json';
-import { defaultValidatorFuncs } from '../validators/default-validators';
 import PatternValidator from '../validators/pattern-validator';
 import getValueForPath from './get-value-for-path';
+import {
+  ICustomValidator,
+  IDefaultValidatorMessages,
+  defaultValidatorFuncs,
+} from '..';
 
-const defaultValidatorMessages: IDefaultValidatorMessages = {
+export const defaultValidatorMessages: IDefaultValidatorMessages = {
   keyword: 'This field can not contain any tabs or spaces.',
   minLength: 'This field must have at least {minLength} character(s).',
   maxLength: 'This field can not have more than {maxLength} character(s).',

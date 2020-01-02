@@ -13,6 +13,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "plugins": ["react-hooks"],
   "rules": {
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": [
@@ -30,6 +31,8 @@
     "jsx-a11y/label-has-for": 0,
     "no-param-reassign": 0,
     "no-plusplus": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
     "react/jsx-filename-extension": [
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
