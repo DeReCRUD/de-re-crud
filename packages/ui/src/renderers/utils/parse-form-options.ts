@@ -16,20 +16,21 @@ export interface IParsedFormOptions {
 }
 
 export default function parseFormOptions(
+  globalOptions: DeReCrudUiOptions,
   options: IFormOptions,
 ): IParsedFormOptions {
-  const optionDefaults = DeReCrudUiOptions.getDefaults();
-
   const rendererOptionDefaults =
-    options.rendererOptions || optionDefaults.rendererOptions;
+    options.rendererOptions || globalOptions.rendererOptions;
+
   const buttonOptions = parseButtonOptions(
     options.buttonOptions,
-    optionDefaults.buttonOptions,
+    globalOptions.buttonOptions,
   );
+
   const renderers = parseRendererOptions(
     rendererOptionDefaults,
     options.renderers,
-    options.renderers,
+    globalOptions.renderers,
   );
 
   return {
