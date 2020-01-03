@@ -1,7 +1,7 @@
 {
   "name": "@de-re-crud/core",
   "description": "Core library for De Re CRUD",
-  "version": "0.16.7",
+  "version": "0.16.8",
   "repository": "https://github.com/DeReCrud/de-re-crud/tree/master/packages/core",
   "license": "Apache-2.0",
   "main": "de-re-crud-core.umd.js",
