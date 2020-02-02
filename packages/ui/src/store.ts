@@ -26,6 +26,7 @@ import {
   FormType,
 } from './form';
 import parseFormOptions from './renderers/utils/parse-form-options';
+import { DeReCrudUiOptions } from './options';
 
 let FORM_COUNTER = 0;
 
@@ -101,8 +102,7 @@ export function createStore(
   onFieldParentChange?: FieldParentChangeNotification,
 ): IStore {
   const schema = SchemaParser.parse(schemaJson);
-
-  const formOptions = parseFormOptions({
+  const formOptions = parseFormOptions(DeReCrudUiOptions.getDefaults(), {
     buttonOptions,
     rendererOptions,
     renderers,
@@ -182,7 +182,7 @@ export function updateStore(
   onFieldChangeType?: FieldChangeNotificationType,
   onFieldParentChange?: FieldParentChangeNotification,
 ) {
-  const formOptions = parseFormOptions({
+  const formOptions = parseFormOptions(DeReCrudUiOptions.getDefaults(), {
     buttonOptions,
     rendererOptions,
     renderers,
