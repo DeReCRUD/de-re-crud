@@ -1,7 +1,7 @@
 {
   "name": "@de-re-crud/storybook-angular",
   "private": true,
-  "version": "0.16.8",
+  "version": "0.16.9",
   "scripts": {
     "storybook": "start-storybook -p 9001",
     "build": "build-storybook -c .storybook -o dist"
@@ -18,10 +18,10 @@
     "@angular/platform-browser": "^9.0.1",
     "@angular/platform-browser-dynamic": "^9.0.1",
     "@babel/core": "^7.5.5",
-    "@de-re-crud/angular": "^0.16.8",
-    "@de-re-crud/core": "^0.16.8",
-    "@de-re-crud/theme-bootstrap4": "^0.16.8",
-    "@de-re-crud/ui": "^0.16.8",
+    "@de-re-crud/angular": "^0.16.9",
+    "@de-re-crud/core": "^0.16.9",
+    "@de-re-crud/theme-bootstrap4": "^0.16.9",
+    "@de-re-crud/ui": "^0.16.9",
     "@storybook/addon-actions": "5.3.13",
     "@storybook/angular": "^5.3.13",
     "awesome-typescript-loader": "^5.2.1",
@@ -29,8 +29,8 @@
     "bootstrap-css-only": "^4.3.1",
     "preact": "^10.0.0-rc.3",
     "rxjs": "^6.5.4",
-    "zone.js": "~0.10.2",
-    "tslib": "^1.10.0"
+    "tslib": "^1.10.0",
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "html-loader": "^0.5.5"

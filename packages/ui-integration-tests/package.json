@@ -1,7 +1,7 @@
 {
   "name": "@de-re-crud/ui-integration-tests",
   "description": "Test suite for integration of De Re CRUD libraries",
-  "version": "0.16.8",
+  "version": "0.16.9",
   "repository": "https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui-integration-tests",
   "license": "Apache-2.0",
   "scripts": {
@@ -9,9 +9,9 @@
     "cover": "jest --coverage"
   },
   "devDependencies": {
-    "@de-re-crud/core": "0.16.8",
-    "@de-re-crud/ui": "0.16.8",
-    "@de-re-crud/theme-bootstrap4": "0.16.8",
+    "@de-re-crud/core": "^0.16.9",
+    "@de-re-crud/theme-bootstrap4": "^0.16.9",
+    "@de-re-crud/ui": "^0.16.9",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/preact": "^1.0.2",
     "@testing-library/user-event": "^7.1.2",
