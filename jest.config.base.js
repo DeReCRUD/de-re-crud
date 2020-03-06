@@ -6,6 +6,7 @@ module.exports = {
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/'],
   globals: {
     'ts-jest': {
+      isolatedModules: true,
       tsConfig: {
         experimentalDecorators: true,
       },
