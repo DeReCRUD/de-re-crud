@@ -19,8 +19,8 @@
           "name": "label",
           "label": "Label",
           "type": "text",
+          "required": true,
           "hints": {
-            "readOnly": true,
             "width": 8
           }
         },
