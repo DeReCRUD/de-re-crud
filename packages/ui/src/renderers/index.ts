@@ -88,6 +88,7 @@ export interface IFieldRenderer extends IRenderer {
   required: boolean;
   busy: boolean;
   readOnly: boolean;
+  tabIndex: number | undefined;
   disabled: boolean;
   onFocus: (e: FieldFocusEvent) => void;
   onBlur: (e: FieldBlurEvent) => void;

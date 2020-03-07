@@ -21,6 +21,7 @@ const Bootstrap4InputFieldRenderer = ({
   required,
   disabled,
   readOnly,
+  tabIndex,
   errors,
 }: Omit<ITextFieldRenderer, 'value'> &
   Omit<IIntegerFieldRenderer, 'value'> & { value?: string | number }) => {
@@ -59,6 +60,7 @@ const Bootstrap4InputFieldRenderer = ({
         required={required}
         disabled={disabled}
         readOnly={readOnly}
+        tabIndex={tabIndex}
         value={value}
       />
     </div>

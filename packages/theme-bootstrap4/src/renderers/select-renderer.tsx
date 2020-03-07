@@ -16,6 +16,7 @@ const Bootstrap4SelectRenderer = ({
   required,
   disabled,
   readOnly,
+  tabIndex,
 }: Bootstrap4SelectRendererProps) => (
   <div className="bootstrap4-select-renderer">
     <Bootstrap4LabelRenderer fieldRequired={required}>
@@ -30,9 +31,10 @@ const Bootstrap4SelectRenderer = ({
       onBlur={onBlur}
       onChange={onChange}
       multiple={multiSelect}
-      readOnly={readOnly}
       required={required}
       disabled={disabled}
+      readOnly={readOnly}
+      tabIndex={tabIndex}
     >
       {options.map((option) => (
         <option

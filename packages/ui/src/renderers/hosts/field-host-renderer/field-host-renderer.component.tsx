@@ -63,6 +63,8 @@ class FieldHostRenderer extends BaseComponent<
       ...fieldReference.hints.custom,
     };
 
+    const readOnly = this.isReadOnly();
+
     const fieldProps: IFieldRenderer = {
       errors,
       fieldDescription: field.help,
@@ -77,7 +79,8 @@ class FieldHostRenderer extends BaseComponent<
       placeholder: field.placeholder,
       busy: this.isBusy(fieldPath),
       disabled: this.isDisabled(),
-      readOnly: this.isReadOnly(),
+      readOnly,
+      tabIndex: readOnly ? -1 : undefined,
       formId,
       rendererId,
       required: field.required,

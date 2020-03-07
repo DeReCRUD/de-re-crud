@@ -10,6 +10,7 @@ const Bootstrap4RadioListFieldRenderer = ({
   required,
   disabled,
   readOnly,
+  tabIndex,
   options,
 }: IRadioListFieldRenderer) => {
   const onManagedChange = (e: FieldChangeEvent) => {
@@ -41,6 +42,7 @@ const Bootstrap4RadioListFieldRenderer = ({
               checked={option.selected}
               disabled={disabled}
               readOnly={readOnly}
+              tabIndex={tabIndex}
             />
             <Bootstrap4LabelRenderer
               htmlFor={inputId}
