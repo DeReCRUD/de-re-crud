@@ -33,7 +33,7 @@ jobs:
       run: yarn cover -- -- --ci
 
     - name: Publish coverage
-      run: .node_modules/.bin/codecov
+      run: yarn codecov
       
     - name: Copy artifacts
       run: |
