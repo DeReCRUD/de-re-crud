@@ -17,7 +17,8 @@
     "storybook": "lerna run storybook --stream",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
     "format": "prettier \"**/*.{ts,tsx,js,json}\" --write",
-    "bump": "lerna publish --skip-npm --force-publish=*"
+    "bump": "lerna publish --skip-npm --force-publish=*",
+    "cz": "git-cz"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -32,7 +33,9 @@
     "@typescript-eslint/parser": "^1.13.0",
     "babel-core": "^7.0.0-bridge.0",
     "codecov": "^3.3.0",
+    "commitizen": "^4.1.2",
     "cross-env": "^5.2.0",
+    "cz-conventional-changelog": "3.2.0",
     "del-cli": "^2.0.0",
     "dom-testing-library": "^3.19.3",
     "eslint": "^5.16.0",
@@ -78,5 +81,10 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
