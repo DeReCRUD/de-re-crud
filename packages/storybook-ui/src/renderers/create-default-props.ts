@@ -18,6 +18,7 @@ export function createDefaultProps(
     busy: false,
     disabled: false,
     readOnly: false,
+    tabIndex: undefined,
     hints: {},
     onBlur: action('blur'),
     onFocus: action('focus'),

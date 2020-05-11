@@ -63,6 +63,8 @@ class FieldHostRenderer extends BaseComponent<
       ...fieldReference.hints.custom,
     };
 
+    const readOnly = this.isReadOnly();
+
     const fieldProps: IFieldRenderer = {
       errors,
       fieldDescription: field.help,
@@ -77,7 +79,8 @@ class FieldHostRenderer extends BaseComponent<
       placeholder: field.placeholder,
       busy: this.isBusy(fieldPath),
       disabled: this.isDisabled(),
-      readOnly: this.isReadOnly(),
+      readOnly,
+      tabIndex: readOnly ? -1 : undefined,
       formId,
       rendererId,
       required: field.required,
@@ -109,6 +112,7 @@ class FieldHostRenderer extends BaseComponent<
       struct,
       fieldReference.field,
     );
+
     return field.hints.readOnly;
   };
 
@@ -140,14 +144,6 @@ class FieldHostRenderer extends BaseComponent<
     return false;
   };
 
-  private changeValue = (
-    fieldName: string,
-    fieldPath: string,
-    value: ScalarFieldValue | ScalarFieldValue[],
-  ) => {
-    this.props.changeValue(this.props.struct, fieldName, fieldPath, value);
-  };
-
   private onFocus = () => {
     const {
       struct,
@@ -155,6 +151,10 @@ class FieldHostRenderer extends BaseComponent<
       fieldReference: { field },
       fieldPath,
     } = this.props;
+
+    if (this.isReadOnly() || this.isDisabled()) {
+      return;
+    }
 
     focusField(struct, field, fieldPath);
   };
@@ -167,6 +167,10 @@ class FieldHostRenderer extends BaseComponent<
       fieldPath,
       parentPath,
     } = this.props;
+
+    if (this.isReadOnly() || this.isDisabled()) {
+      return;
+    }
 
     blurField(struct, field, fieldPath, parentPath);
   };
@@ -205,7 +209,11 @@ class FieldHostRenderer extends BaseComponent<
       fieldPath,
     } = this.props;
 
-    this.changeValue(field, fieldPath, value);
+    if (this.isReadOnly() || this.isDisabled()) {
+      return;
+    }
+
+    this.props.changeValue(this.props.struct, field, fieldPath, value);
   };
 
   private onAdd = (

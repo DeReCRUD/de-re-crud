@@ -15,6 +15,7 @@ const Bootstrap4TextAreaFieldRenderer = ({
   required,
   disabled,
   readOnly,
+  tabIndex,
   errors,
 }: ITextAreaFieldRenderer) => {
   return (
@@ -34,6 +35,7 @@ const Bootstrap4TextAreaFieldRenderer = ({
         required={required}
         disabled={disabled}
         readOnly={readOnly}
+        tabIndex={tabIndex}
         value={value}
       />
     </div>
