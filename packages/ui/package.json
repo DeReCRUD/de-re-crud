@@ -13,7 +13,7 @@
     "cover": "jest --coverage"
   },
   "peerDependencies": {
-    "@de-re-crud/core": "0.16.11",
+    "@de-re-crud/core": "0.16.12",
     "preact": "^10.0.0-rc.3"
   },
   "dependencies": {
