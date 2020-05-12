@@ -17,7 +17,7 @@
     "storybook": "lerna run storybook --stream",
     "format:check": "prettier \"**/*.{ts,tsx,js,json}\" --list-different",
     "format": "prettier \"**/*.{ts,tsx,js,json}\" --write",
-    "bump": "lerna publish --skip-npm --force-publish=*",
+    "version:bump": "lerna version",
     "version": "node ./scripts/bump-peerdeps.js",
     "cz": "git-cz"
   },
