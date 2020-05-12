@@ -85,7 +85,7 @@ jobs:
 
             echo "Publishing $package"
 
-            npm publish $d/dist --access public --tag next
+            npm publish $d/dist --access public
           fi
         done
         
