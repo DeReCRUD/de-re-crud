@@ -8,8 +8,8 @@
     "@angular/cdk": "^8.0.0 || ^9.0.0",
     "@angular/common": "^8.0.0 || ^9.0.0",
     "@angular/core": "^8.0.0 || ^9.0.0",
-    "@de-re-crud/core": "0.16.11",
-    "@de-re-crud/ui": "0.16.11"
+    "@de-re-crud/core": "0.16.12",
+    "@de-re-crud/ui": "0.16.12"
   },
   "devDependencies": {
     "@angular/animations": "^9.0.1",

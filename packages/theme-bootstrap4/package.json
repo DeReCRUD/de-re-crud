@@ -11,7 +11,7 @@
     "build": "rollup --config"
   },
   "peerDependencies": {
-    "@de-re-crud/ui": "0.16.11"
+    "@de-re-crud/ui": "0.16.12"
   },
   "devDependencies": {
     "@de-re-crud/ui": "^0.16.12",
