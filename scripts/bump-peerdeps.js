@@ -9,6 +9,9 @@ files.forEach((file) => {
 
   if (fs.statSync(packagePath).isDirectory()) {
     const packageJsonPath = path.join(packagePath, 'package.json');
+    if (!fs.existsSync(packageJsonPath)) {
+      return;
+    }
 
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath));
 
