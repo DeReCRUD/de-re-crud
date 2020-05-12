@@ -25,7 +25,9 @@ jobs:
       run: yarn lint
       
     - name: Run tests and coverage
-      run: yarn cover -- -- --ci
+      run: yarn cover
+      env:
+        CI: true
 
     - name: Publish coverage
       run: yarn codecov
@@ -44,6 +46,7 @@ jobs:
             if [ -d "$d/dist/" ]; then
               echo "Copying dist for $package"
 
+              mkdir -p .out/$package
               cp -R $d/dist/ .out/$package
             fi
           fi
