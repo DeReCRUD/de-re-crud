@@ -1,9 +1,9 @@
 import { h, IFieldContainerRenderer, combineCssClasses } from '@de-re-crud/ui';
 
 const Bootstrap4FieldContainerRenderer = ({
-  fieldDescription,
-  errors,
   renderedField,
+  renderedDescription,
+  renderedErrors,
 }: IFieldContainerRenderer) => (
   <div
     className={combineCssClasses(
@@ -12,15 +12,8 @@ const Bootstrap4FieldContainerRenderer = ({
     )}
   >
     {renderedField}
-    {fieldDescription &&
-      !errors.length && (
-        <span className="form-text text-muted">{fieldDescription}</span>
-      )}
-    {errors.length ? (
-      <span data-testid="field-error" className="invalid-feedback d-block">
-        {errors[0]}
-      </span>
-    ) : null}
+    {renderedDescription}
+    {renderedErrors}
   </div>
 );
 

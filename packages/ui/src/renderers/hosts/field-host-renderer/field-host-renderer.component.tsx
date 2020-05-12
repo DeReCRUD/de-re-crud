@@ -85,6 +85,36 @@ class FieldHostRenderer extends BaseComponent<
       hints: customHints,
     };
 
+    let renderedDescription: h.JSX.Element;
+    let renderedErrors: h.JSX.Element;
+
+    if (field.help) {
+      const FieldDescriptionRenderer = renderers.fieldDescription;
+
+      renderedDescription = (
+        <FieldDescriptionRenderer
+          rendererId={rendererId}
+          formId={formId}
+          hints={customHints}
+          hasErrors={errors.length > 0}
+          fieldDescription={field.help}
+        />
+      );
+    }
+
+    if (errors.length) {
+      const FieldErrorsRenderer = renderers.fieldErrors;
+
+      renderedErrors = (
+        <FieldErrorsRenderer
+          rendererId={rendererId}
+          formId={formId}
+          hints={customHints}
+          errors={errors}
+        />
+      );
+    }
+
     const renderedField = this.renderField(fieldReference, fieldProps);
     const FieldContainerRenderer = renderers.fieldContainer;
 
@@ -95,8 +125,10 @@ class FieldHostRenderer extends BaseComponent<
         fieldName={fieldProps.fieldName}
         fieldDescription={fieldProps.fieldDescription}
         errors={fieldProps.errors}
-        renderedField={renderedField}
         hints={customHints}
+        renderedField={renderedField}
+        renderedDescription={renderedDescription}
+        renderedErrors={renderedErrors}
       />
     );
   }

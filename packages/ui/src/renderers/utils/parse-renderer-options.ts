@@ -16,6 +16,8 @@ export default function parseRendererOptions(
     derivedField: NoopRenderer as any,
     estimateField: NoopRenderer as any,
     fieldContainer: NoopRenderer as any,
+    fieldDescription: NoopRenderer as any,
+    fieldErrors: NoopRenderer as any,
     foreignKeyField: NoopRenderer as any,
     inlineLinkedStructField: NoopRenderer as any,
     integerField: NoopRenderer as any,
