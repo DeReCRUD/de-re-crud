@@ -20,6 +20,8 @@ import {
   IDateFieldRenderer,
   IEstimateFieldRenderer,
   IKeywordFieldRenderer,
+  IFieldErrorsRenderer,
+  IFieldDescriptionRenderer,
 } from '.';
 
 export interface IRendererDefinitions {
@@ -35,6 +37,12 @@ export interface IRendererDefinitions {
   fieldContainer:
     | FunctionalComponent<IFieldContainerRenderer>
     | ComponentConstructor<IFieldContainerRenderer>;
+  fieldDescription:
+    | FunctionalComponent<IFieldDescriptionRenderer>
+    | ComponentConstructor<IFieldDescriptionRenderer>;
+  fieldErrors:
+    | FunctionalComponent<IFieldErrorsRenderer>
+    | ComponentConstructor<IFieldErrorsRenderer>;
   textField:
     | FunctionalComponent<ITextFieldRenderer>
     | ComponentConstructor<ITextFieldRenderer>;

@@ -36,7 +36,18 @@ export interface IFieldContainerRenderer extends IRenderer {
   fieldName: string;
   fieldDescription?: string;
   errors: string[];
-  renderedField?: h.JSX.Element;
+  renderedField: h.JSX.Element;
+  renderedDescription?: h.JSX.Element;
+  renderedErrors?: h.JSX.Element;
+}
+
+export interface IFieldDescriptionRenderer extends IRenderer {
+  hasErrors: boolean;
+  fieldDescription: string;
+}
+
+export interface IFieldErrorsRenderer extends IRenderer {
+  errors: string[];
 }
 
 export interface IStampRenderer extends IRenderer {
