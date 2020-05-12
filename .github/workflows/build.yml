@@ -10,17 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x]
-
     steps:
     - uses: actions/checkout@v2
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
+      name: Use Node.js 10.x
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '10.x'
 
     - name: Install deps
       run: yarn --frozen-lockfile
@@ -29,12 +25,17 @@ jobs:
       run: yarn lint
       
     - name: Run tests and coverage
-      run: yarn cover -- -- --ci
+      run: yarn cover
+      env:
+        CI: true
 
     - name: Publish coverage
       run: yarn codecov
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Build
+      run: yarn build
       
     - name: Copy artifacts
       run: |
@@ -45,12 +46,14 @@ jobs:
             if [ -d "$d/dist/" ]; then
               echo "Copying dist for $package"
 
+              mkdir -p .out/$package
               cp -R $d/dist/ .out/$package
             fi
           fi
         done
     
     - uses: actions/upload-artifact@v2
+      name: Upload packages
       with:
         name: packages
         path: .out/ 
@@ -62,10 +65,12 @@ jobs:
 
     steps:
     - uses: actions/download-artifact@v2
+      name: Download packages
       with:
         name: packages
 
     - uses: actions/setup-node@v1
+      name: Use Node.js 10.x
       with:
         node-version: '10.x'
         registry-url: 'https://registry.npmjs.org'
@@ -78,9 +83,9 @@ jobs:
           if [ -d "$d" ]; then
             package=$(basename $d)
 
-            echo "Copying dist for $package"
+            echo "Publishing $package"
 
-            npm publish $d --access public --tag next
+            npm publish $d/dist --access public
           fi
         done
         
