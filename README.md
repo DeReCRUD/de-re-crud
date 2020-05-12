@@ -1,6 +1,6 @@
 # De Re CRUD
 
-[![GitHub License](https://img.shields.io/github/license/DeReCRUD/de-re-crud.svg)](https://github.com/DeReCRUD/de-re-crud/blob/master/LICENSE) [![Build Status](https://dev.azure.com/DeReCRUD/de-re-crud/_apis/build/status/DeReCRUD.de-re-crud?branchName=master)](https://dev.azure.com/DeReCRUD/de-re-crud/_build/latest?definitionId=1?branchName=master) [![codecov](https://codecov.io/gh/DeReCRUD/de-re-crud/branch/master/graph/badge.svg)](https://codecov.io/gh/DeReCRUD/de-re-crud)
+[![GitHub License](https://img.shields.io/github/license/DeReCRUD/de-re-crud.svg)](https://github.com/DeReCRUD/de-re-crud/blob/master/LICENSE) ![Build](https://github.com/DeReCRUD/de-re-crud/workflows/Build/badge.svg) [![codecov](https://codecov.io/gh/DeReCRUD/de-re-crud/branch/master/graph/badge.svg)](https://codecov.io/gh/DeReCRUD/de-re-crud)
 
 For more information about the ideology of library, see [this](docs/ideology.md).
 
