@@ -19,6 +19,7 @@ import { TableLinkedStructFieldRenderer } from './table-linked-struct-field-rend
 import { TextFieldRenderer } from './text-field-renderer.component';
 import { InlineLinkedStructFieldRenderer } from './inline-linked-struct-field-renderer.component';
 import { TreeRenderer } from './tree-renderer.component';
+import { FieldContainerRenderer } from './field-contaner-renderer.component';
 
 @Component({
   selector: 'drc-custom-renderer-form',
@@ -47,7 +48,12 @@ export class CustomRendererForm implements OnChanges {
   initialValue?: object;
 
   @Input()
-  rendererType: 'tableLinkedStruct' | 'text' | 'inlineLinkedStruct' | 'tree';
+  rendererType:
+    | 'tableLinkedStruct'
+    | 'text'
+    | 'inlineLinkedStruct'
+    | 'fieldContainer'
+    | 'tree';
 
   @Output()
   submitted = new EventEmitter<IFormSubmission>();
@@ -78,6 +84,23 @@ export class CustomRendererForm implements OnChanges {
           TextFieldRenderer,
         );
         break;
+      case 'fieldContainer':
+        this.renderers = {
+          tableLinkedStructField: wrapNgComponent(
+            this.injector,
+            TableLinkedStructFieldRenderer,
+          ),
+          inlineLinkedStructField: wrapNgComponent(
+            this.injector,
+            InlineLinkedStructFieldRenderer,
+          ),
+          textField: wrapNgComponent(this.injector, TextFieldRenderer),
+          fieldContainer: wrapNgComponent(
+            this.injector,
+            FieldContainerRenderer,
+          ),
+        };
+        break;
       case 'tree':
         this.renderers.tableLinkedStructField = wrapNgComponent(
           this.injector,
@@ -101,6 +124,7 @@ export class CustomRendererForm implements OnChanges {
     TableLinkedStructFieldRenderer,
     TextFieldRenderer,
     InlineLinkedStructFieldRenderer,
+    FieldContainerRenderer,
     TreeRenderer,
   ],
   exports: [CustomRendererForm],
@@ -108,6 +132,7 @@ export class CustomRendererForm implements OnChanges {
     TableLinkedStructFieldRenderer,
     TextFieldRenderer,
     InlineLinkedStructFieldRenderer,
+    FieldContainerRenderer,
     TreeRenderer,
   ],
 })
