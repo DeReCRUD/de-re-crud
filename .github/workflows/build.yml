@@ -86,17 +86,16 @@ jobs:
       run: |
         for d in .in/*/; do
           if [ -d "$d" ]; then
-            package=$(basename $d)
-
+            name=$(jq -r '.name' $d/dist/package.json)
             version=$(jq -r '.version' $d/dist/package.json)
 
-            echo "Checking for existing $package@$version"
+            echo "Checking for existing $name@$version"
 
-            test -z "$(npm info $package@$version)"
+            test -z "$(npm info $name@$version)"
 
             if [ $? -eq 0 ]
             then
-              echo "Publishing $package"
+              echo "Publishing $name"
               npm publish $d/dist --access public
             else
               echo "Skipping publish, $version already exists"
