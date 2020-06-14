@@ -34,6 +34,7 @@ export interface IBlockContainerRenderer extends IRenderer {
 
 export interface IFieldContainerRenderer extends IRenderer {
   fieldName: string;
+  fieldType: FieldType;
   fieldDescription?: string;
   errors: string[];
   renderedField: h.JSX.Element;

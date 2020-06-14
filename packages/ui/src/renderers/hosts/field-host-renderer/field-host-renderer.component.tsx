@@ -125,6 +125,7 @@ class FieldHostRenderer extends BaseComponent<
       <FieldContainerRenderer
         formId={formId}
         rendererId={`${rendererId}_container`}
+        fieldType={fieldProps.fieldType}
         fieldName={fieldProps.fieldName}
         fieldDescription={fieldProps.fieldDescription}
         errors={fieldProps.errors}
