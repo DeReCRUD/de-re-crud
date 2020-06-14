@@ -96,7 +96,7 @@ class FieldHostRenderer extends BaseComponent<
 
       renderedDescription = (
         <FieldDescriptionRenderer
-          rendererId={rendererId}
+          rendererId={`${rendererId}_description`}
           formId={formId}
           hints={customHints}
           hasErrors={errors.length > 0}
@@ -110,7 +110,7 @@ class FieldHostRenderer extends BaseComponent<
 
       renderedErrors = (
         <FieldErrorsRenderer
-          rendererId={rendererId}
+          rendererId={`${rendererId}_errors`}
           formId={formId}
           hints={customHints}
           errors={errors}
@@ -124,7 +124,7 @@ class FieldHostRenderer extends BaseComponent<
     return (
       <FieldContainerRenderer
         formId={formId}
-        rendererId={rendererId}
+        rendererId={`${rendererId}_container`}
         fieldName={fieldProps.fieldName}
         fieldDescription={fieldProps.fieldDescription}
         errors={fieldProps.errors}
