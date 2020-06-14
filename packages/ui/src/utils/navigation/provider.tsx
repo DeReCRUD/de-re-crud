@@ -1,29 +1,33 @@
 import { h, FunctionalComponent, ComponentChild } from 'preact';
-import { useMemo, useState } from 'preact/hooks';
+import { useMemo } from 'preact/hooks';
 import NavContext, { INavContext, INavState } from './context';
 import { popLocation, pushLocation } from './actions';
 
 export interface INavProviderProps {
+  stack: INavState[];
+  onStackChange: (stack: INavState[]) => void;
   children: ComponentChild;
 }
 
-const NavProvider: FunctionalComponent<INavProviderProps> = ({ children }) => {
-  const [stack, setStack] = useState<INavState[]>([]);
-
+const NavProvider: FunctionalComponent<INavProviderProps> = ({
+  stack,
+  onStackChange,
+  children,
+}) => {
   const contextValue = useMemo(
     () => {
       const value: INavContext = {
         stack,
         pop: () => {
-          setStack(popLocation(stack));
+          onStackChange(popLocation(stack));
         },
         push: (state) => {
-          setStack(pushLocation(stack, state));
+          onStackChange(pushLocation(stack, state));
         },
       };
       return value;
     },
-    [stack],
+    [stack, onStackChange],
   );
 
   return (
