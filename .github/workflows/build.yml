@@ -91,9 +91,9 @@ jobs:
 
             echo "Checking for existing $name@$version"
 
-            test -z "$(npm info $name@$version)"
+            npm_info="$(npm info $name@$version)"
 
-            if [ $? -eq 0 ]
+            if [[ -z $npm_info ]]
             then
               echo "Publishing $name"
               npm publish $d/dist --access public
