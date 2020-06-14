@@ -88,9 +88,19 @@ jobs:
           if [ -d "$d" ]; then
             package=$(basename $d)
 
-            echo "Publishing $package"
+            version=$(jq '.version' $d/dist/package.json)
 
-            npm publish $d/dist --access public
+            echo "Checking for existing $package@$version"
+
+            test -z "$(npm info $package@)"
+
+            if [ $? -eq 0 ]
+            then
+              echo "Publishing $package"
+              npm publish $d/dist --access public
+            else
+              echo "Skipping publish, $version already exists"
+            fi
           fi
         done
         
