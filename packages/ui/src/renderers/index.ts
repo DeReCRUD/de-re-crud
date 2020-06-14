@@ -85,6 +85,7 @@ export type TypedEventTarget =
 
 export type FieldChangeEvent = Event & {
   target: TypedEventTarget;
+  currentTarget?: any;
 };
 
 export interface IFieldRenderer extends IRenderer {
