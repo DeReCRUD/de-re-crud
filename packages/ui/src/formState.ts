@@ -12,7 +12,7 @@ export class FormState {
 
   private static subscribers: { [formId: string]: FormStateSubscriber[] } = {};
 
-  static get = (formId: string): IFormState => {
+  static get(formId: string): IFormState {
     if (!FormState.cache[formId]) {
       FormState.cache[formId] = {
         submitting: false,
@@ -21,9 +21,9 @@ export class FormState {
     }
 
     return FormState.cache[formId];
-  };
+  }
 
-  static update = (formId: string, updates: Partial<IFormState>): void => {
+  static update(formId: string, updates: Partial<IFormState>): void {
     FormState.cache[formId] = {
       ...FormState.cache[formId],
       ...updates,
@@ -34,16 +34,16 @@ export class FormState {
         subscription(FormState.cache[formId]);
       });
     }
-  };
+  }
 
-  static remove = (formId: string): void => {
+  static remove(formId: string): void {
     delete FormState.cache[formId];
-  };
+  }
 
-  static subscribe = (
+  static subscribe(
     formId: string,
     subscriber: FormStateSubscriber,
-  ): (() => void) => {
+  ): (() => void) {
     if (!FormState.subscribers[formId]) {
       FormState.subscribers[formId] = [];
     }
@@ -56,5 +56,5 @@ export class FormState {
         FormState.subscribers[formId].splice(index, 1);
       }
     };
-  };
+  }
 }
