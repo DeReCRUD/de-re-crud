@@ -25,7 +25,6 @@ import {
   FormSubmission,
   FormType,
 } from './form';
-import { INavState } from './utils/navigation/context';
 import parseFormOptions from './renderers/utils/parse-form-options';
 import { DeReCrudUiOptions } from './options';
 
@@ -49,8 +48,6 @@ export interface IStoreState {
   formClassName?: string;
   formDisabled: boolean;
   formLocked: boolean;
-  formSubmitting: boolean;
-  navStack: INavState[];
   schema: ISchema;
   type: FormType;
   struct: string;
@@ -144,8 +141,6 @@ export function createStore(
       : undefined,
     formDisabled: disabled || false,
     formLocked: false,
-    formSubmitting: false,
-    navStack: [],
     initialValue,
     onCancel,
     onFieldChange,

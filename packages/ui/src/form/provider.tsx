@@ -1,12 +1,13 @@
 import { InternalSchemaHelper, generateChildErrors } from '@de-re-crud/core';
 import { h, FunctionalComponent } from 'preact';
-import { useMemo, useCallback } from 'preact/hooks';
+import { useMemo, useCallback, useState, useEffect } from 'preact/hooks';
 import { Provider } from 'redux-zero/preact';
 import NavProvider from '../utils/navigation/provider';
 import { getStore } from '../store';
 import { FormContext, IFormContext } from './form.context';
 import { validateBlock } from './form.actions';
 import { INavState } from '../utils/navigation/context';
+import { FormState } from '../formState';
 
 export interface IFormProviderProps {
   formId: string;
@@ -17,31 +18,32 @@ const FormProvider: FunctionalComponent<IFormProviderProps> = ({
   children,
 }) => {
   const store = getStore(formId);
+  const [formState, setFormState] = useState(FormState.get(formId));
 
-  const { navStack, formSubmitting } = store.getState();
+  useEffect(() => FormState.subscribe(formId, setFormState), [formId]);
 
   const setSubmitting = useCallback(
-    (newSubmitting: boolean) => {
-      store.setState({
-        formSubmitting: newSubmitting,
+    (submitting: boolean) => {
+      FormState.update(formId, {
+        submitting,
       });
     },
-    [store],
+    [formId],
   );
 
-  const handleNavStackChange = useCallback(
-    (newNavStack: INavState[]) => {
-      store.setState({
-        navStack: newNavStack,
+  const setNavStack = useCallback(
+    (navStack: INavState[]) => {
+      FormState.update(formId, {
+        navStack,
       });
     },
-    [store],
+    [formId],
   );
 
   const contextValue = useMemo(
     () => {
       const value: IFormContext = {
-        submitting: formSubmitting,
+        submitting: formState.submitting,
         submit: () => {
           const state = store.getState();
           const { schema, struct: structName, block: blockName } = state;
@@ -94,13 +96,13 @@ const FormProvider: FunctionalComponent<IFormProviderProps> = ({
 
       return value;
     },
-    [formSubmitting, setSubmitting, store],
+    [formState.submitting, setSubmitting, store],
   );
 
   return (
     <Provider store={store}>
       <FormContext.Provider value={contextValue}>
-        <NavProvider stack={navStack} onStackChange={handleNavStackChange}>
+        <NavProvider stack={formState.navStack} onStackChange={setNavStack}>
           {children}
         </NavProvider>
       </FormContext.Provider>
