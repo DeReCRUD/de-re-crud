@@ -65,7 +65,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: build
-    if: startsWith(github.ref, 'refs/tags')
+    # if: startsWith(github.ref, 'refs/tags')
 
     steps:
     - uses: actions/download-artifact@v2
@@ -86,11 +86,20 @@ jobs:
       run: |
         for d in .in/*/; do
           if [ -d "$d" ]; then
-            package=$(basename $d)
+            name=$(jq -r '.name' $d/dist/package.json)
+            version=$(jq -r '.version' $d/dist/package.json)
 
-            echo "Publishing $package"
+            echo "Checking for existing $name@$version"
 
-            npm publish $d/dist --access public
+            npm_info="$(npm info $name@$version)"
+
+            if [[ -z $npm_info ]]
+            then
+              echo "Publishing $name"
+              npm publish $d/dist --access public
+            else
+              echo "Skipping publish, $version already exists"
+            fi
           fi
         done
         
