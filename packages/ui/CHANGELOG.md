@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.3](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/compare/v0.17.2...v0.17.3) (2020-06-14)
+
+
+### Bug Fixes
+
+* add missing field type to field container renderer ([a75da25](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/commit/a75da25))
+
+
+
+
+
 ## [0.17.2](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/compare/v0.17.1...v0.17.2) (2020-06-14)
 
 
