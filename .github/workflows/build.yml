@@ -88,11 +88,11 @@ jobs:
           if [ -d "$d" ]; then
             package=$(basename $d)
 
-            version=$(jq '.version' $d/dist/package.json)
+            version=$(jq -r '.version' $d/dist/package.json)
 
             echo "Checking for existing $package@$version"
 
-            test -z "$(npm info $package@)"
+            test -z "$(npm info $package@$version)"
 
             if [ $? -eq 0 ]
             then
