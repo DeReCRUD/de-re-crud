@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.4](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/compare/v0.17.3...v0.17.4) (2020-06-19)
+
+
+### Bug Fixes
+
+* add missing fieldPath prop to container renderer ([60802a1](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/commit/60802a1))
+
+
+
+
+
 ## [0.17.3](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/compare/v0.17.2...v0.17.3) (2020-06-14)
 
 
