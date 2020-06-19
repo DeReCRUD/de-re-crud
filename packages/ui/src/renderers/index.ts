@@ -33,6 +33,7 @@ export interface IBlockContainerRenderer extends IRenderer {
 }
 
 export interface IFieldContainerRenderer extends IRenderer {
+  fieldPath: string;
   fieldName: string;
   fieldType: FieldType;
   fieldDescription?: string;
