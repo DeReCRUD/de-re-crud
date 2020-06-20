@@ -129,6 +129,7 @@ class FieldHostRenderer extends BaseComponent<
         fieldType={fieldProps.fieldType}
         fieldName={fieldProps.fieldName}
         fieldDescription={fieldProps.fieldDescription}
+        fieldValue={fieldProps.value}
         errors={fieldProps.errors}
         hints={customHints}
         renderedField={renderedField}

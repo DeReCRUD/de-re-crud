@@ -37,6 +37,7 @@ export interface IFieldContainerRenderer extends IRenderer {
   fieldName: string;
   fieldType: FieldType;
   fieldDescription?: string;
+  fieldValue?: FieldValue;
   errors: string[];
   renderedField: h.JSX.Element;
   renderedDescription?: h.JSX.Element;
