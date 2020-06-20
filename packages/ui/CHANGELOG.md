@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.5](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/compare/v0.17.4...v0.17.5) (2020-06-20)
+
+
+### Bug Fixes
+
+* add missing fiedValue prop to container renderer ([6075034](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/commit/6075034))
+
+
+
+
+
 ## [0.17.4](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/compare/v0.17.3...v0.17.4) (2020-06-19)
 
 
