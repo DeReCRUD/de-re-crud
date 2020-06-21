@@ -64,6 +64,7 @@ class FieldHostRenderer extends BaseComponent<
     };
 
     const readOnly = this.isReadOnly();
+    const label = field.label.short;
 
     const fieldProps: IFieldRenderer = {
       errors,
@@ -71,11 +72,32 @@ class FieldHostRenderer extends BaseComponent<
       fieldName: field.name,
       fieldType: field.type,
       fieldPath,
-      label: field.label.short,
+      label,
       onBlur: this.onBlur,
       onChange: this.onChange,
       onFocus: this.onFocus,
       onValueChange: this.onValueChange,
+      renderFieldLabel: (options: { className?: string } = {}) => {
+        const FieldLabelRenderer = renderers.fieldLabel;
+
+        return (
+          <FieldLabelRenderer
+            rendererId={`${rendererId}_label`}
+            hints={customHints}
+            formId={formId}
+            label={label}
+            className={options.className}
+            errors={errors}
+            fieldType={field.type}
+            fieldDescription={field.help}
+            fieldName={field.name}
+            fieldPath={fieldPath}
+            fieldRequired={field.required}
+            fieldValue={fieldValue}
+            onValueChange={this.onValueChange}
+          />
+        );
+      },
       placeholder: field.placeholder,
       busy: this.isBusy(fieldPath),
       disabled: this.isDisabled(),
@@ -135,6 +157,7 @@ class FieldHostRenderer extends BaseComponent<
         renderedField={renderedField}
         renderedDescription={renderedDescription}
         renderedErrors={renderedErrors}
+        onValueChange={this.onValueChange}
       />
     );
   }

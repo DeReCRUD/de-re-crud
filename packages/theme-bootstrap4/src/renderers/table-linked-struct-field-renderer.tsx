@@ -4,13 +4,11 @@ import {
   createCssClass,
 } from '@de-re-crud/ui';
 import Bootstrap4ButtonRenderer from './button-renderer';
-import Bootstrap4LabelRenderer from './label-renderer';
 
 const cssName = 'bootstrap4-table-linked-struct-renderer';
 
 const Bootstrap4TableLinkedStructFieldRenderer = ({
-  label,
-  required,
+  renderFieldLabel,
   headers,
   disabled,
   value,
@@ -58,9 +56,7 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
   return (
     <div className={createCssClass(cssName)}>
       <div className={createCssClass(cssName, 'controls')}>
-        <Bootstrap4LabelRenderer fieldRequired={required}>
-          {label}
-        </Bootstrap4LabelRenderer>{' '}
+        {renderFieldLabel()}{' '}
         {canAdd() && (
           <Bootstrap4ButtonRenderer
             classes="btn btn-sm btn-secondary"

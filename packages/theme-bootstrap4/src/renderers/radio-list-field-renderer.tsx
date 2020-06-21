@@ -3,11 +3,10 @@ import Bootstrap4LabelRenderer from './label-renderer';
 
 const Bootstrap4RadioListFieldRenderer = ({
   rendererId,
-  label,
+  renderFieldLabel,
   onFocus,
   onBlur,
   onChange,
-  required,
   disabled,
   readOnly,
   tabIndex,
@@ -21,9 +20,7 @@ const Bootstrap4RadioListFieldRenderer = ({
 
   return (
     <div className="bootstrap4-radio-list-field-renderer">
-      <Bootstrap4LabelRenderer fieldRequired={required}>
-        {label}
-      </Bootstrap4LabelRenderer>
+      {renderFieldLabel()}
 
       {options.map((option) => {
         const inputId = `${rendererId}.${option.value}`;
@@ -31,8 +28,8 @@ const Bootstrap4RadioListFieldRenderer = ({
         return (
           <div className="custom-control custom-radio">
             <input
-              name={rendererId}
               id={inputId}
+              name={rendererId}
               className="custom-control-input"
               type="radio"
               onFocus={onFocus}
@@ -46,7 +43,7 @@ const Bootstrap4RadioListFieldRenderer = ({
             />
             <Bootstrap4LabelRenderer
               htmlFor={inputId}
-              className="custom-control-label"
+              className=""
               fieldRequired={false}
             >
               {option.label}

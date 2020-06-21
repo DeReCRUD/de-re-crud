@@ -22,6 +22,7 @@ import {
   IKeywordFieldRenderer,
   IFieldErrorsRenderer,
   IFieldDescriptionRenderer,
+  IFieldLabelRenderer,
 } from '.';
 
 export interface IRendererDefinitions {
@@ -37,6 +38,9 @@ export interface IRendererDefinitions {
   fieldContainer:
     | FunctionalComponent<IFieldContainerRenderer>
     | ComponentConstructor<IFieldContainerRenderer>;
+  fieldLabel:
+    | FunctionalComponent<IFieldLabelRenderer>
+    | ComponentConstructor<IFieldLabelRenderer>;
   fieldDescription:
     | FunctionalComponent<IFieldDescriptionRenderer>
     | ComponentConstructor<IFieldDescriptionRenderer>;

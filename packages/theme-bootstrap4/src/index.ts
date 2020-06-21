@@ -2,6 +2,7 @@ import Bootstrap4BlockContainerRenderer from './renderers/block-container-render
 import Bootstrap4BooleanFieldRenderer from './renderers/boolean-field-renderer';
 import Bootstrap4ButtonRenderer from './renderers/button-renderer';
 import Bootstrap4FieldContainerRenderer from './renderers/field-container-renderer';
+import Bootstrap4FieldLabelRenderer from './renderers/field-label-renderer';
 import Bootstrap4FieldDescriptionRenderer from './renderers/field-description-renderer';
 import Bootstrap4FieldErrorsRenderer from './renderers/field-errors-renderer';
 import Bootstrap4InlineLinkedStructFieldRenderer from './renderers/inline-linked-struct-field-renderer';
@@ -21,6 +22,7 @@ export {
   Bootstrap4BooleanFieldRenderer,
   Bootstrap4ButtonRenderer,
   Bootstrap4FieldContainerRenderer,
+  Bootstrap4FieldLabelRenderer,
   Bootstrap4FieldDescriptionRenderer,
   Bootstrap4FieldErrorsRenderer,
   Bootstrap4InlineLinkedStructFieldRenderer,

@@ -42,6 +42,20 @@ export interface IFieldContainerRenderer extends IRenderer {
   renderedField: h.JSX.Element;
   renderedDescription?: h.JSX.Element;
   renderedErrors?: h.JSX.Element;
+  onValueChange: (e: ScalarFieldValue) => void;
+}
+
+export interface IFieldLabelRenderer extends IRenderer {
+  className?: string;
+  fieldPath: string;
+  fieldName: string;
+  fieldType: FieldType;
+  fieldDescription?: string;
+  fieldValue?: FieldValue;
+  fieldRequired: boolean;
+  errors: string[];
+  label: string;
+  onValueChange: (e: ScalarFieldValue) => void;
 }
 
 export interface IFieldDescriptionRenderer extends IRenderer {
@@ -92,6 +106,9 @@ export type FieldChangeEvent = Event & {
 };
 
 export interface IFieldRenderer extends IRenderer {
+  renderFieldLabel: (
+    options?: Partial<Pick<IFieldLabelRenderer, 'className'>>,
+  ) => h.JSX.Element;
   label: string;
   placeholder?: string;
   fieldName: string;

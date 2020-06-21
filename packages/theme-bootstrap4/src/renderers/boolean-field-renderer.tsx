@@ -1,14 +1,12 @@
 import { h, IBooleanFieldRenderer, FieldChangeEvent } from '@de-re-crud/ui';
-import Bootstrap4LabelRenderer from './label-renderer';
 
 const Bootstrap4BooleanFieldRenderer = ({
   rendererId,
-  label,
+  renderFieldLabel,
   value,
   onFocus,
   onBlur,
   onChange,
-  required,
   disabled,
   readOnly,
   tabIndex,
@@ -33,13 +31,7 @@ const Bootstrap4BooleanFieldRenderer = ({
         readOnly={readOnly}
         tabIndex={tabIndex}
       />
-      <Bootstrap4LabelRenderer
-        htmlFor={rendererId}
-        className="custom-control-label"
-        fieldRequired={required}
-      >
-        {label}
-      </Bootstrap4LabelRenderer>
+      {renderFieldLabel({ className: 'custom-control-label' })}
     </div>
   );
 };

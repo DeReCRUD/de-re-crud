@@ -1,9 +1,9 @@
 import { h, ITextAreaFieldRenderer, combineCssClasses } from '@de-re-crud/ui';
-import Bootstrap4LabelRenderer from './label-renderer';
 
 const Bootstrap4TextAreaFieldRenderer = ({
+  renderFieldLabel,
   fieldType,
-  label,
+  rendererId,
   value,
   placeholder,
   cols,
@@ -20,10 +20,9 @@ const Bootstrap4TextAreaFieldRenderer = ({
 }: ITextAreaFieldRenderer) => {
   return (
     <div className={`bootstrap4-${fieldType}-renderer`}>
-      <Bootstrap4LabelRenderer fieldRequired={required}>
-        {label}
-      </Bootstrap4LabelRenderer>
+      {renderFieldLabel()}
       <textarea
+        id={rendererId}
         class={combineCssClasses('form-control', errors.length && 'is-invalid')}
         placeholder={placeholder}
         onFocus={onFocus}

@@ -4,11 +4,11 @@ import {
   combineCssClasses,
   IIntegerFieldRenderer,
 } from '@de-re-crud/ui';
-import Bootstrap4LabelRenderer from './label-renderer';
 
 const Bootstrap4InputFieldRenderer = ({
+  renderFieldLabel,
+  rendererId,
   fieldType,
-  label,
   value,
   placeholder,
   onFocus,
@@ -43,10 +43,9 @@ const Bootstrap4InputFieldRenderer = ({
 
   return (
     <div className={`bootstrap4-${fieldType}-renderer`}>
-      <Bootstrap4LabelRenderer fieldRequired={required}>
-        {label}
-      </Bootstrap4LabelRenderer>
+      {renderFieldLabel()}
       <input
+        id={rendererId}
         class={combineCssClasses('form-control', errors.length && 'is-invalid')}
         type={inputType}
         placeholder={placeholder}

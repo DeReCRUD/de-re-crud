@@ -1,5 +1,6 @@
 import { FieldType } from '@de-re-crud/core';
-import { IFieldRenderer } from '@de-re-crud/ui';
+import { h, IFieldRenderer } from '@de-re-crud/ui';
+import { Bootstrap4FieldLabelRenderer } from '@de-re-crud/theme-bootstrap4';
 import { action } from '@storybook/addon-actions';
 
 export function createDefaultProps(
@@ -10,6 +11,22 @@ export function createDefaultProps(
   return {
     formId: 'form1',
     rendererId: id,
+    renderFieldLabel: () => {
+      return (
+        <Bootstrap4FieldLabelRenderer
+          formId="formId"
+          rendererId={id}
+          label={label}
+          fieldType={fieldType}
+          fieldRequired={false}
+          fieldName={id}
+          fieldPath={id}
+          errors={[]}
+          hints={{}}
+          onValueChange={action('value changed')}
+        />
+      );
+    },
     label,
     fieldName: id,
     fieldPath: id,

@@ -1,12 +1,12 @@
 import { h, ISelectListFieldRenderer, combineCssClasses } from '@de-re-crud/ui';
-import Bootstrap4LabelRenderer from './label-renderer';
 
 export type Bootstrap4SelectRendererProps = ISelectListFieldRenderer & {
   multiSelect?: boolean;
 };
 
 const Bootstrap4SelectRenderer = ({
-  label,
+  renderFieldLabel,
+  rendererId,
   errors,
   multiSelect,
   options,
@@ -19,10 +19,9 @@ const Bootstrap4SelectRenderer = ({
   tabIndex,
 }: Bootstrap4SelectRendererProps) => (
   <div className="bootstrap4-select-renderer">
-    <Bootstrap4LabelRenderer fieldRequired={required}>
-      {label}
-    </Bootstrap4LabelRenderer>
+    {renderFieldLabel()}
     <select
+      id={rendererId}
       className={combineCssClasses(
         'custom-select',
         errors.length && 'is-invalid',
