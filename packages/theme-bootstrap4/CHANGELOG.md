@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.18.0](https://github.com/DeReCrud/de-re-crud/tree/master/packages/theme-bootstrap4/compare/v0.17.5...v0.18.0) (2020-06-22)
+
+
+### Bug Fixes
+
+* add appropriate ids/names to field renderers ([96db8c3](https://github.com/DeReCrud/de-re-crud/tree/master/packages/theme-bootstrap4/commit/96db8c3))
+
+
+### Features
+
+* expose field labels as renderers ([a01326a](https://github.com/DeReCrud/de-re-crud/tree/master/packages/theme-bootstrap4/commit/a01326a))
+
+
+### BREAKING CHANGES
+
+* Renderer definitions have been updated
+
+
+
+
+
 ## [0.17.5](https://github.com/DeReCrud/de-re-crud/tree/master/packages/theme-bootstrap4/compare/v0.17.4...v0.17.5) (2020-06-20)
 
 **Note:** Version bump only for package @de-re-crud/theme-bootstrap4
