@@ -7,7 +7,8 @@ import {
 
 const Bootstrap4InputFieldRenderer = ({
   renderFieldLabel,
-  rendererId,
+  fieldPath,
+  fieldName,
   fieldType,
   value,
   placeholder,
@@ -45,7 +46,8 @@ const Bootstrap4InputFieldRenderer = ({
     <div className={`bootstrap4-${fieldType}-renderer`}>
       {renderFieldLabel()}
       <input
-        id={rendererId}
+        id={fieldPath}
+        name={fieldName}
         class={combineCssClasses('form-control', errors.length && 'is-invalid')}
         type={inputType}
         placeholder={placeholder}

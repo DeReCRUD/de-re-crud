@@ -1,8 +1,9 @@
 import { h, IBooleanFieldRenderer, FieldChangeEvent } from '@de-re-crud/ui';
 
 const Bootstrap4BooleanFieldRenderer = ({
-  rendererId,
   renderFieldLabel,
+  fieldPath,
+  fieldName,
   value,
   onFocus,
   onBlur,
@@ -20,7 +21,8 @@ const Bootstrap4BooleanFieldRenderer = ({
   return (
     <div className="bootstrap4-boolean-field-renderer custom-control custom-checkbox">
       <input
-        id={rendererId}
+        id={fieldPath}
+        name={fieldName}
         className="custom-control-input"
         type="checkbox"
         onFocus={onFocus}

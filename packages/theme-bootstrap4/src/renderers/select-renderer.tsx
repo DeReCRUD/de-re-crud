@@ -6,7 +6,8 @@ export type Bootstrap4SelectRendererProps = ISelectListFieldRenderer & {
 
 const Bootstrap4SelectRenderer = ({
   renderFieldLabel,
-  rendererId,
+  fieldPath,
+  fieldName,
   errors,
   multiSelect,
   options,
@@ -21,7 +22,8 @@ const Bootstrap4SelectRenderer = ({
   <div className="bootstrap4-select-renderer">
     {renderFieldLabel()}
     <select
-      id={rendererId}
+      id={fieldPath}
+      name={fieldName}
       className={combineCssClasses(
         'custom-select',
         errors.length && 'is-invalid',

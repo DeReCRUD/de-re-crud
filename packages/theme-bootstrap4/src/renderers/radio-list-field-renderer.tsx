@@ -2,7 +2,8 @@ import { h, IRadioListFieldRenderer, FieldChangeEvent } from '@de-re-crud/ui';
 import Bootstrap4LabelRenderer from './label-renderer';
 
 const Bootstrap4RadioListFieldRenderer = ({
-  rendererId,
+  fieldPath,
+  fieldName,
   renderFieldLabel,
   onFocus,
   onBlur,
@@ -23,13 +24,13 @@ const Bootstrap4RadioListFieldRenderer = ({
       {renderFieldLabel()}
 
       {options.map((option) => {
-        const inputId = `${rendererId}.${option.value}`;
+        const inputId = `${fieldPath}.${option.value}`;
 
         return (
           <div className="custom-control custom-radio">
             <input
               id={inputId}
-              name={rendererId}
+              name={fieldName}
               className="custom-control-input"
               type="radio"
               onFocus={onFocus}
