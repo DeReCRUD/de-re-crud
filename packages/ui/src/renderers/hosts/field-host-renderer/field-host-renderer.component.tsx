@@ -66,6 +66,9 @@ class FieldHostRenderer extends BaseComponent<
     const readOnly = this.isReadOnly();
     const label = field.label.short;
 
+    const busy = this.isBusy(fieldPath);
+    const disabled = this.isDisabled();
+
     const fieldProps: IFieldRenderer = {
       errors,
       fieldDescription: field.help,
@@ -94,13 +97,16 @@ class FieldHostRenderer extends BaseComponent<
             fieldPath={fieldPath}
             fieldRequired={field.required}
             fieldValue={fieldValue}
+            fieldBusy={busy}
+            fieldReadOnly={readOnly}
+            fieldDisabled={disabled}
             onValueChange={this.onValueChange}
           />
         );
       },
       placeholder: field.placeholder,
-      busy: this.isBusy(fieldPath),
-      disabled: this.isDisabled(),
+      busy,
+      disabled,
       readOnly,
       tabIndex: readOnly ? -1 : undefined,
       formId,

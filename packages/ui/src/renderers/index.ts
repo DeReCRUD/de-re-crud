@@ -53,6 +53,9 @@ export interface IFieldLabelRenderer extends IRenderer {
   fieldDescription?: string;
   fieldValue?: FieldValue;
   fieldRequired: boolean;
+  fieldBusy: boolean;
+  fieldReadOnly: boolean;
+  fieldDisabled: boolean;
   errors: string[];
   label: string;
   onValueChange: (e: ScalarFieldValue) => void;
