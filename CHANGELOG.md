@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/DeReCRUD/de-re-crud/compare/v0.18.1...v0.19.0) (2020-07-01)
+
+
+### Bug Fixes
+
+* add initialization prop to imperative API ([c364b90](https://github.com/DeReCRUD/de-re-crud/commit/c364b90))
+
+
+### BREAKING CHANGES
+
+* Changes the interface of `IForm`
+
+
+
+
+
 ## [0.18.1](https://github.com/DeReCRUD/de-re-crud/compare/v0.18.0...v0.18.1) (2020-06-22)
 
 
