@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.1](https://github.com/DeReCrud/de-re-crud/tree/master/packages/angular/compare/v0.19.0...v0.19.1) (2020-07-01)
+
+
+### Bug Fixes
+
+* add isInitialized method to Angular form ([a5cb815](https://github.com/DeReCrud/de-re-crud/tree/master/packages/angular/commit/a5cb815))
+
+
+
+
+
 # [0.19.0](https://github.com/DeReCrud/de-re-crud/tree/master/packages/angular/compare/v0.18.1...v0.19.0) (2020-07-01)
 
 
