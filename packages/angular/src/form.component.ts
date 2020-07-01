@@ -40,7 +40,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormComponent
-  implements AfterViewInit, OnChanges, OnDestroy, IForm {
+  implements AfterViewInit, OnChanges, OnDestroy, Omit<IForm, 'isInitialized'> {
   private instance: IForm;
 
   @ViewChild(JsxHostDirective, { static: false })

@@ -35,6 +35,7 @@ export interface IJsxElement {
 }
 
 export interface IForm extends IJsxElement {
+  isInitialized: () => boolean;
   reEvaluateConditions: () => void;
   getValue: (path?: string) => FieldValue;
   setValue: (path: string, value?: FieldValue, errors?: string[]) => void;
@@ -68,20 +69,40 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
     nativeElement,
   );
 
+  const isInitialized = () => typeof form !== 'undefined';
+  const throwIfNotInitialized = () => {
+    if (!isInitialized()) {
+      throw new Error(
+        'Form is not initialized. Call isInitiailized and wait until it returns true.',
+      );
+    }
+  };
+
   return {
+    isInitialized: () => typeof form !== 'undefined',
     destroy: () => {
+      throwIfNotInitialized();
+
       render(null, nativeElement);
     },
     reEvaluateConditions: () => {
+      throwIfNotInitialized();
+
       form.reEvaluateConditions();
     },
     getValue: (path?: string) => {
+      throwIfNotInitialized();
+
       return form.getValue(path);
     },
     setValue: (path: string, value?: FieldValue, errors?: string[]) => {
+      throwIfNotInitialized();
+
       form.setValue(path, value, errors);
     },
     setErrors: (path: string, errors: string[]) => {
+      throwIfNotInitialized();
+
       form.setErrors(path, errors);
     },
   };
