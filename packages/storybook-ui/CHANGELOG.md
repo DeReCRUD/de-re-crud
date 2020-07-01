@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.2](https://github.com/DeReCRUD/de-re-crud/compare/v0.19.1...v0.19.2) (2020-07-01)
+
+**Note:** Version bump only for package @de-re-crud/storybook-ui
+
+
+
+
+
 # [0.19.0](https://github.com/DeReCRUD/de-re-crud/compare/v0.18.1...v0.19.0) (2020-07-01)
 
 **Note:** Version bump only for package @de-re-crud/storybook-ui

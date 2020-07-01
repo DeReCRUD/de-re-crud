@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.2](https://github.com/DeReCRUD/de-re-crud/compare/v0.19.1...v0.19.2) (2020-07-01)
+
+
+### Bug Fixes
+
+* add null check to initialization method ([b473a4f](https://github.com/DeReCRUD/de-re-crud/commit/b473a4f))
+
+
+
+
+
 ## [0.19.1](https://github.com/DeReCRUD/de-re-crud/compare/v0.19.0...v0.19.1) (2020-07-01)
 
 
