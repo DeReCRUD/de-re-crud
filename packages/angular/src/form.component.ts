@@ -40,7 +40,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormComponent
-  implements AfterViewInit, OnChanges, OnDestroy, Omit<IForm, 'isInitialized'> {
+  implements AfterViewInit, OnChanges, OnDestroy, IForm {
   private instance: IForm;
 
   @ViewChild(JsxHostDirective, { static: false })
@@ -170,6 +170,10 @@ export class FormComponent
       value,
       onComplete: cb,
     });
+  };
+
+  isInitialized = () => {
+    return this.instance.isInitialized();
   };
 
   reEvaluateConditions = () => {
