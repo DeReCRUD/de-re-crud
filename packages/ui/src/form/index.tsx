@@ -79,7 +79,7 @@ export function renderForm(props: IFormProps, nativeElement: Element): IForm {
   };
 
   return {
-    isInitialized: () => typeof form !== 'undefined',
+    isInitialized: () => typeof form !== 'undefined' && form != null,
     destroy: () => {
       throwIfNotInitialized();
 
