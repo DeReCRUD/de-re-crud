@@ -65,6 +65,7 @@ const CollectionForm: FunctionalComponent<{ store: IStore }> = ({ store }) => {
       fieldDescription=""
       fieldName="root"
       fieldPath="root"
+      tabIndex={-1}
       headers={headers}
       value={rows}
       label={struct.collectionLabel.short}
@@ -89,6 +90,7 @@ const CollectionForm: FunctionalComponent<{ store: IStore }> = ({ store }) => {
       onFocus={() => {}}
       onValueChange={() => {}}
       renderChildField={() => null}
+      renderFieldLabel={() => null}
     />
   );
 };
