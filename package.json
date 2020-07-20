@@ -58,7 +58,6 @@
     "lerna": "^3.16.4",
     "lint-staged": "^8.0.5",
     "npm-run-all": "^4.1.5",
-    "preact-testing-library": "^0.3.0",
     "prettier": "^1.14.0",
     "replace-in-file": "^3.4.0",
     "rollup": "^1.20.3",
