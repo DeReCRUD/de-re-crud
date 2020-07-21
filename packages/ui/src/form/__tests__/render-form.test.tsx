@@ -1,5 +1,4 @@
 import { ISchemaJson } from '@de-re-crud/core';
-import { cleanup } from 'preact-testing-library';
 import Form, { renderForm, IForm, IFormProps } from '..';
 
 const render = jest.spyOn(Form.prototype, 'render');
@@ -52,15 +51,13 @@ describe('renderForm', () => {
     document.body.appendChild(container);
   });
 
-  afterEach(cleanup);
-
   it('should render form', () => {
     createForm(container);
 
     expect(render).toHaveBeenCalledTimes(1);
   });
 
-  it('should call reEvaluateConditionson instance', () => {
+  it('should call reEvaluateConditions instance', () => {
     const reEvaluateConditions = jest.spyOn(
       Form.prototype,
       'reEvaluateConditions',

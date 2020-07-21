@@ -1,8 +1,7 @@
 import { ISchemaJson } from '@de-re-crud/core';
-import { Form, IFormProps } from '@de-re-crud/ui';
+import { h, Ref, Form, IFormProps } from '@de-re-crud/ui';
 import { Bootstrap4RendererOptions } from '@de-re-crud/theme-bootstrap4';
-import { h, Ref } from 'preact';
-import { cleanup, render, fireEvent, wait } from '@testing-library/preact';
+import { render, fireEvent, wait } from '@testing-library/preact';
 
 const schema: ISchemaJson = {
   structs: [
@@ -70,8 +69,6 @@ function setup(props: Partial<IFormProps> = {}, refCallback: Ref<Form> = null) {
 }
 
 describe('Form', () => {
-  afterEach(cleanup);
-
   it('should return root value', () => {
     let instance: Form;
 
