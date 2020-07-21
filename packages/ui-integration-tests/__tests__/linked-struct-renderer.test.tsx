@@ -44,4 +44,54 @@ describe('LinkedStructRenderer', () => {
       }),
     );
   });
+
+  it('should update soft delete flag  from value', () => {
+    const onFieldParentChange = jest.fn();
+    const value = {
+      children: [
+        {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+        {
+          firstName: 'Jane',
+          lastName: 'Jane',
+        },
+      ],
+    };
+
+    const softDeleteSchema = schema as ISchemaJson;
+    const struct = softDeleteSchema.structs.find((x) => x.name === 'person')!;
+    struct.fields.push({
+      name: 'deleted',
+      label: 'Deleted',
+      type: 'date',
+      softDeleteField: true,
+    });
+
+    render(
+      <Form
+        schema={schema as ISchemaJson}
+        struct="person"
+        initialValue={value}
+        rendererOptions={Bootstrap4RendererOptions}
+        onFieldParentChange={onFieldParentChange}
+        onSubmit={jest.fn()}
+      />,
+    );
+
+    const { getByRole } = within(screen.getByTestId('row-2'));
+    // @ts-ignore
+    userEvent.click(getByRole('button', { name: 'Remove' }));
+
+    expect(onFieldParentChange).toHaveBeenCalledTimes(1);
+    expect(onFieldParentChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        newValue: [
+          value.children[0],
+          { ...value.children[1], deleted: expect.any(Date) },
+        ],
+      }),
+    );
+  });
 });
