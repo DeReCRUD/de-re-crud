@@ -13,6 +13,7 @@ import {
   ICustomValidator,
   IDefaultValidatorMessages,
   defaultValidatorFuncs,
+  InternalSchemaHelper,
 } from '..';
 
 export const defaultValidatorMessages: IDefaultValidatorMessages = {

@@ -1,7 +1,7 @@
 import { ISchemaJson } from '@de-re-crud/core';
 import { h, Ref, Form, IFormProps } from '@de-re-crud/ui';
 import { Bootstrap4RendererOptions } from '@de-re-crud/theme-bootstrap4';
-import { render, fireEvent, wait } from '@testing-library/preact';
+import { render, fireEvent, waitFor } from '@testing-library/preact';
 
 const schema: ISchemaJson = {
   structs: [
@@ -132,7 +132,7 @@ describe('Form', () => {
 
       instance.setValue('name', 'test');
 
-      await wait(() => {
+      await waitFor(() => {
         expect(queryByTestId('field-error')).toBeNull();
       });
     });

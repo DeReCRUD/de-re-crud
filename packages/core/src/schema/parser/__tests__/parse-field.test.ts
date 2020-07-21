@@ -49,6 +49,7 @@ function createFieldTests(
           width: DEFAULT_FIELD_WIDTH,
         },
         keyField: false,
+        softDeleteField: false,
         label: {
           long: field.label,
           medium: field.label,

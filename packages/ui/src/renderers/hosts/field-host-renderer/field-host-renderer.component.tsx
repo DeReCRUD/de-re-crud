@@ -9,6 +9,7 @@ import {
   IListField,
   ITextField,
   IIntegerField,
+  getValueForPath,
 } from '@de-re-crud/core';
 import { FunctionalComponent, h } from 'preact';
 import { useContext } from 'preact/hooks';
@@ -206,6 +207,21 @@ class FieldHostRenderer extends BaseComponent<
     }
 
     return false;
+  };
+
+  private isDeleted = (struct: string, path: string) => {
+    const { schema, formValue } = this.props;
+
+    const fields = InternalSchemaHelper.getSoftDeleteFields(schema, struct);
+
+    if (!fields.length) {
+      return;
+    }
+
+    return fields.every((field) => {
+      const fieldValue = getValueForPath(formValue, `${path}.${field}`);
+      return !!fieldValue;
+    });
   };
 
   private onFocus = () => {
@@ -567,6 +583,7 @@ class FieldHostRenderer extends BaseComponent<
 
         const busyValues = {};
         const disabledValues = {};
+        const deletedValues = {};
 
         if (Array.isArray(fieldProps.value)) {
           values = fieldProps.value as object[];
@@ -618,6 +635,10 @@ class FieldHostRenderer extends BaseComponent<
 
             busyValues[index] = this.isBusy(`${fieldPath}.${index}`);
             disabledValues[index] = this.isDisabled();
+            deletedValues[index] = this.isDeleted(
+              reference.struct,
+              `${fieldPath}.${index}`,
+            );
           });
 
           const tableLinkedStructFieldProps: ITableLinkedStructFieldRenderer = {
@@ -647,6 +668,7 @@ class FieldHostRenderer extends BaseComponent<
             onRemove: this.onRemove,
             busyValues,
             disabledValues,
+            deletedValues,
             value: mappedValue,
             valueErrorIndicators: childErrors,
             renderChildField,
@@ -687,6 +709,7 @@ class FieldHostRenderer extends BaseComponent<
           onRemove: this.onRemove,
           busyRenderedItems: busyValues,
           disabledRenderedItems: disabledValues,
+          deletedRenderedItems: deletedValues,
           renderedItems: items,
           renderChildField,
         };

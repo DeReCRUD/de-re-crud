@@ -37,6 +37,8 @@ describe('LinkedStructRenderer', () => {
     // @ts-ignore
     userEvent.click(getByRole('button', { name: 'Remove' }));
 
+    expect(screen.queryByTestId('row-2')).toBeNull();
+
     expect(onFieldParentChange).toHaveBeenCalledTimes(1);
     expect(onFieldParentChange).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -45,7 +47,7 @@ describe('LinkedStructRenderer', () => {
     );
   });
 
-  it('should update soft delete flag  from value', () => {
+  it('should update soft delete flag from value', () => {
     const onFieldParentChange = jest.fn();
     const value = {
       children: [
@@ -84,12 +86,14 @@ describe('LinkedStructRenderer', () => {
     // @ts-ignore
     userEvent.click(getByRole('button', { name: 'Remove' }));
 
+    expect(screen.queryByTestId('row-2')).toBeNull();
+
     expect(onFieldParentChange).toHaveBeenCalledTimes(1);
     expect(onFieldParentChange).toHaveBeenCalledWith(
       expect.objectContaining({
         newValue: [
           value.children[0],
-          { ...value.children[1], deleted: expect.any(Date) },
+          { ...value.children[1], deleted: expect.any(String) },
         ],
       }),
     );

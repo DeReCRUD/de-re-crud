@@ -30,4 +30,16 @@ export default class InternalSchemaHelper {
       return fields.get(x).keyField;
     });
   }
+
+  public static getSoftDeleteFields(
+    schema: ISchema,
+    structName: string,
+  ): string[] {
+    const struct = InternalSchemaHelper.getStruct(schema, structName);
+
+    return struct.fields.filter((x) => {
+      const fields = schema.fields.get(structName);
+      return fields.get(x).softDeleteField;
+    });
+  }
 }

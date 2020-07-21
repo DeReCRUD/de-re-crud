@@ -14,6 +14,7 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
   value,
   valueErrorIndicators,
   disabledValues,
+  deletedValues,
   canAdd,
   canRemove,
   onAdd,
@@ -23,6 +24,10 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
   const rows = [];
 
   value.forEach((columns, index) => {
+    if (deletedValues[index]) {
+      return;
+    }
+
     const removeButtonVisible = canRemove(index);
 
     rows.push(
