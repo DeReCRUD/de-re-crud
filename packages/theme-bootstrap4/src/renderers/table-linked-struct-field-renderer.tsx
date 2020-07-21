@@ -26,7 +26,10 @@ const Bootstrap4TableLinkedStructFieldRenderer = ({
     const removeButtonVisible = canRemove(index);
 
     rows.push(
-      <tr className={valueErrorIndicators[index] && 'table-danger'}>
+      <tr
+        data-testid={`row-${index + 1}`}
+        className={valueErrorIndicators[index] && 'table-danger'}
+      >
         {columns.map((x) => (
           <td>{x || ' '}</td>
         ))}
