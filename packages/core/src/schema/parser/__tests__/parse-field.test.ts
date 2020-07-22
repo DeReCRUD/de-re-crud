@@ -22,7 +22,7 @@ const struct = 'TestStruct';
 
 function createFieldTests(
   type: FieldType,
-  extraInitailData = {},
+  extraInitialData = {},
   extraExpectedData = {},
   extraTests: (json: IFieldJson) => void = () => {},
 ) {
@@ -37,7 +37,7 @@ function createFieldTests(
       hints: {
         custom: {},
       },
-      ...extraInitailData,
+      ...extraInitialData,
     };
 
     it('should return defaults when no overrides specified', () => {
