@@ -25,7 +25,7 @@ export default function parseField(
 ): IField {
   const field: IField = {
     keyField: fieldJson.keyField || false,
-    softDeleteField: fieldJson.softDeleteField || false,
+    deletionField: fieldJson.deletionField || false,
     label: parseLabel(fieldJson.label),
     name: fieldJson.name,
     required: fieldJson.required || false,

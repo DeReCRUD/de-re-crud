@@ -53,7 +53,7 @@ export interface IField {
   name: string;
   label: ILabel;
   keyField: boolean;
-  softDeleteField: boolean;
+  deletionField: boolean;
   type: FieldType;
   required: boolean;
   unique: boolean;

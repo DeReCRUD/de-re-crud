@@ -141,7 +141,7 @@ export interface IFieldJson {
   label: string | ILabel;
   type: FieldType;
   keyField?: boolean;
-  softDeleteField?: boolean;
+  deletionField?: boolean;
   required?: boolean;
   unique?: boolean;
   help?: string;

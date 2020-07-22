@@ -31,7 +31,7 @@ export default class InternalSchemaHelper {
     });
   }
 
-  public static getSoftDeleteFields(
+  public static getDeletionFields(
     schema: ISchema,
     structName: string,
   ): string[] {
@@ -39,7 +39,7 @@ export default class InternalSchemaHelper {
 
     return struct.fields.filter((x) => {
       const fields = schema.fields.get(structName);
-      return fields.get(x).softDeleteField;
+      return fields.get(x).deletionField;
     });
   }
 }

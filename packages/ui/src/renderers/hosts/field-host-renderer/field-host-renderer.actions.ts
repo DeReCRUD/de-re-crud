@@ -275,7 +275,7 @@ export default function fieldHostRendererActions(store: IStore) {
         .get(structName)
         .get(fieldName) as ILinkedStructField;
 
-      const softDeleteFields = InternalSchemaHelper.getSoftDeleteFields(
+      const deletionFields = InternalSchemaHelper.getDeletionFields(
         state.schema,
         linkedStructField.reference.struct,
       );
@@ -325,12 +325,12 @@ export default function fieldHostRendererActions(store: IStore) {
               arrayValue.push(...newValues);
               break;
             case 'remove':
-              if (!softDeleteFields.length) {
+              if (!deletionFields.length) {
                 arrayValue.splice(startingIndex, 1);
               } else {
                 arrayValue[startingIndex] = {
                   ...arrayValue[startingIndex],
-                  ...softDeleteFields.reduce((prev, curr) => {
+                  ...deletionFields.reduce((prev, curr) => {
                     const fields = prev;
 
                     const field = InternalSchemaHelper.getField(

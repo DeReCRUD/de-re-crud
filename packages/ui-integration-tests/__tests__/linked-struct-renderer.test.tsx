@@ -47,7 +47,7 @@ describe('LinkedStructRenderer', () => {
     );
   });
 
-  it('should update soft delete flag from value', () => {
+  it('should update deletion flag', () => {
     const onFieldParentChange = jest.fn();
     const value = {
       children: [
@@ -62,13 +62,15 @@ describe('LinkedStructRenderer', () => {
       ],
     };
 
-    const softDeleteSchema = schema as ISchemaJson;
-    const struct = softDeleteSchema.structs.find((x) => x.name === 'person')!;
+    const schemaWithDeletionField = schema as ISchemaJson;
+    const struct = schemaWithDeletionField.structs.find(
+      (x) => x.name === 'person',
+    )!;
     struct.fields.push({
       name: 'deleted',
       label: 'Deleted',
       type: 'date',
-      softDeleteField: true,
+      deletionField: true,
     });
 
     render(

@@ -212,7 +212,7 @@ class FieldHostRenderer extends BaseComponent<
   private isDeleted = (struct: string, path: string) => {
     const { schema, formValue } = this.props;
 
-    const fields = InternalSchemaHelper.getSoftDeleteFields(schema, struct);
+    const fields = InternalSchemaHelper.getDeletionFields(schema, struct);
 
     if (!fields.length) {
       return;
