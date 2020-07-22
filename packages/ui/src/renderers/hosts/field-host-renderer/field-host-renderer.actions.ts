@@ -368,6 +368,7 @@ export default function fieldHostRendererActions(store: IStore) {
       }
 
       const errors = validateLinkedStructField(
+        state.schema,
         linkedStructField,
         iterationValue as object[],
       );

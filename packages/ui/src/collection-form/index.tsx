@@ -72,6 +72,7 @@ const CollectionForm: FunctionalComponent<{ store: IStore }> = ({ store }) => {
       placeholder=""
       disabledValues={DEFAULT_BOOLEAN_MAP}
       busyValues={DEFAULT_BOOLEAN_MAP}
+      deletedValues={DEFAULT_BOOLEAN_MAP}
       valueErrorIndicators={DEFAULT_BOOLEAN_MAP}
       required={false}
       readOnly={false}

@@ -209,8 +209,12 @@ class FieldHostRenderer extends BaseComponent<
     return false;
   };
 
-  private isDeleted = (struct: string, path: string) => {
-    const { schema, formValue } = this.props;
+  private isDeleted = (struct: string, value: object) => {
+    const { schema } = this.props;
+
+    if (!value) {
+      return false;
+    }
 
     const fields = InternalSchemaHelper.getDeletionFields(schema, struct);
 
@@ -219,7 +223,7 @@ class FieldHostRenderer extends BaseComponent<
     }
 
     return fields.every((field) => {
-      const fieldValue = getValueForPath(formValue, `${path}.${field}`);
+      const fieldValue = value[field];
       return !!fieldValue;
     });
   };
@@ -358,11 +362,12 @@ class FieldHostRenderer extends BaseComponent<
 
     return (
       typeof linkedStructField.maxInstances === 'undefined' ||
-      value.length < linkedStructField.maxInstances
+      InternalSchemaHelper.getNonDeletedValues(schema, struct, value).length <
+        linkedStructField.maxInstances
     );
   };
 
-  private canRemove = () => {
+  private canRemove = (index: number) => {
     const { schema, struct, fieldReference, fieldValue } = this.props;
 
     const linkedStructField = InternalSchemaHelper.getField(
@@ -371,8 +376,15 @@ class FieldHostRenderer extends BaseComponent<
       fieldReference.field,
     ) as ILinkedStructField;
 
-    const value = (fieldValue as object[]) || [];
-    return value.length > linkedStructField.minInstances;
+    const array = (fieldValue as object[]) || [];
+    if (this.isDeleted(struct, array[index])) {
+      return false;
+    }
+
+    return (
+      InternalSchemaHelper.getNonDeletedValues(schema, struct, array).length >
+      linkedStructField.minInstances
+    );
   };
 
   private onEdit = (index: number) => {
@@ -637,7 +649,7 @@ class FieldHostRenderer extends BaseComponent<
             disabledValues[index] = this.isDisabled();
             deletedValues[index] = this.isDeleted(
               reference.struct,
-              `${fieldPath}.${index}`,
+              getValueForPath(formValue, `${fieldPath}.${index}`),
             );
           });
 

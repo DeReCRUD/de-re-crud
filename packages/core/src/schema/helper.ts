@@ -42,4 +42,24 @@ export default class InternalSchemaHelper {
       return fields.get(x).deletionField;
     });
   }
+
+  public static getNonDeletedValues(
+    schema: ISchema,
+    struct: string,
+    value: object[],
+  ) {
+    if (!Array.isArray(value)) {
+      return value;
+    }
+
+    const fields = InternalSchemaHelper.getDeletionFields(schema, struct);
+    if (!fields.length) {
+      return value;
+    }
+
+    return value.filter((item) => {
+      const allSet = fields.every((field) => !!item[field]);
+      return !allSet;
+    });
+  }
 }
