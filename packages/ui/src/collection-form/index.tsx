@@ -65,12 +65,14 @@ const CollectionForm: FunctionalComponent<{ store: IStore }> = ({ store }) => {
       fieldDescription=""
       fieldName="root"
       fieldPath="root"
+      tabIndex={-1}
       headers={headers}
       value={rows}
       label={struct.collectionLabel.short}
       placeholder=""
       disabledValues={DEFAULT_BOOLEAN_MAP}
       busyValues={DEFAULT_BOOLEAN_MAP}
+      deletedValues={DEFAULT_BOOLEAN_MAP}
       valueErrorIndicators={DEFAULT_BOOLEAN_MAP}
       required={false}
       readOnly={false}
@@ -89,6 +91,7 @@ const CollectionForm: FunctionalComponent<{ store: IStore }> = ({ store }) => {
       onFocus={() => {}}
       onValueChange={() => {}}
       renderChildField={() => null}
+      renderFieldLabel={() => null}
     />
   );
 };

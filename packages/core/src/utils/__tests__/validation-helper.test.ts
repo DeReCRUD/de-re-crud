@@ -23,6 +23,12 @@ function createSchema(field: Partial<IFieldJson> = {}) {
             label: 'field',
             ...(field as any),
           },
+          {
+            type: 'boolean',
+            name: 'deleted',
+            label: 'Deleted',
+            deletionField: true,
+          },
         ],
         blocks: [],
       },
@@ -265,6 +271,41 @@ describe('validationHelper', () => {
           [{ value: 'struct1' }, { value: 'struct2' }],
         ),
       ).toEqual(['This field can not have more than 1 item(s).']);
+    });
+
+    it('should not count deleted items in validation', () => {
+      expect(
+        runValidateField(
+          {
+            ...linkedStructField,
+            required: true,
+            minInstances: 0,
+          } as ILinkedStructField,
+          [{ value: 'struct1', deleted: true }],
+        ),
+      ).toEqual(['This field must have at least 1 item(s).']);
+
+      expect(
+        runValidateField(
+          {
+            ...linkedStructField,
+            required: false,
+            maxInstances: 1,
+          } as ILinkedStructField,
+          [{ value: 'struct1', deleted: true }, { value: 'struct2' }],
+        ),
+      ).toEqual([]);
+
+      expect(
+        runValidateField(
+          {
+            ...linkedStructField,
+            required: false,
+            minInstances: 1,
+          } as ILinkedStructField,
+          [{ value: 'struct1', deleted: true }],
+        ),
+      ).toEqual(['This field must have at least 1 item(s).']);
     });
   });
 });

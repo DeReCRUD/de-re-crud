@@ -19,6 +19,9 @@ export function createDefaultProps(
           label={label}
           fieldType={fieldType}
           fieldRequired={false}
+          fieldBusy={false}
+          fieldDisabled={false}
+          fieldReadOnly={false}
           fieldName={id}
           fieldPath={id}
           errors={[]}

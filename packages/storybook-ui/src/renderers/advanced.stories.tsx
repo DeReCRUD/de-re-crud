@@ -2,7 +2,7 @@ import { h, Form } from '@de-re-crud/ui';
 import { ISchemaJson } from '@de-re-crud/core';
 import { storiesOf } from '@storybook/preact';
 import { action } from '@storybook/addon-actions';
-import schema from './person-schema.json';
+import schema from '../../../../examples/schemas/person.json';
 import TreeRenderer from './tree-renderer';
 
 storiesOf('Renderers/Advanced Examples', module).add(

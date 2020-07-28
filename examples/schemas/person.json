@@ -16,6 +16,7 @@
               "field": "children",
               "hints": {
                 "block": "name",
+                "labelField": "name",
                 "layout": "table"
               }
             }
@@ -26,6 +27,17 @@
           "references": ["firstName", "middleName", "lastName"],
           "hints": {
             "layout": "horizontal"
+          }
+        },
+        {
+          "name": "children",
+          "references": {
+            "field": "children",
+            "hints": {
+              "block": "name",
+              "labelField": "name",
+              "layout": "table"
+            }
           }
         }
       ],

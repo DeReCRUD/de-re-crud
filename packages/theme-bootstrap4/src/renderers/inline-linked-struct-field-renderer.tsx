@@ -12,29 +12,36 @@ const Bootstrap4InlineLinkedStructFieldRenderer = ({
   disabled,
   renderedItems,
   disabledRenderedItems,
+  deletedRenderedItems,
   canAdd,
   canRemove,
   onAdd,
   onRemove,
 }: IInlineLinkedStructFieldRenderer) => {
-  const rows = renderedItems.map((item, index) => {
-    const removeButtonVisible = canRemove(index);
+  const rows = renderedItems
+    .map((item, index) => {
+      if (deletedRenderedItems[index]) {
+        return undefined;
+      }
 
-    return (
-      <div className={createCssClass(cssName, 'item')}>
-        {item}
-        {removeButtonVisible && (
-          <Bootstrap4ButtonRenderer
-            classes="btn btn-sm btn-danger"
-            text="Remove"
-            onClick={() => onRemove(index)}
-            disabled={disabled || disabledRenderedItems[index]}
-          />
-        )}
-        {removeButtonVisible && <hr />}
-      </div>
-    );
-  });
+      const removeButtonVisible = canRemove(index);
+
+      return (
+        <div className={createCssClass(cssName, 'item')}>
+          {item}
+          {removeButtonVisible && (
+            <Bootstrap4ButtonRenderer
+              classes="btn btn-sm btn-danger"
+              text="Remove"
+              onClick={() => onRemove(index)}
+              disabled={disabled || disabledRenderedItems[index]}
+            />
+          )}
+          {removeButtonVisible && <hr />}
+        </div>
+      );
+    })
+    .filter(Boolean);
 
   return (
     <div className={createCssClass(cssName)}>

@@ -9,6 +9,7 @@ import {
   IListField,
   ITextField,
   IIntegerField,
+  getValueForPath,
 } from '@de-re-crud/core';
 import { FunctionalComponent, h } from 'preact';
 import { useContext } from 'preact/hooks';
@@ -208,6 +209,25 @@ class FieldHostRenderer extends BaseComponent<
     return false;
   };
 
+  private isDeleted = (struct: string, value: object) => {
+    const { schema } = this.props;
+
+    if (!value) {
+      return false;
+    }
+
+    const fields = InternalSchemaHelper.getDeletionFields(schema, struct);
+
+    if (!fields.length) {
+      return false;
+    }
+
+    return fields.every((field) => {
+      const fieldValue = value[field];
+      return !!fieldValue;
+    });
+  };
+
   private onFocus = () => {
     const {
       struct,
@@ -342,11 +362,12 @@ class FieldHostRenderer extends BaseComponent<
 
     return (
       typeof linkedStructField.maxInstances === 'undefined' ||
-      value.length < linkedStructField.maxInstances
+      InternalSchemaHelper.getNonDeletedValues(schema, struct, value).length <
+        linkedStructField.maxInstances
     );
   };
 
-  private canRemove = () => {
+  private canRemove = (index: number) => {
     const { schema, struct, fieldReference, fieldValue } = this.props;
 
     const linkedStructField = InternalSchemaHelper.getField(
@@ -355,8 +376,15 @@ class FieldHostRenderer extends BaseComponent<
       fieldReference.field,
     ) as ILinkedStructField;
 
-    const value = (fieldValue as object[]) || [];
-    return value.length > linkedStructField.minInstances;
+    const array = (fieldValue as object[]) || [];
+    if (this.isDeleted(struct, array[index])) {
+      return false;
+    }
+
+    return (
+      InternalSchemaHelper.getNonDeletedValues(schema, struct, array).length >
+      linkedStructField.minInstances
+    );
   };
 
   private onEdit = (index: number) => {
@@ -567,6 +595,7 @@ class FieldHostRenderer extends BaseComponent<
 
         const busyValues = {};
         const disabledValues = {};
+        const deletedValues = {};
 
         if (Array.isArray(fieldProps.value)) {
           values = fieldProps.value as object[];
@@ -618,6 +647,10 @@ class FieldHostRenderer extends BaseComponent<
 
             busyValues[index] = this.isBusy(`${fieldPath}.${index}`);
             disabledValues[index] = this.isDisabled();
+            deletedValues[index] = this.isDeleted(
+              reference.struct,
+              getValueForPath(formValue, `${fieldPath}.${index}`),
+            );
           });
 
           const tableLinkedStructFieldProps: ITableLinkedStructFieldRenderer = {
@@ -647,6 +680,7 @@ class FieldHostRenderer extends BaseComponent<
             onRemove: this.onRemove,
             busyValues,
             disabledValues,
+            deletedValues,
             value: mappedValue,
             valueErrorIndicators: childErrors,
             renderChildField,
@@ -687,6 +721,7 @@ class FieldHostRenderer extends BaseComponent<
           onRemove: this.onRemove,
           busyRenderedItems: busyValues,
           disabledRenderedItems: disabledValues,
+          deletedRenderedItems: deletedValues,
           renderedItems: items,
           renderChildField,
         };

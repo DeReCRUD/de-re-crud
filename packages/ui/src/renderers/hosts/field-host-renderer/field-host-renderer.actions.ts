@@ -7,12 +7,13 @@ import {
   getValueForPath,
   setValueForPath,
   generateChildErrors,
+  InternalSchemaHelper,
 } from '@de-re-crud/core';
 import {
   FieldChangeNotificationType,
   IFieldChangeNotificationParams,
   IFieldParentChangeNotificationParams,
-} from '../../../form/form.props';
+} from '../../../form';
 import { IStore, IStoreState } from '../../../store';
 import createFieldParent from '../../../utils/create-field-parent';
 import generateCacheKey from '../../utils/generate-cache-key';
@@ -274,6 +275,11 @@ export default function fieldHostRendererActions(store: IStore) {
         .get(structName)
         .get(fieldName) as ILinkedStructField;
 
+      const deletionFields = InternalSchemaHelper.getDeletionFields(
+        state.schema,
+        linkedStructField.reference.struct,
+      );
+
       const oldValue = getValueForPath(state.value, fieldPath);
       const pathArray = fieldPath.split('.');
       const itemsToCreate = count || 1;
@@ -319,7 +325,35 @@ export default function fieldHostRendererActions(store: IStore) {
               arrayValue.push(...newValues);
               break;
             case 'remove':
-              arrayValue.splice(startingIndex, 1);
+              if (!deletionFields.length) {
+                arrayValue.splice(startingIndex, 1);
+              } else {
+                arrayValue[startingIndex] = {
+                  ...arrayValue[startingIndex],
+                  ...deletionFields.reduce((prev, curr) => {
+                    const fields = prev;
+
+                    const field = InternalSchemaHelper.getField(
+                      state.schema,
+                      linkedStructField.reference.struct,
+                      curr,
+                    );
+
+                    switch (field.type) {
+                      case 'date':
+                        fields[curr] = new Date().toISOString();
+                        break;
+                      case 'boolean':
+                        fields[curr] = true;
+                        break;
+                      default:
+                        break;
+                    }
+
+                    return fields;
+                  }, {}),
+                };
+              }
               break;
             default:
               return {};
@@ -334,6 +368,7 @@ export default function fieldHostRendererActions(store: IStore) {
       }
 
       const errors = validateLinkedStructField(
+        state.schema,
         linkedStructField,
         iterationValue as object[],
       );

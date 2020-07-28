@@ -203,6 +203,7 @@ export interface ITableLinkedStructFieldRenderer extends IFieldRenderer {
   valueErrorIndicators: { [index: number]: boolean };
   busyValues: { [index: number]: boolean };
   disabledValues: { [index: number]: boolean };
+  deletedValues: { [index: number]: boolean };
   canAdd: () => boolean;
   canRemove: (index: number) => boolean;
   onAdd: (value?: object, navigate?: boolean) => void;
@@ -215,6 +216,7 @@ export interface IInlineLinkedStructFieldRenderer extends IFieldRenderer {
   renderedItems: h.JSX.Element[];
   busyRenderedItems: { [index: number]: boolean };
   disabledRenderedItems: { [index: number]: boolean };
+  deletedRenderedItems: { [index: number]: boolean };
   canAdd: () => boolean;
   canRemove: (index: number) => boolean;
   onAdd: (value?: object, navigate?: boolean) => void;

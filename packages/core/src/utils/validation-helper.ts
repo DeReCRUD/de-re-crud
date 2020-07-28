@@ -13,6 +13,7 @@ import {
   ICustomValidator,
   IDefaultValidatorMessages,
   defaultValidatorFuncs,
+  InternalSchemaHelper,
 } from '..';
 
 export const defaultValidatorMessages: IDefaultValidatorMessages = {
@@ -97,17 +98,28 @@ function validateIntegerField(field: IIntegerField, value: number): string[] {
 }
 
 export function validateLinkedStructField(
+  schema: ISchema,
   field: ILinkedStructField,
   value: object[],
 ) {
   const errors = [];
+  const nonDeletedValues = InternalSchemaHelper.getNonDeletedValues(
+    schema,
+    field.reference.struct,
+    value,
+  );
 
   if (
     (field.required || field.minInstances) &&
-    (!value || !value.length || value.length < field.minInstances)
+    (!nonDeletedValues ||
+      !nonDeletedValues.length ||
+      nonDeletedValues.length < field.minInstances)
   ) {
     errors.push(interpolateMessageType('minInstances', field));
-  } else if (field.maxInstances && value.length > field.maxInstances) {
+  } else if (
+    field.maxInstances &&
+    nonDeletedValues.length > field.maxInstances
+  ) {
     errors.push(interpolateMessageType('maxInstances', field));
   }
 
@@ -178,6 +190,7 @@ export function validateField(
       break;
     case 'linkedStruct':
       fieldTypeErrors = validateLinkedStructField(
+        schema,
         field as ILinkedStructField,
         fieldValue as object[],
       );
