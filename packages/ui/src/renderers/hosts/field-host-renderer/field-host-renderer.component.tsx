@@ -219,7 +219,7 @@ class FieldHostRenderer extends BaseComponent<
     const fields = InternalSchemaHelper.getDeletionFields(schema, struct);
 
     if (!fields.length) {
-      return;
+      return false;
     }
 
     return fields.every((field) => {
