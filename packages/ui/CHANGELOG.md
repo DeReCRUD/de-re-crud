@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/compare/v0.19.2...v0.20.0) (2020-07-28)
+
+
+### Bug Fixes
+
+* use proper return result ([6bb0985](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/commit/6bb0985))
+
+
+### Features
+
+* make validation logic aware of soft deleted values ([277195e](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/commit/277195e))
+* support displaying and updating soft deleted items ([01440d1](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/commit/01440d1))
+
+
+
+
+
+
 ## [0.19.2](https://github.com/DeReCrud/de-re-crud/tree/master/packages/ui/compare/v0.19.1...v0.19.2) (2020-07-01)
 
 

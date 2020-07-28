@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/DeReCRUD/de-re-crud/compare/v0.19.2...v0.20.0) (2020-07-28)
+
+
+### Bug Fixes
+
+* use proper return result ([6bb0985](https://github.com/DeReCRUD/de-re-crud/commit/6bb0985))
+
+
+### Features
+
+* add soft delete flag prop to field schema ([e14b4c9](https://github.com/DeReCRUD/de-re-crud/commit/e14b4c9))
+* make validation logic aware of soft deleted values ([277195e](https://github.com/DeReCRUD/de-re-crud/commit/277195e))
+* support displaying and updating soft deleted items ([01440d1](https://github.com/DeReCRUD/de-re-crud/commit/01440d1))
+
+
+
+
+
+
 ## [0.19.2](https://github.com/DeReCRUD/de-re-crud/compare/v0.19.1...v0.19.2) (2020-07-01)
 
 

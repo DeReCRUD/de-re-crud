@@ -1,7 +1,7 @@
 {
   "name": "@de-re-crud/theme-bootstrap4",
   "description": "Bootstrap 4 theme for De Re CRUD interfaces",
-  "version": "0.19.2",
+  "version": "0.20.0",
   "repository": "https://github.com/DeReCrud/de-re-crud/tree/master/packages/theme-bootstrap4",
   "license": "Apache-2.0",
   "main": "de-re-crud-theme-bootstrap4.umd.js",
@@ -11,9 +11,9 @@
     "build": "rollup --config"
   },
   "peerDependencies": {
-    "@de-re-crud/ui": "0.19.2"
+    "@de-re-crud/ui": "0.20.0"
   },
   "devDependencies": {
-    "@de-re-crud/ui": "^0.19.2"
+    "@de-re-crud/ui": "^0.20.0"
   }
 }
