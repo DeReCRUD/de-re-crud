@@ -3,104 +3,102 @@ name: Build
 on:
   push:
     branches:
-    - master
+      - master
     tags:
-    - v*
+      - v*
   pull_request:
     branches:
-    - master
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - uses: actions/setup-node@v1
-      name: Use Node.js 10.x
-      with:
-        node-version: '10.x'
+      - uses: actions/setup-node@v1
+        name: Use Node.js 10.x
+        with:
+          node-version: '10.x'
 
-    - name: Install deps
-      run: yarn --frozen-lockfile
-      
-    - name: Lint
-      run: yarn lint
-      
-    - name: Run tests and coverage
-      run: yarn cover
-      env:
-        CI: true
+      - name: Install deps
+        run: yarn --frozen-lockfile
 
-    - name: Publish coverage
-      run: yarn codecov
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: Lint
+        run: yarn lint
 
-    - name: Build
-      run: yarn build
-      
-    - name: Copy artifacts
-      run: |
-        for d in packages/*/; do
-          if [ -d "$d" ]; then
-            package=$(basename $d)
+      - name: Run tests and coverage
+        run: yarn cover
+        env:
+          CI: true
 
-            if [ -d "$d/dist/" ]; then
-              echo "Copying dist for $package"
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
 
-              mkdir -p .out/$package
-              cp -R $d/dist/ .out/$package
+      - name: Build
+        run: yarn build
+
+      - name: Copy artifacts
+        run: |
+          for d in packages/*/; do
+            if [ -d "$d" ]; then
+              package=$(basename $d)
+
+              if [ -d "$d/dist/" ]; then
+                echo "Copying dist for $package"
+
+                mkdir -p .out/$package
+                cp -R $d/dist/ .out/$package
+              fi
             fi
-          fi
-        done
-    
-    - uses: actions/upload-artifact@v2
-      name: Upload packages
-      with:
-        name: packages
-        path: .out/ 
-    
+          done
+
+      - uses: actions/upload-artifact@v2
+        name: Upload packages
+        with:
+          name: packages
+          path: .out/
+
   release:
     runs-on: ubuntu-latest
     needs: build
     if: startsWith(github.ref, 'refs/tags')
 
     steps:
-    - uses: actions/download-artifact@v2
-      name: Download packages
-      with:
-        name: packages
-        path: .in/
+      - uses: actions/download-artifact@v2
+        name: Download packages
+        with:
+          name: packages
+          path: .in/
 
-    - uses: actions/setup-node@v1
-      name: Use Node.js 10.x
-      with:
-        node-version: '10.x'
-        registry-url: 'https://registry.npmjs.org'
+      - uses: actions/setup-node@v1
+        name: Use Node.js 10.x
+        with:
+          node-version: '10.x'
+          registry-url: 'https://registry.npmjs.org'
 
-    - name: Publish packages
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: |
-        for d in .in/*/; do
-          if [ -d "$d" ]; then
-            name=$(jq -r '.name' $d/dist/package.json)
-            version=$(jq -r '.version' $d/dist/package.json)
+      - name: Publish packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          for d in .in/*/; do
+            if [ -d "$d" ]; then
+              name=$(jq -r '.name' $d/dist/package.json)
+              version=$(jq -r '.version' $d/dist/package.json)
 
-            echo "Checking for existing $name@$version"
+              echo "Checking for existing $name@$version"
 
-            npm_info="$(npm info $name@$version)"
+              npm_info="$(npm info $name@$version)"
 
-            if [[ -z $npm_info ]]
-            then
-              echo "Publishing $name"
-              npm publish $d/dist --access public
-            else
-              echo "Skipping publish, $version already exists"
+              if [[ -z $npm_info ]]
+              then
+                echo "Publishing $name"
+                npm publish $d/dist --access public
+              else
+                echo "Skipping publish, $version already exists"
+              fi
             fi
-          fi
-        done
-        
-  
+          done
