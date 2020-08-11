@@ -130,6 +130,7 @@ export interface IFieldHint {
   width?: number;
   readOnly?: boolean;
   custom?: ICustomHints;
+  showValidatorMessages?: boolean;
 }
 
 export interface ICustomHints {
@@ -292,14 +293,14 @@ export interface IFieldReferenceJson {
 
 export interface IFieldReferenceHintsJson {
   width?: number;
+  showValidatorMessages?: boolean;
   custom?: ICustomHints;
 }
 
-export interface ILinkedStructFieldReferenceHintsJson {
-  width?: number;
+export interface ILinkedStructFieldReferenceHintsJson
+  extends IFieldReferenceHintsJson {
   layout?: 'inline' | 'table';
   block?: string;
-  custom?: ICustomHints;
 }
 
 export interface IBlockReferenceJson {

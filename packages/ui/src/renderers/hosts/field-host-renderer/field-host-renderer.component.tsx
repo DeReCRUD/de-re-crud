@@ -134,7 +134,11 @@ class FieldHostRenderer extends BaseComponent<
       );
     }
 
-    if (errors.length) {
+    if (
+      errors.length &&
+      field.hints.showValidatorMessages &&
+      fieldReference.hints.showValidatorMessages
+    ) {
       const FieldErrorsRenderer = renderers.fieldErrors;
 
       renderedErrors = (

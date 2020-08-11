@@ -69,6 +69,7 @@ export interface IField {
 export interface IFieldHints {
   width: number;
   readOnly: boolean;
+  showValidatorMessages: boolean;
   custom: ICustomHints;
 }
 
@@ -165,6 +166,7 @@ export interface IFieldReference {
   field: string;
   condition: ConditionFunc;
   hints: {
+    showValidatorMessages: boolean;
     width?: number;
     custom: ICustomHints;
   };
@@ -182,6 +184,7 @@ export interface IStamp {
 
 export interface ILinkedStructFieldReference extends IFieldReference {
   hints: {
+    showValidatorMessages: boolean;
     width?: number;
     layout?: 'inline' | 'table';
     block?: string;

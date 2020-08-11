@@ -35,6 +35,7 @@ export default function parseField(
     hints: {
       width: DEFAULT_FIELD_WIDTH,
       readOnly: false,
+      showValidatorMessages: true,
       custom: {},
     },
     customValidators: [],
@@ -74,6 +75,10 @@ export default function parseField(
 
     if (typeof fieldJson.hints.custom !== 'undefined') {
       field.hints.custom = fieldJson.hints.custom;
+    }
+
+    if (typeof fieldJson.hints.showValidatorMessages !== 'undefined') {
+      field.hints.showValidatorMessages = fieldJson.hints.showValidatorMessages;
     }
   }
 

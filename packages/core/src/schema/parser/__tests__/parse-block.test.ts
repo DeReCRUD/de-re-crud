@@ -131,6 +131,7 @@ describe('parseBlock', () => {
         field: 'field1',
         condition: DEFAULT_CONDITION,
         hints: {
+          showValidatorMessages: true,
           custom: {},
         },
       },
@@ -159,6 +160,7 @@ describe('parseBlock', () => {
         field: 'field1',
         condition: DEFAULT_CONDITION,
         hints: {
+          showValidatorMessages: true,
           custom: {},
         },
       },
@@ -204,6 +206,7 @@ describe('parseBlock', () => {
           field: 'field1',
           condition: DEFAULT_CONDITION,
           hints: {
+            showValidatorMessages: true,
             custom: {
               field: true,
             },
@@ -214,6 +217,7 @@ describe('parseBlock', () => {
           size: 1,
           condition: DEFAULT_CONDITION,
           hints: {
+            showValidatorMessages: true,
             custom: {
               stamp: true,
             },
@@ -226,6 +230,7 @@ describe('parseBlock', () => {
       field: 'field1',
       condition: DEFAULT_CONDITION,
       hints: {
+        showValidatorMessages: true,
         custom: {
           field: true,
         },
