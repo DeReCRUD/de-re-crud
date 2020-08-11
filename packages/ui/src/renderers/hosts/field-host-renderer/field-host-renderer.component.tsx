@@ -688,6 +688,11 @@ class FieldHostRenderer extends BaseComponent<
             value: mappedValue,
             valueErrorIndicators: childErrors,
             renderChildField,
+            counts: {
+              total: values.length,
+              deleted: Object.keys(deletedValues).length,
+              visible: values.length - Object.keys(deletedValues).length,
+            },
           };
 
           const TableLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
@@ -704,6 +709,10 @@ class FieldHostRenderer extends BaseComponent<
 
           busyValues[index] = this.isBusy(itemPath);
           disabledValues[index] = this.isDisabled();
+          deletedValues[index] = this.isDeleted(
+            reference.struct,
+            getValueForPath(formValue, `${fieldPath}.${index}`),
+          );
 
           return (
             <BlockHostRenderer
@@ -728,6 +737,11 @@ class FieldHostRenderer extends BaseComponent<
           deletedRenderedItems: deletedValues,
           renderedItems: items,
           renderChildField,
+          counts: {
+            total: values.length,
+            deleted: Object.keys(deletedValues).length,
+            visible: values.length - Object.keys(deletedValues).length,
+          },
         };
 
         const InlineLinkedStructFieldRenderer = LinkedStructFieldRenderer as preact.FunctionalComponent<
