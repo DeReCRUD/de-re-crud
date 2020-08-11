@@ -35,6 +35,7 @@ function createFieldTests(
       customValidators: [],
       defaultValidatorMessages: {},
       hints: {
+        showValidatorMessages: true,
         custom: {},
       },
       ...extraInitialData,
@@ -163,6 +164,30 @@ function createFieldTests(
       ).toBe('Keyword Error');
     });
 
+    it('should show validator messages when specified', () => {
+      expect(
+        parseField(struct, {
+          ...field,
+          hints: {
+            ...field.hints,
+            showValidatorMessages: true,
+          },
+        }).hints.showValidatorMessages,
+      ).toBe(true);
+    });
+
+    it('should hide validator messages when specified', () => {
+      expect(
+        parseField(struct, {
+          ...field,
+          hints: {
+            ...field.hints,
+            showValidatorMessages: false,
+          },
+        }).hints.showValidatorMessages,
+      ).toBe(false);
+    });
+
     extraTests(field);
   });
 }
@@ -205,6 +230,7 @@ describe('parseField', () => {
       minInstances: 0,
       reference: { struct, block: 'default' },
       hints: {
+        showValidatorMessages: true,
         readOnly: false,
         custom: {},
         width: DEFAULT_FIELD_WIDTH,
@@ -237,6 +263,7 @@ describe('parseField', () => {
     undefined,
     {
       hints: {
+        showValidatorMessages: true,
         readOnly: false,
         custom: {},
         width: DEFAULT_FIELD_WIDTH,
@@ -298,6 +325,7 @@ describe('parseField', () => {
     undefined,
     {
       hints: {
+        showValidatorMessages: true,
         readOnly: false,
         custom: {},
         width: DEFAULT_FIELD_WIDTH,

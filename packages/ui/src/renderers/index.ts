@@ -195,7 +195,22 @@ export interface IForeignKeyFieldRenderer extends IFieldRenderer {
   options: ISelectableOption[];
 }
 
-export interface ITableLinkedStructFieldRenderer extends IFieldRenderer {
+export interface ILinkedStructFieldCounts {
+  total: number;
+  deleted: number;
+  visible: number;
+}
+
+export interface ILinkedStructFieldRenderer extends IFieldRenderer {
+  canAdd: () => boolean;
+  canRemove: (index: number) => boolean;
+  onRemove: (index: number) => void;
+  renderChildField: (index: number, field: string) => h.JSX.Element;
+  counts: ILinkedStructFieldCounts;
+}
+
+export interface ITableLinkedStructFieldRenderer
+  extends ILinkedStructFieldRenderer {
   headers: string[];
   value: string[][];
   minInstances: number;
@@ -204,24 +219,17 @@ export interface ITableLinkedStructFieldRenderer extends IFieldRenderer {
   busyValues: { [index: number]: boolean };
   disabledValues: { [index: number]: boolean };
   deletedValues: { [index: number]: boolean };
-  canAdd: () => boolean;
-  canRemove: (index: number) => boolean;
   onAdd: (value?: object, navigate?: boolean) => void;
   onEdit: (index: number) => void;
-  onRemove: (index: number) => void;
-  renderChildField: (index: number, field: string) => h.JSX.Element;
 }
 
-export interface IInlineLinkedStructFieldRenderer extends IFieldRenderer {
+export interface IInlineLinkedStructFieldRenderer
+  extends ILinkedStructFieldRenderer {
   renderedItems: h.JSX.Element[];
   busyRenderedItems: { [index: number]: boolean };
   disabledRenderedItems: { [index: number]: boolean };
   deletedRenderedItems: { [index: number]: boolean };
-  canAdd: () => boolean;
-  canRemove: (index: number) => boolean;
-  onAdd: (value?: object, navigate?: boolean) => void;
-  onRemove: (index: number) => void;
-  renderChildField: (index: number, field: string) => h.JSX.Element;
+  onAdd: (value?: object) => void;
 }
 
 export interface IButtonRenderer {

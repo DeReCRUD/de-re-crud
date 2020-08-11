@@ -95,6 +95,7 @@ export default function parseBlock(
           condition: parseCondition(fieldReferenceJson.condition),
           field: fieldReferenceJson.field,
           hints: {
+            showValidatorMessages: true,
             custom: {},
           },
         };
@@ -127,6 +128,14 @@ export default function parseBlock(
           if (typeof fieldReferenceJson.hints.custom !== 'undefined') {
             fieldReference.hints.custom = fieldReferenceJson.hints.custom;
           }
+
+          if (
+            typeof fieldReferenceJson.hints.showValidatorMessages !==
+            'undefined'
+          ) {
+            fieldReference.hints.showValidatorMessages =
+              fieldReferenceJson.hints.showValidatorMessages;
+          }
         }
 
         block.references.push(fieldReference);
@@ -139,6 +148,7 @@ export default function parseBlock(
           condition: parseCondition(undefined),
           field: referenceJson as string,
           hints: {
+            showValidatorMessages: true,
             custom: {},
           },
         };
