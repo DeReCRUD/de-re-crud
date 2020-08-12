@@ -600,6 +600,7 @@ class FieldHostRenderer extends BaseComponent<
         const busyValues = {};
         const disabledValues = {};
         const deletedValues = {};
+        let deletedCount = 0;
 
         if (Array.isArray(fieldProps.value)) {
           values = fieldProps.value as object[];
@@ -655,6 +656,10 @@ class FieldHostRenderer extends BaseComponent<
               reference.struct,
               getValueForPath(formValue, `${fieldPath}.${index}`),
             );
+
+            if (deletedValues[index]) {
+              deletedCount++;
+            }
           });
 
           const tableLinkedStructFieldProps: ITableLinkedStructFieldRenderer = {
@@ -690,8 +695,8 @@ class FieldHostRenderer extends BaseComponent<
             renderChildField,
             counts: {
               total: values.length,
-              deleted: Object.keys(deletedValues).length,
-              visible: values.length - Object.keys(deletedValues).length,
+              deleted: deletedCount,
+              visible: values.length - deletedCount,
             },
           };
 
@@ -713,6 +718,10 @@ class FieldHostRenderer extends BaseComponent<
             reference.struct,
             getValueForPath(formValue, `${fieldPath}.${index}`),
           );
+
+          if (deletedValues[index]) {
+            deletedCount++;
+          }
 
           return (
             <BlockHostRenderer
@@ -739,8 +748,8 @@ class FieldHostRenderer extends BaseComponent<
           renderChildField,
           counts: {
             total: values.length,
-            deleted: Object.keys(deletedValues).length,
-            visible: values.length - Object.keys(deletedValues).length,
+            deleted: deletedCount,
+            visible: values.length - deletedCount,
           },
         };
 
