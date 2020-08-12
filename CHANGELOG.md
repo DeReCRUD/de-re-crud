@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.2](https://github.com/DeReCRUD/de-re-crud/compare/v0.20.1...v0.20.2) (2020-08-12)
+
+
+### Bug Fixes
+
+* update delete counting logic ([8432f49](https://github.com/DeReCRUD/de-re-crud/commit/8432f49))
+
+
+
+
+
 ## [0.20.1](https://github.com/DeReCRUD/de-re-crud/compare/v0.20.0...v0.20.1) (2020-08-11)
 
 
